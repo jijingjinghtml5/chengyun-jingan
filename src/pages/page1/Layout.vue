@@ -40,6 +40,7 @@
 <script>
 import VueGridLayout from "vue-grid-layout";
 import LeftHeader from "@/modules/LeftHeader";
+import Overview from "@/modules/Overview";
 
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
@@ -67,6 +68,7 @@ export default {
     MapManager: () => import("@/modules/MapManager"),
     TodayFocus: () => import("@/modules/TodayFocus"),
     LeftHeader,
+    Overview,
     test: () => import("@/modules/test")
   },
   provide() {
@@ -157,7 +159,7 @@ export default {
               w: 15,
               h: 18,
               i: 11,
-              component: "test",
+              component: "Overview",
               moved: false
             },
             {
