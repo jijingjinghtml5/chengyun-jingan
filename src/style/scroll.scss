@@ -1,27 +1,30 @@
 /**custom scrollbar **/
 body {
   ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
+    width: 0.06rem;
+    height: 0.06rem;
+    background-color: transparent;
   }
   
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
   ::-webkit-scrollbar-track-piece {
     background-color: transparent;
-    margin: -1px;
+    margin: 0;
   }
   
   ::-webkit-scrollbar-thumb {
     background: #40abb2;
-    min-height: 8px;
-    min-width: 8px;
-    border-radius: 4px;
+    border-radius: 0.03rem;
   }
   
   ::-webkit-scrollbar-thumb:vertical:hover {
-    background: #555555;
+    background: #40abb2;
   }
   
   ::-webkit-scrollbar-thumb:horizontal:hover {
-    background: #555555;
+    background: #40abb2;
   }
 }

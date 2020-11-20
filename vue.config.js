@@ -3,6 +3,7 @@ const CompressionWebpackPlugin = require("compression-webpack-plugin");
 const version = require("./version");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const scssVariables = require("./src/style/var.js");
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -20,9 +21,9 @@ module.exports = {
       entry: "src/pages/page1/entry.js",
       template: "public/index.html",
       filename: "page1.html",
-      title: "page1",
+      title: "静安城运",
       chunks: ["chunk-vendors", "chunk-common", "page1"]
-    },
+    }
   },
   productionSourceMap: false,
   css: {

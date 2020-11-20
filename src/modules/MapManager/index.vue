@@ -31,7 +31,7 @@ export default {
 <style lang="scss" scoped>
 .MapContainer {
   position: relative;
-  border: 0.02rem solid #4e78a4;
+  // border: 0.02rem solid #4e78a4;
   width: 100%;
   height: 100%;
 }
