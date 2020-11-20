@@ -115,16 +115,34 @@ export default {
           height: 2160,
           settings: {
             colNum: 48,
-            margin: [20, 20],
+            margin: [10, 10],
             rowHeight: 0
           },
           layout: [
             {
               x: 0,
               y: 0,
-              w: 6.5,
-              h: 100,
+              w: 16,
+              h: 6,
               i: 1,
+              component: "test",
+              moved: false
+            },
+            {
+              x: 0,
+              y: 32,
+              w: 16,
+              h: 6,
+              i: 3,
+              component: "test",
+              moved: false
+            },
+            {
+              x: 0,
+              y: 16,
+              w: 16,
+              h: 6,
+              i: 2,
               component: "test",
               moved: false
             }
