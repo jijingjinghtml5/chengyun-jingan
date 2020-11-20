@@ -62,7 +62,8 @@ export default {
   },
   components: {
     GridLayout: VueGridLayout.GridLayout,
-    GridItem: VueGridLayout.GridItem
+    GridItem: VueGridLayout.GridItem,
+    test: () => import("@/modules/test")
   },
   provide() {
     return {
@@ -111,7 +112,7 @@ export default {
         setCode(this.globalConfig.screenConfig.uuid);
         let config = {
           width: 7680,
-          height: 2020,
+          height: 2160,
           settings: {
             colNum: 48,
             margin: [20, 20],
@@ -124,7 +125,7 @@ export default {
               w: 6.5,
               h: 100,
               i: 1,
-              component: "EpidemicProgress",
+              component: "test",
               moved: false
             }
           ]
