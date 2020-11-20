@@ -38,12 +38,11 @@
 
 </template>
 <script>
-import Vue from "vue";
 import VueGridLayout from "vue-grid-layout";
 
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
-import { getParams, asyncLoadScripts } from "@/utils/";
+import { getParams } from "@/utils/";
 
 export default {
   name: "Layout",
@@ -110,28 +109,35 @@ export default {
           ...(apiRes || {})
         };
         setCode(this.globalConfig.screenConfig.uuid);
-        let layoutConfig = apiRes.layoutConfig;
-        this.initHtmlFontSize(layoutConfig);
-        this.initGridCodeMapping(apiRes.gridCenters);
-        this.config = Object.assign({}, layoutConfig);
+        let config = {
+          width: 7680,
+          height: 2020,
+          settings: {
+            colNum: 48,
+            margin: [20, 20],
+            rowHeight: 0
+          },
+          layout: [
+            {
+              x: 0,
+              y: 0,
+              w: 6.5,
+              h: 100,
+              i: 1,
+              component: "EpidemicProgress",
+              moved: false
+            }
+          ]
+        };
+        this.initHtmlFontSize(config);
+        this.config = Object.assign({}, config);
       } catch (error) {
         console.log(error);
       }
-    },
-    initGridCodeMapping(grids) {
-      (grids || []).reduce((mapping, item) => {
-        if (item.code) {
-          mapping[item.code] = item;
-        }
-        return mapping;
-      }, this.gridCodeMapping);
     }
   },
   created() {
     this.getLayoutConfig();
-  },
-  mounted() {
-
   }
 };
 </script>
