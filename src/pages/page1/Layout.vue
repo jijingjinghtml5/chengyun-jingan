@@ -18,7 +18,6 @@
       v-bind="config.settings"
     >
       <grid-item
-      style="border: 1px solid #fff"
         v-for="item in config.layout"
         :x="item.x"
         :y="item.y"
@@ -64,6 +63,7 @@ export default {
   components: {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
+    TodayFocus: () => import("@/modules/TodayFocus"),
     test: () => import("@/modules/test")
   },
   provide() {
@@ -210,7 +210,7 @@ export default {
               w: 8,
               h: 59,
               i: 31,
-              component: "test",
+              component: "TodayFocus",
               moved: false
             },
             {
