@@ -64,6 +64,7 @@ export default {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
     TodayFocus: () => import("@/modules/TodayFocus"),
+    RiskAlert: () => import("@/modules/RiskAlert"),
     test: () => import("@/modules/test")
   },
   provide() {
@@ -219,7 +220,7 @@ export default {
               w: 8,
               h: 40,
               i: 32,
-              component: "test",
+              component: "RiskAlert",
               moved: false
             },
             {
