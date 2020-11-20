@@ -64,7 +64,9 @@ export default {
   components: {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
-    test: () => import("@/modules/test")
+    test: () => import("@/modules/test"),
+    MapManager: () => import("@/modules/MapManager")
+    
   },
   provide() {
     return {
@@ -144,7 +146,7 @@ export default {
               w: 18,
               h: 94,
               i: 2,
-              component: "test",
+              component: "MapManager",
               moved: false
             },
 
