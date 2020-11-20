@@ -20,9 +20,9 @@ module.exports = {
       entry: "src/pages/page1/entry.js",
       template: "public/index.html",
       filename: "page1.html",
-      title: "page1",
+      title: "静安城运",
       chunks: ["chunk-vendors", "chunk-common", "page1"]
-    },
+    }
   },
   productionSourceMap: false,
   css: {
