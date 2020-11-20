@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>chengyun-town</title>
+  </head>
+  <body  style="background: #0a1b21">
+    <noscript>
+      <strong>We're sorry but chengyun-town doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <script src="./js/CityGis.Bridge.js"></script>
+    <script src="./js/msc.js"></script>
+    <script src="./config/index.js"></script>
+    <script src="./liveplayer-lib.min.js"></script>
+    <!-- built files will be auto injected -->
+  </body>
+  <script type="text/javascript">
+    !function (_width, _height) {
+        var _timer = setInterval(function () {
+                if (parseInt(window.innerWidth || window.document.documentElement.clientWidth) == 0) {
+                    return;
+                }
+                (function (w, h) {
+                    var B = document.documentElement,
+                        C = w / h,
+                        t = 1;
+                    B.style.cssText += ';width:' + w + 'px;overflow:hidden';
+
+                    function _scale() {
+                        var n = parseInt(window.innerWidth || window.document.documentElement.clientWidth),
+                            v = parseInt(window.innerHeight || window.document.documentElement.clientHeight);
+                        k = (n / w) < (v / h) ? (n / w) : (v / h);
+                        var mt, ml;
+                        if ((n / w) < (v / h)) {
+                            k = (n / w);
+                            mt = (v - h * k) / 2;
+                            ml = 0
+                        } else {
+                            k = (v / h);
+                            mt = 0;
+                            ml = (n - w * k) / 2
+                        }
+                        B.style.cssText += ';transform:scale(' + k + ');-ms-transform:scale(' + k + ');-moz-transform:scale(' + k + ');-webkit-transform:scale(' + k + ');-o-transform:scale(' + k + ');transform-origin:left top;-ms-transform-origin:left top;-moz-transform-origin:left top;-webkit-transform-origin:left top;-o-transform-origin:left top;margin-left:' + ml + 'px;margin-top:' + mt + 'px';
+                    };
+                    _scale();
+                })(_width, _height)
+            },
+            100)
+    }(7680, 2160);
+</script>
+</html>

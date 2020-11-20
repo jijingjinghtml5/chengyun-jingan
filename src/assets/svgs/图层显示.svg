@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="22px" viewBox="0 0 24 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>蒙版</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/iot/地图图层" fill="#000000">
+            <g id="矩形">
+                <g id="蒙版">
+                    <polygon id="Fill-1" points="11.6523 -0.0004 0.0003 6.3326 11.6523 12.6666 23.3023 6.3326"></polygon>
+                    <polygon id="Fill-2" points="11.6523 14.7092 2.1663 9.5552 0.0003 10.7322 11.6523 17.0632 23.3023 10.7322 21.1363 9.5552"></polygon>
+                    <polygon id="Fill-3" points="11.6523 19.1075 2.1663 13.9525 0.0003 15.1265 11.6523 21.4615 23.3023 15.1265 21.1363 13.9525"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

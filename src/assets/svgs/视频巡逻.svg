@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="13px" viewBox="0 0 26 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55.2 (78181) - https://sketchapp.com -->
+    <title>蒙版</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon/iot/视频监控" fill="#000000">
+            <g id="矩形">
+                <g id="蒙版">
+                    <polygon id="Fill-1" points="26.000325 -0.0001625 19.4987 3.7162125 19.4987 9.2850875 26.000325 12.9998375"></polygon>
+                    <path d="M16.25,0 L1.625,0 C0.726375,0 0,0.726375 0,1.625 L0,11.375 C0,12.273625 0.726375,13 1.625,13 L16.25,13 C17.148625,13 17.875,12.273625 17.875,11.375 L17.875,9.75 L17.875,8.357375 L17.875,4.642625 L17.875,3.25 L17.875,1.625 C17.875,0.728 17.148625,0 16.25,0" id="Fill-2"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

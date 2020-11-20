@@ -1,0 +1,78 @@
+@import "./transition.scss";
+@import "./scroll.scss";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+dl,
+dd,
+form,
+input,
+textarea,
+select,
+fieldset,
+th,
+td {
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+img,
+fieldset {
+  border: 0;
+}
+html {
+  font-size: 12px;
+}
+
+// body {
+//   overflow: hidden;
+// }
+
+* {
+  box-sizing: border-box;
+}
+
+.text-ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.clearFix, .clearfix {
+  &::after {
+    display: block;
+    content: '';
+    visibility: hidden;
+    height: 0;
+    clear: both;
+  }
+}
+/**elment message**/
+.el-message__content {
+  font-size: 0.4rem !important;
+  line-height: 2;
+}
+.el-message__closeBtn {
+  font-size: 0.34rem !important;
+}
+.el-message__icon{
+  font-size: 0.5rem;
+}
+.el-message.is-closable .el-message__content {
+  padding-right: 50px !important;
+}

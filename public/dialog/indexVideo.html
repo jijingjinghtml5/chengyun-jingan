@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dialog</title>
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+  <div class="dialog-container">
+    <h5 class="dialog-title"></h5>
+    <div class="dialog-detail">
+        <div class="dialog-name"></div>
+        <div class="dialog-value"></div>
+    </div>
+  </div>
+  <script src="./index.js"></script>
+  <script>
+    var TITLE = "name"
+    var CODEMAPPING = [
+      {
+        name: "地址",
+        key: "address"
+      }
+    ];
+    var params = getParams() || {};
+    var dialogName = document.querySelector(".dialog-name");
+    var dialogValue = document.querySelector(".dialog-value");
+    var dialogTitle = document.querySelector(".dialog-title");
+    var dialogTitleText = params[TITLE] || "视频探头";
+    dialogTitleText = dialogTitleText && dialogTitleText !== TITLE ? dialogTitleText : "";
+    dialogTitle.innerText = dialogTitleText.slice(0, 40) + (dialogTitleText.length > 40 ? "..." : "");
+    dialogTitle.setAttribute("title", dialogTitleText);
+    CODEMAPPING.forEach(function(d) {
+      var dialogName_p = document.createElement("p");
+      var dialogValue_p = document.createElement("p");
+      dialogName_p.innerText = d.name + "：";
+      dialogValue_p.innerText = params[d.key] && params[d.key] !== d.key ? convertData(params[d.key], d.type) : "";
+      dialogValue_p.setAttribute("title", dialogValue_p.innerText);
+      dialogName.appendChild(dialogName_p);
+      dialogValue.appendChild(dialogValue_p);
+    })
+  </script>
+</body>
+</html>
