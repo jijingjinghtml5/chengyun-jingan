@@ -17,7 +17,7 @@ module.exports = {
   publicPath: "./",
   pages: {
     page1: {
-      entry: "src/pages/layoutTool/entry.js",
+      entry: "src/pages/page1/entry.js",
       template: "public/index.html",
       filename: "page1.html",
       title: "page1",
