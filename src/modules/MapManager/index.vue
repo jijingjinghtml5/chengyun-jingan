@@ -1,11 +1,14 @@
 <template>
   <div class="MapContainer" id="MapContainer" @click.stop @mousedown.stop>
+    <maptitle></maptitle>
     <citymap ref='Map'></citymap>
+
 
   </div>
 </template>
 <script>
 import citymap from "@/components/citymap"
+import maptitle from "./components/MapTitle"
 export default {
   name: "MapManager",
   data() {
@@ -14,7 +17,9 @@ export default {
     }
   },
   components: {
+    maptitle,
     citymap
+    
   },
   computed: {
   },
