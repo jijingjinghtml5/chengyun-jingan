@@ -18,6 +18,7 @@
       v-bind="config.settings"
     >
       <grid-item
+      style="border: 1px solid #fff"
         v-for="item in config.layout"
         :x="item.x"
         :y="item.y"
@@ -115,34 +116,118 @@ export default {
           height: 2160,
           settings: {
             colNum: 48,
-            margin: [10, 10],
+            margin: [20, 20],
             rowHeight: 0
           },
           layout: [
             {
               x: 0,
               y: 0,
-              w: 16,
-              h: 6,
+              w: 15,
+              h: 8,
               i: 1,
               component: "test",
               moved: false
             },
             {
-              x: 0,
-              y: 32,
-              w: 16,
-              h: 6,
+              x: 33,
+              y: 0,
+              w: 15,
+              h: 8,
               i: 3,
               component: "test",
               moved: false
             },
             {
-              x: 0,
-              y: 16,
-              w: 16,
-              h: 6,
+              x: 15,
+              y: 0,
+              w: 18,
+              h: 94,
               i: 2,
+              component: "test",
+              moved: false
+            },
+
+            {
+              x: 0,
+              y: 8,
+              w: 15,
+              h: 18,
+              i: 11,
+              component: "test",
+              moved: false
+            },
+            {
+              x: 0,
+              y: 26,
+              w: 15,
+              h: 19,
+              i: 12,
+              component: "test",
+              moved: false
+            },
+            {
+              x: 0,
+              y: 45,
+              w: 5,
+              h: 62,
+              i: 131,
+              component: "test",
+              moved: false
+            },
+            {
+              x: 5,
+              y: 45,
+              w: 5,
+              h: 62,
+              i: 132,
+              component: "test",
+              moved: false
+            },
+            {
+              x: 10,
+              y: 45,
+              w: 5,
+              h: 62,
+              i: 133,
+              component: "test",
+              moved: false
+            },
+
+            {
+              x: 15,
+              y: 94,
+              w: 18,
+              h: 13,
+              i: 21,
+              component: "test",
+              moved: false
+            },
+
+            {
+              x: 33,
+              y: 8,
+              w: 8,
+              h: 59,
+              i: 31,
+              component: "test",
+              moved: false
+            },
+            {
+              x: 33,
+              y: 68,
+              w: 8,
+              h: 40,
+              i: 32,
+              component: "test",
+              moved: false
+            },
+            {
+              x: 41,
+              y: 68,
+              w: 7,
+              h: 99,
+              i: 33,
               component: "test",
               moved: false
             }
