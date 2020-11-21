@@ -1,10 +1,10 @@
 export default {
-  name: 'ChartMixins',
+  name: "ChartMixins",
   props: {
     barMaxWidth: {
       type: [String, Number],
       default () {
-        return 0.24
+        return 0.24;
       }
     },
     pageLen: {
@@ -55,16 +55,16 @@ export default {
           containLabel: true
         },
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           axisPointer: {
-            type: 'shadow'
+            type: "shadow"
           },
           appendToBody: true,
           textStyle: {
             fontSize: +this.fontSize_,
             lineHeight: +this.fontSize_ * 1.15
           },
-          extraCssText: 'text-align: left'
+          extraCssText: "text-align: left"
         },
         xAxis: this.xAxis,
         yAxis: this.yAxis,
@@ -72,19 +72,19 @@ export default {
           source: this.chartData
         } : [],
         color: this.colors
-      }
+      };
     },
     dataZoomConfig () {
       const config = {
         show: false,
         end: 100
-      }
-      const pageLen = +this.pageLen
+      };
+      const pageLen = +this.pageLen;
       if (pageLen && this.chartData && ((this.chartData.length - 1) > pageLen)) {
-        config.show = true
-        config.end = Math.min(100, Math.floor((pageLen / (this.chartData.length)) * 100))
+        config.show = true;
+        config.end = Math.min(100, Math.floor((pageLen / (this.chartData.length)) * 100));
       }
-      return config
+      return config;
     },
     axisLine () {
       return {
@@ -92,12 +92,12 @@ export default {
           width: this.createFnForCalcRealPx(0.04),
           color: this.scssVariables.borderColor
         }
-      }
+      };
     },
     dataZoom () {
       return [
         {
-          type: 'slider',
+          type: "slider",
           xAxisIndex: 0,
           start: 0,
           zoomOnMouseWheel: false,
@@ -110,11 +110,11 @@ export default {
           bottom: 0,
           ...this.dataZoomConfig
         }
-      ]
+      ];
     },
     xAxis () {
       return {
-        type: 'category',
+        type: "category",
         splitLine: { show: false },
         axisLabel: {
           show: this.showXLabel,
@@ -126,11 +126,11 @@ export default {
         // inverse: true,
         axisTick: { show: false },
         axisLine: this.axisLine
-      }
+      };
     },
     yAxis () {
       return {
-        type: 'value',
+        type: "value",
         splitNumber: 3,
         splitLine: { show: false },
         axisLabel: {
@@ -141,10 +141,10 @@ export default {
         },
         axisTick: { show: false },
         axisLine: { show: false }
-      }
+      };
     },
     barMaxWidth_ () {
-      return this.createFnForCalcRealPx(this.barMaxWidth)
+      return this.createFnForCalcRealPx(this.barMaxWidth);
     }
   }
-}
+};

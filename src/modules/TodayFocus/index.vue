@@ -33,12 +33,13 @@ import WrapTitle from "@/components/MTitle/WrapTitle";
 import MTitle from "@/components/MTitle/LevelTitle";
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
+import BarChart from "@/components/Charts/Bar/ChartBar";
 
 import Tile from "@/components/Tile";
 
 export default {
   name: "TodayFocus",
-  components: { WrapTitle, MTitle, MColumn, MRow, Tile },
+  components: { WrapTitle, MTitle, MColumn, MRow, Tile, BarChart },
   computed: {
     otherItems() {
       let items = [...this.items];
