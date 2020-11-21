@@ -5,6 +5,7 @@
       :style="{ width: '100%', height: '100%' }"
       :options="options"
       autoresize
+      auto-resize
     />
     <p
       class="no-data-tip"
@@ -14,66 +15,54 @@
   </div>
 </template>
 <script>
+/** 优化X轴展示 项目超过5相 只展示头尾和中间的项 */
 import ChartBaseMixins from "../mixins/ChartBaseMixins";
 import ChartMixins from "../mixins/ChartCustomMixins";
 export default {
-  name: "ChartLine",
+  name: "ChartBar",
   mixins: [ChartBaseMixins, ChartMixins],
-  props: {
-  },
   computed: {
     options () {
       const dataArr = this.chartData && this.chartData.length > 1 ? this.chartData[0].slice(1) : [];
+
       const series = dataArr.map((d, i) => {
         return {
-          name: d,
-          type: "line",
-          symbol: "none",
-          smooth: this.isSmooth,
-          lineStyle: {
-            width: 2
-          },
-          areaStyle: this.isArea ? {
+          type: "bar",
+          barMaxWidth: +this.barMaxWidth_,
+          itemStyle: {
             color: this.getColor(i)
-          } : null
+          },
+          z: 1
         };
       });
-      const axisLabelOption = this.chartData && this.chartData.length > 2 ? {
-        interval: 1000,
-        showMinLabel: true,
-        showMaxLabel: true
-      } : {};
+      const dataLength = this.chartData.length - 1;
+      const intervalNum = dataLength > 5 ? parseInt(dataLength / 2) - 1 : 0;
       return {
         ...this.baseOptions,
         grid: {
-          top: this.showLegend ? +this.fontSize_ * 2 : 0,
+          top: this.fontSize_ * 2,
           left: this.showXLabel ? +this.fontSize_ * 1.5 : 0,
           right: this.showXLabel ? +this.fontSize_ * 1.5 : 0,
           bottom: 0,
           containLabel: true
-        },
-        tooltip: {
-          trigger: "axis",
-          textStyle: {
-            fontSize: +this.fontSize_,
-            lineHeight: +this.fontSize_ * 1.15
-          },
-          appendToBody: true
         },
         xAxis: {
           type: "category",
           splitLine: { show: false },
           axisLabel: {
             show: this.showXLabel,
-            fontSize: this.fontSize_,
+            fontSize: +this.fontSize_,
             color: this.labelColor,
-            ...axisLabelOption
+            interval: intervalNum,
+            showMinLabel: true,
+            showMaxLabel: true,
+            formatter: this.categoryLabelFmt
           },
           axisTick: { show: false },
-          axisLine: this.axisLine,
-          boundaryGap: false
+          axisLine: this.axisLine
         },
-        series: series
+        series: series,
+        dataZoom: this.dataZoom
       };
     }
   }

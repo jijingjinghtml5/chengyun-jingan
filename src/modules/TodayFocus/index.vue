@@ -15,7 +15,10 @@
             </m-column>
           </m-row>
         </div>
-        <div class="chart"></div>
+        <div class="chart">
+          <bar-chart :chartData="chartData" :colors="colors" :showYLabel="true" :pageLen="24">
+          </bar-chart>
+        </div>
       </div>
       <div class="wall-panel">
         <m-row class="tile-row" gutter="60px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
@@ -33,7 +36,7 @@ import WrapTitle from "@/components/MTitle/WrapTitle";
 import MTitle from "@/components/MTitle/LevelTitle";
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
-import BarChart from "@/components/Charts/Bar/ChartBar";
+import BarChart from "@/components/Charts/Bar/ChartBar3";
 
 import Tile from "@/components/Tile";
 
@@ -126,7 +129,36 @@ export default {
           unit: "条"
         }
       ],
-      chunkSize: 3
+      chunkSize: 3,
+      colors: ["#F23470", "#2E9BCF", "#1ABC9C"],
+      chartData: [
+        ["时间", "公共安全", "公共管理", "公共服务"],
+        ["00:00", 80, 60, 90],
+        ["01:00", 80, 60, 90],
+        ["02:00", 80, 60, 90],
+        ["03:00", 80, 60, 90],
+        ["04:00", 80, 60, 90],
+        ["05:00", 80, 60, 90],
+        ["06:00", 80, 60, 90],
+        ["07:00", 80, 60, 90],
+        ["08:00", 80, 60, 90],
+        ["09:00", 80, 60, 90],
+        ["10:00", 80, 60, 90],
+        ["11:00", 80, 60, 90],
+        ["12:00", 80, 60, 90],
+        ["13:00", 80, 60, 90],
+        ["14:00", 80, 60, 90],
+        ["15:00", 80, 60, 90],
+        ["16:00", 80, 60, 90],
+        ["17:00", 80, 60, 90],
+        ["18:00", 80, 60, 90],
+        ["19:00", 80, 60, 90],
+        ["20:00", 80, 60, 90],
+        ["21:00", 80, 60, 90],
+        ["22:00", 80, 60, 90],
+        ["23:00", 80, 60, 90]
+
+      ]
     };
   }
 };
@@ -153,7 +185,7 @@ export default {
       }
     }
     .chart{
-      padding: 0.2rem 0;
+      padding: 0.1rem 0;
       height: 3.8rem;
     }
   }
