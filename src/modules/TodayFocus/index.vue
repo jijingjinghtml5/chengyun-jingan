@@ -153,12 +153,12 @@ export default {
     }
     .chart{
       padding: 0.2rem 0;
-      height: 3.6rem;
+      height: 3.8rem;
     }
   }
   .wall-panel{
     .tile-row{
-      padding: 0.2rem 0;
+      padding: 0.1rem 0;
       .block{
         height: 2rem;
       }

@@ -10,12 +10,14 @@ import "@/lib/OverWrite";
 
 // map Proxy
 import MapProxy from "@/lib/MapProxy/MapProxy";
+import TimingTrigger from "@/plugins/TimingTrigger";
 
 Vue.config.productionTip = false;
 Vue.use(bus, (window.$config && window.$config.wsUrl) || "");
 
 Vue.use(filters);
 Vue.use(MapProxy);
+Vue.use(TimingTrigger);
 
 Vue.prototype.$reCallTime = window.$config.reCallTime || 10 * 60 * 1000;
 new Vue({
