@@ -90,7 +90,7 @@ export default {
       return {
         lineStyle: {
           width: this.createFnForCalcRealPx(0.04),
-          color: this.scssVariables.borderColor
+          color: this.scssVariables.chartBorderColor
         }
       };
     },
@@ -103,9 +103,9 @@ export default {
           zoomOnMouseWheel: false,
           moveOnMouseMove: false,
           zoomLock: true,
-          fillerColor: this.scssVariables.textColor3,
+          fillerColor: this.scssVariables.scrollBarColor,
           height: this.createFnForCalcRealPx(0.1),
-          borderColor: this.scssVariables.textColor3,
+          borderColor: this.scssVariables.scrollBarColor,
           showDetail: false,
           bottom: 0,
           ...this.dataZoomConfig

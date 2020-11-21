@@ -41,6 +41,7 @@
 import VueGridLayout from "vue-grid-layout";
 import LeftHeader from "@/modules/LeftHeader";
 import Overview from "@/modules/Overview";
+import UrbanSecurity from "@/modules/UrbanSecurity";
 
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
@@ -70,6 +71,7 @@ export default {
     RiskAlert: () => import("@/modules/RiskAlert"),
     LeftHeader,
     Overview,
+    UrbanSecurity,
     test: () => import("@/modules/test")
   },
   provide() {
@@ -169,7 +171,7 @@ export default {
               w: 15,
               h: 19,
               i: 12,
-              component: "test",
+              component: "UrbanSecurity",
               moved: false
             },
             {

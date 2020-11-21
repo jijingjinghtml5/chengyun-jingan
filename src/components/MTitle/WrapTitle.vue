@@ -38,6 +38,7 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 0 0.2rem;
 }
 .wrap-title__content {
   height: 0;

@@ -37,8 +37,9 @@ img,
 fieldset {
   border: 0;
 }
-html {
-  font-size: 12px;
+
+:focus {
+  outline: 0;
 }
 
 // body {

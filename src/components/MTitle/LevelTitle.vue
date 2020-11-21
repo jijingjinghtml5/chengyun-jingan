@@ -47,17 +47,10 @@ export default {
     margin-right: 0.2rem;
     .m-tabs {
       font-size: inherit;
-      font-weight: inherit;
-      /deep/ {
-        .m-tabs__item.is-active {
-          color: #fff;
-        }
-      }
     }
   }
   .icon {
     vertical-align: middle;
-    color: #fff;
     margin-right: 0.1rem;
   }
   .icon-biaoti {
@@ -70,6 +63,17 @@ export default {
     line-height: 1;
     i {
       line-height: 0.7rem;
+      color: #fff;
+    }
+    .title {
+      .m-tabs {
+        /deep/ {
+          .m-tabs__item.is-active {
+            color: #FCBF51;
+            font-weight: bold;
+          }
+        }
+      }
     }
     .levelTitle__center,
     .levelTitle__right {
@@ -83,6 +87,7 @@ export default {
     height: 0.64rem;
     padding: 0 0.24rem;
     color: #92B9F7;
+
     .title {
       min-width: 2.2rem;
     }

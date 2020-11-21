@@ -61,7 +61,7 @@ export default {
     labelColor: {
       type: String,
       default: () => {
-        return scssVariables.textColor2;
+        return scssVariables.chartLableColor;
       }
     }
   },
@@ -101,7 +101,7 @@ export default {
         colorStops: [{
           offset: 0, color: this.gradientBySelf ? this.colors[i] + "ff" : this.colors[2 * i] // 0% 处的颜色
         }, {
-          offset: 1, color: this.gradientBySelf ? this.colors[i] + "33" : this.colors[2 * i + 1] // 100% 处的颜色
+          offset: 1, color: this.gradientBySelf ? this.colors[i] + "00" : this.colors[2 * i + 1] // 100% 处的颜色
         }],
         global: false // 缺省为 false
       };
