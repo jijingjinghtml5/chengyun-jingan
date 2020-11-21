@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-    <wrap-title txt="风险预警" :level="1" icon="icon-ditanshijiancha">
+    <wrap-title txt="风险预警" :level="1" icon="icon-qujiducha">
       <div slot="right" class="title-right">
         <span>预警总数：</span>
         <span>{{total | thousandCentimeter}}</span>

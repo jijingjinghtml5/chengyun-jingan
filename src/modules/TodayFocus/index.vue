@@ -3,9 +3,9 @@
     <wrap-title txt="今日关注" :level="1" icon="icon-wangge">
       <div slot="right" class="title-right">
         <span class="iconfont icon-chaoqianjian-lianghongdeng" style="color:#D0021B"></span>
-        <span style="margin-right: 0.4rem">10</span>
+        <span style="margin-right: 0.4rem">{{red | thousandCentimeter}}</span>
         <span class="iconfont icon-jinjidaiban-lianghuangdeng" style="color:#F5A623;"></span>
-        <span>2,222</span>
+        <span>{{yellow | thousandCentimeter}}</span>
       </div>
       <div class="three-public">
         <div class="wall">
@@ -59,6 +59,8 @@ export default {
   },
   data() {
     return {
+      yellow: 1000,
+      red: 10,
       pubilcItems: [
         {
           icon: "icon-biaoti",

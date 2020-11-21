@@ -69,6 +69,7 @@ export default {
     MapManager: () => import("@/modules/MapManager"),
     TodayFocus: () => import("@/modules/TodayFocus"),
     RiskAlert: () => import("@/modules/RiskAlert"),
+    TownSummary: () => import("@/modules/TownSummary"),
     LeftHeader,
     Overview,
     UrbanSecurity,
@@ -236,7 +237,7 @@ export default {
               w: 7,
               h: 99,
               i: 33,
-              component: "test",
+              component: "TownSummary",
               moved: false
             }
           ]
