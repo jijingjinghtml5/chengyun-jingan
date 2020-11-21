@@ -70,6 +70,7 @@ export default {
     TodayFocus: () => import("@/modules/TodayFocus"),
     RiskAlert: () => import("@/modules/RiskAlert"),
     TownSummary: () => import("@/modules/TownSummary"),
+    Notice: () => import("@/modules/Notice"),
     LeftHeader,
     Overview,
     UrbanSecurity,
@@ -144,7 +145,7 @@ export default {
               w: 15,
               h: 8,
               i: 3,
-              component: "test",
+              component: "Notice",
               moved: false
             },
             {
