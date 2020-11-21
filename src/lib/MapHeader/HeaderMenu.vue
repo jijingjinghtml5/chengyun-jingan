@@ -195,7 +195,7 @@ export default {
         font-size: 0.45rem;
         color: #ffffff;
         text-align: right;
-        // margin-top: 0.05rem;
+        margin-top: 0.1rem;
       }
     }
   }

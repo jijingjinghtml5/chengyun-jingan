@@ -88,7 +88,7 @@ export default {
 .map-tab{
   position: relative;
 
-  margin: 0.15rem auto 0 auto;
+  margin: 0.23rem auto 0 auto;
   width: 85%;
 
 }
