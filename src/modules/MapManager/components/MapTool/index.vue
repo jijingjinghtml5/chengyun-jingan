@@ -122,14 +122,13 @@ export default {
     tabModelLayer(name, status) {
        let cmd ={
             "ActionName": "themeLayer",
-            "Parameters": [
+            "Parameters": 
               {
                 "name": name,
                 "visible": status,
                  "popupEnabled": false
 
-              }
-            ]
+              }       
           }
       window.bridge.Invoke(cmd);
     },
