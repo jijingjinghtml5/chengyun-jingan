@@ -5,10 +5,10 @@
     </div>
     <ul class="overview-item__content">
       <li class="overview-item__name">{{ name }}<sub v-if="nameUnit">{{ nameUnit }}</sub></li>
-      <li class="overview-item__value" :style="{ color: vc }">{{ dataset[prop] | initVal | thousandCentimeter }}<sub v-if="valueUnit">{{ valueUnit }}</sub></li>
-      <increase v-if="showIncrease" tag="li" :value="dataset[prop + '_increase'] | initVal"></increase>
+      <li class="overview-item__value" :style="{ color: vc }">{{ dataset[valueProp] | initVal | thousandCentimeter }}<sub v-if="valueUnit">{{ valueUnit }}</sub></li>
+      <increase v-if="showIncrease" tag="li" :value="dataset[increaseProp] | initVal"></increase>
       <li v-for="item in extraItems || []" :key="item.key">
-        {{ item.label }}：{{ dataset[prop + "_" + item.prop] | initVal | thousandCentimeter }} {{ item.unit }}
+        {{ item.label }}：{{ dataset[item.prop] | initVal | thousandCentimeter }} {{ item.unit }}
       </li>
       <slot></slot>
     </ul>
@@ -22,11 +22,6 @@ export default {
   props: {
     icon: {
       type: String,
-      default: null
-    },
-    prop: {
-      type: String,
-      required: true,
       default: null
     },
     name: {
@@ -45,6 +40,14 @@ export default {
     valueColor: {
       type: [String, Function],
       default: null
+    },
+    valueProp: {
+      type: String,
+      default: "value"
+    },
+    increaseProp: {
+      type: String,
+      default: "increase"
     },
     showIncrease: {
       type: Boolean,
@@ -79,8 +82,16 @@ export default {
   align-items: center;
   color: #fff;
 }
-.style1, .style2 {
+.style1,
+.style2,
+.style3 {
   line-height: 1.5;
+  font-size: 0.24rem;
+  .increase {
+    display: flex;
+  }
+}
+.style1, .style2 {
   .overview-item__icon {
     width: 1rem;
     font-size: 0.72rem;
@@ -97,9 +108,6 @@ export default {
       font-size: 0.36rem;
     }
   }
-  .increase {
-    display: flex;
-  }
 }
 .style2 {
   .overview-item__name {
@@ -110,6 +118,19 @@ export default {
   }
   .overview-item__value {
     color: #FCBF51;
+  }
+}
+.style3 {
+  .overview-item__name {
+    font-size: 0.28rem;
+  }
+  .overview-item__value {
+    font-size: 0.52rem;
+    color: #FCBF51;
+    sub {
+      font-size: 0.28rem;
+      color: #fff;
+    }
   }
 }
 </style>

@@ -55,6 +55,7 @@ export default {
   }
   .icon-biaoti {
     margin-left: -0.1rem;
+    margin-right: 0;
   }
   &.level1 {
     height: 0.7rem;
@@ -85,9 +86,11 @@ export default {
   }
   &.level2 {
     height: 0.64rem;
-    padding: 0 0.24rem;
+    // padding: 0 0.24rem;
     color: #92B9F7;
-
+    i {
+      color: #1E5CBF;
+    }
     .title {
       min-width: 2.2rem;
     }

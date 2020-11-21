@@ -42,6 +42,9 @@ import VueGridLayout from "vue-grid-layout";
 import LeftHeader from "@/modules/LeftHeader";
 import Overview from "@/modules/Overview";
 import UrbanSecurity from "@/modules/UrbanSecurity";
+import RegionalTransportation from "@/modules/RegionalTransportation";
+import EconomicDevelopment from "@/modules/EconomicDevelopment";
+import HotSpots from "@/modules/HotSpots";
 
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
@@ -74,6 +77,9 @@ export default {
     LeftHeader,
     Overview,
     UrbanSecurity,
+    RegionalTransportation,
+    EconomicDevelopment,
+    HotSpots,
     test: () => import("@/modules/test")
   },
   provide() {
@@ -176,31 +182,34 @@ export default {
               component: "UrbanSecurity",
               moved: false
             },
+            // 区域交通
             {
               x: 0,
               y: 45,
               w: 5,
               h: 62,
               i: 131,
-              component: "test",
+              component: "RegionalTransportation",
               moved: false
             },
+            // 经济发展
             {
               x: 5,
               y: 45,
               w: 5,
               h: 62,
               i: 132,
-              component: "test",
+              component: "EconomicDevelopment",
               moved: false
             },
+            // 舆情热点
             {
               x: 10,
               y: 45,
               w: 5,
               h: 62,
               i: 133,
-              component: "test",
+              component: "HotSpots",
               moved: false
             },
 

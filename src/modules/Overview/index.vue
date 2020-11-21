@@ -2,7 +2,7 @@
   <wrap-title class="gradient-bg" icon="icon-dihezhongdianquyu">
     <m-tabs slot="level-title" v-model="tab" :tabs="tabs"></m-tabs>
     <m-row>
-      <m-column  v-for="item in activeItems" :key="item.prop">
+      <m-column  v-for="item in activeItems" :key="item.name">
         <overview-item v-bind="item" :customClass="activeCustomClass"></overview-item>
       </m-column>
     </m-row>

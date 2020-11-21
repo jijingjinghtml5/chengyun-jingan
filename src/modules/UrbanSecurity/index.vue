@@ -4,23 +4,24 @@
     <m-tabs-body :tab="tab">
       <m-tabs-body-item name="overview">
         <m-row gutter="0.1rem">
-          <m-column v-for="item in items" :key="item.prop">
+          <m-column v-for="item in items" :key="item.name">
             <overview-item v-bind="item" customClass="style2" style="cursor: pointer" @click.native="handleClickForOverviewItem(item)"></overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="sgy">
+      <m-tabs-body-item name="sgy" class="detail">
         <m-row gutter="0.1rem">
           <m-column width="20%">
             <overview-item v-if="activeItem" v-bind="activeItem" customClass="style2"></overview-item>
           </m-column>
           <m-column width="30%">
-            <div class="detail-item">
-              <level-title :level="2" icon="icon-biaoti" txt="水供应趋势"></level-title>
-              <chart-line :chartData="dataset.sgy_chartData" :colors="colors" :smooth="true"></chart-line>
-            </div>
+            <level-title :level="2" icon="icon-biaoti" txt="水供应趋势"></level-title>
+            <chart-line :chartData="dataset.sgy_chartData" :colors="colors" :smooth="true"></chart-line>
           </m-column>
-          <m-column width="50%"></m-column>
+          <m-column width="50%">
+            <level-title :level="2" icon="icon-biaoti" txt="街镇用水量"></level-title>
+            <chart-bar :chartData="dataset.sgy_chartData2" :colors="colors2"></chart-bar>
+          </m-column>
         </m-row>
       </m-tabs-body-item>
       <m-tabs-body-item name="dlgy">
@@ -74,6 +75,7 @@ import OverviewItem from "@/components/OverviewItem";
 import MTabsBody from "@/components/MTabsBody/MTabsBody";
 import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import ChartLine from "@/components/Charts/Line/ChartLineForCompare";
+import ChartBar from "./ChartBar";
 export default {
   name: "OverView",
   components: {
@@ -85,12 +87,14 @@ export default {
     OverviewItem,
     MTabsBody,
     MTabsBodyItem,
-    ChartLine
+    ChartLine,
+    ChartBar
   },
   inheritAttrs: false,
   data() {
     return {
       colors: Object.freeze(["#FCBF51", "#DED7D7"]),
+      colors2: Object.freeze(["#30BC9B", "#92B9F7"]),
       items: Object.freeze([
         { icon: "icon-gongzuoliliangku", name: "水供应", nameUnit: "（吨）", prop: "sgy", extraItems: [{ label: "存量", prop: "stock" }] },
         { icon: "icon-dianxiangmen", name: "电力供应", nameUnit: "（kw）", prop: "dlgy", extraItems: [{ label: "存量", prop: "stock" }] },
@@ -110,8 +114,16 @@ export default {
           ["11.06", 480, 300],
           ["11.07", 360, 250],
           ["11.08", 200, 100]
+        ],
+        sgy_chartData2: [
+          ["街镇用水量", "xxx", "xxx2"],
+          ["南西", 200, 100],
+          ["静安寺", 200, 100],
+          ["共和新", 200, 100],
+          ["大宁路", 200, 100],
+          ["曹家渡", 200, 100],
+          ["天目西", 200, 100]
         ]
-
       }
     };
   },
@@ -147,10 +159,15 @@ export default {
   font-size: 0.24rem;
   color: #A8C7F9;
 }
-.detail-item {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.detail {
+  .m-row {
+    height: 100%;
+  }
+  .m-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   .v-chart-container {
     height: 0;
     flex: 1;

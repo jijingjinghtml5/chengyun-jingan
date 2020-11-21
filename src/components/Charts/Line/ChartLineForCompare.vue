@@ -49,7 +49,7 @@ export default {
         ...this.baseOptions,
         grid: {
           top: this.showLegend ? +this.fontSize_ * 2 : +this.fontSize_,
-          left: this.showXLabel ? +this.fontSize_ * 1.5 : 0,
+          left: this.showXLabel ? +this.fontSize_ * (this.showYLabel ? 0.5 : 1.5) : 0,
           right: this.showXLabel ? +this.fontSize_ * 1.5 : 0,
           bottom: 0,
           containLabel: true

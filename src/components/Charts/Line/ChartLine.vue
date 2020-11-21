@@ -5,6 +5,7 @@
       :style="{ width: '100%', height: '100%' }"
       :options="options"
       autoresize
+      auto-resize
     />
     <p
       class="no-data-tip"
@@ -38,16 +39,16 @@ export default {
           } : null
         };
       });
-      const axisLabelOption = this.chartData && this.chartData.length > 2 ? {
-        interval: 1000,
+      const axisLabelOption = this.chartData && this.chartData.length > 3 ? {
+        interval: Math.floor((this.chartData.length - 3) / 2),
         showMinLabel: true,
         showMaxLabel: true
       } : {};
       return {
         ...this.baseOptions,
         grid: {
-          top: this.showLegend ? +this.fontSize_ * 2 : 0,
-          left: this.showXLabel ? +this.fontSize_ * 1.5 : 0,
+          top: this.showLegend ? +this.fontSize_ * 2 : +this.fontSize_,
+          left: this.showXLabel ? +this.fontSize_ * (this.showYLabel ? 0.5 : 1.5) : 0,
           right: this.showXLabel ? +this.fontSize_ * 1.5 : 0,
           bottom: 0,
           containLabel: true
