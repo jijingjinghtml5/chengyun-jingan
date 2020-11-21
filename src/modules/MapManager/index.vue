@@ -2,6 +2,7 @@
   <div class="MapContainer" id="MapContainer" @click.stop @mousedown.stop>
     <maptitle></maptitle>
     <citymap ref='Map'></citymap>
+    <maptool></maptool>
 
 
   </div>
@@ -9,6 +10,7 @@
 <script>
 import citymap from "@/components/citymap"
 import maptitle from "./components/MapTitle"
+import maptool from "./components/MapTool"
 export default {
   name: "MapManager",
   data() {
@@ -18,7 +20,8 @@ export default {
   },
   components: {
     maptitle,
-    citymap
+    citymap,
+    maptool
     
   },
   computed: {
