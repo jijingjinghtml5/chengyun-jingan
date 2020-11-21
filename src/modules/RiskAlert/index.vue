@@ -101,7 +101,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container{
-  padding: 0.2rem;
   height: 100%;
   background: linear-gradient(180deg, rgba(84, 88, 169, 0) 0%, rgba(21, 79, 163, 0.4) 100%);
   .title-right{
@@ -115,6 +114,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     height: 118px;
+    line-height: 1.5;
     .cell{
       padding: 0 10px;
     }
@@ -124,7 +124,6 @@ export default {
     }
     .title{
       width: 300px;
-      line-height: 40px;
       .type{
         font-size: 36px;
         font-weight: bold;
@@ -136,10 +135,10 @@ export default {
     }
     .info{
       flex: 1;
-      height: 76px;
+      height: 80px;
       overflow: hidden;
       font-size: 28px;
-      line-height: 40px;
+      line-height: 45px;
     }
     .opt{
       width: 80px;

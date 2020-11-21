@@ -167,7 +167,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container{
-  padding: 0.2rem 0.4rem;
   height: 100%;
   background: linear-gradient(180deg, rgba(84, 88, 169, 0) 0%, rgba(21, 79, 163, 0.4) 100%);
 
