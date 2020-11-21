@@ -64,9 +64,13 @@ export default {
     margin-left: -0.1rem;
   }
   &.level1 {
-    height: 0.72rem;
-    border-bottom: 0.04rem solid #FCBF51;
-    margin-bottom: 0.2rem;
+    height: 0.7rem;
+    border: 0;
+    color: #FCBF51;
+    line-height: 1;
+    i {
+      line-height: 0.7rem;
+    }
     .levelTitle__center,
     .levelTitle__right {
       font-size: 0.36rem;
@@ -77,9 +81,8 @@ export default {
   }
   &.level2 {
     height: 0.64rem;
-    background-color: rgba(#00E5FF, 0.15);
     padding: 0 0.24rem;
-    margin-bottom: 0.2rem;
+    color: #92B9F7;
     .title {
       min-width: 2.2rem;
     }

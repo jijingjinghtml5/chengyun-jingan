@@ -13,7 +13,7 @@
 // 城地地图组件
 /* eslint-disable camelcase */
 import commonMixin from "./mixins/commonMixin.js";
-import {getUrl} from "@/utils/tools";
+import { getUrl } from "@/utils/tools";
 export default {
   name: "citymap",
   mixins: [commonMixin],
@@ -55,8 +55,8 @@ export default {
         group: this.citymapGroupID,
         token: mapConfig.screenConfig.token || "noToken"
       };
-      mapConfig.screenConfig.mapUrl = mapConfig.screenConfig.mapUrl || window.$config.mapComponentUrl; 
-      const mapURLSub =getUrl('/', mapConfig.screenConfig.mapUrl);
+      mapConfig.screenConfig.mapUrl = mapConfig.screenConfig.mapUrl || window.$config.mapComponentUrl;
+      const mapURLSub = getUrl("/", mapConfig.screenConfig.mapUrl);
       let mapURL = this.mergeMapURL(mapURLSub + "WidgetPages/WidgetGIS.html", cityMapParams);
       let cityMapMeunParams = {// 初始化地图菜单参数
         sceneId: this.citymapSceneID,
@@ -79,7 +79,7 @@ export default {
                   that.onMapReady();
               }
       });
-      //兼容原有操作
+      // 兼容原有操作
       window.bridge = this.bridge;
     },
     onMapReady() {
@@ -123,7 +123,7 @@ export default {
               port: window.$config.mapSocketPort,
               clientId: "testmap",
               group: that.citymapGroupID,
-              onMessage:  (msg) => {
+              onMessage: (msg) => {
                   if (msg.meta.sceneId === that.citymapSceneID && msg.meta.clientId !== "testmap") {
                       var cmd = msg.data;
                       if (cmd && cmd.ActionName) {
@@ -175,7 +175,7 @@ export default {
     // 开启websockoet地图交互
     // this.initMapServerSocket();
     // this.initMapClientSocket();
-    
+
     this.$_mapProxy.setBridge(this.bridge);
   },
   beforeDestroy() {
