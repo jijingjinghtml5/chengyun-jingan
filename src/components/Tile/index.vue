@@ -1,5 +1,5 @@
 <template>
-  <div class="tile">
+  <div class="tile" @click="handleClick">
     <slot name=title>
       <div class="title">
         <span v-if="item.icon" :class="`iconfont ${item.icon}`"></span>
@@ -46,6 +46,11 @@ export default {
       } else {
         return "icon-qiehuan";
       }
+    }
+  },
+  methods: {
+    handleClick() {
+      this.$emit("click", this.item);
     }
   }
 };
