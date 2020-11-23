@@ -5,6 +5,7 @@
       :style="{ width: '100%', height: '100%' }"
       :options="options"
       autoresize
+      auto-resize
     />
     <p
       class="no-data-tip"
