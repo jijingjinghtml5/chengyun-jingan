@@ -46,6 +46,7 @@ import RegionalTransportation from "@/modules/RegionalTransportation";
 import EconomicDevelopment from "@/modules/EconomicDevelopment";
 import HotSpots from "@/modules/HotSpots";
 
+
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
 import { getParams } from "@/utils/";
@@ -74,6 +75,7 @@ export default {
     RiskAlert: () => import("@/modules/RiskAlert"),
     TownSummary: () => import("@/modules/TownSummary"),
     Notice: () => import("@/modules/Notice"),
+    OtherPage: () => import("@/modules/OtherPage"),
     LeftHeader,
     Overview,
     UrbanSecurity,
@@ -219,7 +221,7 @@ export default {
               w: 18,
               h: 13,
               i: 21,
-              component: "test",
+              component: "OtherPage",
               moved: false
             },
 

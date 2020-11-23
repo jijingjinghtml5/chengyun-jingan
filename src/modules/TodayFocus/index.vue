@@ -31,6 +31,8 @@ export default {
       switch (this.current) {
         case "dashboard":
           return CaseDashboard;
+        case "list":
+          return caseList;
         default:
           return Overview;
       }
