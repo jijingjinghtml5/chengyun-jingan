@@ -42,7 +42,7 @@ export default {
     return {
       yellow: 1000,
       red: 10,
-      current: "list",
+      current: "overview",
       clickData: {}
     };
   },
