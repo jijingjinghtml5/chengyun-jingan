@@ -37,13 +37,19 @@ p {
 
 .row-style1 {
   height: 100%;
-  &.in-flex {
-    height: 0;
-    flex: 1;
-  }
   >.m-column {
     height: 100%;
     display: flex;
     flex-direction: column;
   }
+}
+
+.in-flex {
+  height: 0;
+  flex: 1;
+}
+
+.in-flex-width {
+  width: 0;
+  flex: 1;
 }
