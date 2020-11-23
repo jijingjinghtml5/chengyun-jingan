@@ -1,7 +1,12 @@
 <template>
   <div class="videoContainer">
+
       <div class="video-title">
+
         智能巡查{{videoNumber}}
+        <span  class="iconfont icon-arrow_right mapControlLableIcon"></span>
+        <span style="float:right" class="iconfont icon-video_on" ></span>
+
       </div>
       <div>
           <div class="video-item" v-for="(item,index) in videoData" :key="index">
@@ -72,6 +77,13 @@ export default {
 }
 .video-title{
   font-size: 0.32rem;
+}
+.mapControlLableIcon {
+  display: inline-block;
+  font-size: 0.28rem;
+  transform: rotate(90deg);
+  color:#92B9F7;
+  cursor: pointer;
 }
 
 </style>
