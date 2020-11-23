@@ -31,6 +31,8 @@ export default {
       switch (this.current) {
         case "dashboard":
           return CaseDashboard;
+        case "list":
+          return caseList;
         default:
           return Overview;
       }
@@ -40,7 +42,7 @@ export default {
     return {
       yellow: 1000,
       red: 10,
-      current: "overview",
+      current: "list",
       clickData: {}
     };
   },
