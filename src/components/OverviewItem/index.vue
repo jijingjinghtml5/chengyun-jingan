@@ -90,6 +90,9 @@ export default {
   .increase {
     display: flex;
   }
+  sub {
+    bottom: 0;
+  }
 }
 .style1, .style2 {
   .overview-item__icon {
@@ -121,6 +124,12 @@ export default {
   }
 }
 .style3 {
+  .overview-item__icon {
+    width: 1rem;
+    font-size: 0.64rem;
+    text-align: center;
+    margin-right: 0.1rem;
+  }
   .overview-item__name {
     font-size: 0.28rem;
   }
