@@ -18,7 +18,7 @@
 <script>
 import WrapTitle from "@/components/MTitle/WrapTitle";
 import MTitle from "@/components/MTitle/LevelTitle";
-import ChartLine from "@/components/Charts/Line/ChartLine.vue";
+import ChartLine from "@/components/Charts/Line/ChartLineForCompare.vue";
 import CaseStep from "@/components/CaseStep/index.vue";
 import { getDate } from "@/utils/tools";
 import ChartBar from "../../components/Charts/Bar/ChartBar4.vue";
