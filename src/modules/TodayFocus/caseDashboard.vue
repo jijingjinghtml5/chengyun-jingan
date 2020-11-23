@@ -1,7 +1,7 @@
 <template>
 <wrap-title :txt="item.label" :level="2" icon="icon-biaoti" class="dashboard">
   <div slot="right" class="title-right">
-    <span>[案件列表]</span>
+    <span @click="handleClick">[案件列表]</span>
   </div>
   <div class="count" :style="`color:${item.color}`">{{item.count | thousandCentimeter}}</div>
   <div class="line-content">
@@ -57,6 +57,11 @@ export default {
         ["彭浦新", Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)]
       ]
     };
+  },
+  methods: {
+    handleClick() {
+      this.$emit("click", "list", this.item);
+    }
   }
 };
 </script>
