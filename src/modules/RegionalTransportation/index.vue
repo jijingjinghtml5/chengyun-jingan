@@ -1,5 +1,6 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-daolu" txt="区域交通">
+    <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
     <m-row gutter="0.1rem">
       <m-column v-for="(item, index) in items" :key="item.key">
         <level-title :level="2" icon="icon-biaoti" :txt="item.label"></level-title>
@@ -47,6 +48,7 @@ import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
 import ChartLine from "@/components/Charts/Line/ChartLine";
 import OverviewItem from "@/components/OverviewItem";
+import MSelect from "@/components/MSelect";
 import { getDate } from "@/utils/tools";
 export default {
   name: "RegionalTransportation",
@@ -56,7 +58,8 @@ export default {
     MRow,
     MColumn,
     ChartLine,
-    OverviewItem
+    OverviewItem,
+    MSelect
   },
   inheritAttrs: false,
   data() {
@@ -65,6 +68,11 @@ export default {
       items: Object.freeze([
         { label: "快速路拥堵指数", key: "kslydzs" },
         { label: "地面拥堵指数", key: "dmydzs" }
+      ]),
+      options: Object.freeze([
+        { label: "今日", value: "today" },
+        { label: "本周", value: "currentWeek" },
+        { label: "本月", value: "currentMonth" }
       ]),
       listConfig: Object.freeze({
         valueUnit: "km/h",
@@ -78,6 +86,7 @@ export default {
       listConfig2: Object.freeze({
         customClass: "style3"
       }),
+      option: "today",
       dataset: {
         kslydzs: 20.3,
         dmydzs: 60.3,

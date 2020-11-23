@@ -1,10 +1,25 @@
 <template>
   <div class="left-header">
-    <div class="clock">
+    <div class="left-header__item clock">
       <p class="clock-time">{{ now | formatterDate("hh : mm : ss") }}</p>
       <p class="clock-date">{{ now | formatterDate2 }}</p>
     </div>
-    <weather :items="weatherItems" :dataset="weather"></weather>
+    <ul class="left-header__item condition">
+      <li class="img">
+        <img src="@/assets/images/weather/sun-rain.png" alt="">
+      </li>
+      <li>
+        <p class="temp">{{ weather.temperature | initVal }}°C</p>
+        <p class="report">晴转小雨</p>
+      </li>
+      <li class="img hasBorder">
+        <img src="@/assets/images/weather/1-3.png" alt="">
+      </li>
+      <li class="img hasBorder">
+        <img src="@/assets/images/weather/4-3.png" alt="">
+      </li >
+    </ul>
+    <weather class="left-header__item" :items="weatherItems" :dataset="weather"></weather>
   </div>
 </template>
 <script>
@@ -27,11 +42,17 @@ export default {
     return {
       now: new Date(),
       weatherItems: Object.freeze([
+        // {
+        //   icon: "iconfont icon-wendu",
+        //   label: "温度",
+        //   key: "temperature",
+        //   unit: "°C"
+        // },
         {
-          icon: "iconfont icon-wendu",
-          label: "温度",
-          key: "temperature",
-          unit: "°C"
+          icon: "iconfont icon-yangchen",
+          label: "空气AQI",
+          key: "aqi",
+          unit: ""
         },
         {
           icon: "iconfont icon-shidu",
@@ -57,12 +78,6 @@ export default {
           label: "PM2.5",
           key: "pm25",
           unit: "μg/m³"
-        },
-        {
-          icon: "iconfont icon-yangchen",
-          label: "空气AQI",
-          key: "aqi",
-          unit: ""
         }
       ]),
       weather: {}
@@ -113,11 +128,19 @@ export default {
   height: 100%;
   border-bottom: 0.02rem solid #0F2E60;
 }
+.left-header__item {
+  margin-right: 0.2rem;
+  &:last-child {
+    margin-right: 0;
+  }
+}
 .clock {
+  min-width: 2.5rem;
   text-align: center;
   line-height: 0.6rem;
   flex-grow: 0;
   flex-shrink: 0;
+  margin-right: 0.4rem;
 }
 .clock-time {
   font-size: 0.44rem;
@@ -126,8 +149,43 @@ export default {
   font-size: 0.32rem;
 }
 .weather-wrap {
-  width: 15rem;
+  width: 14rem;
   flex-grow: 0;
   flex-shrink: 0;
+}
+.condition {
+  width: 0;
+  flex: 1;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  text-align: center;
+  line-height: 0.48rem;
+  > li {
+    margin-right: 0.1rem;
+    flex-shrink: 0;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  .temp {
+    font-size: 0.44rem;
+  }
+  .report {
+    font-size: 0.32rem;
+  }
+  .img {
+    height: 1.28rem;
+    &.hasBorder {
+      border: 0.02rem solid #2573EF;
+      border-radius: 0.08rem;
+      background-color: rgba(#2573EF, 0.4);
+      overflow: hidden;
+    }
+    img {
+      display: block;
+      height: 100%;
+    }
+  }
 }
 </style>
