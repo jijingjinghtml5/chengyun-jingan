@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "17500630",
+      "name": "发现",
+      "font_class": "faxian",
+      "unicode": "e6a8",
+      "unicode_decimal": 59048
+    },
+    {
+      "icon_id": "17500631",
+      "name": "处置",
+      "font_class": "chuzhi",
+      "unicode": "e6a9",
+      "unicode_decimal": 59049
+    },
+    {
+      "icon_id": "17500632",
+      "name": "立案",
+      "font_class": "lian",
+      "unicode": "e6aa",
+      "unicode_decimal": 59050
+    },
+    {
+      "icon_id": "17500633",
+      "name": "派遣",
+      "font_class": "paiqian",
+      "unicode": "e6ab",
+      "unicode_decimal": 59051
+    },
+    {
+      "icon_id": "17500634",
+      "name": "结案",
+      "font_class": "jiean",
+      "unicode": "e6ac",
+      "unicode_decimal": 59052
+    },
+    {
+      "icon_id": "17500635",
+      "name": "核查",
+      "font_class": "hecha",
+      "unicode": "e6ad",
+      "unicode_decimal": 59053
+    },
+    {
       "icon_id": "6506261",
       "name": "上",
       "font_class": "shangla",
