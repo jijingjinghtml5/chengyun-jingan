@@ -165,7 +165,6 @@ export default {
 
   .three-public{
     .wall{
-      padding: 0.2rem 0;
       .block{
         height: 1.8rem;
       }
