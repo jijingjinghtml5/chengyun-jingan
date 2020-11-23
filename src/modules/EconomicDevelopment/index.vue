@@ -1,5 +1,6 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-daolu" txt="经济发展">
+    <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
     <m-row gutter="0.1rem">
       <m-column v-for="item in items" :key="item.key">
         <level-title :level="2" icon="icon-biaoti">
@@ -33,6 +34,7 @@ import MColumn from "@/components/Layout/MColumn";
 import ChartLine from "@/components/Charts/Line/ChartLine";
 import OverviewItem from "@/components/OverviewItem";
 import ChartBar from "@/components/Charts/Bar/ChartBar";
+import MSelect from "@/components/MSelect";
 import { getDate } from "@/utils/tools";
 export default {
   name: "EconomicDevelopment",
@@ -43,7 +45,8 @@ export default {
     MColumn,
     ChartLine,
     OverviewItem,
-    ChartBar
+    ChartBar,
+    MSelect
   },
   inheritAttrs: false,
   data() {
@@ -65,6 +68,11 @@ export default {
         { name: "企业问题汇集量", color: "#FCBF51" },
         { name: "企业问题解决率", color: "#1ABC9C" }
       ]),
+      options: Object.freeze([
+        { label: "本周", value: "currentWeek" },
+        { label: "本月", value: "currentMonth" }
+      ]),
+      option: "currentWeek",
       dataset: {
         qyrz: 10980,
         zdqy: 109,

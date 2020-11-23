@@ -1,6 +1,7 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-zonghezhili" :txt="title">
     <span slot="center" v-show="tab !== 'overview'" class="back" @click="handleClickForBack">[返回上一级]</span>
+    <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
     <m-tabs-body :tab="tab">
       <m-tabs-body-item name="overview">
         <m-row gutter="0.1rem">
@@ -76,6 +77,7 @@ import MTabsBody from "@/components/MTabsBody/MTabsBody";
 import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import ChartLine from "@/components/Charts/Line/ChartLineForCompare";
 import ChartBar from "./ChartBar";
+import MSelect from "@/components/MSelect";
 export default {
   name: "OverView",
   components: {
@@ -88,7 +90,8 @@ export default {
     MTabsBody,
     MTabsBodyItem,
     ChartLine,
-    ChartBar
+    ChartBar,
+    MSelect
   },
   inheritAttrs: false,
   data() {
@@ -102,8 +105,13 @@ export default {
         { icon: "icon-gongzuoliliangku", name: "垃圾处理", nameUnit: "（吨）", prop: "ljcl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] },
         { icon: "icon-gongzuoliliangku", name: "污水处理", nameUnit: "（吨）", prop: "wscl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] }
       ]),
+      options: Object.freeze([
+        { label: "本周", value: "currentWeek" },
+        { label: "本月", value: "currentMonth" }
+      ]),
       tab: "overview",
       activeItem: null,
+      option: "currentWeek",
       dataset: {
         sgy_chartData: [
           ["水供应趋势", "xxx", "xxx2"],

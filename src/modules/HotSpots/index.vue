@@ -1,5 +1,6 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-wangluoyuqing" txt="舆情热点">
+    <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
     <m-row gutter="0.1rem">
       <m-column v-for="(item, index) in items" :key="item.key">
         <level-title :level="2" icon="icon-biaoti">
@@ -52,6 +53,7 @@ import ChartBarY from "@/components/Charts/BarY/ChartBarY";
 import AutoScrollWrap from "@/components/AutoScrollWrap";
 import { RecycleScroller } from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
+import MSelect from "@/components/MSelect";
 import { getDate } from "@/utils/tools";
 export default {
   name: "HotSpots",
@@ -63,7 +65,8 @@ export default {
     ChartLine,
     ChartBarY,
     AutoScrollWrap,
-    RecycleScroller
+    RecycleScroller,
+    MSelect
   },
   inject: ["createFnForCalcRealPx"],
   data() {
@@ -80,6 +83,11 @@ export default {
         left: "center",
         icon: "line"
       }),
+       options: Object.freeze([
+        { label: "本周", value: "currentWeek" },
+        { label: "本月", value: "currentMonth" }
+      ]),
+      option: "currentWeek",
       rowHeight: 110,
       dataset: {
         chartData: [
