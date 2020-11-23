@@ -252,15 +252,16 @@ export default {
 .btnClassActive{
   background-color: rgba(#0f2e60, 1) !important;
   color:#ffffff !important;
+   border: 1px solid #2E9BCF !important;
 }
 .btnClass{
-  background-color: rgba(#0f2e60, 1);
-  border: 1px solid #4e78a4;
+  background-color: rgba(#2573EF, 0.4);
+  border: 1px solid #2573EF;
   z-index:9999;
   width: 60px;
   height: 60px;
   margin-bottom: 8px;
-  color:rgba(102, 157, 244, 1);
+  color:#92B9F7;
   cursor: pointer;
 }
 .btnClass:hover{
