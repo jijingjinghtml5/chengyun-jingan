@@ -1,4 +1,4 @@
-import { isSupportRaf, requestAnimationFrame, cancelAnimationFrame } from "../../../utils/";
+import { isSupportRaf, requestAnimationFrame, cancelAnimationFrame } from "@/utils/";
 export default {
   data () {
     return {

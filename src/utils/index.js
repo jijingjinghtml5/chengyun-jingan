@@ -161,3 +161,14 @@ export function asyncLoadScripts(scripts) {
   });
   return Promise.all(promiseArr);
 }
+
+// requestAnimationFrame
+const raf = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame;
+
+export const isSupportRaf = !!(raf);
+export const requestAnimationFrame = raf || function (callback) { setTimeout(callback, 1000 / 60); };
+export const cancelAnimationFrame = isSupportRaf ? window.cancelAnimationFrame : clearTimeout;
+
+export function isFirefox () {
+  return navigator.userAgent.indexOf("Firefox") > -1;
+}
