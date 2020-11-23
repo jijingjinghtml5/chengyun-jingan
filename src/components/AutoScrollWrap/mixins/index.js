@@ -69,7 +69,7 @@ export default {
       if (!this.wrap) return;
       this.canScoll = false;
       this.wrap.scrollTop = 0;
-      // console.log(this.wrap, this.wrap.scrollHeight, this.wrap.offsetHeight)
+      // console.log(this.wrap, this.wrap.scrollHeight, this.wrap.offsetHeight);
       if (this.wrap.scrollHeight > this.wrap.offsetHeight) {
         this.canScoll = true;
         this.startLoop();
@@ -130,9 +130,12 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
+    // this.$nextTick(() => {
+    //   this.init();
+    // });
+    setTimeout(() => {
       this.init();
-    });
+    }, 0);
     if (!isSupportRaf) {
       const _this = this;
       const focus = function () {

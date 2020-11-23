@@ -17,5 +17,10 @@ export default {
   &:not(.isVirtual) {
     overflow-y: auto;
   }
+  /deep/ {
+    >.vue-recycle-scroller {
+      height: 100%;
+    }
+  }
 }
 </style>
