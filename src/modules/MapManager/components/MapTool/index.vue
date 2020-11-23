@@ -40,21 +40,21 @@ export default {
       ],
       functionDatas: {
         "全图": {
-          number:1,
+          number: 1,
           openFunction: "fullExtent",
           closeFunction: "fullExtent",
           openLable: "全图",
           closeLable: "全图"
         },
         "街道边界": {
-          number:14,
+          number: 14,
           openFunction: "openStreetLayer",
           closeFunction: "closeStreetLayer",
           openLable: "打开街道边界",
           closeLable: "关闭街道边界"
         },
         "网格边界": {
-           number:85,
+           number: 85,
            openFunction: "openGridLayer",
            closeFunction: "closeGridLayer",
            openLable: "打开网格边界",
@@ -104,8 +104,8 @@ export default {
   },
   methods: {
     // 按钮执行函数 ------------start
-    tabMapLayer(name,status) {
-       let cmd ={
+    tabMapLayer(name, status) {
+       let cmd = {
             "ActionName": "LayerVisible",
             "Parameters": [
               {
@@ -116,38 +116,38 @@ export default {
 
               }
             ]
-          }
+          };
       window.bridge.Invoke(cmd);
     },
     tabModelLayer(name, status) {
-       let cmd ={
+       let cmd = {
             "ActionName": "themeLayer",
-            "Parameters": 
+            "Parameters":
               {
                 "name": name,
                 "visible": status,
                  "popupEnabled": false
 
-              }       
-          }
+              }
+          };
       window.bridge.Invoke(cmd);
     },
     openRemoteScenseLayer() {
-       let cmd ={
+       let cmd = {
                 "ActionName": "ChangeMapTheme",
                 "Parameters": {
                   "mapthemeid": "scyxbasemap"
                 }
-              }
+              };
       window.bridge.Invoke(cmd);
     },
     closeRemoteScenseLayer() {
-      let cmd ={
+      let cmd = {
                 "ActionName": "ChangeMapTheme",
                 "Parameters": {
                   "mapthemeid": "basetheme"
                 }
-              }
+              };
       window.bridge.Invoke(cmd);
     },
     openDetailModelLayer() {
@@ -178,7 +178,7 @@ export default {
     fullExtent() {
       let cmd = {
                 "ActionName": "FullExtent"
-              }
+              };
       window.bridge.Invoke(cmd);
     },
     // ------------------------end
@@ -191,15 +191,15 @@ export default {
       this.labelActives = [...this.labelActives];
     },
     btnClick(item, index) {
-      if(item.single) {
-        console.log(item, index,this[this.functionDatas[item.name]["openFunction"]],"item, index-------------------------")
+      if (item.single) {
+        console.log(item, index, this[this.functionDatas[item.name]["openFunction"]], "item, index-------------------------");
           this[this.functionDatas[item.name]["openFunction"]]();
          this.$emit("LayerChange", { status: this.btnActives[index], item: item });
          return;
       }
       this.btnActives[index] = !this.btnActives[index];
       this.btnActives = [...this.btnActives];
-      console.log(item,index,this.btnActives,"this.btnActives")
+      console.log(item, index, this.btnActives, "this.btnActives");
 
       if (this.btnActives[index]) {
           this[this.functionDatas[item.name]["openFunction"]]();
@@ -272,8 +272,8 @@ export default {
 .mapToolsContainer {
   position: absolute;
   z-index:9999;
-  bottom: 0.2rem;
-  right: 4rem;
+  bottom: 0.1rem;
+  right: 6.3rem;
 }
 .btn-number{
   user-select: none;
