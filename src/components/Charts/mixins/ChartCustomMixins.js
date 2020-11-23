@@ -137,7 +137,8 @@ export default {
           show: this.showYLabel,
           fontSize: +this.fontSize_,
           color: this.labelColor,
-          showMinLabel: false
+          showMinLabel: false,
+          formatter: "{value}" + (this.unit || "")
         },
         axisTick: { show: false },
         axisLine: { show: false }

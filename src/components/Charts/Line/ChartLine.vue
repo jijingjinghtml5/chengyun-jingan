@@ -21,6 +21,16 @@ export default {
   name: "ChartLine",
   mixins: [ChartBaseMixins, ChartMixins],
   props: {
+    legendConfig: {
+      type: Object,
+      default: () => {
+        return {
+          top: 0,
+          right: 0,
+          icon: "line"
+        };
+      }
+    }
   },
   computed: {
     options () {

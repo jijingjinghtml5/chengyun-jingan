@@ -7,7 +7,7 @@
       <li class="overview-item__name">{{ name }}<sub v-if="nameUnit">{{ nameUnit }}</sub></li>
       <li class="overview-item__value" :style="{ color: vc }">{{ dataset[valueProp] | initVal | thousandCentimeter }}<sub v-if="valueUnit">{{ valueUnit }}</sub></li>
       <increase v-if="showIncrease" tag="li" :value="dataset[increaseProp] | initVal"></increase>
-      <li v-for="item in extraItems || []" :key="item.key">
+      <li class="overview-item__extra" v-for="item in extraItems || []" :key="item.key" :style="{ color: item.color }">
         {{ item.label }}：{{ dataset[item.prop] | initVal | thousandCentimeter }} {{ item.unit }}
       </li>
       <slot></slot>
@@ -84,7 +84,8 @@ export default {
 }
 .style1,
 .style2,
-.style3 {
+.style3,
+.style4 {
   line-height: 1.5;
   font-size: 0.24rem;
   .increase {
@@ -115,15 +116,16 @@ export default {
 .style2 {
   .overview-item__name {
     color: #92B9F7;
-    sub {
-      font-size: 0.28rem;
-    }
+    // sub {
+    //   font-size: 0.28rem;
+    // }
   }
   .overview-item__value {
     color: #FCBF51;
   }
 }
-.style3 {
+.style3,
+.style4 {
   .overview-item__icon {
     width: 1rem;
     font-size: 0.64rem;
@@ -140,6 +142,11 @@ export default {
       font-size: 0.28rem;
       color: #fff;
     }
+  }
+}
+.style4 {
+  .overview-item__extra {
+    color: #92B9F7;
   }
 }
 </style>

@@ -1,12 +1,106 @@
 <template>
-  <wrap-title class="gradient-bg" icon="icon-daolu" txt="经济发展"></wrap-title>
+  <wrap-title class="gradient-bg" icon="icon-daolu" txt="经济发展">
+    <m-row gutter="0.1rem">
+      <m-column v-for="item in items" :key="item.key">
+        <level-title :level="2" icon="icon-biaoti">
+          {{ item.label }}<sub v-if="item.unit">{{ item.unit }}</sub>
+        </level-title>
+        <p class="value">{{ dataset[item.key] | initVal | thousandCentimeter }}</p>
+      </m-column>
+    </m-row>
+    <chart-line class="line-chart" :colors="colors" :chartData="dataset.chartData" :showYLabel="true" :isGradient="true" :gradientBySelf="true" :showLegend="true" :legendConfig="legendConfig"></chart-line>
+    <level-title :level="2" icon="icon-biaoti" txt="营商服务"></level-title>
+    <m-row gutter="0.1rem">
+      <m-column v-for="item in overviewItems" :key="item.name" width="50%">
+        <overview-item
+          :key="item.name"
+          v-bind="item"
+          customClass="style4">
+        </overview-item>
+      </m-column>
+    </m-row>
+    <p style="margin-bottom: 0.2rem">企业稳定期五色分布</p>
+    <div class="chart-item in-flex">
+      <chart-bar :chartData="dataset.chartBarData" :colors="colors2" :isCustom="true" :showYLabel="true" unit="%"></chart-bar>
+    </div>
+  </wrap-title>
 </template>
 <script>
+import LevelTitle from "@/components/MTitle/LevelTitle";
 import WrapTitle from "@/components/MTitle/WrapTitle";
+import MRow from "@/components/Layout/MRow";
+import MColumn from "@/components/Layout/MColumn";
+import ChartLine from "@/components/Charts/Line/ChartLine";
+import OverviewItem from "@/components/OverviewItem";
+import ChartBar from "@/components/Charts/Bar/ChartBar";
+import { getDate } from "@/utils/tools";
 export default {
   name: "EconomicDevelopment",
   components: {
-    WrapTitle
+    LevelTitle,
+    WrapTitle,
+    MRow,
+    MColumn,
+    ChartLine,
+    OverviewItem,
+    ChartBar
+  },
+  inheritAttrs: false,
+  data() {
+    return {
+      colors: Object.freeze(["#1ABC9C", "#679DF4", "#F96F4F", "#D0021B"]),
+      colors2: Object.freeze(["#6CCB73", "#2E9BCF", "#FCBF51", "#F96F4F", "#D0021B"]),
+      items: Object.freeze([
+        { label: "企业融资", key: "qyrz", unit: "（亿元）" },
+        { label: "重点企业", key: "zdqy", unit: "（家）" }
+      ]),
+      legendConfig: Object.freeze({
+        top: 0,
+        left: "center",
+        icon: "line"
+      }),
+      overviewItems: Object.freeze([
+        { name: "法人事务申报量", color: "#FCBF51", showIncrease: false, extraItems: [{ label: "网上申报量", prop: "online" }] },
+        { name: "法人事务办结率", color: "#1ABC9C", showIncrease: false, extraItems: [{ label: "节省时间", prop: "save" }] },
+        { name: "企业问题汇集量", color: "#FCBF51" },
+        { name: "企业问题解决率", color: "#1ABC9C" }
+      ]),
+      dataset: {
+        qyrz: 10980,
+        zdqy: 109,
+        chartData: [
+          ["区域交通", "新设", "迁入", "迁出", "注销"],
+          ...(getDate("currentMonth").map(d => {
+            return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
+          }))
+        ],
+        chartBarData: [
+          ["企业稳定期五色分布", "企业稳定期五色分布"],
+          ["0", 50],
+          ["1", 30],
+          ["2", 20],
+          ["3", 5],
+          ["4", 5]
+        ]
+      }
+    };
   }
 };
 </script>
+<style lang="scss" scoped>
+.value {
+  font-size: 0.72rem;
+  line-height: 0.84rem;
+  font-weight: bold;
+  color: #FCBF51;
+  sub {
+    bottom: 0;
+  }
+}
+.line-chart {
+  height: 2rem;
+}
+.overview-item {
+  margin-bottom: 0.2rem;
+}
+</style>
