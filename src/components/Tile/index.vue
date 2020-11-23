@@ -40,11 +40,11 @@ export default {
     },
     cIcon() {
       if (this.item.rate > 0) {
-        return "icon-arrow-top";
+        return "icon-shangla green";
       } else if (this.item.rate < 0) {
-        return "icon-arrow-bottom";
+        return "icon-arrow-down red";
       } else {
-        return "icon-qiehuan";
+        return "icon-stable gray";
       }
     }
   },
@@ -80,6 +80,15 @@ export default {
     font-size: 0.24rem;
     color: #ffffff;
     padding-left: 0.3rem;
+  }
+  .green{
+    color: #6CCB73;
+  }
+  .red{
+    color: #E64C3B;
+  }
+  .gray{
+    color: #A8C7F9
   }
 }
 </style>
