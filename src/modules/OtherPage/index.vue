@@ -49,23 +49,28 @@ export default {
         },
         {
             url:require("./img/test.png"),
-            name:"上海火车站区域"
+            name:"上海火车站区域",
+            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         },
         {
             url:require("./img/test.png"),
-            name:"静安区党建"
+            name:"静安区党建",
+            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         },
         {
             url:require("./img/test.png"),
-            name:"营商环境"
+            name:"营商环境",
+            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         },
         {
             url:require("./img/test.png"),
-            name:"静安区管理平台"
+            name:"静安区管理平台",
+            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         },
         {
             url:require("./img/test.png"),
-            name:"上海火车站区域"
+            name:"上海火车站区域",
+            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         }
       ]
 
