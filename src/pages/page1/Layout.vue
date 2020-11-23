@@ -46,7 +46,6 @@ import RegionalTransportation from "@/modules/RegionalTransportation";
 import EconomicDevelopment from "@/modules/EconomicDevelopment";
 import HotSpots from "@/modules/HotSpots";
 
-
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
 import { getParams } from "@/utils/";

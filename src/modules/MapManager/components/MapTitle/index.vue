@@ -22,26 +22,26 @@ export default {
   },
   data() {
     return {
-      formatMethods:{
+      formatMethods: {
 
       },
      mapControlItem: [
-        { name: "居委会(个)", iconClass: "icon-diliku", attr: "juwei", isExpand: true, columns:2},
-        { name: "办公楼宇/园区(个)", iconClass: "icon-bangonglouyu", attr: "yuanqu", isExpand: true, columns:2 },
-        { name: "沿街商铺(间)", iconClass: "icon-yanjieshangpu", attr: "shangpu", isExpand: true, columns:2},
-        { name: "建设工地(个)", iconClass: "icon-zaijiangongdi", attr: "gongdi", isExpand: true ,radio:true, columns:2}
+        { name: "居委会(个)", iconClass: "icon-diliku", attr: "juwei", isExpand: true, columns: 2 },
+        { name: "办公楼宇/园区(个)", iconClass: "icon-bangonglouyu", attr: "yuanqu", isExpand: true, columns: 2 },
+        { name: "沿街商铺(间)", iconClass: "icon-yanjieshangpu", attr: "shangpu", isExpand: true, columns: 2 },
+        { name: "建设工地(个)", iconClass: "icon-zaijiangongdi", attr: "gongdi", isExpand: true, radio: true, columns: 2 }
       ],
       mapControlItemData: {
         juwei: "12",
-        yuanqu:"171",
-        shangpu:"3433",
-        gongdi:"89"
+        yuanqu: "171",
+        shangpu: "3433",
+        gongdi: "89"
       },
       checkItems: {
         juwei: []
-      },
+      }
 
-    }
+    };
   },
   computed: {
 
@@ -51,19 +51,16 @@ export default {
   },
   mounted() {
       this.$bus.$on("map-header-menu-choose", res => {
-        const { status, item } = res;
+       // const { status, item } = res;
 
-        console.log(res,"res-----------")
-
+        console.log(res, "res-----------");
       });
-
 
       this.$bus.$on("map-header-item-choose", res => {
 
-      })
-
+      });
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .MapTitleContainer {

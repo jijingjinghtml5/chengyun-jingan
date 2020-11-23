@@ -2,8 +2,8 @@
   <div class="container">
       <el-carousel height="250px" arrow="always" :autoplay='false' indicator-position="none">
         <el-carousel-item v-for="(items,indexs) in urlsInner" :key="indexs" >
-          <div class="tab-container"  >
-            <div class="img-container" v-for="(item,index) in items" :key="index" > 
+          <div class="tab-container">
+            <div class="img-container" v-for="(item,index) in items" :key="index">
                 <img :src="item.url" alt="" @click="imgClick(item)">
                 <div class="img-label">{{item.name}}</div>
             </div>
@@ -16,65 +16,64 @@
   </div>
 </template>
 <script>
-
 import "element-ui/lib/theme-chalk/index.css";
 import MDialog from "@/components/MDialog";
 import IframeContainer from "@/components/IframeContainer";
 import {
   Carousel,
   CarouselItem
-} from 'element-ui'
+} from "element-ui";
 
 export default {
-  name: 'OtherPage',
+  name: "OtherPage",
   components: {
     ElCarousel: Carousel,
     ElCarouselItem: CarouselItem,
-    MDialog:MDialog,
-    IframeContainer:IframeContainer
+    MDialog: MDialog,
+    IframeContainer: IframeContainer
   },
   data () {
     return {
-      dialogCSS:{
-        width:"7680px",
-        height:"2160px"
+      dialogCSS: {
+        width: "7680px",
+        height: "2160px"
       },
-      iframeSrc:"",
-      dialogVisible:false,
-      urls:[
+      iframeSrc: "",
+      dialogVisible: false,
+      urls: [
         {
-            url:require("./img/test.png"),
-            name:"历史保护建筑",
-            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+            url: require("./img/test.png"),
+            name: "历史保护建筑",
+            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         },
         {
-            url:require("./img/test.png"),
-            name:"上海火车站区域",
-            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+            url: require("./img/test.png"),
+            name: "上海火车站区域",
+            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         },
         {
-            url:require("./img/test.png"),
-            name:"静安区党建",
-            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+            url: require("./img/test.png"),
+            name: "静安区党建",
+            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         },
         {
-            url:require("./img/test.png"),
-            name:"营商环境",
-            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+            url: require("./img/test.png"),
+            name: "营商环境",
+            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         },
         {
-            url:require("./img/test.png"),
-            name:"静安区管理平台",
-            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+            url: require("./img/test.png"),
+            name: "静安区管理平台",
+            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         },
         {
-            url:require("./img/test.png"),
-            name:"上海火车站区域",
-            src:"http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+            url: require("./img/test.png"),
+            name: "上海火车站区域",
+            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
         }
       ]
 
-    }
+    };
   },
   props: {
     // initialIndex: {
@@ -95,21 +94,19 @@ export default {
   // },
   computed: {
     urlsInner() {
-      let data = []
-      if(this.urls) {
-        let len = Math.ceil(this.urls.length / 4);
+      let data = [];
+      if (this.urls) {
         this.urls.forEach((url, index) => {
           let i = Math.floor(index / 4);
-          if(data[i]){
-            data[i].push(url)
+          if (data[i]) {
+            data[i].push(url);
           } else {
-            data[i] = []
-            data[i].push(url)
-          }        
-        })
-        return data;
+            data[i] = [];
+            data[i].push(url);
+          }
+        });
       }
-
+       return data;
     }
 
   },
@@ -117,12 +114,11 @@ export default {
     imgClick(item) {
       this.dialogVisible = true;
       this.iframeSrc = item.src;
-
     }
   },
   mounted () {
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .container{
@@ -155,7 +151,7 @@ export default {
 }
   .img-container {
     margin :0rem 0.35rem 0rem 0.4rem;
-   
+
     img {
         user-select: none;
       cursor: pointer;

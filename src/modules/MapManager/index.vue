@@ -3,33 +3,34 @@
     <maptitle></maptitle>
     <citymap ref='Map'></citymap>
     <maptool></maptool>
-
-
+    <videomap></videomap>
   </div>
 </template>
 <script>
-import citymap from "@/components/citymap"
-import maptitle from "./components/MapTitle"
-import maptool from "./components/MapTool"
+import citymap from "@/components/citymap";
+import maptitle from "./components/MapTitle";
+import maptool from "./components/MapTool";
+import videomap from "./components/video";
 export default {
   name: "MapManager",
   data() {
     return {
 
-    }
+    };
   },
   components: {
     maptitle,
     citymap,
-    maptool
-    
+    maptool,
+    videomap
+
   },
   computed: {
   },
   methods: {
 
   }
-}
+};
 </script>
 <style lang="scss" scoped>
 .MapContainer {
@@ -38,4 +39,5 @@ export default {
   width: 100%;
   height: 100%;
 }
+
 </style>
