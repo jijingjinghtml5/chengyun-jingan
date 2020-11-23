@@ -63,6 +63,10 @@ export default {
       default: () => {
         return scssVariables.chartLableColor;
       }
+    },
+    unit: {
+      type: String,
+      default: null
     }
   },
   computed: {

@@ -37,10 +37,6 @@ p {
 
 .row-style1 {
   height: 100%;
-  &.in-flex {
-    height: 0;
-    flex: 1;
-  }
   >.m-column {
     height: 100%;
     display: flex;
@@ -50,4 +46,13 @@ p {
 
 .clickAble{
   cursor: pointer;
+}
+.in-flex {
+  height: 0;
+  flex: 1;
+}
+
+.in-flex-width {
+  width: 0;
+  flex: 1;
 }

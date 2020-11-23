@@ -18,7 +18,7 @@
 import ChartBaseMixins from "../mixins/ChartBaseMixins";
 import ChartMixins from "../mixins/ChartCustomMixins";
 export default {
-  name: "ChartLine1",
+  name: "ChartLineForCompare",
   mixins: [ChartBaseMixins, ChartMixins],
   props: {
     isGradient: {
