@@ -5,34 +5,57 @@
         <span>预警总数：</span>
         <span>{{total | thousandCentimeter}}</span>
       </div>
-      <auto-scroll-wrap
-      style="margin-top:20px"
-      v-show="dataset && dataset.length"
-      :isVirtual="true"
-      :dataset="dataset"
-      :stop="activeIndex !== -1"
-      :distance="createFnForCalcRealPx(5)">
-      <RecycleScroller
-        ref="wrap"
-        :items="dataset"
-        :itemSize="rowHeight"
-        :keyField="'id'"
-        v-slot="{ item, index }">
-        <div class="li-item"  @click="handleClickForCaseList(item, index)">
-          <div class="cell icon">
-            <img style="width:72px;height:72px;" :src="item.image" alt="">
+      <div style="margin-top:20px;height: 100%;">
+        <div v-if="activeItem" class="detail-container">
+          <div class="close" @click="activeItem=null">[返回]</div>
+          <div class="icon">
+            <span class="iconfont icon-fangyililiang" style="color:#D0021B"></span>
           </div>
-          <div class="cell title">
-            <p class="type text-ellipsis">{{ item.type }}</p>
-            <p class="time text-ellipsis">发布时间:{{ item.time }}</p>
+          <div class="body">
+            <div class="title">{{activeItem.type}}</div>
+            <div class="sub">
+              <span style="margin-right:40px;">发布时间：{{activeItem.time}}</span>
+              <span style="margin-right:40px;">发布单位：{{activeItem.unit}}</span>
+              <span style="margin-right:40px;">对口人：{{activeItem.people}}</span>
+            </div>
+            <div class="detail">
+              <p class="label">预警描述：</p>
+              <p class="content">{{activeItem.info}}</p>
+            </div>
+            <div class="btn"><span class="iconfont icon-mapPin"></span>在地图上查看</div>
           </div>
-          <div class="cell info">
-            {{item.info}}
-          </div>
-          <div class="cell opt"></div>
         </div>
-      </RecycleScroller>
-      </auto-scroll-wrap>
+        <auto-scroll-wrap
+          v-else
+          v-show="dataset && dataset.length"
+          :isVirtual="true"
+          :dataset="dataset"
+          :stop="activeIndex !== -1"
+          :distance="createFnForCalcRealPx(5)">
+          <RecycleScroller
+            ref="wrap"
+            :items="dataset"
+            :itemSize="rowHeight"
+            :keyField="'id'"
+            v-slot="{ item, index }">
+            <div class="li-item"  @click="handleClickForCaseList(item, index)">
+              <div class="cell icon">
+                <img style="width:72px;height:72px;" :src="item.image" alt="">
+              </div>
+              <div class="cell title">
+                <p class="type text-ellipsis">{{ item.type }}</p>
+                <p class="time text-ellipsis">发布时间:{{ item.time }}</p>
+              </div>
+              <div class="cell info">
+                {{item.info}}
+              </div>
+              <div class="cell opt">
+                <span class="iconfont icon-fasong" style="cursor:pointer;" @click="showDetail(item)"></span>
+              </div>
+            </div>
+          </RecycleScroller>
+        </auto-scroll-wrap>
+      </div>
     </wrap-title>
 </div>
 </template>
@@ -50,6 +73,7 @@ export default {
   components: { WrapTitle, MTitle, AutoScrollWrap, RecycleScroller },
   data() {
     return {
+      activeItem: null,
       activeIndex: -1,
       total: 1000,
       dataset: [
@@ -58,6 +82,8 @@ export default {
           image: "",
           type: "疫情防控",
           time: "今日8:00",
+          unit: "市卫健委",
+          people: "代用名",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         },
         {
@@ -65,6 +91,8 @@ export default {
           image: "",
           type: "疫情防控",
           time: "今日8:00",
+          unit: "市卫健委",
+          people: "代用名",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         },
         {
@@ -72,6 +100,8 @@ export default {
           image: "",
           type: "疫情防控",
           time: "今日8:00",
+          unit: "市卫健委",
+          people: "代用名",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         },
         {
@@ -79,6 +109,8 @@ export default {
           image: "",
           type: "疫情防控",
           time: "今日8:00",
+          unit: "市卫健委",
+          people: "代用名",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         },
         {
@@ -86,6 +118,8 @@ export default {
           image: "",
           type: "疫情防控",
           time: "今日8:00",
+          unit: "市卫健委",
+          people: "代用名",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         }
       ],
@@ -93,6 +127,9 @@ export default {
     };
   },
   methods: {
+    showDetail(item) {
+      this.activeItem = item;
+    },
     handleClickForCaseList(item) {
 
     }
@@ -142,8 +179,66 @@ export default {
     }
     .opt{
       width: 80px;
+      font-size: 52px;
     }
 
+  }
+  .detail-container{
+    position: relative;
+    height: 100%;
+    display: flex;
+    border-top: 2px solid #4E78A4;
+    border-bottom: 2px solid #4E78A4;
+    .icon{
+      padding: 20px;
+      width: 90px;
+      font-size: 52px;
+    }
+    .body{
+      flex: 1;
+      padding: 20px;
+      .title{
+        font-size: 36px;
+        font-weight: bold;
+        color:#ffffff;
+      }
+      .sub{
+        color: #92B9F7;
+        font-size: 28px;
+        line-height: 1.5;
+      }
+      .detail{
+        padding: 20px 0;
+        color:#fff;
+        line-height: 1.5;
+        .label{
+          font-size: 32px;
+          font-weight: bold;
+        }
+        .content{
+          font-size: 28px;
+        }
+      }
+      .btn{
+        cursor: pointer;
+        padding: 0 20px;
+        width: 240px;
+        line-height: 52px;
+        background: rgba(37, 115, 239, 0.4);
+        border: 2px solid #2573EF;
+        .iconfont{
+          font-size: 30px;
+        }
+      }
+    }
+    .close{
+      position:absolute;
+      right: 0;
+      top: 20px;
+      color: #92B9F7;
+      cursor: pointer;
+      font-size: 24px;
+    }
   }
 }
 </style>
