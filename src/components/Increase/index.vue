@@ -31,7 +31,7 @@ export default {
     },
     upIcon: {
       type: String,
-      default: "icon-arrow-top"
+      default: "icon-shangla"
     },
     unchangeColor: {
       type: String,
@@ -39,7 +39,7 @@ export default {
     },
     unchangeIcon: {
       type: String,
-      default: "icon-arrow-top"
+      default: "icon-stable"
     },
     downColor: {
       type: String,
@@ -47,7 +47,7 @@ export default {
     },
     downIcon: {
       type: String,
-      default: "icon-arrow-bottom"
+      default: "icon-arrow-down"
     }
   },
   computed: {
@@ -77,6 +77,7 @@ export default {
   font-size: 0.24rem;
   line-height: 1.5;
   color: #fff;
+  align-items: center;
 }
 .iconfont {
   margin-right: 0.1rem;
