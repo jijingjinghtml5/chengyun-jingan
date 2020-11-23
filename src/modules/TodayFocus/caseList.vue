@@ -13,7 +13,7 @@
 import WrapTitle from "@/components/MTitle/WrapTitle";
 import MTitle from "@/components/MTitle/LevelTitle";
 import MList from "@/components/MList/index.vue";
-
+import { CaseSteps } from "@/mapping";
 // import {formatterDate} from "@"
 
 export default {
@@ -33,6 +33,24 @@ export default {
   },
   data() {
     return {
+      filters: {
+        name: {
+          filters: [
+            {
+              label: "全部案件",
+              rules: []
+            }
+          ]
+        },
+        status: {
+          filters: CaseSteps.map(d => {
+            return {
+              label: d,
+              rules: [d]
+            };
+          })
+        }
+      },
       headers: [
         {
           label: "案件",
@@ -55,7 +73,8 @@ export default {
         },
         {
           label: "处置阶段",
-          prop: "state"
+          prop: "state",
+          filter: true
         }
       ],
       tableData: [

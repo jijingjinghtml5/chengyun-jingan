@@ -4,6 +4,8 @@ import "normalize.css";
 import "@/style/index.scss";
 import "@/fonts/iconfont.css";
 
+import ElementUI from "@/components/EleUI";
+
 import "echarts";
 import VueChart from "vue-echarts";
 
@@ -19,6 +21,7 @@ Vue.config.productionTip = false;
 Vue.use(bus, (window.$config && window.$config.wsUrl) || "");
 
 Vue.component("VChart", VueChart);
+Vue.use(ElementUI);
 
 Vue.use(filters);
 Vue.use(MapProxy);
