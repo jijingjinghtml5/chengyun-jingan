@@ -73,7 +73,7 @@ export default {
   .number{
     padding-left: 0.2rem;
     font-size: 0.72rem;
-    color: #FCBF51;
+    color: $number;
     font-weight: bold;
   }
   .rate{
