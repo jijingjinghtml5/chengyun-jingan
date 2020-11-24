@@ -31,11 +31,11 @@ export default {
         { label: "全是概览", value: "district" }
       ]),
       todayItems: Object.freeze([
-        { icon: "icon-gongzuoliliangku", name: "工作力量在岗率", valueUnit: "%", valueColor: "#6CCB73", prop: "gzllzgl" },
-        { icon: "icon-gongzuoliliangku", name: "市政养护执行率", valueUnit: "%", valueColor: "#6CCB73", prop: "szyhzxl" },
-        { icon: "icon-zaijiangongdi", name: "在建工程巡查率", valueUnit: "%", valueColor: "#6CCB73", prop: "zjgcxcl" },
-        { icon: "icon-gongzuoliliangku", name: "智能感知在线率", valueUnit: "%", valueColor: "#6CCB73", prop: "zngzzxl" },
-        { icon: "icon-gongzuoliliangku", name: "静态交通使用率", valueUnit: "%", valueColor: "#6CCB73", prop: "jtjtsyl" }
+        { icon: "icon-gongzuoliliang", name: "工作力量在岗率", valueUnit: "%", valueColor: "#6CCB73", prop: "gzllzgl" },
+        { icon: "icon-shizhengyanghu", name: "市政养护执行率", valueUnit: "%", valueColor: "#6CCB73", prop: "szyhzxl" },
+        { icon: "icon-jianshegongdi1", name: "在建工程巡查率", valueUnit: "%", valueColor: "#6CCB73", prop: "zjgcxcl" },
+        { icon: "icon-wulianganzhi1", name: "智能感知在线率", valueUnit: "%", valueColor: "#6CCB73", prop: "zngzzxl" },
+        { icon: "icon-jingtaijiaotong", name: "静态交通使用率", valueUnit: "%", valueColor: "#6CCB73", prop: "jtjtsyl" }
       ]),
       districtItems: Object.freeze([
         { icon: "icon-renkouku", name: "实有人口", nameUnit: "（万人）", showIncrease: false, prop: "syrk", extraItems: [{ label: "户籍人口占比", prop: "hjrkzb", unit: "%" }] },

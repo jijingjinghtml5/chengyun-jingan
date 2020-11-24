@@ -105,9 +105,9 @@ export default {
   // left: 0.1*100px;
   // top: 1.8*100px;
   width: 6.4*100px;
-  height: 18*100px;
+  height: 15.5*100px;
   background-color: rgba(#0F2E60, 0.6);
-  border: 0.02*100px solid #4E78A4;
+  border: 1px solid #4E78A4;
   box-sizing: border-box;
 }
 .loadingText {

@@ -224,9 +224,9 @@ export default {
     },
     open(type, url, initialIndex) {
       let data = {
-        url:url,
-        initialIndex:initialIndex
-      }
+        url: url,
+        initialIndex: initialIndex
+      };
       this.$emit("open", type, data);
     }
   }

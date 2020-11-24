@@ -80,31 +80,31 @@ export default {
         //   unit: "μg/m³"
         // }
         {
-          icon: "iconfont icon-PM",
+          icon: "iconfont icon-kongqizhiliang",
           label: "空气AQI",
           key: "aqi",
           unit: ""
         },
         {
-          icon: "iconfont icon-yangchen",
+          icon: "iconfont icon-yangchen1",
           label: "扬尘指数",
-          key: "aqi",
+          key: "yangchen",
           unit: ""
         },
         {
-          icon: "iconfont icon-jiangyu",
+          icon: "iconfont icon-jiangyuliang",
           label: "降雨量",
           key: "precipitation",
           unit: "mm"
         },
         {
-          icon: "iconfont icon-fengli",
+          icon: "iconfont icon-fengli1",
           label: "风力",
           key: "windSpeed",
           unit: ""
         },
         {
-          icon: "iconfont icon-fengxiang",
+          icon: "iconfont icon-fengxiang1",
           label: "风向",
           key: "windDirection",
           unit: ""

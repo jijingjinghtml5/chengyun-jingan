@@ -99,11 +99,11 @@ export default {
       colors: Object.freeze(["#FCBF51", "#DED7D7"]),
       colors2: Object.freeze(["#30BC9B", "#92B9F7"]),
       items: Object.freeze([
-        { icon: "icon-gongzuoliliangku", name: "水供应", nameUnit: "（吨）", prop: "sgy", extraItems: [{ label: "存量", prop: "stock" }] },
-        { icon: "icon-dianxiangmen", name: "电力供应", nameUnit: "（kw）", prop: "dlgy", extraItems: [{ label: "存量", prop: "stock" }] },
-        { icon: "icon-gongzuoliliangku", name: "燃气供应", nameUnit: "（m³）", prop: "rqgy", extraItems: [{ label: "存量", prop: "stock" }] },
-        { icon: "icon-gongzuoliliangku", name: "垃圾处理", nameUnit: "（吨）", prop: "ljcl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] },
-        { icon: "icon-gongzuoliliangku", name: "污水处理", nameUnit: "（吨）", prop: "wscl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] }
+        { icon: "icon-shuigongying", name: "水供应", nameUnit: "（吨）", prop: "sgy", extraItems: [{ label: "存量", prop: "stock" }] },
+        { icon: "icon-yongdianliang", name: "电力供应", nameUnit: "（kw）", prop: "dlgy", extraItems: [{ label: "存量", prop: "stock" }] },
+        { icon: "icon-ranqigongying", name: "燃气供应", nameUnit: "（m³）", prop: "rqgy", extraItems: [{ label: "存量", prop: "stock" }] },
+        { icon: "icon-lajichuli", name: "垃圾处理", nameUnit: "（吨）", prop: "ljcl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] },
+        { icon: "icon-wushuichuli", name: "污水处理", nameUnit: "（吨）", prop: "wscl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] }
       ]),
       options: Object.freeze([
         { label: "本周", value: "currentWeek" },

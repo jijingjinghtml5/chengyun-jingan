@@ -55,6 +55,7 @@ import { RecycleScroller } from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import MSelect from "@/components/MSelect";
 import { getDate } from "@/utils/tools";
+import scssVar from "@/style/var.js";
 export default {
   name: "HotSpots",
   components: {
@@ -71,7 +72,7 @@ export default {
   inject: ["createFnForCalcRealPx"],
   data() {
     return {
-      colors: Object.freeze(["#FCBF51", "#F96F4F"]),
+      colors: Object.freeze([scssVar.number, scssVar.alertHigh]),
       colors2: Object.freeze(["#1ABC9C", "#F96F4F"]),
       colors3: Object.freeze(["#4FCFD5", "#2E9BCF"]),
       items: Object.freeze([

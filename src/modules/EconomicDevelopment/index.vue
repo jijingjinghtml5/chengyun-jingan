@@ -1,5 +1,5 @@
 <template>
-  <wrap-title class="gradient-bg" icon="icon-daolu" txt="经济发展">
+  <wrap-title class="gradient-bg" icon="icon-jingji" txt="经济发展">
     <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
     <m-row gutter="0.1rem">
       <m-column v-for="item in items" :key="item.key">
@@ -100,7 +100,7 @@ export default {
   font-size: 0.72rem;
   line-height: 0.84rem;
   font-weight: bold;
-  color: #FCBF51;
+  color:$number;
   sub {
     bottom: 0;
   }

@@ -109,7 +109,7 @@ export default {
 .popupWrap {
   position: absolute;
   background-color: rgba(#0f2e60, 0.6);
-  border: 2px solid #4e78a4;
+  // border: 1px solid #4e78a4;
   z-index:9999;
   max-height: 1810px;
   overflow-y: auto;
