@@ -36,13 +36,15 @@ export default {
   line-height: 36px;
   padding: 0px 10px;
   cursor: pointer;
-  &:hover {
-    background-color: #92b9f7
-  }
   &.is-active {
+    color: $selected;
     .select-box::before {
       display: block;
     }
+  }
+  &:hover {
+    color: $hoverSelect;
+    // background-color: #92b9f7
   }
   .select-box {
     display: inline-block;
