@@ -46,9 +46,9 @@ p {
 
 .clickAble{
   cursor: pointer;
-
-  :hover{
-    color:#fff;
+  
+  &:hover{
+    color:#fff !important;
   }
 }
 .in-flex {

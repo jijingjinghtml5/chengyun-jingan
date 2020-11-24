@@ -7,7 +7,7 @@
       </div>
       <div style="margin-top:20px;height: 100%;">
         <div v-if="activeItem" class="detail-container">
-          <div class="close" @click="activeItem=null">[返回]</div>
+          <div class="close clickAble" @click="activeItem=null">[返回]</div>
           <div :class="`icon color${activeItem.level || 4}`">
             <span :class="`iconfont ${getIcon(activeItem)}`"></span>
           </div>
@@ -50,7 +50,7 @@
                 {{item.info}}
               </div>
               <div class="cell opt">
-                <span class="iconfont icon-jinru" style="cursor:pointer;" @click="showDetail(item)"></span>
+                <span class="iconfont icon-jinru clickAble" @click="showDetail(item)"></span>
               </div>
             </div>
           </RecycleScroller>
@@ -266,7 +266,6 @@ export default {
       right: 0;
       top: 20px;
       color: #92B9F7;
-      cursor: pointer;
       font-size: 24px;
     }
   }

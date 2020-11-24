@@ -33,8 +33,8 @@
             </div>
           </div>
           <div class="cell opt">
-            <span class="iconfont icon-shipinlianxian"></span>
-            <span class="iconfont icon-tiaozhuandaojiezhen" @click="gotoTown(item)"></span>
+            <span class="iconfont icon-shipinlianxian clickAble"></span>
+            <span class="iconfont icon-tiaozhuandaojiezhen clickAble" @click="gotoTown(item)"></span>
           </div>
         </div>
       </RecycleScroller>
@@ -129,9 +129,6 @@ export default {
       text-align: center;
       span{
         margin-right: 20px;
-      }
-      .iconfont{
-        cursor: pointer;
       }
     }
     .level0{

@@ -182,5 +182,10 @@ export default {
       }
     }
   }
+  .clickAble{
+    :hover{
+      color: #fff;
+    }
+  }
 }
 </style>

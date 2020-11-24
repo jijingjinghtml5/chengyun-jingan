@@ -8,7 +8,7 @@
         <span>{{yellow | thousandCentimeter}}</span>
       </div>
       <div slot="center" class="title-center" v-if="current!='overview'">
-        <span @click="current='overview'">[返回上一级]</span>
+        <span @click="current='overview'" class="clickAble">[返回上一级]</span>
       </div>
       <component :is="currentPage" :item="clickData" style="margin-top:20px;" @click="handleClick"></component>
     </wrap-title>

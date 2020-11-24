@@ -1,7 +1,7 @@
 <template>
 <wrap-title :txt="item.label" :level="2" icon="icon-biaoti" class="dashboard">
   <div slot="right" class="title-right">
-    <span @click="handleClick">[案件列表]</span>
+    <span @click="handleClick" class="clickAble">[案件列表]</span>
   </div>
   <div class="count" :style="`color:${item.color}`">{{item.count | thousandCentimeter}}</div>
   <div class="line-content">
