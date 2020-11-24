@@ -48,17 +48,48 @@ export default {
         //   key: "temperature",
         //   unit: "°C"
         // },
+        // {
+        //   icon: "iconfont icon-yangchen",
+        //   label: "空气AQI",
+        //   key: "aqi",
+        //   unit: ""
+        // },
+        // {
+        //   icon: "iconfont icon-shidu",
+        //   label: "湿度",
+        //   key: "humidity",
+        //   unit: "%"
+        // },
+        // {
+        //   icon: "iconfont icon-jiangyu",
+        //   label: "降雨量",
+        //   key: "precipitation",
+        //   unit: "mm"
+        // },
+        // {
+        //   icon: "iconfont icon-fengli",
+        //   label: "风速",
+        //   key: "windSpeed",
+        //   unit: "m/s"
+        // },
+
+        // {
+        //   icon: "iconfont icon-PM",
+        //   label: "PM2.5",
+        //   key: "pm25",
+        //   unit: "μg/m³"
+        // }
         {
-          icon: "iconfont icon-yangchen",
+          icon: "iconfont icon-PM",
           label: "空气AQI",
           key: "aqi",
           unit: ""
         },
         {
-          icon: "iconfont icon-shidu",
-          label: "湿度",
-          key: "humidity",
-          unit: "%"
+          icon: "iconfont icon-yangchen",
+          label: "扬尘指数",
+          key: "aqi",
+          unit: ""
         },
         {
           icon: "iconfont icon-jiangyu",
@@ -68,16 +99,15 @@ export default {
         },
         {
           icon: "iconfont icon-fengli",
-          label: "风速",
+          label: "风力",
           key: "windSpeed",
-          unit: "m/s"
+          unit: ""
         },
-
         {
-          icon: "iconfont icon-PM",
-          label: "PM2.5",
-          key: "pm25",
-          unit: "μg/m³"
+          icon: "iconfont icon-fengxiang",
+          label: "风向",
+          key: "windDirection",
+          unit: ""
         }
       ]),
       weather: {}

@@ -103,7 +103,7 @@ export default {
   position: relative;
   display: inline-block;
   font-size: 0.28rem;
-  color: #A8C7F9;
+  color: $selected;
   line-height: 1;
   &.hasIcon {
     padding-right: 0.4rem;
