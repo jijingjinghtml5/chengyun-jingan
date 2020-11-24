@@ -270,10 +270,12 @@ export default {
 .layout {
   position: relative;
   overflow: hidden;
+  background: url("../../assets/images/bg.png") repeat;
+  background-size: auto 100%;
+
   > .vue-grid-layout {
     width: 100%;
     height: 100%;
-    background: #0a1b21;
     z-index: 10;
     .vue-grid-item {
       transition: none;
