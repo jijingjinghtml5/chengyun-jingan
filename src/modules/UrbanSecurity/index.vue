@@ -103,7 +103,7 @@ export default {
         { icon: "icon-yongdianliang", name: "电力供应", nameUnit: "（kw）", prop: "dlgy", extraItems: [{ label: "存量", prop: "stock" }] },
         { icon: "icon-ranqigongying", name: "燃气供应", nameUnit: "（m³）", prop: "rqgy", extraItems: [{ label: "存量", prop: "stock" }] },
         { icon: "icon-lajichuli", name: "垃圾处理", nameUnit: "（吨）", prop: "ljcl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] },
-        { icon: "icon-wushuichuli", name: "污水处理", nameUnit: "（吨）", prop: "wscl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] }
+        { icon: "icon-wushuichuli ", name: "污水处理", nameUnit: "（吨）", prop: "wscl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] }
       ]),
       options: Object.freeze([
         { label: "本周", value: "currentWeek" },
