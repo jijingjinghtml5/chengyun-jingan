@@ -3,7 +3,7 @@
       <div class="video-title">
         智能巡查{{videoNumber}}
         <span  class="iconfont icon-arrow_right mapControlLableIcon"></span>
-        <span style="float:right;cursor: pointer;" class="iconfont icon-video_on" ></span>
+        <span style="float:right;cursor: pointer;" class="iconfont icon-zidongbofang" ></span>
 
       </div>
       <div>
