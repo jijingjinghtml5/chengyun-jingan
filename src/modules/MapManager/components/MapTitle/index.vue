@@ -110,6 +110,78 @@ export default {
                this.pointLayer.close();
             }
             break;
+          case "yuanqu":
+            if (status === 1) {
+              this.pointLayer.setParameters({
+                "data": {
+                    "content": [{ "x": -1833, "y": -967 }],
+                    "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                  },
+                "renderer": {
+                  type: "simple",
+                  symbol: {
+                    type: "simple-marker",
+                    size: 30,
+                    color: [0, 255, 0],
+                    outline: {
+                      color: "#ffffff",
+                      width: "1px"
+                    }
+                  }
+                }
+              }).open();
+            } else {
+               this.pointLayer.close();
+            }
+            break;
+          case "shangpu":
+            if (status === 1) {
+              this.pointLayer.setParameters({
+                "data": {
+                    "content": [{ "x": -1733, "y": -817 }],
+                    "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                  },
+                "renderer": {
+                  type: "simple",
+                  symbol: {
+                    type: "simple-marker",
+                    size: 30,
+                    color: [255, 255, 0],
+                    outline: {
+                      color: "#ffffff",
+                      width: "1px"
+                    }
+                  }
+                }
+              }).open();
+            } else {
+               this.pointLayer.close();
+            }
+            break;
+          case "gongdi":
+            if (status === 1) {
+              this.pointLayer.setParameters({
+                "data": {
+                    "content": [{ "x": -1633, "y": -967 }],
+                    "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                  },
+                "renderer": {
+                  type: "simple",
+                  symbol: {
+                    type: "simple-marker",
+                    size: 30,
+                    color: [0, 0, 255],
+                    outline: {
+                      color: "#ffffff",
+                      width: "1px"
+                    }
+                  }
+                }
+              }).open();
+            } else {
+               this.pointLayer.close();
+            }
+            break;
         }
 
         console.log(res, "res-----------");
