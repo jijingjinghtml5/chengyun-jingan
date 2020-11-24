@@ -27,7 +27,7 @@ export default {
         return {
           top: 0,
           right: 0,
-          icon: "line"
+          icon: "circle"
         };
       }
     }
