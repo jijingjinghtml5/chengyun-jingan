@@ -43,7 +43,7 @@ export default {
         { icon: "icon-shichang", name: "商业楼园", nameUnit: "（个）", showIncrease: false, prop: "syly", extraItems: [{ label: "企业数", prop: "qys" }] },
         { icon: "icon-xuexiao", name: "教育资源", nameUnit: "（个）", showIncrease: false, prop: "jyzy", extraItems: [{ label: "学生教师比", prop: "xsjsb" }] },
         { icon: "icon-yiyuan", name: "医疗资源", nameUnit: "（个）", showIncrease: false, prop: "ylzy", extraItems: [{ label: "三甲医院", prop: "sjyy" }] },
-        { icon: "icon-wulianganzhi", name: "物联感知", nameUnit: "（台）", showIncrease: false, prop: "wlgz", extraItems: [{ label: "覆盖率", prop: "cover", unit: "%" }] }
+        { icon: "icon-wulianganzhi1", name: "物联感知", nameUnit: "（台）", showIncrease: false, prop: "wlgz", extraItems: [{ label: "覆盖率", prop: "cover", unit: "%" }] }
       ]),
       tab: "today"
     };
