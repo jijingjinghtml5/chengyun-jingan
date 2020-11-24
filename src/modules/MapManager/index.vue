@@ -4,9 +4,13 @@
     <citymap ref='Map'></citymap>
     <maptool></maptool>
     <videomap></videomap>
+        <!---左侧通用弹窗容器-->
+    <popup-container :mapData="popupMapData" :componentName="popupComponentName" :popupBool.sync="popupBool" @closePopup='_closePopup'
+    :stylePopup='stylePopup' ></popup-container>
   </div>
 </template>
 <script>
+import popupContainer from "@/components/popups/popupContainer.vue";
 import citymap from "@/components/citymap";
 import maptitle from "./components/MapTitle";
 import maptool from "./components/MapTool";
@@ -15,6 +19,14 @@ export default {
   name: "MapManager",
   data() {
     return {
+      // 弹窗
+      stylePopup: {
+         left: "10px",
+         top: "180px"
+      },
+      popupMapData: {},
+      popupComponentName: "",
+      popupBool: false
 
     };
   },
@@ -22,12 +34,32 @@ export default {
     maptitle,
     citymap,
     maptool,
-    videomap
+    videomap,
+    popupContainer
 
   },
   computed: {
   },
   methods: {
+        // 打开弹窗
+    _openPopup(type, data) {
+      switch (type) {
+        case "video":
+          this.videoShow = true;
+          this.videoData = data;
+          break;
+        default:
+          this.popupBool = true;
+          this.popupComponentName = type;
+          this.popupMapData = data;
+      }
+    },
+    // 关闭左侧弹窗
+    _closePopup() {
+    //   console.log('close popup')
+     //  this.addComuteingRoute([], "delete");
+      this.popupBool = false;
+    },
     mapClickHandle(data) {
 
     },
