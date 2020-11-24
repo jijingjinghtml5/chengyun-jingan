@@ -127,6 +127,7 @@ export default {
   justify-content: space-between;
   height: 100%;
   border-bottom: 0.02rem solid #0F2E60;
+  color: #92B9F7;
 }
 .left-header__item {
   margin-right: 0.2rem;

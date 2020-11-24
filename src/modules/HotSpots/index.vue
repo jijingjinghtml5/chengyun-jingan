@@ -12,7 +12,7 @@
     <chart-line class="line-chart" :colors="colors2" :chartData="dataset.chartData" :showYLabel="true" :isGradient="true" :gradientBySelf="true" :showLegend="true" :legendConfig="legendConfig"></chart-line>
     <level-title :level="2" icon="icon-biaoti" txt="舆情类型Top5"></level-title>
     <chart-bar-y class="barY-chart" :chartData="dataset.chartBarYData" :colors="colors3" :isGradient="true" labelColor="#fff" barMaxWidth="0.2"></chart-bar-y>
-    <p style="margin: 0.2rem 0;">热门舆情话题</p>
+    <p style="margin: 0.2rem 0; color: #D1C9C4;">热门舆情话题</p>
     <div class="topic-list in-flex">
       <auto-scroll-wrap
         v-show="dataset.topicList && dataset.topicList.length"

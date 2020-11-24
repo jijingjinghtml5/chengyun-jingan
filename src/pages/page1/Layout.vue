@@ -49,7 +49,7 @@ import HotSpots from "@/modules/HotSpots";
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
 import { getParams } from "@/utils/";
-
+import { checkSupportCssProperties } from "@/utils/dom";
 export default {
   name: "Layout",
   data() {
@@ -261,6 +261,7 @@ export default {
     }
   },
   created() {
+    checkSupportCssProperties(["webkitTextFillColor"]);
     this.getLayoutConfig();
   }
 };

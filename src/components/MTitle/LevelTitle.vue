@@ -60,7 +60,7 @@ export default {
   &.level1 {
     height: 0.7rem;
     border: 0;
-    color: #FCBF51;
+    color: #fff;
     line-height: 1;
     i {
       line-height: 0.7rem;
@@ -70,7 +70,7 @@ export default {
       .m-tabs {
         /deep/ {
           .m-tabs__item.is-active {
-            color: #FCBF51;
+            color: #fff;
             font-weight: bold;
           }
         }
@@ -87,9 +87,15 @@ export default {
   &.level2 {
     height: 0.64rem;
     // padding: 0 0.24rem;
-    color: #92B9F7;
+    color:#D1C9C4;
     i {
       color: #1E5CBF;
+      .supportWebkitTextFillColor &{
+        background-image: linear-gradient(225deg, #669DF4 0%, #1E5CBF 100%);;
+        // background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
     .title {
       min-width: 2.2rem;

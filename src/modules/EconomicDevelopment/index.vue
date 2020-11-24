@@ -63,10 +63,10 @@ export default {
         icon: "line"
       }),
       overviewItems: Object.freeze([
-        { name: "法人事务申报量", color: "#FCBF51", showIncrease: false, extraItems: [{ label: "网上申报量", prop: "online" }] },
-        { name: "法人事务办结率", color: "#1ABC9C", showIncrease: false, extraItems: [{ label: "节省时间", prop: "save" }] },
-        { name: "企业问题汇集量", color: "#FCBF51" },
-        { name: "企业问题解决率", color: "#1ABC9C" }
+        { name: "法人事务申报量", showIncrease: false, extraItems: [{ label: "网上申报量", prop: "online" }] },
+        { name: "法人事务办结率", valueColor: "#1ABC9C", showIncrease: false, extraItems: [{ label: "节省时间", prop: "save" }] },
+        { name: "企业问题汇集量" },
+        { name: "企业问题解决率", valueColor: "#1ABC9C" }
       ]),
       options: Object.freeze([
         { label: "本周", value: "currentWeek" },
