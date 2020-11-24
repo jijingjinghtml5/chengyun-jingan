@@ -36,11 +36,11 @@ export default {
   data() {
     return {
       colors: Object.freeze(["#F23470", "#92B9F7"]),
-      chartData: [...(getDate("today").map(d => {
+      chartData: [["日期", "今日", "昨日"], ...(getDate("today").map(d => {
             return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
           }))],
       chartData2: [
-        ["街道", "数量1", "数量2"],
+        ["街道", "今日", "昨日"],
         ["南西", Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)],
         ["静安寺", Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)],
         ["临汾", Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)],
