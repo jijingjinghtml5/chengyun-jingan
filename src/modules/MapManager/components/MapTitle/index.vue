@@ -47,11 +47,70 @@ export default {
 
   },
   methods: {
+  registerPointLayer() {
+      // 地图撒点图层
+      this.pointLayer = this.$_mapProxy.registerLayer("HeaderPointLayer", "单个撒点图层")
+      .setParameters({
+        "name": "HeaderPointLayer",
+        "type": "point",
+        "mode": "replace",
+        "data": {
+          "content": [],
+          "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
+        },
+        "legendVisible": false,
+        "popupEnabled": false,
+        "isFiltered": true,
+        "isLocate": false,
+        "renderer": {
+          type: "simple",
+          symbol: {
+            type: "simple-marker",
+            size: 20,
+            color: [0, 255, 244],
+            outline: {
+              color: "#ffffff",
+              width: "1px"
+            }
+          }
+        }
+      });
+    }
 
+  },
+  created() {
+    this.registerPointLayer();
   },
   mounted() {
       this.$bus.$on("map-header-menu-choose", res => {
-       // const { status, item } = res;
+        const { status, item } = res;
+        this.$_mapProxy.getMap()._closePopup();
+        switch (item.attr) {
+          case "juwei":
+            if (status === 1) {
+              this.pointLayer.setParameters({
+                "data": {
+                    "content": [{ "x": -1733, "y": -917 }],
+                    "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                  },
+                "renderer": {
+                  type: "simple",
+                  symbol: {
+                    type: "simple-marker",
+                    size: 30,
+                    color: [0, 255, 244],
+                    outline: {
+                      color: "#ffffff",
+                      width: "1px"
+                    }
+                  }
+                }
+              }).open();
+            } else {
+               this.pointLayer.close();
+            }
+            break;
+        }
 
         console.log(res, "res-----------");
       });

@@ -22,7 +22,7 @@ export default {
       // 弹窗
       stylePopup: {
          left: "10px",
-         top: "180px"
+         top: "300px"
       },
       popupMapData: {},
       popupComponentName: "",
@@ -61,7 +61,12 @@ export default {
       this.popupBool = false;
     },
     mapClickHandle(data) {
-
+      if (data["HeaderPointLayer"]) {
+                      this._openPopup("case", {
+                  caseId_: "f59f10535b7134eb6367740cbbb62a04",
+                  caseDefaultInfo_: {}
+                });
+      }
     },
     onMapReady() {
       // console.log("map finish -----------------------------");
