@@ -20,7 +20,9 @@ export default {
   font-size: 52px;
   color: $titleLevel2;
   padding: 20px;
-  line-height: 70px;
+  line-height: 80px;
+  height: 140px;
+  border-bottom: 0.02rem solid #0F2E60;
   .iconfont{
     color: #0071FF;
     .supportWebkitTextFillColor &{

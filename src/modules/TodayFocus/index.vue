@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container gradient-bg">
     <wrap-title txt="今日关注" :level="1" icon="icon-wangge">
       <div slot="right" class="title-right">
         <span class="iconfont icon-chaoqianjian-lianghongdeng" style="color:#D0021B"></span>
@@ -57,7 +57,6 @@ export default {
 <style lang="scss" scoped>
 .container{
   height: 100%;
-  background: linear-gradient(180deg, rgba(84, 88, 169, 0) 0%, rgba(21, 79, 163, 0.4) 100%);
 
   .title-right{
     font-size: 0.52rem;

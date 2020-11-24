@@ -1,5 +1,5 @@
 <template>
-<div class="container">
+<div class="container gradient-bg">
     <wrap-title txt="风险预警" :level="1" icon="icon-qujiducha">
       <m-tabs slot="level-title" v-model="tab" :tabs="tabs"></m-tabs>
       <component :is="current" style="margin-top:20px;"></component>
@@ -42,6 +42,5 @@ export default {
 <style lang="scss" scoped>
 .container{
   height: 100%;
-  background: linear-gradient(180deg, rgba(84, 88, 169, 0) 0%, rgba(21, 79, 163, 0.4) 100%);
 }
 </style>
