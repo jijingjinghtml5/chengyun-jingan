@@ -10,8 +10,8 @@
         :items="dataset"
         :itemSize="rowHeight"
         :keyField="'id'"
-        v-slot="{ item, index }">
-        <div class="li-item"  @click="handleClickForCaseList(item, index)">
+        v-slot="{ item }">
+        <div class="li-item" >
           <div class="cell title">
             <p class="level1 text-ellipsis">{{ item.town }}</p>
             <p class="level2 text-ellipsis">综合考评:{{ item.score }}</p>
@@ -34,140 +34,56 @@
           </div>
           <div class="cell opt">
             <span class="iconfont icon-video_on"></span>
-            <span class="iconfont icon-fasong"></span>
+            <span class="iconfont icon-fasong" @click="gotoTown(item)"></span>
           </div>
         </div>
       </RecycleScroller>
+      <m-dialog :dialogVisible.sync="dialogVisible" :extraCss="dialogCSS">
+        <iframe-container :iframeSrc="iframeSrc"></iframe-container>
+      </m-dialog>
   </auto-scroll-wrap>
 </template>
 <script>
 import AutoScrollWrap from "@/components/AutoScrollWrap";
 import { RecycleScroller } from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
+import MDialog from "@/components/MDialog";
+import IframeContainer from "@/components/IframeContainer";
 
 export default {
   name: "TownSummary",
-  inject: ["createFnForCalcRealPx"],
-  components: { AutoScrollWrap, RecycleScroller },
+  inject: ["createFnForCalcRealPx", "getGlobalConfig"],
+  components: { AutoScrollWrap, RecycleScroller, MDialog, IframeContainer },
   data() {
+    const townList = (this.getGlobalConfig()["streets"] || []).map(item => {
+      return {
+          id: item.code,
+          town: item.name,
+          url: item.url,
+          score: "-",
+          security: "-",
+          manage: "-",
+          service: "-"
+        };
+    });
     return {
       activeIndex: -1,
       total: 1000,
-      dataset: [
-        {
-          id: 1,
-          town: "南京西路街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        },
-        {
-          id: 2,
-          town: "静安寺街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        },
-        {
-          id: 3,
-          town: "共和新路街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        },
-        {
-          id: 4,
-          town: "大宁路街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        },
-        {
-          id: 5,
-          town: "曹家渡街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        },
-        {
-          id: 6,
-          town: "天目西路街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        },
-        {
-          id: 7,
-          town: "宝山路街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        },
-        {
-          id: 8,
-          town: "江宁路街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        },
-        {
-          id: 9,
-          town: "北站街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        }, {
-          id: 10,
-          town: "临汾路街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        }, {
-          id: 11,
-          town: "石门二路街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        }, {
-          id: 12,
-          town: "芷江西路街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        }, {
-          id: 13,
-          town: "彭浦镇街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        }, {
-          id: 14,
-          town: "彭浦新村街道",
-          score: "100",
-          security: 0,
-          manage: 1200,
-          service: 6
-        }
-      ],
-      rowHeight: 130
+      dataset: townList,
+      rowHeight: 130,
+      dialogCSS: {
+        width: "7680px",
+        height: "2160px"
+      },
+      iframeSrc: "",
+      dialogVisible: false
     };
   },
   methods: {
-    handleClickForCaseList(item) {
-
+    gotoTown(item) {
+      console.log("item", item);
+      this.dialogVisible = true;
+      this.iframeSrc = item.url;
     }
   }
 };
@@ -213,6 +129,9 @@ export default {
       text-align: center;
       span{
         margin-right: 20px;
+      }
+      .iconfont{
+        cursor: pointer;
       }
     }
     .level0{
