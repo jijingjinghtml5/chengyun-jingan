@@ -1,13 +1,12 @@
 <template>
   <div class="tile" @click="handleClick">
     <slot name=title>
-      <div class="title">
-        <span v-if="item.icon" :class="`iconfont ${item.icon}`"></span>
+      <level-title :level="2" :icon="item.icon">
         <span class="label">{{item.label}}</span>
-        <span v-if="item.unit" class="unit">( {{item.unit}} )</span>
-      </div>
+        <span v-if="item.unit" class="unit"> ( {{item.unit}} )</span>
+      </level-title>
     </slot>
-    <slot name="center"><div class="number" :style="{'color': ncolor}">{{item.count | thousandCentimeter}}</div></slot>
+    <slot name="center"><div class="number" :style="{'color': item.color}">{{item.count | thousandCentimeter}}</div></slot>
     <slot name="bottom">
       <div class="rate">
         <span :class="`iconfont ${cIcon}`" style="margin-right:0.1rem"></span>
@@ -17,8 +16,10 @@
   </div>
 </template>
 <script>
+import LevelTitle from "@/components/MTitle/LevelTitle";
 export default {
   name: "Tile",
+  components: { LevelTitle },
   props: {
     item: {
       type: Object,
@@ -35,9 +36,6 @@ export default {
     }
   },
   computed: {
-    ncolor() {
-      return this.item.color || "#FCBF51";
-    },
     cIcon() {
       if (this.item.rate > 0) {
         return "icon-shangla green";
@@ -63,12 +61,8 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding: 10px 0;
-  .title{
-    font-size: 0.36rem;
-    color: #92B9F7;
-    .unit{
-      font-size: 0.24rem;
-    }
+  .unit{
+    font-size: 0.24rem;
   }
   .number{
     padding-left: 0.2rem;
