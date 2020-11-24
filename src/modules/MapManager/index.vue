@@ -28,7 +28,40 @@ export default {
   computed: {
   },
   methods: {
+    mapClickHandle(data) {
 
+    },
+    onMapReady() {
+      // console.log("map finish -----------------------------");
+      // let position = {
+      //     "ActionName": "goToPosition",
+      //     "Parameters": {
+      //       "positon": {
+      //         "x": -1733,
+      //         "y": -917,
+      //         "z": 0
+      //       },
+      //       "heading": 19,
+      //       "tilt": 63,
+      //       "hasImg": false,
+      //       "zoom": 10,
+      //       "isRotation360": false
+      //     }
+      //   };
+      //   window.bridge.Invoke(position);
+    }
+
+  },
+  create() {
+
+  },
+  mounted() {
+    // 地图点击事件
+    this.$bus.$on("citymap-click", this.mapClickHandle);
+    // 地图加载完毕
+    this.$bus.$on("citymap-ready", this.onMapReady);
+    // 注册地图代理组件
+    this.$_mapProxy.setMap(this);
   }
 };
 </script>

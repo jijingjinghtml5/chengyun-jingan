@@ -31,20 +31,21 @@ export default {
       labelActives: [],
       btnActives: [],
       mapToolsData: [
-        { "name": "全图", "status": false, "single": true },
+        // { "name": "全图", "status": false, "single": true },
+        { "name": "全图", "status": false },
         { "name": "街道边界", "status": false },
         { "name": "网格边界", "status": false },
         { "name": "建筑白模", "status": false },
-        { "name": "建筑精模", "status": false },
+        { "name": "建筑精模", "status": true },
         { "name": "底图切换", "status": false }
       ],
       functionDatas: {
         "全图": {
           number: 1,
           openFunction: "fullExtent",
-          closeFunction: "fullExtent",
+          closeFunction: "initPosition",
           openLable: "全图",
-          closeLable: "全图"
+          closeLable: "初始化视角"
         },
         "街道边界": {
           number: 14,
@@ -104,6 +105,28 @@ export default {
   },
   methods: {
     // 按钮执行函数 ------------start
+    initPosition() {
+       let position = {
+          "ActionName": "goToPosition",
+          "Parameters": {
+            "positon": {
+              "x": -1733,
+              "y": -917,
+              "z": 0
+            },
+            "heading": 19,
+            "tilt": 63,
+            "hasImg": false,
+            "zoom": 10,
+            "isRotation360": false
+          }
+        };
+        window.bridge.Invoke(position);
+    },
+    onMapReady() {
+      this.initPosition();
+      this.openDetailModelLayer();
+    },
     tabMapLayer(name, status) {
        let cmd = {
             "ActionName": "LayerVisible",
@@ -192,14 +215,12 @@ export default {
     },
     btnClick(item, index) {
       if (item.single) {
-        console.log(item, index, this[this.functionDatas[item.name]["openFunction"]], "item, index-------------------------");
           this[this.functionDatas[item.name]["openFunction"]]();
          this.$emit("LayerChange", { status: this.btnActives[index], item: item });
          return;
       }
       this.btnActives[index] = !this.btnActives[index];
       this.btnActives = [...this.btnActives];
-      console.log(item, index, this.btnActives, "this.btnActives");
 
       if (this.btnActives[index]) {
           this[this.functionDatas[item.name]["openFunction"]]();
@@ -216,6 +237,7 @@ export default {
       this.mapToolsData.forEach(e => {
         this.labelActives.push(false);
       });
+       this.$bus.$on("citymap-ready", this.onMapReady);
   }
 };
 </script>
