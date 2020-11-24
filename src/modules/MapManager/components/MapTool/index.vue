@@ -62,21 +62,21 @@ export default {
            closeLable: "关闭网格边界"
         },
         "建筑白模": {
-          iconClass: "icon-chaifangjidi",
+          iconClass: "icon-baimo",
           openFunction: "openSimpleModelLayer",
           closeFunction: "closeSimpleModelLayer",
           openLable: "打开建筑白模",
           closeLable: "关闭建筑白模"
         },
         "建筑精模": {
-          iconClass: "icon-zongjiaohuodongchangsuo",
+          iconClass: "icon-jingmo",
           openFunction: "openDetailModelLayer",
           closeFunction: "closeDetailModelLayer",
           openLable: "打开建筑精模",
           closeLable: "关闭建筑精模"
         },
         "底图切换": {
-          iconClass: "icon-fasong",
+          iconClass: "icon-weixing",
           openFunction: "openRemoteScenseLayer",
           closeFunction: "closeRemoteScenseLayer",
           openLable: "打开卫星底图",

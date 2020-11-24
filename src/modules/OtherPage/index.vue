@@ -16,7 +16,6 @@
   </div>
 </template>
 <script>
-import "element-ui/lib/theme-chalk/index.css";
 import MDialog from "@/components/MDialog";
 import IframeContainer from "@/components/IframeContainer";
 import {
