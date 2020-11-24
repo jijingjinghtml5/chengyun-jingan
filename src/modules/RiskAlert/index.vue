@@ -50,7 +50,7 @@
                 {{item.info}}
               </div>
               <div class="cell opt">
-                <span class="iconfont icon-fasong" style="cursor:pointer;" @click="showDetail(item)"></span>
+                <span class="iconfont icon-jinru" style="cursor:pointer;" @click="showDetail(item)"></span>
               </div>
             </div>
           </RecycleScroller>
@@ -207,6 +207,7 @@ export default {
       line-height: 45px;
     }
     .opt{
+      color: #92B9F7;
       width: 80px;
       font-size: 52px;
     }

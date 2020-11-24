@@ -33,8 +33,8 @@
             </div>
           </div>
           <div class="cell opt">
-            <span class="iconfont icon-video_on"></span>
-            <span class="iconfont icon-fasong" @click="gotoTown(item)"></span>
+            <span class="iconfont icon-shipinlianxian"></span>
+            <span class="iconfont icon-tiaozhuandaojiezhen" @click="gotoTown(item)"></span>
           </div>
         </div>
       </RecycleScroller>

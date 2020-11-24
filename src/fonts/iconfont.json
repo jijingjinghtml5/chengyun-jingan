@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18428812",
+      "name": "视频连线",
+      "font_class": "shipinlianxian",
+      "unicode": "e699",
+      "unicode_decimal": 59033
+    },
+    {
+      "icon_id": "18426202",
+      "name": "跳转到街镇",
+      "font_class": "tiaozhuandaojiezhen",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    },
+    {
+      "icon_id": "18426203",
+      "name": "进入",
+      "font_class": "jinru",
+      "unicode": "e698",
+      "unicode_decimal": 59032
+    },
+    {
       "icon_id": "18422744",
       "name": "卫星",
       "font_class": "weixing",

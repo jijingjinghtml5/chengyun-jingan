@@ -32,8 +32,6 @@ export default {
       -webkit-text-fill-color: transparent;
     }
   }
-  // background: linear-gradient(180deg, #5458A9 0%, #154FA3 100%);
-  // border: 2px solid #0F2E60;
 
   .content{
     margin-left: 40px;
