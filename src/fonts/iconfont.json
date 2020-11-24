@@ -6,6 +6,258 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18420510",
+      "name": "事件播报",
+      "font_class": "shijianbobao1",
+      "unicode": "e6ae",
+      "unicode_decimal": 59054
+    },
+    {
+      "icon_id": "18420511",
+      "name": "水供应",
+      "font_class": "shuigongying",
+      "unicode": "e6af",
+      "unicode_decimal": 59055
+    },
+    {
+      "icon_id": "18420512",
+      "name": "沿街商铺",
+      "font_class": "yanjieshangpu1",
+      "unicode": "e6b0",
+      "unicode_decimal": 59056
+    },
+    {
+      "icon_id": "18420513",
+      "name": "市政养护",
+      "font_class": "shizhengyanghu",
+      "unicode": "e6b1",
+      "unicode_decimal": 59057
+    },
+    {
+      "icon_id": "18420514",
+      "name": "商业楼园",
+      "font_class": "shangyelouyuan",
+      "unicode": "e6b2",
+      "unicode_decimal": 59058
+    },
+    {
+      "icon_id": "18420515",
+      "name": "污水处理",
+      "font_class": "wushuichuli",
+      "unicode": "e6b3",
+      "unicode_decimal": 59059
+    },
+    {
+      "icon_id": "18420516",
+      "name": "严重超期",
+      "font_class": "yanzhongchaoqi",
+      "unicode": "e6b4",
+      "unicode_decimal": 59060
+    },
+    {
+      "icon_id": "18420517",
+      "name": "用电量",
+      "font_class": "yongdianliang",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
+    },
+    {
+      "icon_id": "18420518",
+      "name": "舆情",
+      "font_class": "yuqing",
+      "unicode": "e6b7",
+      "unicode_decimal": 59063
+    },
+    {
+      "icon_id": "18420519",
+      "name": "物联感知",
+      "font_class": "wulianganzhi1",
+      "unicode": "e6b8",
+      "unicode_decimal": 59064
+    },
+    {
+      "icon_id": "18420520",
+      "name": "自动播放",
+      "font_class": "zidongbofang",
+      "unicode": "e6b9",
+      "unicode_decimal": 59065
+    },
+    {
+      "icon_id": "18420521",
+      "name": "出租网约",
+      "font_class": "chuzuwangyue",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "18420522",
+      "name": "风向",
+      "font_class": "fengxiang1",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "18420523",
+      "name": "暂停",
+      "font_class": "zanting",
+      "unicode": "e6bc",
+      "unicode_decimal": 59068
+    },
+    {
+      "icon_id": "18420524",
+      "name": "道路积水",
+      "font_class": "daolujishui1",
+      "unicode": "e6bd",
+      "unicode_decimal": 59069
+    },
+    {
+      "icon_id": "18420525",
+      "name": "绩效考核",
+      "font_class": "jixiaokaohe1",
+      "unicode": "e6be",
+      "unicode_decimal": 59070
+    },
+    {
+      "icon_id": "18420526",
+      "name": "公共交通",
+      "font_class": "gonggongjiaotong",
+      "unicode": "e6bf",
+      "unicode_decimal": 59071
+    },
+    {
+      "icon_id": "18420527",
+      "name": "工作力量",
+      "font_class": "gongzuoliliang",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
+      "icon_id": "18420528",
+      "name": "风险预警",
+      "font_class": "fengxianyujing",
+      "unicode": "e6c1",
+      "unicode_decimal": 59073
+    },
+    {
+      "icon_id": "18420529",
+      "name": "火车",
+      "font_class": "huoche",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "18420530",
+      "name": "静态交通",
+      "font_class": "jingtaijiaotong",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
+      "icon_id": "18420531",
+      "name": "经济",
+      "font_class": "jingji",
+      "unicode": "e6c4",
+      "unicode_decimal": 59076
+    },
+    {
+      "icon_id": "18420532",
+      "name": "降雨量",
+      "font_class": "jiangyuliang",
+      "unicode": "e6c5",
+      "unicode_decimal": 59077
+    },
+    {
+      "icon_id": "18420533",
+      "name": "疫情防控",
+      "font_class": "yiqingfangkong",
+      "unicode": "e6c6",
+      "unicode_decimal": 59078
+    },
+    {
+      "icon_id": "18420534",
+      "name": "燃气供应",
+      "font_class": "ranqigongying",
+      "unicode": "e6c7",
+      "unicode_decimal": 59079
+    },
+    {
+      "icon_id": "18420535",
+      "name": "今日关注",
+      "font_class": "jinriguanzhu",
+      "unicode": "e6c8",
+      "unicode_decimal": 59080
+    },
+    {
+      "icon_id": "18420536",
+      "name": "道路交通",
+      "font_class": "daolujiaotong",
+      "unicode": "e6c9",
+      "unicode_decimal": 59081
+    },
+    {
+      "icon_id": "18420537",
+      "name": "建设工地",
+      "font_class": "jianshegongdi1",
+      "unicode": "e6ca",
+      "unicode_decimal": 59082
+    },
+    {
+      "icon_id": "18420538",
+      "name": "交通拥堵",
+      "font_class": "jiaotongyongdu",
+      "unicode": "e6cb",
+      "unicode_decimal": 59083
+    },
+    {
+      "icon_id": "18420539",
+      "name": "垃圾处理",
+      "font_class": "lajichuli",
+      "unicode": "e6cc",
+      "unicode_decimal": 59084
+    },
+    {
+      "icon_id": "18420540",
+      "name": "紧急待办",
+      "font_class": "jinjidaiban",
+      "unicode": "e6cd",
+      "unicode_decimal": 59085
+    },
+    {
+      "icon_id": "18420541",
+      "name": "人群聚集",
+      "font_class": "renqunjuji",
+      "unicode": "e6ce",
+      "unicode_decimal": 59086
+    },
+    {
+      "icon_id": "18420542",
+      "name": "空气质量",
+      "font_class": "kongqizhiliang",
+      "unicode": "e6cf",
+      "unicode_decimal": 59087
+    },
+    {
+      "icon_id": "18420543",
+      "name": "居委会",
+      "font_class": "juweihui",
+      "unicode": "e6d0",
+      "unicode_decimal": 59088
+    },
+    {
+      "icon_id": "18420544",
+      "name": "风力",
+      "font_class": "fengli1",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    },
+    {
+      "icon_id": "18420545",
+      "name": "扬尘",
+      "font_class": "yangchen1",
+      "unicode": "e6d2",
+      "unicode_decimal": 59090
+    },
+    {
       "icon_id": "17500630",
       "name": "发现",
       "font_class": "faxian",

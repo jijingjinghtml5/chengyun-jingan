@@ -100,7 +100,7 @@ export default {
   font-size: 0.72rem;
   line-height: 0.84rem;
   font-weight: bold;
-  color: #FCBF51;
+  color:$number;
   sub {
     bottom: 0;
   }
