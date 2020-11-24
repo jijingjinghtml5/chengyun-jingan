@@ -195,6 +195,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .MapTitleContainer {
+  user-select: none;
   position: absolute;
   background-image:url(./img/MapBG.png);
   background-size: contain;
@@ -203,6 +204,7 @@ export default {
   height:  3rem;
 }
 .tilte {
+  user-select: none;
   position: relative;
   width: 100%;
   height:  1.5rem;
