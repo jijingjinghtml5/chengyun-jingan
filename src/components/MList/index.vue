@@ -433,7 +433,7 @@ export default {
   /deep/ {
     .vue-recycle-scroller__item-view {
       &:nth-child(even) {
-        background-color: #05192C;
+        background-color: #0F2E6099;
       }
     }
   }
@@ -443,13 +443,13 @@ export default {
   font-size: 0.28rem;
   color: #fff;
   &:nth-child(even) {
-    background-color: #05192C;
+    background-color: #0F2E6099;
   }
   &.canClick {
     cursor: pointer;
   }
   &.is-active {
-    background: rgba(#4fcfd5, 0.4);
+    background: rgba(#1A50A7, 0.4);
   }
 }
 .list-header__item,
@@ -463,7 +463,7 @@ export default {
     cursor: pointer;
   }
   &.active-cell{
-    background: rgba(#4fcfd5, 0.9);
+    background: rgba(#1A50A7, 0.9);
   }
   &.is-width {
     flex-grow: 0 !important;

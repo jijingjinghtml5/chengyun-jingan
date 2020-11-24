@@ -145,7 +145,7 @@ export default {
     }
     .level2{
       font-size: 28px;
-      color: #92B9F7;
+      color: $titleLevel2;
     }
   }
 
