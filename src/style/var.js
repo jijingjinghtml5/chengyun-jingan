@@ -14,5 +14,7 @@ module.exports = {
   select: "#F6F6F6",
   selected: "#A8C7F9",
   disabledSelect: "#4E78A4",
-  hoverSelect: "#4FCFD5"
+  hoverSelect: "#4FCFD5",
+  dropdownBgColor: "#2573EF",
+  dropdownBorderColor: "#2573EF"
 };
