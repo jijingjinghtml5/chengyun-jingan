@@ -157,3 +157,15 @@ export function findScrollParent(e) {
   }
   return parent;
 }
+
+export function checkSupportCssProperties(properties = []) {
+  const root = document.documentElement;
+  let htmlProperty = getStyleComputedProperty(root);
+  let supportProperties = properties.filter(d => htmlProperty.hasOwnProperty(d));
+  supportProperties.forEach(prop => {
+    const className = `support${prop.charAt(0).toUpperCase() + prop.slice(1)}`;
+    if (!hasClass(root, className)) {
+      addClass(root, className);
+    }
+  });
+}

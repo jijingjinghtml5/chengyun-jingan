@@ -82,12 +82,24 @@ export default {
   align-items: center;
   color: #fff;
 }
+.overview-item__icon {
+  color: #0071FF;
+  .supportWebkitTextFillColor &{
+    background-image: linear-gradient(180deg, #4FCFD5 0%, #0071FF 100%);
+    // background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
 .style1,
 .style2,
 .style3,
 .style4 {
   line-height: 1.5;
   font-size: 0.24rem;
+  .overview-item__name {
+    color: #D1C9C4;
+  }
   .increase {
     display: flex;
   }
@@ -114,14 +126,8 @@ export default {
   }
 }
 .style2 {
-  .overview-item__name {
-    color: #92B9F7;
-    // sub {
-    //   font-size: 0.28rem;
-    // }
-  }
   .overview-item__value {
-    color: #FCBF51;
+    color: #4FCFD5;
   }
 }
 .style3,
@@ -134,10 +140,11 @@ export default {
   }
   .overview-item__name {
     font-size: 0.28rem;
+    color: #fff;
   }
   .overview-item__value {
     font-size: 0.52rem;
-    color: #FCBF51;
+    color: #4FCFD5;
     sub {
       font-size: 0.28rem;
       color: #fff;

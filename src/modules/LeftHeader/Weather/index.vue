@@ -47,7 +47,7 @@ export default {
     align-items: center;
     justify-content: space-between;
     line-height: 0.76rem;
-    color: #e4dddd;
+    color: #92B9F7;
   }
   li {
     display: flex;
@@ -58,6 +58,13 @@ export default {
 
 .li-left {
   font-size: 0.48rem;
+  color: #0071FF;
+  .supportWebkitTextFillColor &{
+    background-image: linear-gradient(180deg, #4FCFD5 0%, #0071FF 100%);
+    // background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }
 .li-right {
   line-height: 0.6rem;
@@ -65,7 +72,7 @@ export default {
 }
 .li-right__label {
   font-size: 0.28rem;
-  color: #92B9F7;
+  color:#D1C9C4;
 }
 .li-right__value {
   font-size: 0.44rem;
