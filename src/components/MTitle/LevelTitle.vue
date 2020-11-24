@@ -42,7 +42,7 @@ export default {
   .title {
     min-width: 3rem;
     display: inline-flex;
-    align-items: center;
+    align-items: baseline;
     margin-right: 0.2rem;
     .m-tabs {
       font-size: inherit;
