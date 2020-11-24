@@ -22,11 +22,11 @@ export default {
     return {
       videoNumber: "（1/147）",
       videoData: [
-        { src: "" },
-        { src: "" },
-        { src: "" },
-        { src: "" },
-        { src: "" }
+        { src: null },
+        { src: null },
+        { src: null },
+        { src: null },
+        { src: null }
       ]
 
     };
