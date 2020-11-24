@@ -1,10 +1,9 @@
 import Vue from "vue";
 import App from "./index.vue";
 import "normalize.css";
-import "@/style/index.scss";
 import "@/fonts/iconfont.css";
-
 import ElementUI from "@/components/EleUI";
+import "@/style/index.scss";
 
 import "echarts";
 import VueChart from "vue-echarts";

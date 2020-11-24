@@ -5,11 +5,13 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "report": "vue-cli-service build --report"
   },
   "dependencies": {
     "@liveqing/liveplayer": "^1.5.8",
     "axios": "^0.18.0",
+    "babel-plugin-component": "^1.1.1",
     "browserslist": "^4.11.1",
     "caniuse-lite": "^1.0.30001042",
     "compression-webpack-plugin": "^3.1.0",
@@ -40,6 +42,7 @@
     "@vue/eslint-config-prettier": "^5.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "copy-webpack-plugin": "^5.1.1",
     "eslint": "^5.16.0",
     "eslint-plugin-prettier": "^3.1.0",
