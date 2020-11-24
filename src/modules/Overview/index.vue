@@ -28,7 +28,7 @@ export default {
     return {
       tabs: Object.freeze([
         { label: "今日城运概况", value: "today" },
-        { label: "全是概览", value: "district" }
+        { label: "全区概览", value: "district" }
       ]),
       todayItems: Object.freeze([
         { icon: "icon-gongzuoliliang", name: "工作力量在岗率", valueUnit: "%", valueColor: "#6CCB73", prop: "gzllzgl" },

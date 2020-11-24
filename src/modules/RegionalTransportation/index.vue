@@ -107,7 +107,7 @@ export default {
           { name: "上海火车站区域", icon: "icon-daolu", value: 20987, increase: 1.08 },
           { name: "轨道交通/公交车", icon: "icon-daolu", value: 40098, increase: -1.08 },
           { name: "网约车/出租车", icon: "icon-daolu", value: 3092, increase: 1.08 },
-          { name: "飞机", icon: "icon-daolu", value: 56248, increase: 0 }
+          { name: "共享单车", icon: "icon-daolu", value: 56248, increase: 0 }
         ])
       }
     };
