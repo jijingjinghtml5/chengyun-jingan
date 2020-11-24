@@ -1,5 +1,5 @@
 <template>
-  <wrap-title class="gradient-bg" icon="icon-daolu" txt="区域交通">
+  <wrap-title class="gradient-bg" icon="icon-daolujiaotong" txt="区域交通">
     <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
     <m-row gutter="0.1rem">
       <m-column v-for="(item, index) in items" :key="item.key">

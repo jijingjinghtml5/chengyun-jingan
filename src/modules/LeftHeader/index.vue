@@ -88,7 +88,7 @@ export default {
         {
           icon: "iconfont icon-yangchen1",
           label: "扬尘指数",
-          key: "aqi",
+          key: "yangchen",
           unit: ""
         },
         {
