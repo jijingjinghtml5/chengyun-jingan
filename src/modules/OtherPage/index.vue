@@ -151,6 +151,8 @@ export default {
 }
   .img-container {
     margin :0rem 0.35rem 0rem 0.4rem;
+    color:rgb(165, 165, 169);
+    font-size: 0.34rem;
 
     img {
         user-select: none;
@@ -163,10 +165,12 @@ export default {
       user-select: none;
       margin-top:0.1rem;
       text-align: center;
-      color:#ffffff;
-      font-size: 0.34rem;
-
     }
+  }
+  .img-container:hover{
+    color:#ffffff;
+    font-weight:600;
+
   }
 
 </style>
