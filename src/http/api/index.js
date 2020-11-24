@@ -2,7 +2,9 @@ import request from "@/http/request";
 import videoService from "@/http/requestVideoService";
 // 获取配置
 export function getLayoutConfig(token, _params) {
-  let params = {};
+  let params = {
+    keys: ["screenConfig", "streets", "layoutConfig", "videoConfig"]
+  };
   if (token) {
     params.token = token;
   }
