@@ -28,8 +28,10 @@ module.exports = {
   productionSourceMap: false,
   css: {
     loaderOptions: {
-      sass: {
-        // data: `@import "src/style/app.scss";`
+      scss: {
+        data: Object.keys(scssVariables)
+          .map(k => `\$${k.replace("_", "-")}: ${scssVariables[k]};`)
+          .join("\n")
       }
     }
   },

@@ -50,6 +50,7 @@ import ChartLine from "@/components/Charts/Line/ChartLine";
 import OverviewItem from "@/components/OverviewItem";
 import MSelect from "@/components/MSelect";
 import { getDate } from "@/utils/tools";
+import scssVar from "@/style/var.js";
 export default {
   name: "RegionalTransportation",
   components: {
@@ -64,7 +65,7 @@ export default {
   inheritAttrs: false,
   data() {
     return {
-      colors: Object.freeze(["#4FCFD5", "#BE6CCC"]),
+      colors: Object.freeze([scssVar.number, scssVar.numberSecondary]),
       items: Object.freeze([
         { label: "快速路拥堵指数", key: "kslydzs" },
         { label: "地面拥堵指数", key: "dmydzs" }

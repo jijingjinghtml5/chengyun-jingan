@@ -176,7 +176,7 @@ export default {
       }
       .time{
         font-size: 28px;
-        color:#92B9F7;
+        color: $titleLevel2;
       }
     }
     .info{
@@ -212,13 +212,13 @@ export default {
         color:#ffffff;
       }
       .sub{
-        color: #92B9F7;
+        color: $titleLevel2;
         font-size: 28px;
         line-height: 1.5;
       }
       .detail{
         padding: 20px 0;
-        color:#fff;
+        // color: $titleLevel2;
         line-height: 1.5;
         .label{
           font-size: 32px;

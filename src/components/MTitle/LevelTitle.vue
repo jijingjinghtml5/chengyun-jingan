@@ -35,7 +35,6 @@ export default {
 <style lang="scss" scoped>
 .levelTitle {
   width: 100%;
-  color: #fff;
   white-space: nowrap;
   display: flex;
   justify-content: space-between;
@@ -87,7 +86,7 @@ export default {
   &.level2 {
     height: 0.64rem;
     // padding: 0 0.24rem;
-    color:#D1C9C4;
+    color: $titleLevel2;
     i {
       color: #1E5CBF;
       .supportWebkitTextFillColor &{
