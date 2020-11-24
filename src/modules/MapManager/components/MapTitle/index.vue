@@ -47,11 +47,142 @@ export default {
 
   },
   methods: {
+  registerPointLayer() {
+      // 地图撒点图层
+      this.pointLayer = this.$_mapProxy.registerLayer("HeaderPointLayer", "单个撒点图层")
+      .setParameters({
+        "name": "HeaderPointLayer",
+        "type": "point",
+        "mode": "replace",
+        "data": {
+          "content": [],
+          "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
+        },
+        "legendVisible": false,
+        "popupEnabled": false,
+        "isFiltered": true,
+        "isLocate": false,
+        "renderer": {
+          type: "simple",
+          symbol: {
+            type: "simple-marker",
+            size: 20,
+            color: [0, 255, 244],
+            outline: {
+              color: "#ffffff",
+              width: "1px"
+            }
+          }
+        }
+      });
+    }
 
+  },
+  created() {
+    this.registerPointLayer();
   },
   mounted() {
       this.$bus.$on("map-header-menu-choose", res => {
-       // const { status, item } = res;
+        const { status, item } = res;
+        this.$_mapProxy.getMap()._closePopup();
+        switch (item.attr) {
+          case "juwei":
+            if (status === 1) {
+              this.pointLayer.setParameters({
+                "data": {
+                    "content": [{ "x": -1733, "y": -917 }],
+                    "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                  },
+                "renderer": {
+                  type: "simple",
+                  symbol: {
+                    type: "simple-marker",
+                    size: 30,
+                    color: [0, 255, 244],
+                    outline: {
+                      color: "#ffffff",
+                      width: "1px"
+                    }
+                  }
+                }
+              }).open();
+            } else {
+               this.pointLayer.close();
+            }
+            break;
+          case "yuanqu":
+            if (status === 1) {
+              this.pointLayer.setParameters({
+                "data": {
+                    "content": [{ "x": -1833, "y": -967 }],
+                    "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                  },
+                "renderer": {
+                  type: "simple",
+                  symbol: {
+                    type: "simple-marker",
+                    size: 30,
+                    color: [0, 255, 0],
+                    outline: {
+                      color: "#ffffff",
+                      width: "1px"
+                    }
+                  }
+                }
+              }).open();
+            } else {
+               this.pointLayer.close();
+            }
+            break;
+          case "shangpu":
+            if (status === 1) {
+              this.pointLayer.setParameters({
+                "data": {
+                    "content": [{ "x": -1733, "y": -817 }],
+                    "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                  },
+                "renderer": {
+                  type: "simple",
+                  symbol: {
+                    type: "simple-marker",
+                    size: 30,
+                    color: [255, 255, 0],
+                    outline: {
+                      color: "#ffffff",
+                      width: "1px"
+                    }
+                  }
+                }
+              }).open();
+            } else {
+               this.pointLayer.close();
+            }
+            break;
+          case "gongdi":
+            if (status === 1) {
+              this.pointLayer.setParameters({
+                "data": {
+                    "content": [{ "x": -1633, "y": -967 }],
+                    "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                  },
+                "renderer": {
+                  type: "simple",
+                  symbol: {
+                    type: "simple-marker",
+                    size: 30,
+                    color: [0, 0, 255],
+                    outline: {
+                      color: "#ffffff",
+                      width: "1px"
+                    }
+                  }
+                }
+              }).open();
+            } else {
+               this.pointLayer.close();
+            }
+            break;
+        }
 
         console.log(res, "res-----------");
       });
@@ -64,6 +195,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .MapTitleContainer {
+  user-select: none;
   position: absolute;
   background-image:url(./img/MapBG.png);
   background-size: contain;
@@ -72,6 +204,7 @@ export default {
   height:  3rem;
 }
 .tilte {
+  user-select: none;
   position: relative;
   width: 100%;
   height:  1.5rem;
