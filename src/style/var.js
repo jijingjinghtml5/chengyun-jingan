@@ -11,7 +11,7 @@ module.exports = {
   alertMiddle: "#FCBF51",
   alertHigh: "#F23470",
   hover: "#fff",
-  select: "#F6F6F6",
+  select: "#fff",
   selected: "#A8C7F9",
   disabledSelect: "#4E78A4",
   hoverSelect: "#4FCFD5",

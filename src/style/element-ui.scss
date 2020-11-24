@@ -158,20 +158,28 @@ input {
   color: $textColor2;
 }
 .el-dropdown-menu {
-  background-color: #011A3B;
-  border: 0.02rem solid $borderColor;
+  background-color: rgba($dropdownBgColor, 0.6);
+  border: 0.02rem solid $dropdownBorderColor;
+  padding: 0;
 }
 .el-dropdown-menu__item {
   font-size: 0.24rem;
-  color: $textColor3;
+  color: $select;
   padding: 0 0.24rem;
   height : 0.48rem;
   line-height: 0.48rem;
   white-space: nowrap;
-  &:focus,
   &:not(.is-disabled):hover {
-    background: linear-gradient(270deg, rgba(82, 191, 218, 0) 0%,rgba( #298BB3, 0.5) 100%);
+    color: $hoverSelect;
+    background-color: transparent;
   }
+  &.is-active {
+    color: $selected;
+  }
+  // &:focus,
+  // &:not(.is-disabled):hover {
+  //   background: linear-gradient(270deg, rgba(82, 191, 218, 0) 0%,rgba( #298BB3, 0.5) 100%);
+  // }
 }
 
 
