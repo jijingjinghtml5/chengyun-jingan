@@ -61,6 +61,7 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   padding: 10px 0;
+  line-height: 1.5;
   .unit{
     font-size: 0.24rem;
   }

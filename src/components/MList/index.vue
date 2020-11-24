@@ -433,7 +433,7 @@ export default {
   /deep/ {
     .vue-recycle-scroller__item-view {
       &:nth-child(even) {
-        background-color: #0F2E6099;
+        background-color: #0F2E6066;
       }
     }
   }
@@ -442,8 +442,9 @@ export default {
   display: flex;
   font-size: 0.28rem;
   color: #fff;
+  border-bottom: 1px dashed #4E78A4;
   &:nth-child(even) {
-    background-color: #0F2E6099;
+    background-color: #0F2E6066;
   }
   &.canClick {
     cursor: pointer;
