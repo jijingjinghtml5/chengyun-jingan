@@ -8,8 +8,8 @@
       <div style="margin-top:20px;height: 100%;">
         <div v-if="activeItem" class="detail-container">
           <div class="close" @click="activeItem=null">[返回]</div>
-          <div class="icon">
-            <span class="iconfont icon-fangyililiang" style="color:#D0021B"></span>
+          <div :class="`icon color${activeItem.level || 4}`">
+            <span :class="`iconfont ${getIcon(activeItem)}`"></span>
           </div>
           <div class="body">
             <div class="title">{{activeItem.type}}</div>
@@ -37,10 +37,10 @@
             :items="dataset"
             :itemSize="rowHeight"
             :keyField="'id'"
-            v-slot="{ item, index }">
-            <div class="li-item"  @click="handleClickForCaseList(item, index)">
-              <div class="cell icon">
-                <img style="width:72px;height:72px;" :src="item.image" alt="">
+            v-slot="{ item }">
+            <div class="li-item">
+              <div :class="`cell icon color${item.level || 4}`">
+                <span :class="getIcon(item)"></span>
               </div>
               <div class="cell title">
                 <p class="type text-ellipsis">{{ item.type }}</p>
@@ -79,7 +79,7 @@ export default {
       dataset: [
         {
           id: 1,
-          image: "",
+          level: 1,
           type: "疫情防控",
           time: "今日8:00",
           unit: "市卫健委",
@@ -88,8 +88,8 @@ export default {
         },
         {
           id: 2,
-          image: "",
-          type: "疫情防控",
+          level: 2,
+          type: "道路交通",
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
@@ -97,8 +97,8 @@ export default {
         },
         {
           id: 3,
-          image: "",
-          type: "疫情防控",
+          level: 4,
+          type: "路面积水",
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
@@ -106,8 +106,8 @@ export default {
         },
         {
           id: 4,
-          image: "",
-          type: "疫情防控",
+          level: 3,
+          type: "人群聚集",
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
@@ -115,8 +115,7 @@ export default {
         },
         {
           id: 5,
-          image: "",
-          type: "疫情防控",
+          type: "道路扬尘",
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
@@ -125,7 +124,7 @@ export default {
         {
           id: 6,
           image: "",
-          type: "疫情防控",
+          type: "网格派单",
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
@@ -139,8 +138,28 @@ export default {
     showDetail(item) {
       this.activeItem = item;
     },
-    handleClickForCaseList(item) {
-
+    getIcon(item) {
+      let icon = "iconfont ";
+      switch (item.type) {
+        case "疫情防控":
+          icon += "icon-yiqingfangkong";
+          break;
+        case "道路交通":
+          icon += "icon-jiaotongyongdu";
+          break;
+        case "道路扬尘":
+          icon += "icon-yangchen1";
+          break;
+        case "路面积水":
+          icon += "icon-daolujishui1";
+          break;
+        case "人群聚集":
+          icon += "icon-renqunjuji";
+          break;
+        default:
+          icon += "icon-richangguanli";
+      }
+      return icon;
     }
   }
 };
@@ -167,6 +186,8 @@ export default {
     .icon{
       width: 102px;
       height: 72px;
+      text-align: center;
+      font-size: 50px;
     }
     .title{
       width: 300px;
@@ -248,6 +269,18 @@ export default {
       cursor: pointer;
       font-size: 24px;
     }
+  }
+  .color1{
+    color: #D0021B;
+  }
+  .color2{
+    color: #F96F4F;
+  }
+  .color3{
+    color: #FCBF51;
+  }
+  .color4{
+    color: #2E9BCF;
   }
 }
 </style>
