@@ -7,7 +7,7 @@
       </div>
       <div style="margin-top:20px;height: 100%;">
         <div v-if="activeItem" class="detail-container">
-          <div class="close clickAble" @click="activeItem=null">[返回]</div>
+          <div class="close clickAble" @click="goBack">[返回]</div>
           <div :class="`icon color${activeItem.level || 4}`">
             <span :class="`iconfont ${getIcon(activeItem)}`"></span>
           </div>
@@ -22,7 +22,7 @@
               <p class="label">预警描述：</p>
               <p class="content">{{activeItem.info}}</p>
             </div>
-            <div class="btn"><span class="iconfont icon-mapPin"></span>在地图上查看</div>
+            <div class="btn" :class="{'active': onMap}"   @click="showOnMap(activeItem)"><span class="iconfont icon-mapPin"></span>在地图上查看</div>
           </div>
         </div>
         <auto-scroll-wrap
@@ -74,6 +74,7 @@ export default {
   data() {
     return {
       activeItem: null,
+      onMap: false,
       activeIndex: -1,
       total: 1000,
       dataset: [
@@ -84,6 +85,8 @@ export default {
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         },
         {
@@ -93,6 +96,8 @@ export default {
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         },
         {
@@ -102,6 +107,8 @@ export default {
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         },
         {
@@ -111,6 +118,8 @@ export default {
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         },
         {
@@ -119,6 +128,8 @@ export default {
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         },
         {
@@ -128,6 +139,8 @@ export default {
           time: "今日8:00",
           unit: "市卫健委",
           people: "代用名",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335",
           info: "高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备,高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备高风险地区来沪列车即将到达上海火车站，请做好防范准备"
         }
       ],
@@ -137,6 +150,11 @@ export default {
   methods: {
     showDetail(item) {
       this.activeItem = item;
+    },
+    goBack() {
+      this.activeItem = null;
+      this.onMap = false;
+      this.$_mapProxy.resetPointLocation();
     },
     getIcon(item) {
       let icon = "iconfont ";
@@ -160,6 +178,18 @@ export default {
           icon += "icon-richangguanli";
       }
       return icon;
+    },
+    showOnMap(item) {
+      if (this.onMap) {
+        // 移除
+        this.onMap = false;
+        this.$_mapProxy.resetPointLocation();
+      } else {
+        this.onMap = true;
+        this.$_mapProxy.pointLocation(item).setPopupConfig({
+          component: "RiskAlertPopup"
+        });
+      }
     }
   }
 };
@@ -258,6 +288,9 @@ export default {
         border: 2px solid #2573EF;
         .iconfont{
           font-size: 30px;
+        }
+        &.active{
+          background: #3381fd;
         }
       }
     }

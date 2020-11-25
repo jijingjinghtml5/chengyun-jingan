@@ -91,6 +91,7 @@ import ZampCoordsUtils from "../coordUtils/ZampCoordsUtils.js";
           this.withoutVideo();
         }
       }, "_moduel_location_auto").open();
+
       // 点定位
       this.goToPosition(shLng, shLat);
 
