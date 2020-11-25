@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="cell opt">
-            <span class="iconfont icon-shipinlianxian clickAble"></span>
+            <!-- <span class="iconfont icon-shipinlianxian clickAble"></span> -->
             <span class="iconfont icon-tiaozhuandaojiezhen clickAble" @click="gotoTown(item)"></span>
           </div>
         </div>
@@ -123,7 +123,7 @@ export default {
       }
     }
     .opt{
-      width: 180px;
+      width: 120px;
       color: #679DF4;
       font-size: 50px;
       text-align: center;
