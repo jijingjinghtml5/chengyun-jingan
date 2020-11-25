@@ -16,7 +16,7 @@
       <div class="wall-panel">
         <m-row class="tile-row" gutter="60px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
             <m-column v-for="(item, index) in chunk" :key="`other-${index}`">
-              <tile :item="item" class="block"></tile>
+              <tile :item="item" class="block clickAble" @click="handleClick(item)"></tile>
             </m-column>
           </m-row>
       </div>
@@ -152,7 +152,11 @@ export default {
   methods: {
     handleClick(item) {
       console.log("item,", item);
-      this.$emit("click", "dashboard", item);
+      let component = "dashboard";
+      if (["公共安全案件数", "公共管理案件数", "公共服务案件数"].indexOf(item.type) === -1) {
+        component = "list";
+      }
+      this.$emit("click", component, item);
     }
   }
 };
@@ -180,11 +184,6 @@ export default {
       .block{
         height: 2rem;
       }
-    }
-  }
-  .clickAble{
-    :hover{
-      color: #fff;
     }
   }
 }

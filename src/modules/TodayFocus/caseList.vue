@@ -1,6 +1,6 @@
 <template>
 <wrap-title :txt="`${item.label}列表`" :level="2" icon="icon-biaoti" class="dashboard">
-    <div slot="right" class="title-right">
+    <div v-if="withDashboard" slot="right" class="title-right">
     <span @click="handleClick" class="clickAble">[案件概览]</span>
   </div>
   <m-list style="height: 920px;"
@@ -31,6 +31,10 @@ export default {
       default: () => {
         return {};
       }
+    },
+    withDashboard: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -173,6 +177,12 @@ export default {
       } else {
         this.caseLayer && this.caseLayer.close();
       }
+    }
+  },
+  beforeDestroy() {
+    if (this.caseLayer) {
+      this.caseLayer.close();
+      this.caseLayer = null;
     }
   }
 };
