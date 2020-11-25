@@ -118,13 +118,13 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+sub {
+  bottom: 0;
+}
 .value {
   font-size: 0.72rem;
   line-height: 0.84rem;
   font-weight: bold;
-  sub {
-    bottom: 0;
-  }
 }
 .line-chart,
 .barY-chart {

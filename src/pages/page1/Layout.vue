@@ -32,7 +32,6 @@
         ></component>
       </grid-item>
     </grid-layout>
-    <popup-iframe></popup-iframe>
   </div>
 </div>
 

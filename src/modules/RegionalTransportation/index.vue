@@ -3,15 +3,15 @@
     <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
     <m-row gutter="0.1rem">
       <m-column v-for="(item, index) in items" :key="item.key">
-        <level-title :level="2" icon="icon-biaoti" :txt="item.label"></level-title>
+        <level-title :level="2" icon="icon-biaoti" :txt="item.label" class="canClick" :class="{ 'is-active': activeLayer === item.key }" @click.native="handleClickForOpenLayer(item)"></level-title>
         <p class="value" :style="{ color: colors[index] }">{{ dataset[item.key] | initVal | thousandCentimeter }}</p>
       </m-column>
     </m-row>
     <chart-line class="line-chart" :colors="colors" :chartData="dataset.chartData" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chart-line>
     <m-row class="row-style1 in-flex" gutter="0.1rem">
       <m-column>
-        <level-title :level="2" icon="icon-biaoti" txt="实时拥堵堵路"></level-title>
-        <div class="list">
+        <level-title :level="2" icon="icon-biaoti" txt="实时拥堵路段"></level-title>
+        <div class="list road">
           <div class="list-item" v-for="(item, i) in dataset.list" :key="i">
             <div class="list-item__id">{{ i + 1 }}</div>
             <overview-item
@@ -26,16 +26,16 @@
       </m-column>
       <m-column>
         <level-title :level="2" icon="icon-biaoti" txt="交通客流"></level-title>
-        <div class="list">
+        <div class="list trafficFlow">
           <overview-item
-              class="list-item"
-              v-for="(item, i) in dataset.list2" :key="i"
-              v-bind="listConfig2"
-              :icon="item.icon"
-              :name="item.name"
-              :dataset="item"
-              >
-            </overview-item>
+            class="list-item canClick"
+            v-for="item in trafficFlow"
+            customClass="style3"
+            :key="item.key"
+            :icon="item.icon"
+            :name="item.name"
+            @click.native="handleClickForOpenLayer(item)">
+          </overview-item>
         </div>
       </m-column>
     </m-row>
@@ -84,9 +84,11 @@ export default {
           { label: "拥堵时间", prop: "time", unit: "h" }
         ]
       }),
-      listConfig2: Object.freeze({
-        customClass: "style3"
-      }),
+      trafficFlow: Object.freeze([
+        { name: "上海火车站区域", icon: "icon-huoche", key: "trainStation" },
+        { name: "轨道交通/公交车", icon: "icon-gonggongjiaotong", key: "bus" },
+        { name: "网约车/出租车", icon: "icon-chuzuwangyue", key: "taxi" }
+      ]),
       option: "today",
       dataset: {
         kslydzs: 20.3,
@@ -102,19 +104,157 @@ export default {
           { name: "灵石路 - 共和新路", value: 9.5, width: 10, time: 1.2 },
           { name: "大宁路 - 共和新路", value: 9.5, width: 10, time: 1.2 },
           { name: "南京西路111 - 武宁路", value: 9.5, width: 10, time: 1.2 }
-        ]),
-        list2: Object.freeze([
-          { name: "上海火车站区域", icon: "icon-daolu", value: 20987, increase: 1.08 },
-          { name: "轨道交通/公交车", icon: "icon-daolu", value: 40098, increase: -1.08 },
-          { name: "网约车/出租车", icon: "icon-daolu", value: 3092, increase: 1.08 },
-          { name: "共享单车", icon: "icon-daolu", value: 56248, increase: 0 }
         ])
-      }
+      },
+      activeLayer: null
     };
+  },
+  methods: {
+    registerLayers() {
+      // 路段图层
+      this.items.forEach(item => {
+        const layName = `${item.key}Layer`;
+        this[layName] = this.$_mapProxy.registerLayer(layName, item.label.slice(0, -2))
+        .setParameters({
+          "name": layName,
+          "type": "layer",
+          "mode": "replace",
+          "legendVisible": false,
+          "popupEnabled": false,
+          "isFiltered": true,
+          "isLocate": true,
+          "labels": [
+            {
+              "fields": [
+                "#.名称"
+              ],
+              "color": [
+                255,
+                255,
+                255,
+                1
+              ],
+              "size": 24
+            }
+          ],
+          "renderer": {
+            "type": "unique-value",
+            "field": "value",
+            "uniqueValueInfos": [
+              {
+                "value": "0",
+                "symbol": {
+                  "type": "line-3d",
+                  "symbolLayers": [
+                    {
+                      "type": "line",
+                      "size": 8,
+                      "material": {
+                        "color": [
+                          255,
+                          0,
+                          0,
+                          1
+                        ]
+                      },
+                      "cap": "round",
+                      "join": "round"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        });
+      });
+
+      // 热力图图层
+      // 撒点
+      const taxiLayers = [{ name: "taxi" }];
+      taxiLayers.forEach(layer => {
+        const layerName = `${layer.name}Layer`;
+        this[layerName] = this.$_mapProxy.registerLayer(layerName, "撒点图层")
+          .setParameters({
+            "name": layerName,
+            "type": "point",
+            "mode": "replace",
+            "legendVisible": false,
+            "popupEnabled": false,
+            "isFiltered": true,
+            "isLocate": true,
+            "renderer": {
+              type: "simple",
+              symbol: {
+                type: "simple-marker",
+                size: 20,
+                color: [0, 255, 244],
+                outline: {
+                  color: "#ffffff",
+                  width: "1px"
+                }
+              }
+            }
+          });
+      });
+    },
+    handleClickForOpenLayer(item) {
+      if (this.activeLayer !== item.key) {
+        this.activeLayer = item.key;
+        switch (item.key) {
+          case "kslydzs":
+          case "dmydzs":
+            const roads = [{ name: "江场三路", value: 0 }, { name: "新疆路", value: 0 }, { name: "晋城路", value: 0 }, { name: "广中路", value: 0 }, { name: "中华新路", value: 0 }, { name: "北苏州路", value: 0 }, { name: "止园路", value: 0 }];
+            this[`${item.key}Layer`].setParameters({
+              data: {
+                "content": roads.slice(0, Math.floor(Math.random() * roads.length)),
+                "layers": {
+                  "name": "道路中心线"
+                },
+                "join": "名称=name"
+              }
+            }).open();
+            break;
+          case "taxi":
+            this[`${item.key}Layer`].setParameters({
+              "data": {
+                "content": [{ "x": -1733, "y": -917 }],
+                "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+              }
+            }).open();
+            break;
+        }
+      } else {
+        this[`${item.key}Layer`].close();
+        this.activeLayer = null;
+      }
+    }
+  },
+  created() {
+    this.registerLayers();
   }
 };
 </script>
 <style lang="scss" scoped>
+.canClick {
+  cursor: pointer;
+  &:hover {
+    /deep/ {
+      .title {
+        color: $hover;
+      }
+    }
+  }
+  &.is-active {
+    /deep/ {
+      .title {
+        color: $hover;
+      }
+    }
+  }
+}
+.is-active {
+  color: $hover;
+}
 .value {
   font-size: 0.72rem;
   line-height: 0.84rem;
@@ -126,7 +266,6 @@ export default {
 .list {
   height: 0;
   flex: 1;
-  overflow: auto;
 }
 .list-item {
   margin-bottom: 0.2rem;
@@ -147,5 +286,13 @@ export default {
 }
 .list-item__content {
   margin-left: 0.8rem;
+}
+.road {
+  overflow: auto;
+}
+.trafficFlow {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 </style>

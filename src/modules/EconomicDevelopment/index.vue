@@ -2,8 +2,8 @@
   <wrap-title class="gradient-bg" icon="icon-jingji" txt="经济发展">
     <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
     <m-row gutter="0.1rem">
-      <m-column v-for="item in items" :key="item.key">
-        <level-title :level="2" icon="icon-biaoti">
+      <m-column v-for="item in items" :key="item.key" @click.native="handleClickForOpenLayer(item)">
+        <level-title :level="2" icon="icon-biaoti" :class="{ 'is-active': active === item.key }">
           {{ item.label }}<sub v-if="item.unit">{{ item.unit }}</sub>
         </level-title>
         <p class="value">{{ dataset[item.key] | initVal | thousandCentimeter }}</p>
@@ -90,25 +90,82 @@ export default {
           ["3", 5],
           ["4", 5]
         ]
-      }
+      },
+      active: null
     };
+  },
+  methods: {
+    handleClickForOpenLayer(item) {
+      const current = item.key;
+      if (this.active !== current) {
+        // this.active && this[this.active].close();
+        this.active = current;
+        this[`${current}Layer`].setParameters({
+          "data": {
+            "content": [{ "x": -1733, "y": -917 }],
+            "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+          }
+        }).open();
+      } else {
+        this.active = null;
+        this[`${current}Layer`].close();
+      }
+    },
+    registerLayers() {
+      this.items.forEach(item => {
+        const key = `${item.key}Layer`;
+        this[key] = this.$_mapProxy
+          .registerLayer(key, item.label + "图层")
+          .setParameters({
+            "name": key,
+            "type": "point",
+            "mode": "replace",
+            "legendVisible": false,
+            "popupEnabled": false,
+            "isFiltered": true,
+            "isLocate": false,
+            "renderer": {
+              type: "simple",
+              symbol: {
+                type: "simple-marker",
+                size: 20,
+                color: [0, 255, 244],
+                outline: {
+                  color: "#ffffff",
+                  width: "1px"
+                }
+              }
+            }
+          });
+      });
+    }
+  },
+  created() {
+    this.registerLayers();
   }
 };
 </script>
 <style lang="scss" scoped>
+sub {
+  bottom: 0;
+}
 .value {
   font-size: 0.72rem;
   line-height: 0.84rem;
   font-weight: bold;
   color:$number;
-  sub {
-    bottom: 0;
-  }
 }
 .line-chart {
   height: 2rem;
 }
 .overview-item {
   margin-bottom: 0.2rem;
+}
+.is-active {
+  /deep/ {
+    .title {
+      color: $hover;
+    }
+  }
 }
 </style>

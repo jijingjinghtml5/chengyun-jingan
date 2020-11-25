@@ -19,7 +19,7 @@ import qvPlayer from "@/components/Video/qvPlayer";
 import VideoManager from "@/modules/VideoManager";
 export default {
   components: { qvPlayer, VideoManager },
-  name: "video",
+  name: "videomap",
   data() {
     return {
       videoNumber: "（1/147）",
