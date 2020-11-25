@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <video-mode
-      :config="currentConfig"
+      :config="currentConfigNew"
       :videos="videos"
     >
     </video-mode>
@@ -59,16 +59,74 @@ export default {
         currentPage: 1, // 当前播放页
         totalPage: 1 // 总页
       },
+      currentConfigNew: {
+        config: {
+          colNum: 48,
+          rowHeight: 0,
+          marginVertical: 10,
+          marginHorizontal: 10
+        },
+        layout: [{
+          "component": "",
+          "h": 8,
+          "i": 1,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "component": "",
+          "h": 8,
+          "i": 2,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 8
+        },
+        {
+          "component": "",
+          "h": 8,
+          "i": 3,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 16
+        },
+        {
+          "component": "",
+          "h": 8,
+          "i": 4,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 24
+        },
+        {
+          "component": "",
+          "h": 8,
+          "i": 1,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 32
+        }],
+        videos: [],
+        interval: 60000
+      },
       currentConfig: {
         config: {
           colNum: 48,
-          rowHeight: 30,
-          marginVertical: 5,
-          marginHorizontal: 5
+          rowHeight: 0,
+          marginVertical: 10,
+          marginHorizontal: 10
         },
-        layout: [],
-        videos: [],
-        interval: 0
+        videos: []
       },
       currentMode: null,
       timer: null,
@@ -191,18 +249,19 @@ export default {
     init() {
       // 注册视频图层
       this.registerVideoLayer();
-
+      console.log(this.getGlobalConfig().videoConfig, "this.getGlobalConfig().videoConfig");
       if (this.getGlobalConfig().videoConfig) {
         this.configData = {};
         this.getGlobalConfig().videoConfig.map(d => {
           this.configData[d.label] = d;
         });
-
         this.selections = this.getGlobalConfig().videoConfig.map(d => d.label + "（" + d.videos.length.toLocaleString() + "）");
         if (this.selections.length) {
           this.currentMode = this.selections[0];
           this.changeMode(this.currentMode);
         }
+      } else {
+
       }
     },
     getSelections() {
@@ -226,58 +285,6 @@ export default {
       this.buttonGroupShow = false;
       this.currentMode = val;
       this.currentConfig = this.getModeConfig(val.split("（")[0], this.configData);
-      this.currentConfig.layout = [
-        {
-          "component": "",
-          "h": 8,
-          "i": 1,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 0
-        },
-        {
-          "component": "",
-          "h": 8,
-          "i": 2,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 8
-        },
-        {
-          "component": "",
-          "h": 8,
-          "i": 3,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 16
-        },
-        {
-          "component": "",
-          "h": 8,
-          "i": 4,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 24
-        },
-        {
-          "component": "",
-          "h": 8,
-          "i": 1,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 32
-        }
-      ];
       // 加载地图视频图层
       this.addVideoLayer();
 
@@ -306,9 +313,9 @@ export default {
     initPlayOptions() {
       // 初始化播放参数
       let config = {
-        interval: this.currentConfig.interval,
+        interval: this.currentConfigNew.interval,
         currentPage: 1,
-        pageSize: this.currentConfig.layout.length,
+        pageSize: this.currentConfigNew.layout.length,
         totalPage: 1
       };
       config.totalPage = Math.ceil(this.currentConfig["videos"].length / config.pageSize);
