@@ -37,7 +37,7 @@ export default {
         { "name": "网格边界", "status": false },
         { "name": "建筑白模", "status": false },
         { "name": "建筑精模", "status": true },
-        { "name": "底图切换", "status": false }
+        { "name": "底图切换", "status": true }
       ],
       functionDatas: {
         "全图": {
@@ -126,6 +126,7 @@ export default {
     onMapReady() {
       this.initPosition();
       this.openDetailModelLayer();
+      this.openRemoteScenseLayer();
     },
     tabMapLayer(name, status) {
        let cmd = {
