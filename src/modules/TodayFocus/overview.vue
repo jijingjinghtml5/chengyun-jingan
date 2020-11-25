@@ -136,7 +136,7 @@ export default {
     handleClick(item) {
       console.log("item,", item);
       let component = "dashboard";
-      if (["公共安全案件数", "公共管理案件数", "公共服务案件数"].indexOf(item.type) === -1) {
+      if (["公共安全案件数", "公共管理案件数", "公共服务案件数"].indexOf(item.label) === -1) {
         component = "list";
       }
       this.$emit("click", component, item);
