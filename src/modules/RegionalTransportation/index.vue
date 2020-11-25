@@ -214,6 +214,36 @@ export default {
               }
             }).open();
             break;
+          case "trainStation":
+          case "bus":
+            // const points = [[-1604.94,1639.61], [-1604.42,1639.85], [-1605.46,1638.77], [-1604.93,1637.73], [-1604.97,1636.65], [-1605.53,1637.85], [-1595.51,1634.12], [-1603.13,1624.39], [-1596.01,1628.89], [1597.3,1623.98]];
+            // const data = points.map(d => {
+            //   return {
+            //     x: d[0],
+            //     y: d[1],
+            //     count: 10 + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10)
+            //   }
+            // })
+            // console.log(this.$_mapProxy, "------------------------");
+            // this.$_mapProxy.bridge({
+            //   "ActionName": "doShowHeat",
+            //   "Parameters": {
+            //     "visible": true,
+            //     "weightFied": "COUNT",
+            //     "gradient": {
+            //       ".25": "#4ef1b2",
+            //       ".50": "#7cd346",
+            //       ".75": "#f3f12c",
+            //       ".95": "#fd2f02"
+            //     },
+            //     "radius": 35,
+            //     "geofield": {
+            //       "xfield": "X",
+            //       "yfield": "Y"
+            //     }
+            //   }
+            // })
+            break;
           case "taxi":
             this[`${item.key}Layer`].setParameters({
               "data": {
