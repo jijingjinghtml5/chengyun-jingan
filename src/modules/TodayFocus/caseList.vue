@@ -4,8 +4,10 @@
     <span @click="handleClick" class="clickAble">[案件概览]</span>
   </div>
   <m-list style="height: 920px;"
+    ref="caseList"
     :headers="headers"
     :dataset="tableData"
+    @rowClick="handleRowClick"
   ></m-list>
 </wrap-title>
 </template>
@@ -84,7 +86,9 @@ export default {
           timestamp: "1606112715",
           address: "曲阳路",
           town: "南京西路街道",
-          state: "发现"
+          state: "发现",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335"
         },
         {
           id: 2,
@@ -92,7 +96,9 @@ export default {
           timestamp: "1606112715",
           address: "曲阳路",
           town: "南京西路街道",
-          state: "发现"
+          state: "发现",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335"
         },
         {
           id: 3,
@@ -100,7 +106,9 @@ export default {
           timestamp: "1606112715",
           address: "曲阳路",
           town: "南京西路街道",
-          state: "发现"
+          state: "发现",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335"
         },
         {
           id: 4,
@@ -108,7 +116,9 @@ export default {
           timestamp: "1606112715",
           address: "曲阳路",
           town: "南京西路街道",
-          state: "发现"
+          state: "发现",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335"
         },
         {
           id: 5,
@@ -116,9 +126,12 @@ export default {
           timestamp: "1606112715",
           address: "曲阳路",
           town: "南京西路街道",
-          state: "发现"
+          state: "发现",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335"
         }
-      ]
+      ],
+      caseLayer: null
     };
   },
   methods: {
@@ -145,6 +158,21 @@ export default {
           color = "#7BABF5";
       }
       return { color };
+    },
+    handleRowClick(row) {
+      if (row) {
+        this.caseLayer = this.$_mapProxy.pointLocation(row).setPopupConfig({
+          component: "case",
+          dataFormat: data => {
+            return {
+              // caseId_: row.id,
+              caseId_: "f59f10535b7134eb6367740cbbb62a04"
+            };
+          }
+        });
+      } else {
+        this.caseLayer && this.caseLayer.close();
+      }
     }
   }
 };
