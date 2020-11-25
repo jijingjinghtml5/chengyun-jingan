@@ -27,13 +27,13 @@
         <el-button  class="text-btn" type="primary" >{{currentPlayOption.currentPage +'/'+ currentPlayOption.totalPage}}</el-button>
       </el-button-group>
     </div>
-    <!-- <div class="radio-control">
+    <div class="radio-control">
       <span>分布</span>
       <span class="radio" @click="handleToggle" >
         <span :class="toggleClass" class="circle"></span>
       </span>
       <span :class="{active: videoMapShow === true}" class="status-text" >{{statusText}}</span>
-    </div> -->
+    </div>
   </div>
 </template>
 <script>
@@ -161,7 +161,7 @@ export default {
         "isLocate": false,
         "renderer": {
           type: "simple",
-          label: "周边视频",
+          label: "视频探头",
           symbol: {
             type: "picture-marker",
             url: getUrl("/mapIcon/playVideo.png"),
@@ -174,14 +174,14 @@ export default {
       });
     },
     addVideoLayer() {
-      // this.mapLayer.setParameters({
-      //   "data": {
-      //     "content": this.currentConfig.videos,
-      //     "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
-      //   }
-      // }).$off(MapEvents.MAP_CLICK, "video-click-point").onClick(item => {
-      //   this.handleClickAdd(item);
-      // }, "video-click-point").open();
+      this.mapLayer.setParameters({
+        "data": {
+          "content": this.currentConfig.videos,
+          "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
+        }
+      }).$off(MapEvents.MAP_CLICK, "video-click-point").onClick(item => {
+        this.handleClickAdd(item);
+      }, "video-click-point").open();
     },
     // 删除视频图层
     removeVideoLayer() {
@@ -226,7 +226,58 @@ export default {
       this.buttonGroupShow = false;
       this.currentMode = val;
       this.currentConfig = this.getModeConfig(val.split("（")[0], this.configData);
-
+      this.currentConfig.layout = [
+        {
+          "component": "",
+          "h": 8,
+          "i": 1,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 0
+        },
+        {
+          "component": "",
+          "h": 8,
+          "i": 2,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 8
+        },
+        {
+          "component": "",
+          "h": 8,
+          "i": 3,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 16
+        },
+        {
+          "component": "",
+          "h": 8,
+          "i": 4,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 24
+        },
+        {
+          "component": "",
+          "h": 8,
+          "i": 1,
+          "moved": false,
+          "type": "mp4",
+          "w": 48,
+          "x": 0,
+          "y": 32
+        }
+      ];
       // 加载地图视频图层
       this.addVideoLayer();
 
@@ -515,7 +566,7 @@ export default {
 .opt-btns {
   position: absolute;
   width: 100%;
-  padding: 0 0.25rem;
+  padding: 0 0.2rem;
   // left: 0.3rem;
   top: 0.25rem;
   // display: flex;
@@ -524,7 +575,7 @@ export default {
 
   .videoTypeSelect {
     position: relative;
-    width: 3.80rem;
+    width: 3.1rem;
   }
 
   .title {
@@ -560,7 +611,7 @@ export default {
   color: #7babf5;
   cursor: pointer;
   position: absolute;
-  left: 4.04rem;
+  left: 3.35rem;
   // float: right;
   // right: 0.3rem;
   top: 0.25rem;
@@ -627,7 +678,7 @@ export default {
   height: 0.78rem !important;
   line-height: 0.78rem !important;
   border: 0.02rem solid #1650a4 !important;
-  width: 3.80rem !important;
+  width: 3.1rem !important;
 }
 
 .el-select .el-input .el-select__caret {
