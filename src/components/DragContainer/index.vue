@@ -7,7 +7,7 @@
       </div>
       <div class="drag-content" v-if="urls && dialogShow">
         <template v-if="type==='img'">
-          <el-carousel height="16.5rem" indicator-position="outside" :initial-index="initialIndex">
+          <el-carousel height="16.5rem" indicator-position="outside" :initial-index="initialIndex" :autoplay="false" :loop="false">
             <el-carousel-item v-for="(item,index) in urls" :key="index">
               <div class="img-container">
                 <img :src="item.url" alt="">
@@ -17,7 +17,7 @@
          </el-carousel>
         </template>
         <template v-else-if="type==='video'">
-        <el-carousel height="16.5rem" indicator-position="outside" :initial-index="initialIndex">
+        <el-carousel height="16.5rem" indicator-position="outside" :initial-index="initialIndex" :autoplay="false" :loop="false">
           <el-carousel-item v-for="(item,index) in urls" :key="index">
             <video :src="item.url" autoplay controls></video>
           </el-carousel-item>
@@ -142,7 +142,7 @@ export default {
       width: 0.8rem;
       height: 0.8rem;
       font-size: 0.7rem;
-      background-color:rgba(0, 184, 212,0.6);
+      background-color:rgba(29, 69, 133,0.6);
     }
     .el-carousel__button{
       height: 0.1rem;

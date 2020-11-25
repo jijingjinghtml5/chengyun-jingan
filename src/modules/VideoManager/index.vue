@@ -27,13 +27,13 @@
         <el-button  class="text-btn" type="primary" >{{currentPlayOption.currentPage +'/'+ currentPlayOption.totalPage}}</el-button>
       </el-button-group>
     </div>
-    <div class="radio-control">
+    <!-- <div class="radio-control">
       <span>分布</span>
       <span class="radio" @click="handleToggle" >
         <span :class="toggleClass" class="circle"></span>
       </span>
       <span :class="{active: videoMapShow === true}" class="status-text" >{{statusText}}</span>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -63,8 +63,8 @@ export default {
         config: {
           colNum: 48,
           rowHeight: 30,
-          marginVertical: 10,
-          marginHorizontal: 10
+          marginVertical: 5,
+          marginHorizontal: 5
         },
         layout: [],
         videos: [],
@@ -174,14 +174,14 @@ export default {
       });
     },
     addVideoLayer() {
-      this.mapLayer.setParameters({
-        "data": {
-          "content": this.currentConfig.videos,
-          "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
-        }
-      }).$off(MapEvents.MAP_CLICK, "video-click-point").onClick(item => {
-        this.handleClickAdd(item);
-      }, "video-click-point").open();
+      // this.mapLayer.setParameters({
+      //   "data": {
+      //     "content": this.currentConfig.videos,
+      //     "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
+      //   }
+      // }).$off(MapEvents.MAP_CLICK, "video-click-point").onClick(item => {
+      //   this.handleClickAdd(item);
+      // }, "video-click-point").open();
     },
     // 删除视频图层
     removeVideoLayer() {
@@ -240,8 +240,10 @@ export default {
         config["config"] = {
           colNum: c.colNum,
           rowHeight: c.rowHeight,
-          marginVertical: c.marginVertical,
-          marginHorizontal: c.marginHorizontal
+          // marginVertical: c.marginVertical,
+          // marginHorizontal: c.marginHorizontal,
+          marginVertical: 7,
+          marginHorizontal: 7
         };
         config["layout"] = [...c.layouts];
         config["videos"] = [...configs[val].videos];
@@ -507,7 +509,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
-  border: 0.02rem solid #4e78a4;
+  border: 0.01rem solid #4e78a4;
 }
 
 .opt-btns {
