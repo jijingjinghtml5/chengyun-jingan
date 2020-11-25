@@ -1,11 +1,25 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-dihezhongdianquyu">
-    <m-tabs slot="level-title" v-model="tab" :tabs="tabs"></m-tabs>
-    <m-row>
-      <m-column  v-for="item in activeItems" :key="item.name">
-        <overview-item v-bind="item" :customClass="activeCustomClass"></overview-item>
-      </m-column>
-    </m-row>
+    <m-tabs slot="level-title" v-model="firstTab" :tabs="tabs" @change="handleChangeForTabItem"></m-tabs>
+    <m-tabs-body :tab="secondTab">
+      <m-tabs-body-item name="today" class="today-overview">
+        <m-row>
+          <m-column  v-for="item in todayItems" :key="item.name">
+            <overview-item v-bind="item" customClass="style1" @click.native="handleClickForOpenLayer(item)"></overview-item>
+          </m-column>
+        </m-row>
+      </m-tabs-body-item>
+      <m-tabs-body-item name="district">
+        <m-row>
+          <m-column  v-for="item in districtItems" :key="item.name">
+            <overview-item v-bind="item" customClass="style2"></overview-item>
+          </m-column>
+        </m-row>
+      </m-tabs-body-item>
+      <m-tabs-body-item v-for="item in todayItems" :key="item.prop" :name="item.prop" class="today-overview">
+        <overview-item v-bind="item" customClass="style1" @click.native="handleClickForCloseLayer(item)"></overview-item>
+      </m-tabs-body-item>
+    </m-tabs-body>
   </wrap-title>
 </template>
 <script>
@@ -14,6 +28,8 @@ import MTabs from "@/components/MTabs";
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
 import OverviewItem from "@/components/OverviewItem";
+import MTabsBody from "@/components/MTabsBody/MTabsBody";
+import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 export default {
   name: "OverView",
   components: {
@@ -21,7 +37,9 @@ export default {
     MTabs,
     MRow,
     MColumn,
-    OverviewItem
+    OverviewItem,
+    MTabsBody,
+    MTabsBodyItem
   },
   inheritAttrs: false,
   data() {
@@ -45,28 +63,71 @@ export default {
         { icon: "icon-yiyuan", name: "医疗资源", nameUnit: "（个）", showIncrease: false, prop: "ylzy", extraItems: [{ label: "三甲医院", prop: "sjyy" }] },
         { icon: "icon-wulianganzhi1", name: "物联感知", nameUnit: "（台）", showIncrease: false, prop: "wlgz", extraItems: [{ label: "覆盖率", prop: "cover", unit: "%" }] }
       ]),
-      tab: "today"
+      firstTab: "today",
+      secondTab: "today"
     };
   },
-  computed: {
-    activeItems() {
-      return this[`${this.tab}Items`] || [];
+  methods: {
+    handleClickForOpenLayer(item) {
+      this.secondTab = item.prop;
+      const layerName = `${item.prop}Layer`;
+      this[layerName].setParameters({
+        "data": {
+          "content": [{ "x": -1733, "y": -917 }],
+          "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+        }
+      }).open();
     },
-    activeCustomClass() {
-      return this.tab === "district" ? "style2" : "style1";
+    handleClickForCloseLayer(item) {
+      this.secondTab = this.tabs[0].value;
+      this[`${item.prop}Layer`].close();
     },
-    activeDataset() {
-      return {};
+    handleChangeForTabItem(val) {
+      this.secondTab = val;
+    },
+    registerLayersForTodayOverview() {
+      this.todayItems.forEach(item => {
+        const key = `${item.prop}Layer`;
+        this[key] = this.$_mapProxy
+          .registerLayer(key, item.name.slice(0, 4) + "图层")
+          .setParameters({
+            "name": key,
+            "type": "point",
+            "mode": "replace",
+            "legendVisible": false,
+            "popupEnabled": false,
+            "isFiltered": true,
+            "isLocate": false,
+            "renderer": {
+              type: "simple",
+              symbol: {
+                type: "simple-marker",
+                size: 20,
+                color: [0, 255, 244],
+                outline: {
+                  color: "#ffffff",
+                  width: "1px"
+                }
+              }
+            }
+          });
+      });
     }
+  },
+  created() {
+    this.registerLayersForTodayOverview();
   }
 };
 </script>
 <style lang="scss" scoped>
-.wrap-title {
-  /deep/ {
-    .wrap-title__content {
-      justify-content: center;
-    }
+.m-tabs-body__item {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.today-overview {
+  .overview-item {
+    cursor: pointer;
   }
 }
 </style>
