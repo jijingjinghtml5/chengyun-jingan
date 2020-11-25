@@ -9,14 +9,14 @@
           </m-row>
         </div>
         <div class="chart">
-          <bar-chart :chartData="chartData" :colors="colors" :showYLabel="true" :pageLen="24">
-          </bar-chart>
+          <line-chart :chartData="chartData" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
+          </line-chart>
         </div>
       </div>
       <div class="wall-panel">
         <m-row class="tile-row" gutter="60px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
             <m-column v-for="(item, index) in chunk" :key="`other-${index}`">
-              <tile :item="item" class="block"></tile>
+              <tile :item="item" class="block clickAble" @click="handleClick(item)"></tile>
             </m-column>
           </m-row>
       </div>
@@ -25,12 +25,12 @@
 <script>
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
-import BarChart from "@/components/Charts/Bar/ChartBar3";
+import LineChart from "@/components/Charts/Line/ChartLine";
 import Tile from "@/components/Tile";
 
 export default {
   name: "TodayFocusOverview",
-  components: { MRow, MColumn, BarChart, Tile },
+  components: { MRow, MColumn, LineChart, Tile },
   computed: {
     otherItems() {
       let items = [...this.items];
@@ -121,38 +121,25 @@ export default {
       colors: ["#F23470", "#2E9BCF", "#1ABC9C"],
       chartData: [
         ["时间", "公共安全", "公共管理", "公共服务"],
-        ["00:00", 80, 60, 90],
-        ["01:00", 80, 60, 90],
-        ["02:00", 80, 60, 90],
-        ["03:00", 80, 60, 90],
-        ["04:00", 80, 60, 90],
-        ["05:00", 80, 60, 90],
-        ["06:00", 80, 60, 90],
-        ["07:00", 80, 60, 90],
-        ["08:00", 80, 60, 90],
-        ["09:00", 80, 60, 90],
-        ["10:00", 80, 60, 90],
-        ["11:00", 80, 60, 90],
-        ["12:00", 80, 60, 90],
-        ["13:00", 80, 60, 90],
-        ["14:00", 80, 60, 90],
-        ["15:00", 80, 60, 90],
-        ["16:00", 80, 60, 90],
-        ["17:00", 80, 60, 90],
-        ["18:00", 80, 60, 90],
-        ["19:00", 80, 60, 90],
-        ["20:00", 80, 60, 90],
-        ["21:00", 80, 60, 90],
-        ["22:00", 80, 60, 90],
-        ["23:00", 80, 60, 90]
-
+        ...(new Array(24)).fill(0).map((v, index) => {
+          return [
+            index.toString().padStart(2) + ":00",
+            Math.floor(Math.random() * 100),
+            Math.floor(Math.random() * 100),
+            Math.floor(Math.random() * 100)
+          ];
+        })
       ]
     };
   },
   methods: {
     handleClick(item) {
       console.log("item,", item);
-      this.$emit("click", "dashboard", item);
+      let component = "dashboard";
+      if (["公共安全案件数", "公共管理案件数", "公共服务案件数"].indexOf(item.label) === -1) {
+        component = "list";
+      }
+      this.$emit("click", component, item);
     }
   }
 };
@@ -166,25 +153,20 @@ export default {
   .three-public{
     .wall{
       .block{
-        height: 1.8rem;
+        height: 2.1rem;
       }
     }
     .chart{
       padding: 0.1rem 0;
-      height: 3.8rem;
+      height: 3.6rem;
     }
   }
   .wall-panel{
     .tile-row{
       padding: 0.1rem 0;
       .block{
-        height: 2rem;
+        height: 2.1rem;
       }
-    }
-  }
-  .clickAble{
-    :hover{
-      color: #fff;
     }
   }
 }
