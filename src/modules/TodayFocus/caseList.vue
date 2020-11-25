@@ -8,7 +8,14 @@
     :headers="headers"
     :dataset="tableData"
     @rowClick="handleRowClick"
-  ></m-list>
+  >
+    <template  v-slot:state="{row}">
+      <div :style="`color: ${getStatusColor(row.state)}`">
+        <span class="iconfont " :class="getIcon(row.state)"></span>
+        <span>{{row.state}}</span>
+      </div>
+    </template>
+  </m-list>
 </wrap-title>
 </template>
 <script>
@@ -80,7 +87,9 @@ export default {
         {
           label: "处置阶段",
           prop: "state",
-          filter: true
+          filter: true,
+          type: "slot",
+          slot: "state"
         }
       ],
       tableData: [
@@ -100,7 +109,7 @@ export default {
           timestamp: "1606112715",
           address: "曲阳路",
           town: "南京西路街道",
-          state: "发现",
+          state: "立案",
           lng: "-2505.05087418",
           lat: "-305.89530435335"
         },
@@ -110,7 +119,17 @@ export default {
           timestamp: "1606112715",
           address: "曲阳路",
           town: "南京西路街道",
-          state: "发现",
+          state: "派遣",
+          lng: "-2505.05087418",
+          lat: "-305.89530435335"
+        },
+        {
+          id: 6,
+          name: "2020新冠案件",
+          timestamp: "1606112715",
+          address: "曲阳路",
+          town: "南京西路街道",
+          state: "处理",
           lng: "-2505.05087418",
           lat: "-305.89530435335"
         },
@@ -120,7 +139,7 @@ export default {
           timestamp: "1606112715",
           address: "曲阳路",
           town: "南京西路街道",
-          state: "发现",
+          state: "核查",
           lng: "-2505.05087418",
           lat: "-305.89530435335"
         },
@@ -130,7 +149,7 @@ export default {
           timestamp: "1606112715",
           address: "曲阳路",
           town: "南京西路街道",
-          state: "发现",
+          state: "结案",
           lng: "-2505.05087418",
           lat: "-305.89530435335"
         }
@@ -142,7 +161,7 @@ export default {
     handleClick() {
       this.$emit("click", "dashboard", this.item);
     },
-    getStatus(status) {
+    getStatusColor(status) {
       let color = "";
       switch (status) {
         case "发现":
@@ -156,12 +175,30 @@ export default {
 
           break;
         case "结案":
-          color = "#14ddb3";
+          color = "#6CCB73";
           break;
         default:
           color = "#7BABF5";
       }
-      return { color };
+      return color;
+    },
+    getIcon(status) {
+      switch (status) {
+        case "发现":
+          return "icon-faxian";
+        case "立案":
+          return "icon-lian";
+        case "派遣":
+          return "icon-paiqian";
+        case "处理":
+          return "icon-chuzhi";
+        case "核查":
+          return "icon-hecha";
+        case "结案":
+          return "icon-jiean";
+        default:
+          return "";
+      }
     },
     handleRowClick(row) {
       if (row) {

@@ -173,8 +173,8 @@
               class="cell"
               v-html="column.formatter(item, column.prop)"
             ></div>
-            <div v-else-if="column.type === 'solt'" >
-              <slot :name="column.solt" v-bind:row="item"></slot>
+            <div v-else-if="column.type === 'slot'" >
+              <slot :name="column.slot" v-bind:row="item"></slot>
             </div>
             <div v-else class="cell">{{ item.hasOwnProperty(column.prop) ? item[column.prop] : "-" }}</div>
           </div>
