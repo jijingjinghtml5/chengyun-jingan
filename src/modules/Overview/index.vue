@@ -56,11 +56,11 @@ export default {
         { icon: "icon-jingtaijiaotong", name: "重大活动数", valueUnit: "%", valueColor: "#F23470", prop: "zdhds" }
       ]),
       districtItems: Object.freeze([
-        { icon: "icon-renkouku", name: "党建引领", prop: "djyl", customClass: "style5" },
-        { icon: "icon-juminxiaoqu", name: "公共管理", prop: "gggl", customClass: "style2" },
-        { icon: "icon-shichang", name: "公共安全", prop: "ggaq", customClass: "style2" },
-        { icon: "icon-xuexiao", name: "公共服务", prop: "ggfw", customClass: "style2" },
-        { icon: "icon-yiyuan", name: "社会参与", prop: "shcy", customClass: "style2" }
+        { icon: "icon-renkouku", name: "实有人口", prop: "djyl", customClass: "style2" },
+        { icon: "icon-juminxiaoqu", name: "GDP", prop: "gggl", customClass: "style2" },
+        { icon: "icon-shichang", name: "税收总量", prop: "ggaq", customClass: "style2" },
+        { icon: "icon-xuexiao", name: "商务楼宇", prop: "ggfw", customClass: "style2" },
+        { icon: "icon-yiyuan", name: "就业率", valueUnit: "%", prop: "shcy", customClass: "style2" }
       ]),
       firstTab: "today",
       secondTab: "today",

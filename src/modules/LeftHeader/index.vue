@@ -12,12 +12,12 @@
         <p class="temp">{{ weather.temperature | initVal }}°C</p>
         <p class="report">晴转小雨</p>
       </li>
-      <li class="img hasBorder">
+      <!-- <li class="img hasBorder">
         <img src="@/assets/images/weather/1-3.png" alt="">
       </li>
       <li class="img hasBorder">
         <img src="@/assets/images/weather/4-3.png" alt="">
-      </li >
+      </li > -->
     </ul>
     <weather class="left-header__item" :items="weatherItems" :dataset="weather"></weather>
   </div>
@@ -42,43 +42,6 @@ export default {
     return {
       now: new Date(),
       weatherItems: Object.freeze([
-        // {
-        //   icon: "iconfont icon-wendu",
-        //   label: "温度",
-        //   key: "temperature",
-        //   unit: "°C"
-        // },
-        // {
-        //   icon: "iconfont icon-yangchen",
-        //   label: "空气AQI",
-        //   key: "aqi",
-        //   unit: ""
-        // },
-        // {
-        //   icon: "iconfont icon-shidu",
-        //   label: "湿度",
-        //   key: "humidity",
-        //   unit: "%"
-        // },
-        // {
-        //   icon: "iconfont icon-jiangyu",
-        //   label: "降雨量",
-        //   key: "precipitation",
-        //   unit: "mm"
-        // },
-        // {
-        //   icon: "iconfont icon-fengli",
-        //   label: "风速",
-        //   key: "windSpeed",
-        //   unit: "m/s"
-        // },
-
-        // {
-        //   icon: "iconfont icon-PM",
-        //   label: "PM2.5",
-        //   key: "pm25",
-        //   unit: "μg/m³"
-        // }
         {
           icon: "iconfont icon-kongqizhiliang",
           label: "空气AQI",
@@ -93,24 +56,31 @@ export default {
         },
         {
           icon: "iconfont icon-jiangyuliang",
-          label: "降雨量",
-          key: "precipitation",
+          label: "易燃指数",
+          key: "inflammable",
           unit: "mm"
         },
         {
           icon: "iconfont icon-fengli1",
-          label: "风力",
-          key: "windSpeed",
+          label: "寒潮指数",
+          key: "coldWave",
           unit: ""
         },
         {
           icon: "iconfont icon-fengxiang1",
-          label: "风向",
-          key: "windDirection",
+          label: "防汛指数",
+          key: "floodPrevention",
           unit: ""
         }
       ]),
-      weather: {}
+      weather: {
+        temperature: 17,
+        api: 20,
+        yangchen: 1.2,
+        inflammable: 20,
+        coldWave: 4,
+        floodPrevention: 0
+      }
     };
   },
   filters: {
@@ -146,7 +116,7 @@ export default {
   },
   created() {
     this.startClock();
-    this.$timer.register(this.getWeatherDataValue, this);
+    // this.$timer.register(this.getWeatherDataValue, this);
   }
 };
 </script>
@@ -180,7 +150,7 @@ export default {
   font-size: 0.32rem;
 }
 .weather-wrap {
-  width: 14rem;
+  width: 16rem;
   flex-grow: 0;
   flex-shrink: 0;
 }
