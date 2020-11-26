@@ -16,7 +16,7 @@
       <div class="wall-panel">
         <m-row class="tile-row" gutter="60px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
             <m-column v-for="(item, index) in chunk" :key="`other-${index}`">
-              <tile :item="item" class="block clickAble" @click="handleClick(item)"></tile>
+              <tile1 :item="item" class="block clickAble" @click="handleClick(item)"></tile1>
             </m-column>
           </m-row>
       </div>
@@ -27,10 +27,16 @@ import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
 import LineChart from "@/components/Charts/Line/ChartLine";
 import Tile from "@/components/Tile";
+import Tile1 from "@/components/Tile/index1";
+
+import Vue from "vue";
+import { Row, Col } from "element-ui";
+Vue.use(Row);
+Vue.use(Col);
 
 export default {
   name: "TodayFocusOverview",
-  components: { MRow, MColumn, LineChart, Tile },
+  components: { MRow, MColumn, LineChart, Tile, Tile1 },
   computed: {
     otherItems() {
       let items = [...this.items];
@@ -75,49 +81,63 @@ export default {
       ],
       items: [
         {
-          icon: "icon-biaoti",
-          label: "今日警情",
+          // icon: "icon-biaoti",
+          label: "网格巡查",
           count: 30,
           rate: 1.08,
           unit: "件"
         },
         {
-          icon: "icon-biaoti",
-          label: "今日事故",
+          // icon: "icon-biaoti",
+          label: "市场监督",
           count: 0,
           rate: 1.08,
           unit: "件"
         },
         {
-          icon: "icon-biaoti",
-          label: "今日群体事件",
+          // icon: "icon-biaoti",
+          label: "110非警情",
           count: 78,
           rate: 1.08,
           unit: "件"
         },
         {
-          icon: "icon-biaoti",
-          label: "今日火情",
+          // icon: "icon-biaoti",
+          label: "综治",
           count: 0,
           rate: -1.08,
           unit: "件"
         },
         {
-          icon: "icon-biaoti",
-          label: "今日抢险救援",
+          // icon: "icon-biaoti",
+          label: "110出警",
           count: 1048,
           rate: 1.08,
-          unit: "条"
+          unit: "件"
         },
         {
-          icon: "icon-biaoti",
-          label: "今日信访",
+          // icon: "icon-biaoti",
+          label: "交通事故",
           count: 60,
           rate: 1.08,
-          unit: "条"
+          unit: "件"
+        },
+        {
+          // icon: "icon-biaoti",
+          label: "治安事件",
+          count: 60,
+          rate: 1.08,
+          unit: "件"
+        },
+        {
+          // icon: "icon-biaoti",
+          label: "火情",
+          count: 60,
+          rate: 1.08,
+          unit: "件"
         }
       ],
-      chunkSize: 3,
+      chunkSize: 4,
       colors: ["#F23470", "#2E9BCF", "#1ABC9C"],
       chartData: [
         ["时间", "公共安全", "公共管理", "公共服务"],

@@ -18,18 +18,13 @@
           </div>
           <div class="cell detail">
             <div class="item">
-              <p class="level2 text-ellipsis">公共安全</p>
+              <p class="level2 text-ellipsis">问题上报数(件)</p>
               <p class="level0 text-ellipsis" style="color:#2E9BCF;">{{ item.security | thousandCentimeter }}</p>
             </div>
             <div class="split"></div>
             <div class="item">
-              <p class="level2 text-ellipsis">公共管理</p>
+              <p class="level2 text-ellipsis">案件结案数(件)</p>
               <p class="level0 text-ellipsis" style="color:#F23470;">{{ item.manage | thousandCentimeter }}</p>
-            </div>
-            <div class="split"></div>
-            <div class="item">
-              <p class="level2 text-ellipsis">公共服务</p>
-              <p class="level0 text-ellipsis" style="color:#1ABC9C;">{{ item.service | thousandCentimeter }}</p>
             </div>
           </div>
           <div class="cell opt">
