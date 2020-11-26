@@ -65,18 +65,18 @@ export default {
           update_time: "今日8:00",
           metrics: [
             {
-              label: "新增集观",
-              count: 1,
+              label: "道路拥堵",
+              count: 78,
+              color: "#4FCFD5"
+            },
+            {
+              label: "地铁大客流",
+              count: 80,
               color: "#F23470"
             },
             {
-              label: "解除集观",
+              label: "地铁故障",
               count: 2,
-              color: "#6CCB73"
-            },
-            {
-              label: "新增居家观察",
-              count: 78,
               color: "#F96F4F"
             }
           ]
@@ -88,19 +88,19 @@ export default {
           update_time: "今日8:00",
           metrics: [
             {
-              label: "新增集观",
-              count: 1,
+              label: "集中来电",
+              count: 78,
+              color: "#4FCFD5"
+            },
+            {
+              label: "安全隐患",
+              count: 2,
               color: "#F23470"
             },
             {
-              label: "解除集观",
-              count: 2,
-              color: "#6CCB73"
-            },
-            {
-              label: "新增居家观察",
+              label: "物联感知",
               count: 78,
-              color: "#F96F4F"
+              color: "#4FCFD5"
             }
           ]
         },
@@ -111,19 +111,19 @@ export default {
           update_time: "今日8:00",
           metrics: [
             {
-              label: "新增集观",
-              count: 1,
+              label: "重点场所",
+              count: 102,
               color: "#F23470"
             },
             {
-              label: "解除集观",
-              count: 2,
+              label: "道路/园区",
+              count: 69,
               color: "#6CCB73"
             },
             {
-              label: "新增居家观察",
+              label: "交通枢纽",
               count: 78,
-              color: "#F96F4F"
+              color: "#6CCB73"
             }
           ]
         }
