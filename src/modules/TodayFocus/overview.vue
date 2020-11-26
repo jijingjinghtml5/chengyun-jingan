@@ -14,11 +14,11 @@
         </div>
       </div>
       <div class="wall-panel">
-        <m-row class="tile-row" gutter="60px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
-            <m-column v-for="(item, index) in chunk" :key="`other-${index}`">
+        <el-row class="tile-row" gutter="20" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
+            <el-col :span="6" v-for="(item, index) in chunk" :key="`other-${index}`">
               <tile1 :item="item" class="block clickAble" @click="handleClick(item)"></tile1>
-            </m-column>
-          </m-row>
+            </el-col>
+          </el-row>
       </div>
   </div>
 </template>
@@ -183,9 +183,12 @@ export default {
   }
   .wall-panel{
     .tile-row{
-      padding: 0.1rem 0;
-      .block{
-        height: 2.1rem;
+      padding: 0.2rem 0;
+    }
+    .el-col{
+      border-right: 1px dashed #4E78A4;
+      &:last-child{
+        border: 0;
       }
     }
   }
