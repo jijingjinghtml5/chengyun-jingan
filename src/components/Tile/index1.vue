@@ -70,15 +70,16 @@ export default {
   .title{
     color: $titleLevel2;
     .label{
-      font-size:36px;
+      font-size:30px;
+      font-weight: 500;
     }
     .unit{
-      font-size:28px;
+      font-size:24px;
     }
   }
   .number{
     // padding-left: 0.2rem;
-    font-size: 0.72rem;
+    font-size: 56px;
     color: $number;
     font-weight: bold;
   }
