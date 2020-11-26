@@ -2,7 +2,7 @@
   <div class="overview">
     <div class="three-public">
         <div class="wall">
-          <m-row gutter="60px">
+          <m-row gutter="20px">
             <m-column v-for="(item, index) in pubilcItems" :key="`public-${index}`">
               <tile :item="item" class="block clickAble"  @click="handleClick(item)"></tile>
             </m-column>
@@ -26,7 +26,7 @@
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
 import LineChart from "@/components/Charts/Line/ChartLine";
-import Tile from "@/components/Tile";
+import Tile from "@/components/Tile/index2";
 import Tile1 from "@/components/Tile/index1";
 
 import Vue from "vue";
@@ -55,28 +55,17 @@ export default {
     return {
       pubilcItems: [
         {
-          icon: "icon-biaoti",
-          label: "公共安全案件数",
-          count: 30,
+          label: "一网统管",
+          count: 109772,
           rate: 1.08,
-          color: "#F23470"
-          // unit: "件"
+          color: "#4FCFD5"
         },
         {
           icon: "icon-biaoti",
-          label: "公共管理案件数",
-          count: 0,
+          label: "一网通办",
+          count: 12198,
           rate: 1.08,
           color: "#2E9BCF"
-          // unit: "件"
-        },
-        {
-          icon: "icon-biaoti",
-          label: "公共安全案件数",
-          count: 78,
-          rate: 1.08,
-          color: "#1ABC9C"
-          // unit: "件"
         }
       ],
       items: [
