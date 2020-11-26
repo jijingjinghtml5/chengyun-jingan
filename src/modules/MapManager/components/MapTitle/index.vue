@@ -26,16 +26,20 @@ export default {
 
       },
      mapControlItem: [
-        { name: "居委会(个)", iconClass: "icon-diliku", attr: "juwei", isExpand: true, columns: 2 },
-        { name: "办公楼宇/园区(个)", iconClass: "icon-bangonglouyu", attr: "yuanqu", isExpand: true, columns: 2 },
-        { name: "沿街商铺(间)", iconClass: "icon-yanjieshangpu", attr: "shangpu", isExpand: true, columns: 2 },
-        { name: "建设工地(个)", iconClass: "icon-zaijiangongdi", attr: "gongdi", isExpand: true, radio: true, columns: 2 }
+        { name: "人(万人)", iconClass: "icon-renqunjuji", attr: "people", isExpand: true, columns: 2 },
+        { name: "地(个)", iconClass: "icon-bangonglouyu", attr: "area", isExpand: true, columns: 2 },
+        { name: "物(台)", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2 },
+        { name: "事(个)", iconClass: "icon-jinriguanzhu", attr: "event", isExpand: true, radio: true, columns: 2 },
+        { name: "情(件)", iconClass: "icon-wu", attr: "situation", isExpand: true, columns: 2 },
+        { name: "组织(个)", iconClass: "icon-luchangzhi", attr: "organization", isExpand: true, radio: true, columns: 2 }
       ],
       mapControlItemData: {
-        juwei: "12",
-        yuanqu: "171",
-        shangpu: "3433",
-        gongdi: "89"
+        people: "820",
+        area: "171",
+        thing: "3433",
+        event: "89",
+        situation: "901",
+        organization: "121"
       },
       checkItems: {
         juwei: []
