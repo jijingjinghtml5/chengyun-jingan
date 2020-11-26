@@ -85,7 +85,7 @@ export default {
   font-size: 0.24rem;
 }
 .overview-item__name {
-  color: #D1C9C4;
+  color: $titleLevel2;
 }
 .overview-item__icon {
   color: #0071FF;

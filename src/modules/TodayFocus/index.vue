@@ -2,9 +2,15 @@
 <div class="container gradient-bg">
     <wrap-title txt="今日关注" :level="1" icon="icon-wangge">
       <div slot="right" class="title-right">
-        <span class="iconfont icon-chaoqianjian-lianghongdeng" style="color:#D0021B"></span>
+        <span class="iconfont icon-chaoqianjian-lianghongdeng"
+          style="color:#D0021B; cursor:pointer;"
+          @click="handleClick('list',{label: '紧急案件'})"
+        ></span>
         <span style="margin-right: 0.4rem">{{red | thousandCentimeter}}</span>
-        <span class="iconfont icon-jinjidaiban-lianghuangdeng" style="color:#F5A623;"></span>
+        <span class="iconfont icon-jinjidaiban-lianghuangdeng"
+          style="color:#F5A623; cursor:pointer;"
+          @click="handleClick('list',{label: '逾期案件'})"
+          ></span>
         <span>{{yellow | thousandCentimeter}}</span>
       </div>
       <div slot="center" class="title-center" v-if="current!='overview'">

@@ -27,7 +27,7 @@ export default {
   align-items: center;
   font-size: 0.32rem;
   font-weight: 400;
-  color: #669DF4;
+  color:#92B9F7;
 }
 .m-tabs__item-line {
   margin: 0 0.1rem;
