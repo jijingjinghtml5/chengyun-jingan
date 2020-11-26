@@ -43,7 +43,7 @@ import Overview from "@/modules/Overview";
 import UrbanSecurity from "@/modules/UrbanSecurity";
 import RegionalTransportation from "@/modules/RegionalTransportation";
 import EconomicDevelopment from "@/modules/EconomicDevelopment";
-import HotSpots from "@/modules/HotSpots";
+import LivelihoodSecurity from "@/modules/LivelihoodSecurity";
 
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
@@ -79,7 +79,7 @@ export default {
     UrbanSecurity,
     RegionalTransportation,
     EconomicDevelopment,
-    HotSpots,
+    LivelihoodSecurity,
     test: () => import("@/modules/test")
   },
   provide() {
@@ -189,7 +189,7 @@ export default {
               w: 5,
               h: 62,
               i: 131,
-              component: "RegionalTransportation",
+              component: "EconomicDevelopment",
               moved: false
             },
             // 经济发展
@@ -199,7 +199,7 @@ export default {
               w: 5,
               h: 62,
               i: 132,
-              component: "EconomicDevelopment",
+              component: "LivelihoodSecurity",
               moved: false
             },
             // 舆情热点
@@ -209,7 +209,7 @@ export default {
               w: 5,
               h: 62,
               i: 133,
-              component: "HotSpots",
+              component: "RegionalTransportation",
               moved: false
             },
 
