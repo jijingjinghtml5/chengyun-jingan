@@ -160,6 +160,12 @@ export default {
         background-color: rgba(37, 115, 239, 0.4);
         >span{
           color: white;
+              .supportWebkitTextFillColor &{
+                background-image: none;
+                // background-clip: text;
+                -webkit-background-clip: unset;
+                -webkit-text-fill-color: unset;
+              }
         }
       }
       .mapControlIcon {
@@ -167,10 +173,15 @@ export default {
         width: 0.9rem;
         height: 0.9rem;
         text-align: center;
-        color: #ffffff;
         font-size: 0.5rem;
         line-height: 0.9rem;
-        color: rgba(102, 157, 244, 1);
+        color: #0071FF;
+        .supportWebkitTextFillColor &{
+          background-image: linear-gradient(180deg, #4FCFD5 0%, #0071FF 100%);
+          // background-clip: text;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
       }
     }
 
@@ -184,7 +195,7 @@ export default {
       }
       .mapControlLableText {
         font-size: 0.28rem;
-        color: rgba(102, 157, 244, 1);
+        color:#D1C9C4;
       }
       .mapControlLableIcon {
         display: inline-block;

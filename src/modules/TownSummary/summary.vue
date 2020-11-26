@@ -106,7 +106,7 @@ export default {
     .detail{
       flex: 1;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
       .item{
         padding: 0 20px;

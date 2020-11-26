@@ -64,13 +64,15 @@ export default {
   align-items: center;
   line-height: 1.5;
   text-align: center;
+
+  background: linear-gradient(180deg, rgba(79, 207, 213, 0) 0%, rgba(46, 155, 207, 0.4) 100%);
   .unit{
     font-size: 0.24rem;
   }
   .title{
     color: $titleLevel2;
     .label{
-      font-size:30px;
+      font-size:36px;
       font-weight: 500;
     }
     .unit{
@@ -78,8 +80,7 @@ export default {
     }
   }
   .number{
-    // padding-left: 0.2rem;
-    font-size: 56px;
+    font-size: 72px;
     color: $number;
     font-weight: bold;
   }
