@@ -2,7 +2,7 @@
   <div class="overview">
     <div class="three-public">
         <div class="wall">
-          <m-row gutter="20px">
+          <m-row gutter="10px">
             <m-column v-for="(item, index) in pubilcItems" :key="`public-${index}`">
               <tile :item="item" class="block clickAble"  @click="handleClick(item)"></tile>
             </m-column>
