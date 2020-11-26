@@ -155,7 +155,7 @@ export default {
 <style lang="scss" scoped>
 .treeMenu{
   // position: absolute;
-   z-index: 100;
+   z-index: 10000;
   display: flex;
   background: rgba(15, 46, 96, 0.6);
   border-radius: 0.04rem;

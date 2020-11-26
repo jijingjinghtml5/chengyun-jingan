@@ -42,7 +42,157 @@ export default {
         organization: "121"
       },
       checkItems: {
-        juwei: []
+        people: [
+          {
+            name: "实有人口",
+            nameKey: "name",
+            children: [
+              {
+                name: "户籍人口",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "来沪人口",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "境外人口",
+                nameKey: "name",
+                checked: false
+              }
+
+            ],
+            childKey: "children"
+          }
+        ],
+        thing: [
+          {
+            name: "部件",
+            nameKey: "name",
+            children: [
+              {
+                name: "部件1",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "部件2",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "部件3",
+                nameKey: "name",
+                checked: false
+              }
+
+            ],
+            childKey: "children"
+          },
+          {
+            name: "管线",
+            nameKey: "name",
+            children: [
+              {
+                name: "管线1",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "管线2",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "管线3",
+                nameKey: "name",
+                checked: false
+              }
+
+            ],
+            childKey: "children"
+          }
+        ],
+        area: [
+              {
+                name: "学校",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "公园",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "商业楼宇",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "医院",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "养老院",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "图书馆",
+                nameKey: "name",
+                checked: false
+              }
+        ],
+        event: [
+              {
+                name: "主动",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "被动",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "自动",
+                nameKey: "name",
+                checked: false
+              }
+        ],
+        situation: [
+              {
+                name: "舆情",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "火情",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "警情",
+                nameKey: "name",
+                checked: false
+              }
+        ],
+        organization: [
+              {
+                name: "工商组织",
+                nameKey: "name",
+                checked: false
+              },
+              {
+                name: "公益组织",
+                nameKey: "name",
+                checked: false
+              }
+        ]
       }
 
     };
