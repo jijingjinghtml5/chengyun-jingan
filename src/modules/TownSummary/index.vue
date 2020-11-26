@@ -2,7 +2,7 @@
 <div class="container gradient-bg">
     <wrap-title txt="风险预警" :level="1" icon="icon-qujiducha">
       <m-tabs slot="level-title" v-model="tab" :tabs="tabs"></m-tabs>
-      <component :is="current" style="margin-top:20px;"></component>
+      <component :is="tab" style="margin-top:20px;"></component>
     </wrap-title>
 </div>
 </template>
@@ -13,29 +13,20 @@ import MTitle from "@/components/MTitle/LevelTitle";
 import MTabs from "@/components/MTabs";
 import Summary from "./summary";
 import Appraise from "./appraise";
+import OperationStatus from "./operationStatus";
 
 export default {
   name: "TownSummary",
   inject: ["createFnForCalcRealPx"],
-  components: { WrapTitle, MTabs, MTitle, Summary, Appraise },
+  components: { WrapTitle, MTabs, MTitle, Summary, Appraise, OperationStatus },
   data() {
     return {
       tabs: Object.freeze([
-        { label: "街镇概况", value: "summary" },
-        { label: "绩效考核", value: "appraise" }
+        { label: "街镇概况", value: "Summary" },
+        { label: "绩效考核", value: "OperationStatus" }
       ]),
-      tab: "summary"
+      tab: "Summary"
     };
-  },
-  computed: {
-    current() {
-      switch (this.tab) {
-        case "appraise":
-          return Appraise;
-        default:
-         return Summary;
-      }
-    }
   }
 };
 </script>
