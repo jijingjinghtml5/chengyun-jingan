@@ -23,7 +23,7 @@ export default {
     return {
       tabs: Object.freeze([
         { label: "街镇概况", value: "Summary" },
-        { label: "绩效考核", value: "OperationStatus" }
+        { label: "运行动态", value: "OperationStatus" }
       ]),
       tab: "Summary"
     };
