@@ -80,14 +80,15 @@ export default {
         customClass: "style3",
         showIncrease: false,
         extraItems: [
-          { label: "拥堵长度", prop: "width", unit: "km" },
-          { label: "拥堵时间", prop: "time", unit: "h" }
+          { label: "拥堵长度", prop: "width", unit: "km" }
+          // { label: "拥堵时间", prop: "time", unit: "h" }
         ]
       }),
       trafficFlow: Object.freeze([
         { name: "上海火车站区域", icon: "icon-huoche", key: "trainStation" },
         { name: "轨道交通/公交车", icon: "icon-gonggongjiaotong", key: "bus" },
-        { name: "网约车/出租车", icon: "icon-chuzuwangyue", key: "taxi" }
+        { name: "网约车/出租车", icon: "icon-chuzuwangyue", key: "taxi" },
+        { name: "共享单车", icon: "icon-chuzuwangyue", key: "bicycle" }
       ]),
       option: "today",
       dataset: {
@@ -169,6 +170,18 @@ export default {
       });
 
       // 热力图图层
+
+      // // 定位图层 不显示图标
+      // this.hiddenPointLayer = this.$_mapProxy.registerLayer("hiddenPointLayer", "隐藏定位点")
+      // .setParameters({
+      //   name: "hiddenPointLayer",
+      //   type: "point",
+      //   mode: "replace",
+      //   isLocate: true,
+      //   hasImg: false,
+      //   tilt: 0
+      // });
+
       // 撒点
       const taxiLayers = [{ name: "taxi" }];
       taxiLayers.forEach(layer => {
@@ -216,33 +229,48 @@ export default {
             break;
           case "trainStation":
           case "bus":
-            // const points = [[-1604.94,1639.61], [-1604.42,1639.85], [-1605.46,1638.77], [-1604.93,1637.73], [-1604.97,1636.65], [-1605.53,1637.85], [-1595.51,1634.12], [-1603.13,1624.39], [-1596.01,1628.89], [1597.3,1623.98]];
-            // const data = points.map(d => {
-            //   return {
-            //     x: d[0],
-            //     y: d[1],
-            //     count: 10 + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10)
-            //   }
-            // })
-            // console.log(this.$_mapProxy, "------------------------");
-            // this.$_mapProxy.bridge({
-            //   "ActionName": "doShowHeat",
-            //   "Parameters": {
-            //     "visible": true,
-            //     "weightFied": "COUNT",
-            //     "gradient": {
-            //       ".25": "#4ef1b2",
-            //       ".50": "#7cd346",
-            //       ".75": "#f3f12c",
-            //       ".95": "#fd2f02"
-            //     },
-            //     "radius": 35,
-            //     "geofield": {
-            //       "xfield": "X",
-            //       "yfield": "Y"
-            //     }
-            //   }
-            // })
+            const points = [[-1604.94, 1639.61], [-1604.42, 1639.85], [-1605.46, 1638.77], [-1604.93, 1637.73], [-1604.97, 1636.65], [-1605.53, 1637.85], [-1595.51, 1634.12], [-1603.13, 1624.39], [-1596.01, 1628.89], [-1597.3, 1623.98], [-1393.38, 1739.87], [-1401.12, 1689.7], [-1551.83, 1672.53], [-1566.29, 1871.48], [-1321.5, 1687.28], [-1283.99, 1757.13], [-1479.78, 1730.79]];
+            const data = points.map(d => {
+              return {
+                X: d[0],
+                Y: d[1],
+                COUNT: 10 + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10)
+              };
+            });
+            console.log(this.$_mapProxy, JSON.stringify(data), "------------------------");
+            this.$_mapProxy.bridge.Invoke({
+              ActionName: "goToPosition",
+              Parameters: {
+                positon: {
+                  x: -1529.45,
+                  y: 1783.92,
+                  z: 10
+                },
+                tilt: 0,
+                hasImg: false,
+                zoom: 9
+              }
+            });
+            this.$_mapProxy.bridge.Invoke({
+              "ActionName": "doShowHeat",
+              "Parameters": {
+                "datasource": data,
+                "visible": true,
+                "isLocate": true,
+                "weightField": "COUNT",
+                "gradient": {
+                  ".25": "#4ef1b2",
+                  ".50": "#7cd346",
+                  ".75": "#f3f12c",
+                  ".95": "#fd2f02"
+                },
+                "radius": 35,
+                "geofield": {
+                  "xfield": "X",
+                  "yfield": "Y"
+                }
+              }
+            });
             break;
           case "taxi":
             this[`${item.key}Layer`].setParameters({
@@ -254,7 +282,12 @@ export default {
             break;
         }
       } else {
-        this[`${item.key}Layer`].close();
+        this[`${item.key}Layer`] && this[`${item.key}Layer`].close();
+        if (item.key === "trainStation" || item.key === "taxi") {
+          this.$_mapProxy.bridge.Invoke({
+            ActionName: "FullExtent"
+          });
+        }
         this.activeLayer = null;
       }
     }
