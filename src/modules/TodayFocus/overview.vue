@@ -9,8 +9,10 @@
           </m-row>
         </div>
         <div class="chart">
-          <line-chart :chartData="chartData" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
-          </line-chart>
+          <wrap-title :level="2" txt="案件趋势" icon="icon-biaoti">
+            <line-chart :showLegend="true" :legendConfig="legendConfig" :chartData="chartData" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
+            </line-chart>
+          </wrap-title>
         </div>
       </div>
       <div class="wall-panel">
@@ -23,11 +25,14 @@
   </div>
 </template>
 <script>
+import WrapTitle from "@/components/MTitle/WrapTitle";
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
 import LineChart from "@/components/Charts/Line/ChartLine";
 import Tile from "@/components/Tile/index2";
 import Tile1 from "@/components/Tile/index1";
+
+import { getDate } from "@/utils/tools";
 
 import Vue from "vue";
 import { Row, Col } from "element-ui";
@@ -36,7 +41,7 @@ Vue.use(Col);
 
 export default {
   name: "TodayFocusOverview",
-  components: { MRow, MColumn, LineChart, Tile, Tile1 },
+  components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1 },
   computed: {
     otherItems() {
       let items = [...this.items];
@@ -53,6 +58,13 @@ export default {
   },
   data() {
     return {
+      legendConfig: {
+        icon: "rect",
+        itemWidth: 20,
+        itemHeight: 6,
+        top: 0,
+        right: 250
+      },
       pubilcItems: [
         {
           label: "一网统管",
@@ -141,12 +153,14 @@ export default {
         }
       ],
       chunkSize: 5,
-      colors: ["#F23470", "#2E9BCF", "#1ABC9C"],
+      colors: ["#1ABC9C", "#679DF4", "#F96F4F", "#BE6CCC", "#D0021B"],
       chartData: [
-        ["时间", "公共安全", "公共管理", "公共服务"],
-        ...(new Array(24)).fill(0).map((v, index) => {
+        ["时间", "网格", "12345热线", "综治", "市场监管", "110非警情"],
+        ...getDate("currentMonth").map((v, index) => {
           return [
-            index.toString().padStart(2) + ":00",
+            v[0],
+            Math.floor(Math.random() * 100),
+            Math.floor(Math.random() * 100),
             Math.floor(Math.random() * 100),
             Math.floor(Math.random() * 100),
             Math.floor(Math.random() * 100)
@@ -181,12 +195,12 @@ export default {
     }
     .chart{
       padding: 0.1rem 0;
-      height: 3.6rem;
+      height: 4rem;
     }
   }
   .wall-panel{
     .tile-row{
-      padding: 0.3rem 0;
+      padding: 0.25rem 0;
     }
     .el-col, .m-column {
       border-right: 1px dashed #4E78A4;
