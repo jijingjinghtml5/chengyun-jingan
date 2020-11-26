@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="20" class="item">
-    <el-col :span="2" class="icon">
+    <el-col :span="3" class="icon">
       <span class="iconfont" :class="item.icon" :style="`color:${item.color}`"></span>
     </el-col>
     <el-col :span="6" class="title">
@@ -13,7 +13,7 @@
         <div class="value" :style="`color: ${metric.color} `">{{metric.count}}</div>
       </div>
     </el-col>
-    <el-col :span="4" class="opt">
+    <el-col :span="3" class="opt">
       <slot :name="item.slot" v-bind:item="item">
         <span class="iconfont icon-jinru clickAble"></span>
       </slot>
@@ -71,6 +71,7 @@ export default {
     margin-bottom: 10px;
     .icon{
       font-size: 72px;
+      text-align: center;
     }
     .metrics{
       display: flex;
