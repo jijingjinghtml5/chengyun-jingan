@@ -5,19 +5,19 @@
       <m-tabs-body-item name="today" class="today-overview">
         <m-row>
           <m-column  v-for="item in todayItems" :key="item.name">
-            <overview-item v-bind="item" customClass="style1" @click.native="handleClickForOpenLayer(item)"></overview-item>
+            <overview-item v-bind="item" customClass="style2" :dataset="dataset[item.prop]" @click.native="handleClickForOpenLayer(item)"></overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
       <m-tabs-body-item name="district">
         <m-row>
           <m-column  v-for="item in districtItems" :key="item.name">
-            <overview-item v-bind="item" customClass="style2"></overview-item>
+            <overview-item v-bind="item"></overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
       <m-tabs-body-item v-for="item in todayItems" :key="item.prop" :name="item.prop" class="today-overview">
-        <overview-item v-bind="item" customClass="style1" @click.native="handleClickForCloseLayer(item)"></overview-item>
+        <overview-item v-bind="item" customClass="style2" :dataset="dataset.prop" @click.native="handleClickForCloseLayer(item)"></overview-item>
       </m-tabs-body-item>
     </m-tabs-body>
   </wrap-title>
@@ -49,22 +49,42 @@ export default {
         { label: "全区概览", value: "district" }
       ]),
       todayItems: Object.freeze([
-        { icon: "icon-gongzuoliliang", name: "工作力量在岗率", valueUnit: "%", valueColor: "#6CCB73", prop: "gzllzgl" },
-        { icon: "icon-shizhengyanghu", name: "市政养护执行率", valueUnit: "%", valueColor: "#6CCB73", prop: "szyhzxl" },
-        { icon: "icon-jianshegongdi1", name: "在建工程巡查率", valueUnit: "%", valueColor: "#6CCB73", prop: "zjgcxcl" },
-        { icon: "icon-wulianganzhi1", name: "智能感知在线率", valueUnit: "%", valueColor: "#6CCB73", prop: "zngzzxl" },
-        { icon: "icon-jingtaijiaotong", name: "静态交通使用率", valueUnit: "%", valueColor: "#6CCB73", prop: "jtjtsyl" }
+        { icon: "icon-gongzuoliliang", name: "气象指数", showIncrease: false, valueColor: "#6CCB73", prop: "qxzs" },
+        { icon: "icon-shizhengyanghu", name: "交通拥堵指数", prop: "jtydzs" },
+        { icon: "icon-jianshegongdi1", name: "智能感知预警数", prop: "zngzyjs" },
+        { icon: "icon-yuqing", name: "舆情热点数", prop: "yqrds" },
+        { icon: "icon-jingtaijiaotong", name: "重大活动数", valueUnit: "%", valueColor: "#F23470", prop: "zdhds" }
       ]),
       districtItems: Object.freeze([
-        { icon: "icon-renkouku", name: "实有人口", nameUnit: "（万人）", showIncrease: false, prop: "syrk", extraItems: [{ label: "户籍人口占比", prop: "hjrkzb", unit: "%" }] },
-        { icon: "icon-juminxiaoqu", name: "居民人口", nameUnit: "（个）", showIncrease: false, prop: "jmrk", extraItems: [{ label: "居委数", prop: "jws" }] },
-        { icon: "icon-shichang", name: "商业楼园", nameUnit: "（个）", showIncrease: false, prop: "syly", extraItems: [{ label: "企业数", prop: "qys" }] },
-        { icon: "icon-xuexiao", name: "教育资源", nameUnit: "（个）", showIncrease: false, prop: "jyzy", extraItems: [{ label: "学生教师比", prop: "xsjsb" }] },
-        { icon: "icon-yiyuan", name: "医疗资源", nameUnit: "（个）", showIncrease: false, prop: "ylzy", extraItems: [{ label: "三甲医院", prop: "sjyy" }] },
-        { icon: "icon-wulianganzhi1", name: "物联感知", nameUnit: "（台）", showIncrease: false, prop: "wlgz", extraItems: [{ label: "覆盖率", prop: "cover", unit: "%" }] }
+        { icon: "icon-renkouku", name: "实有人口", prop: "djyl", customClass: "style2" },
+        { icon: "icon-juminxiaoqu", name: "GDP", prop: "gggl", customClass: "style2" },
+        { icon: "icon-shichang", name: "税收总量", prop: "ggaq", customClass: "style2" },
+        { icon: "icon-xuexiao", name: "商务楼宇", prop: "ggfw", customClass: "style2" },
+        { icon: "icon-yiyuan", name: "就业率", valueUnit: "%", prop: "shcy", customClass: "style2" }
       ]),
       firstTab: "today",
-      secondTab: "today"
+      secondTab: "today",
+      dataset: {
+        qxzs: {
+          value: "正常"
+        },
+        jtydzs: {
+          value: 10,
+          increase: 0
+        },
+        zngzyjs: {
+          value: 30,
+          increase: -1.08
+        },
+        yqrds: {
+          value: 10987,
+          increase: 1.08
+        },
+        zdhds: {
+          value: 98,
+          increase: 1.08
+        }
+      }
     };
   },
   methods: {

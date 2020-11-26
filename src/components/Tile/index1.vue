@@ -1,10 +1,10 @@
 <template>
   <div class="tile" @click="handleClick">
     <slot name=title>
-      <level-title :level="2" :icon="item.icon">
+      <div class="title">
         <span class="label">{{item.label}}</span>
         <span v-if="item.unit" class="unit"> ( {{item.unit}} )</span>
-      </level-title>
+      </div>
     </slot>
     <slot name="center"><div class="number" :style="{'color': item.color}">{{item.count | thousandCentimeter}}</div></slot>
     <slot name="bottom">
@@ -57,18 +57,29 @@ export default {
 <style lang="scss" scoped>
 .tile{
   width: 100%;
-  height: 100;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  padding: 10px 0;
+  justify-content: center;
+  align-items: center;
   line-height: 1.5;
+  text-align: center;
   .unit{
     font-size: 0.24rem;
   }
+  .title{
+    color: $titleLevel2;
+    .label{
+      font-size:30px;
+      font-weight: 500;
+    }
+    .unit{
+      font-size:24px;
+    }
+  }
   .number{
     // padding-left: 0.2rem;
-    font-size: 0.72rem;
+    font-size: 56px;
     color: $number;
     font-weight: bold;
   }

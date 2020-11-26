@@ -14,10 +14,10 @@
         </div>
       </div>
       <div class="wall-panel">
-        <m-row class="tile-row" gutter="60px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
-            <m-column v-for="(item, index) in chunk" :key="`other-${index}`">
+        <m-row class="tile-row" gutter="20px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
+            <MColumn :span="5" v-for="(item, index) in chunk" :key="`other-${index}`">
               <tile1 :item="item" class="block clickAble" @click="handleClick(item)"></tile1>
-            </m-column>
+            </MColumn>
           </m-row>
       </div>
   </div>
@@ -82,62 +82,76 @@ export default {
       items: [
         {
           // icon: "icon-biaoti",
-          label: "网格巡查",
+          label: "12345热线",
           count: 30,
           rate: 1.08,
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
-          label: "市场监督",
+          label: "110",
           count: 0,
           rate: 1.08,
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
-          label: "110非警情",
+          label: "119",
           count: 78,
           rate: 1.08,
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
-          label: "综治",
+          label: "120",
           count: 0,
           rate: -1.08,
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
-          label: "110出警",
-          count: 1048,
+          label: "962121",
+          count: 0,
+          rate: -1.08,
+          unit: "件"
+        },
+        {
+          // icon: "icon-biaoti",
+          label: "网格巡查",
+          count: 104800,
           rate: 1.08,
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
-          label: "交通事故",
+          label: "市场监管",
           count: 60,
           rate: 1.08,
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
-          label: "治安事件",
+          label: "110非警情",
           count: 60,
           rate: 1.08,
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
-          label: "火情",
+          label: "综治",
+          count: 60,
+          rate: 1.08,
+          unit: "件"
+        },
+        {
+          // icon: "icon-biaoti",
+          label: "矛盾纠纷",
           count: 60,
           rate: 1.08,
           unit: "件"
         }
       ],
-      chunkSize: 4,
+      chunkSize: 5,
       colors: ["#F23470", "#2E9BCF", "#1ABC9C"],
       chartData: [
         ["时间", "公共安全", "公共管理", "公共服务"],
@@ -183,9 +197,12 @@ export default {
   }
   .wall-panel{
     .tile-row{
-      padding: 0.1rem 0;
-      .block{
-        height: 2.1rem;
+      padding: 0.3rem 0;
+    }
+    .el-col, .m-column {
+      border-right: 1px dashed #4E78A4;
+      &:last-child{
+        border: 0;
       }
     }
   }

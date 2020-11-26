@@ -18,12 +18,12 @@
           </div>
           <div class="cell detail">
             <div class="item">
-              <p class="level2 text-ellipsis">问题上报数(件)</p>
+              <p class="level2 text-ellipsis">问题发现数(件)</p>
               <p class="level0 text-ellipsis" style="color:#2E9BCF;">{{ item.security | thousandCentimeter }}</p>
             </div>
             <div class="split"></div>
             <div class="item">
-              <p class="level2 text-ellipsis">案件结案数(件)</p>
+              <p class="level2 text-ellipsis">问题办结数(件)</p>
               <p class="level0 text-ellipsis" style="color:#F23470;">{{ item.manage | thousandCentimeter }}</p>
             </div>
           </div>
@@ -106,7 +106,7 @@ export default {
     .detail{
       flex: 1;
       display: flex;
-      justify-content: space-between;
+      justify-content: space-around;
       align-items: center;
       .item{
         padding: 0 20px;
