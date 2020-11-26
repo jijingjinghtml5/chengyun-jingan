@@ -4,7 +4,7 @@ export default {
     barMaxWidth: {
       type: [String, Number],
       default () {
-        return 0.24;
+        return 0.2;
       }
     },
     pageLen: {
