@@ -81,6 +81,11 @@ export default {
   display: flex;
   align-items: center;
   color: #fff;
+  line-height: 1.5;
+  font-size: 0.24rem;
+}
+.overview-item__name {
+  color: #D1C9C4;
 }
 .overview-item__icon {
   color: #0071FF;
@@ -91,23 +96,16 @@ export default {
     -webkit-text-fill-color: transparent;
   }
 }
+.increase {
+  display: flex;
+}
+sub {
+  bottom: 0;
+}
+
 .style1,
 .style2,
-.style3,
-.style4 {
-  line-height: 1.5;
-  font-size: 0.24rem;
-  .overview-item__name {
-    color: #D1C9C4;
-  }
-  .increase {
-    display: flex;
-  }
-  sub {
-    bottom: 0;
-  }
-}
-.style1, .style2 {
+.style5 {
   .overview-item__icon {
     width: 1rem;
     font-size: 0.72rem;
@@ -126,6 +124,20 @@ export default {
   }
 }
 .style2 {
+  .overview-item__value {
+    color: #4FCFD5;
+  }
+}
+.style5 {
+  .overview-item__icon {
+    color: #FF001F;
+    .supportWebkitTextFillColor &{
+      background-image: none;
+      // background-clip: text;
+      -webkit-background-clip: unset;
+      -webkit-text-fill-color: unset;
+    }
+  }
   .overview-item__value {
     color: #4FCFD5;
   }
