@@ -8,7 +8,7 @@
 </template>
 <script>
 import MTabs from "@/components/MTabs";
-import ChartbarY from "@/components/Charts/BarY/ChartBarY";
+import ChartbarY from "@/components/Charts/BarY/ChartBarYForValuePosition";
 export default {
   name: "operationStatus",
   components: {
