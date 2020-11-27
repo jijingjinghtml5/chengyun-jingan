@@ -35,6 +35,7 @@ export default {
         { "name": "全图", "status": false },
         { "name": "街道边界", "status": false },
         { "name": "网格边界", "status": false },
+        { "name": "居委边界", "status": false },
         { "name": "建筑白模", "status": false },
         { "name": "建筑精模", "status": true },
         { "name": "底图切换", "status": true }
@@ -60,6 +61,14 @@ export default {
            closeFunction: "closeGridLayer",
            openLable: "打开网格边界",
            closeLable: "关闭网格边界"
+        },
+        "居委边界": {
+           number: 346,
+           openFunction: "openJuweiLayer",
+           closeFunction: "closeJuweiLayer",
+           openLable: "打开居委会边界",
+           closeLable: "关闭居委会边界"
+
         },
         "建筑白模": {
           iconClass: "icon-baimo",
@@ -188,6 +197,12 @@ export default {
     },
     openStreetLayer() {
       this.tabMapLayer("街道乡镇组", true);
+    },
+    openJuweiLayer() {
+      this.tabMapLayer("居委会", true);
+    },
+    closeJuweiLayer() {
+      this.tabMapLayer("居委会", false);
     },
     closeStreetLayer() {
       this.tabMapLayer("街道乡镇组", false);
