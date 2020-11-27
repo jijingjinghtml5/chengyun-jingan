@@ -4,7 +4,7 @@
         <el-carousel-item v-for="(items,indexs) in urlsInner" :key="indexs" >
           <div class="tab-container">
             <div class="img-container" v-for="(item,index) in items" :key="index">
-                <img :src="item.url" alt="" @click="imgClick(item)">
+                <img :src="item.img" alt="" @click="imgClick(item)">
                 <div class="img-label">{{item.name}}</div>
             </div>
           </div>
@@ -38,39 +38,39 @@ export default {
         height: "2160px"
       },
       iframeSrc: "",
-      dialogVisible: false,
-      urls: [
-        {
-            url: require("./img/test.png"),
-            name: "历史保护建筑",
-            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-        },
-        {
-            url: require("./img/test.png"),
-            name: "上海火车站区域",
-            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-        },
-        {
-            url: require("./img/test.png"),
-            name: "静安区党建",
-            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-        },
-        {
-            url: require("./img/test.png"),
-            name: "营商环境",
-            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-        },
-        {
-            url: require("./img/test.png"),
-            name: "静安区管理平台",
-            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-        },
-        {
-            url: require("./img/test.png"),
-            name: "上海火车站区域",
-            src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-        }
-      ]
+      dialogVisible: false
+      // urls: [
+      //   {
+      //       url: require("./img/test.png"),
+      //       name: "历史保护建筑",
+      //       src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+      //   },
+      //   {
+      //       url: require("./img/test.png"),
+      //       name: "上海火车站区域",
+      //       src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+      //   },
+      //   {
+      //       url: require("./img/test.png"),
+      //       name: "静安区党建",
+      //       src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+      //   },
+      //   {
+      //       url: require("./img/test.png"),
+      //       name: "营商环境",
+      //       src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+      //   },
+      //   {
+      //       url: require("./img/test.png"),
+      //       name: "静安区管理平台",
+      //       src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+      //   },
+      //   {
+      //       url: require("./img/test.png"),
+      //       name: "上海火车站区域",
+      //       src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
+      //   }
+      // ]
 
     };
   },
@@ -94,9 +94,10 @@ export default {
   computed: {
     urlsInner() {
       let data = [];
-      if (this.urls) {
-        this.urls.forEach((url, index) => {
+      if (window.$config.otherPageUrls) {
+        window.$config.otherPageUrls.forEach((url, index) => {
           let i = Math.floor(index / 4);
+          url.img = this.rootUrl + "otherPageImg/" + url.img;
           if (data[i]) {
             data[i].push(url);
           } else {
@@ -112,10 +113,19 @@ export default {
   methods: {
     imgClick(item) {
       this.dialogVisible = true;
-      this.iframeSrc = item.src;
+      this.iframeSrc = item.url;
     }
   },
+  created() {
+        let urlString = window.location.href;
+      let subIndex = urlString.lastIndexOf("html");
+      let urlStringSub = urlString.substring(0, subIndex + 1);
+      subIndex = urlStringSub.lastIndexOf("/");
+      // 获取项目根路径
+      this.rootUrl = urlStringSub.substring(0, subIndex + 1);
+  },
   mounted () {
+
   }
 };
 </script>
