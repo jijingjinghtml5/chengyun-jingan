@@ -26,14 +26,11 @@
   </div>
 </template>
 <script>
-// 含底色，饼图中间显示总数
+// 支持玫瑰
 import ChartBaseMixins from "../mixins/ChartBaseMixins";
-import ChartPieMixins from "../mixins/ChartPieAutoMixins";
-import { thousandCentimeter } from "../../../utils/tools";
-const scssVariables = require("../../../style/var.js");
 export default {
   name: "CharPie",
-  mixins: [ChartBaseMixins, ChartPieMixins],
+  mixins: [ChartBaseMixins],
   props: {
     showLegend: {
       type: Boolean,
@@ -58,34 +55,13 @@ export default {
     isGragdient: {
       type: Boolean,
       default: true
-    }
-  },
-  watch: {
-    chartData: {
-      handler () {
-        this.reset();
-        this.startLoop();
-      }
+    },
+    isRose: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
-    total () {
-      let res = "-";
-      if (!this.noData) {
-        res = this.chartData.slice(1).reduce((r, item) => {
-          r += item[1];
-          return r;
-        }, 0);
-      }
-      return res;
-    },
-    title () {
-      let res = "-";
-      if (!this.noData) {
-        res = this.chartData[0][0];
-      }
-      return res;
-    },
     source () {
       return this.chartData && this.chartData.length > 1 ? this.chartData.slice(1) : [];
     },
@@ -93,76 +69,22 @@ export default {
       return {
         textStyle: this.textStyle,
         tooltip: {
-          showContent: true,
-          triggerOn: "none",
-          // alwaysShowContent: true,
-          position: ["50%", "50%"],
-          backgroundColor: "transparent",
+          appendToBody: true,
           textStyle: {
-            color: "#fff",
-            fontSize: +this.fontSize_
+            fontSize: +this.fontSize_,
+            lineHeight: +this.fontSize_ * 1.15
           },
-          extraCssText: "transform: translate(-50%, -50%); text-align: center; line-height: 1.2;z-index: 1",
-          formatter: params => {
-            if (params.seriesName === "default") {
-              params = {
-                color: scssVariables.textColor3,
-                data: [null, this.total],
-                name: this.title
-              };
-            }
-            return `
-              <p style="font-weight: bold; font-size: ${+this.fontSize_ * 1.5}px">${thousandCentimeter(params.data[1])}</p>
-              <p style="color: ${params.color};">${params.name}</p>
-            `;
-          }
-        },
-        title: {
-          show: this.centerText,
-          text: thousandCentimeter(this.total),
-          subtext: this.title,
-          top: "35%",
-          left: "center",
-          textStyle: {
-            color: "#fff",
-            fontWeight: 500,
-            fontSize: +this.fontSize_ * 1.5
-          },
-          subtextStyle: {
-            color: scssVariables.textColor3,
-            fontSize: this.fontSize_
-          }
+          extraCssText: "text-align: left"
         },
         series: [
           {
             type: "pie",
-            clockwise: false,
-            // silent: true,
+            roseType: this.isRose,
             hoverOffset: 10,
             center: ["50%", "50%"],
-            radius: ["65%", "85%"],
+            radius: ["0", "85%"],
             label: { show: false },
-            labelLine: { show: false },
-            itemStyle: {
-              borderWidth: 5,
-              borderColor: "#032242"
-            },
-            z: 3
-          },
-          {
-            name: "default",
-            type: "pie",
-            silent: true,
-            clockwise: false,
-            center: ["50%", "50%"],
-            radius: ["0%", "100%"],
-            label: { show: false },
-            labelLine: { show: false },
-            itemStyle: {
-              color: "#032242"
-            },
-            data: [100],
-            z: 1
+            labelLine: { show: false }
           }
         ],
         dataset: this.chartData && this.chartData.length ? {
@@ -171,11 +93,6 @@ export default {
         color: this.colors
       };
     }
-  },
-  mounted () {
-    this.$nextTick(() => {
-      this.startLoop();
-    });
   }
 };
 </script>

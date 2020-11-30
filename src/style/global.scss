@@ -51,12 +51,28 @@ p {
     color:#fff !important;
   }
 }
+.is-flex {
+  display: flex;
+}
+.is-flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .in-flex {
-  height: 0;
+  height: 0 !important;
   flex: 1;
 }
 
 .in-flex-width {
-  width: 0;
+  width: 0 !important;
   flex: 1;
+}
+
+.mb-10 {
+  margin-bottom: 0.1rem;
+}
+
+.mb-20 {
+  margin-bottom: 0.2rem;
 }

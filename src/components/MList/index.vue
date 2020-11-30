@@ -503,7 +503,7 @@ export default {
   cursor: pointer;
 }
 .is-adaption {
-  .m-list {
+  &.m-list {
     height: 100%;
   }
   .list-body {

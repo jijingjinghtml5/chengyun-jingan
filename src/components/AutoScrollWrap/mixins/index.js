@@ -69,7 +69,7 @@ export default {
       if (!this.wrap) return;
       this.canScoll = false;
       this.wrap.scrollTop = 0;
-      // console.log(this.wrap, this.wrap.scrollHeight, this.wrap.offsetHeight);
+      console.log(this.wrap, this.wrap.scrollHeight, this.wrap.offsetHeight);
       if (this.wrap.scrollHeight > this.wrap.offsetHeight) {
         this.canScoll = true;
         this.startLoop();

@@ -15,7 +15,7 @@
       />
       <ul v-if="valuePosition === 'right'" class="v-chart-column__value" :style="sideStyle">
         <li v-for="(item, index) in source" :key="index">
-          {{ item[1] | thousandCentimeter }}
+          {{ item[1] | thousandCentimeter }}{{ unit }}
         </li>
       </ul>
     </div>
@@ -98,7 +98,7 @@ export default {
             fontSize: +this.fontSize_,
             color: this.labelColor,
             interval: 0,
-            formatter: this.valuePosition === "right" ? this.categoryLabelFmt : (value, index) => thousandCentimeter(this.source[index][1])
+            formatter: this.valuePosition === "right" ? this.categoryLabelFmt : (value, index) => thousandCentimeter(this.source[index][1]) + this.unit
           },
           // inverse: true,
           axisTick: { show: false },

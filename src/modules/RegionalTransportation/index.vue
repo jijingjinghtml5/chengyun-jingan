@@ -1,44 +1,89 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-daolujiaotong" txt="区域交通">
+    <p v-show="currentTab !== 'overview'" slot="center" class="goBack" @click="handleClickForChangeTab('overview')">[返回上一级]</p>
     <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
-    <m-row gutter="0.1rem">
-      <m-column v-for="(item, index) in items" :key="item.key">
-        <level-title :level="2" icon="icon-biaoti" :txt="item.label" class="canClick" :class="{ 'is-active': activeLayer === item.key }" @click.native="handleClickForOpenLayer(item)"></level-title>
-        <p class="value" :style="{ color: colors[index] }">{{ dataset[item.key] | initVal | thousandCentimeter }}</p>
-      </m-column>
-    </m-row>
-    <chart-line class="line-chart" :colors="colors" :chartData="dataset.chartData" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chart-line>
-    <m-row class="row-style1 in-flex" gutter="0.1rem">
-      <m-column>
+    <m-tabs-body class="in-flex" :tab="currentTab">
+      <m-tabs-body-item lazy class="is-flex-column" name="overview">
+        <m-row gutter="0.1rem">
+          <m-column v-for="(item, index) in items" :key="item.key">
+            <level-title :level="2" icon="icon-biaoti" :txt="item.label" class="canClick" :class="{ 'is-active': activeLayer === item.key }" @click.native="handleClickForOpenLayer(item)"></level-title>
+            <p class="value" :style="{ color: colors[index] }">{{ dataset[item.key] | initVal | thousandCentimeter }}</p>
+          </m-column>
+        </m-row>
+        <chart-line class="line-chart" :colors="colors" :chartData="dataset.chartData" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chart-line>
+        <m-row class="row-style1 in-flex" gutter="0.1rem">
+          <m-column>
+            <level-title :level="2" icon="icon-biaoti" txt="实时拥堵路段"></level-title>
+            <div class="list road">
+              <div class="list-item" v-for="(item, i) in dataset.list" :key="i">
+                <div class="list-item__id">{{ i + 1 }}</div>
+                <overview-item
+                  class="list-item__content"
+                  v-bind="listConfig"
+                  :name="item.name"
+                  :dataset="item"
+                  >
+                </overview-item>
+              </div>
+            </div>
+          </m-column>
+          <m-column>
+            <level-title :level="2" icon="icon-biaoti" txt="交通客流"></level-title>
+            <div class="list trafficFlow">
+              <overview-item
+                class="list-item canClick"
+                v-for="item in trafficFlow"
+                customClass="style3"
+                :key="item.key"
+                :icon="item.icon"
+                :name="item.name"
+                @click.native="handleClickForOpenLayer(item)">
+              </overview-item>
+            </div>
+          </m-column>
+        </m-row>
+      </m-tabs-body-item>
+      <m-tabs-body-item lazy name="congestionType" class="is-flex-column">
+        <m-row gutter="0.1rem">
+          <m-column width="50%">
+            <level-title :level="2" icon="icon-biaoti">
+              <m-select class="traffic-select" v-model="currentCongestionType" :options="items"></m-select>
+            </level-title>
+            <p class="value" :style="{ color: currentCongestionType === 'kslydzs' ? colors[0] : colors[1] }">{{ dataset.trainStation | initVal | thousandCentimeter }}</p>
+          </m-column>
+        </m-row>
+        <chartline-compare style="height: 2rem;" :chartData="dataset.testData" :colors="colors2" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chartline-compare>
         <level-title :level="2" icon="icon-biaoti" txt="实时拥堵路段"></level-title>
         <div class="list road">
-          <div class="list-item" v-for="(item, i) in dataset.list" :key="i">
-            <div class="list-item__id">{{ i + 1 }}</div>
-            <overview-item
-              class="list-item__content"
-              v-bind="listConfig"
-              :name="item.name"
-              :dataset="item"
-              >
-            </overview-item>
-          </div>
+          <m-row gutter="0.1rem">
+            <m-column class="list-item" width="50%" v-for="(item, i) in dataset.list" :key="i">
+              <div class="list-item__id">{{ i + 1 }}</div>
+              <overview-item
+                class="list-item__content"
+                v-bind="listConfig"
+                :name="item.name"
+                :dataset="item"
+                >
+              </overview-item>
+            </m-column>
+          </m-row>
         </div>
-      </m-column>
-      <m-column>
-        <level-title :level="2" icon="icon-biaoti" txt="交通客流"></level-title>
-        <div class="list trafficFlow">
-          <overview-item
-            class="list-item canClick"
-            v-for="item in trafficFlow"
-            customClass="style3"
-            :key="item.key"
-            :icon="item.icon"
-            :name="item.name"
-            @click.native="handleClickForOpenLayer(item)">
-          </overview-item>
-        </div>
-      </m-column>
-    </m-row>
+      </m-tabs-body-item>
+      <m-tabs-body-item name="traffic" class="is-flex-column">
+        <m-row gutter="0.1rem">
+          <m-column width="50%">
+            <level-title :level="2" icon="icon-biaoti">
+              <m-select class="traffic-select" v-model="currentTraffic" :options="trafficFlow"></m-select>
+            </level-title>
+            <p class="value" :style="{ color: colors[0] }">{{ dataset.trainStation | initVal | thousandCentimeter }}</p>
+          </m-column>
+        </m-row>
+        <chart-line style="height: 2rem;" :chartData="dataset.testData" :colors="colors2" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chart-line>
+        <chart-line style="height: 2rem;" :chartData="dataset.testData2" :colors="colors3" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chart-line>
+        <p class="litter-title"></p>
+        <chart-bar-y class="in-flex" :chartData="dataset.testData3" :colors="colors4" labelColor="#fff" unit="%"></chart-bar-y>
+      </m-tabs-body-item>
+    </m-tabs-body>
   </wrap-title>
 </template>
 <script>
@@ -47,8 +92,12 @@ import WrapTitle from "@/components/MTitle/WrapTitle";
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
 import ChartLine from "@/components/Charts/Line/ChartLine";
+import ChartlineCompare from "@/components/Charts/Line/ChartLineForCompare";
+import ChartBarY from "@/components/Charts/BarY/ChartBarYForValuePosition";
 import OverviewItem from "@/components/OverviewItem";
 import MSelect from "@/components/MSelect";
+import MTabsBody from "@/components/MTabsBody/MTabsBody";
+import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import { getDate } from "@/utils/tools";
 import scssVar from "@/style/var.js";
 export default {
@@ -59,16 +108,23 @@ export default {
     MRow,
     MColumn,
     ChartLine,
+    ChartlineCompare,
+    ChartBarY,
     OverviewItem,
-    MSelect
+    MSelect,
+    MTabsBody,
+    MTabsBodyItem
   },
   inheritAttrs: false,
   data() {
     return {
       colors: Object.freeze([scssVar.number, scssVar.numberSecondary]),
+      colors2: Object.freeze(["#4FCFD5", "#DED7D7"]),
+      colors3: Object.freeze(["#F23470", "#4FCFD5"]),
+      colors4: Object.freeze(["#4FCFD5", "#2E9BCF"]),
       items: Object.freeze([
-        { label: "快速路拥堵指数", key: "kslydzs" },
-        { label: "地面拥堵指数", key: "dmydzs" }
+        { label: "快速路拥堵指数", key: "kslydzs", value: "kslydzs" },
+        { label: "地面拥堵指数", key: "dmydzs", value: "dmydzs" }
       ]),
       options: Object.freeze([
         { label: "今日", value: "today" },
@@ -85,10 +141,10 @@ export default {
         ]
       }),
       trafficFlow: Object.freeze([
-        { name: "上海火车站区域", icon: "icon-huoche", key: "trainStation" },
-        { name: "轨道交通/公交车", icon: "icon-gonggongjiaotong", key: "bus" },
-        { name: "网约车/出租车", icon: "icon-chuzuwangyue", key: "taxi" },
-        { name: "共享单车", icon: "icon-chuzuwangyue", key: "bicycle" }
+        { name: "上海火车站区域", icon: "icon-huoche", key: "trainStation", label: "上海火车站区域", value: "trainStation" },
+        { name: "轨道交通/公交车", icon: "icon-gonggongjiaotong", key: "bus", label: "轨道交通/公交车", value: "bus" },
+        { name: "网约车/出租车", icon: "icon-chuzuwangyue", key: "taxi", label: "网约车/出租车", value: "taxi" },
+        { name: "共享单车", icon: "icon-chuzuwangyue", key: "bicycle", label: "共享单车", value: "bicycle" }
       ]),
       option: "today",
       dataset: {
@@ -100,17 +156,54 @@ export default {
             return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
           }))
         ],
+        chartData2: [
+          ["客流", "今天", "昨天"],
+          ...(getDate("today").map(d => {
+            return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
+          }))
+        ],
         list: Object.freeze([
           { name: "南京西路 - 武宁路", value: 9.5, width: 10, time: 1.2 },
           { name: "灵石路 - 共和新路", value: 9.5, width: 10, time: 1.2 },
           { name: "大宁路 - 共和新路", value: 9.5, width: 10, time: 1.2 },
           { name: "南京西路111 - 武宁路", value: 9.5, width: 10, time: 1.2 }
-        ])
+        ]),
+        testData: [
+          ["拥堵指数", "今日", "作日"],
+          ...(getDate("today").map(d => {
+            return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
+          }))
+        ],
+        testData2: [
+          ["客流", "到站客流", "发送客流"],
+          ...(getDate("today").map(d => {
+            return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
+          }))
+        ],
+        testData3: [
+          ["客流分布", "客流分布"],
+          ["候车室", 25],
+          ["站内公共区域", 20],
+          ["出入口", 15],
+          ["南北广场", 10],
+          ["地下车库", 5]
+        ]
       },
-      activeLayer: null
+      activeLayer: null,
+      currentTab: "overview",
+      currentCongestionType: "kslydzs",
+      currentTraffic: "trainStation"
     };
   },
   methods: {
+    handleClickForChangeTab(tab) {
+      // if (this.currentTab !== tab) {
+      //   this.currentTab = tab;
+      // } else {
+      //   this.currentTab = "overview";
+      // }
+      this.currentTab = tab;
+    },
     registerLayers() {
       // 路段图层
       this.items.forEach(item => {
@@ -216,6 +309,8 @@ export default {
         switch (item.key) {
           case "kslydzs":
           case "dmydzs":
+            this.currentCongestionType = item.key;
+            this.handleClickForChangeTab("congestionType");
             const roads = [{ name: "江场三路", value: 0 }, { name: "新疆路", value: 0 }, { name: "晋城路", value: 0 }, { name: "广中路", value: 0 }, { name: "中华新路", value: 0 }, { name: "北苏州路", value: 0 }, { name: "止园路", value: 0 }];
             this[`${item.key}Layer`].setParameters({
               data: {
@@ -229,6 +324,8 @@ export default {
             break;
           case "trainStation":
           case "bus":
+            this.currentCongestionType = item.key;
+            this.handleClickForChangeTab("traffic");
             const points = [[-1604.94, 1639.61], [-1604.42, 1639.85], [-1605.46, 1638.77], [-1604.93, 1637.73], [-1604.97, 1636.65], [-1605.53, 1637.85], [-1595.51, 1634.12], [-1603.13, 1624.39], [-1596.01, 1628.89], [-1597.3, 1623.98], [-1393.38, 1739.87], [-1401.12, 1689.7], [-1551.83, 1672.53], [-1566.29, 1871.48], [-1321.5, 1687.28], [-1283.99, 1757.13], [-1479.78, 1730.79]];
             const data = points.map(d => {
               return {
@@ -237,8 +334,8 @@ export default {
                 COUNT: 10 + Math.floor(Math.random() * 10) + Math.floor(Math.random() * 10)
               };
             });
-            console.log(this.$_mapProxy, JSON.stringify(data), "------------------------");
-            this.$_mapProxy.bridge.Invoke({
+            // console.log(this.$_mapProxy, JSON.stringify(data), "------------------------");
+            this.$_mapProxy.bridge && this.$_mapProxy.bridge.Invoke({
               ActionName: "goToPosition",
               Parameters: {
                 positon: {
@@ -251,7 +348,7 @@ export default {
                 zoom: 9
               }
             });
-            this.$_mapProxy.bridge.Invoke({
+            this.$_mapProxy.bridge && this.$_mapProxy.bridge.Invoke({
               "ActionName": "doShowHeat",
               "Parameters": {
                 "datasource": data,
@@ -273,12 +370,18 @@ export default {
             });
             break;
           case "taxi":
+            this.currentCongestionType = item.key;
+            this.handleClickForChangeTab("traffic");
             this[`${item.key}Layer`].setParameters({
               "data": {
                 "content": [{ "x": -1733, "y": -917 }],
                 "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
               }
             }).open();
+            break;
+          case "bicycle":
+            this.currentCongestionType = item.key;
+            this.handleClickForChangeTab("traffic");
             break;
         }
       } else {
@@ -318,6 +421,14 @@ export default {
 .is-active {
   color: $hover;
 }
+
+.goBack {
+  font-size: 0.24rem;
+  color: #A8C7F9;
+  margin-top: 0.2rem;
+  cursor: pointer;
+}
+
 .value {
   font-size: 0.72rem;
   line-height: 0.84rem;
@@ -357,5 +468,9 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+.traffic-select {
+  font-size: inherit;
+  color: inherit;
 }
 </style>
