@@ -49,18 +49,18 @@ export default {
         { label: "全区概览", value: "district" }
       ]),
       todayItems: Object.freeze([
-        { icon: "icon-gongzuoliliang", name: "气象指数", showIncrease: false, valueColor: "#6CCB73", prop: "qxzs" },
-        { icon: "icon-shizhengyanghu", name: "交通拥堵指数", prop: "jtydzs" },
-        { icon: "icon-jianshegongdi1", name: "智能感知预警数", prop: "zngzyjs" },
+        { icon: "icon-tianqi", name: "气象指数", showIncrease: false, valueColor: "#6CCB73", prop: "qxzs" },
+        { icon: "icon-jiaotongyongdu1", name: "交通拥堵指数", prop: "jtydzs" },
+        { icon: "icon-ganzhi", name: "智能感知预警数", prop: "zngzyjs" },
         { icon: "icon-yuqing", name: "舆情热点数", prop: "yqrds" },
-        { icon: "icon-jingtaijiaotong", name: "重大活动数", showIncrease: false, prop: "zdhds" }
+        { icon: "icon-huodong", name: "重大活动数", showIncrease: false, prop: "zdhds" }
       ]),
       districtItems: Object.freeze([
         { icon: "icon-renkouku", name: "实有人口", prop: "djyl", customClass: "style2" },
-        { icon: "icon-juminxiaoqu", name: "GDP", prop: "gggl", customClass: "style2" },
+        { icon: "icon-GDP", name: "GDP", prop: "gggl", customClass: "style2" },
         { icon: "icon-shichang", name: "税收总量", prop: "ggaq", customClass: "style2" },
-        { icon: "icon-xuexiao", name: "商务楼宇", prop: "ggfw", customClass: "style2" },
-        { icon: "icon-yiyuan", name: "就业率", valueUnit: "%", prop: "shcy", customClass: "style2" }
+        { icon: "icon-chuzu", name: "商务楼宇", prop: "ggfw", customClass: "style2" },
+        { icon: "icon-jiuye", name: "就业率", valueUnit: "%", prop: "shcy", customClass: "style2" }
       ]),
       firstTab: "today",
       secondTab: "today",

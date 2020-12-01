@@ -1,5 +1,5 @@
 <template>
-  <wrap-title class="gradient-bg" icon="icon-jingji" txt="民生保障">
+  <wrap-title class="gradient-bg" icon="icon-minsheng" txt="民生保障">
     <p v-show="currentTab !== 'overview'" slot="center" class="goBack" @click="handleClickForChangeTab('overview')">[返回上一级]</p>
     <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
     <m-tabs-body class="in-flex" :tab="currentTab">

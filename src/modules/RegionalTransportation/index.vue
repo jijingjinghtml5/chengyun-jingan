@@ -163,7 +163,7 @@ export default {
         { name: "上海火车站区域", icon: "icon-huoche", key: "trainStation", label: "上海火车站区域", value: "trainStation" },
         { name: "轨道交通/公交车", icon: "icon-gonggongjiaotong", key: "bus", label: "轨道交通/公交车", value: "bus" },
         { name: "网约车/出租车", icon: "icon-chuzuwangyue", key: "taxi", label: "网约车/出租车", value: "taxi" },
-        { name: "共享单车", icon: "icon-chuzuwangyue", key: "bicycle", label: "共享单车", value: "bicycle" }
+        { name: "共享单车", icon: "icon-gongxiangdanche", key: "bicycle", label: "共享单车", value: "bicycle" }
       ]),
       option: "today",
       dataset: {

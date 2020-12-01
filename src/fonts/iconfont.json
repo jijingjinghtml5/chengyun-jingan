@@ -6,6 +6,118 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18551434",
+      "name": "民生",
+      "font_class": "minsheng",
+      "unicode": "e6d6",
+      "unicode_decimal": 59094
+    },
+    {
+      "icon_id": "18551435",
+      "name": "防汛",
+      "font_class": "fangxun",
+      "unicode": "e6d7",
+      "unicode_decimal": 59095
+    },
+    {
+      "icon_id": "18551436",
+      "name": "共享单车",
+      "font_class": "gongxiangdanche",
+      "unicode": "e6d8",
+      "unicode_decimal": 59096
+    },
+    {
+      "icon_id": "18551437",
+      "name": "感知",
+      "font_class": "ganzhi",
+      "unicode": "e6d9",
+      "unicode_decimal": 59097
+    },
+    {
+      "icon_id": "18551438",
+      "name": "交通拥堵",
+      "font_class": "jiaotongyongdu1",
+      "unicode": "e6da",
+      "unicode_decimal": 59098
+    },
+    {
+      "icon_id": "18551439",
+      "name": "天气",
+      "font_class": "tianqi",
+      "unicode": "e6db",
+      "unicode_decimal": 59099
+    },
+    {
+      "icon_id": "18551440",
+      "name": "就业",
+      "font_class": "jiuye",
+      "unicode": "e6dc",
+      "unicode_decimal": 59100
+    },
+    {
+      "icon_id": "18551441",
+      "name": "出租",
+      "font_class": "chuzu",
+      "unicode": "e6dd",
+      "unicode_decimal": 59101
+    },
+    {
+      "icon_id": "18551442",
+      "name": "GDP",
+      "font_class": "GDP",
+      "unicode": "e6de",
+      "unicode_decimal": 59102
+    },
+    {
+      "icon_id": "18551443",
+      "name": "组织-地图",
+      "font_class": "zuzhi-ditu",
+      "unicode": "e6df",
+      "unicode_decimal": 59103
+    },
+    {
+      "icon_id": "18551444",
+      "name": "物-地图",
+      "font_class": "wu-ditu",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
+      "icon_id": "18551446",
+      "name": "情-地图_1",
+      "font_class": "qing-ditu_1",
+      "unicode": "e6e1",
+      "unicode_decimal": 59105
+    },
+    {
+      "icon_id": "18551448",
+      "name": "寒潮",
+      "font_class": "hanchao",
+      "unicode": "e6e2",
+      "unicode_decimal": 59106
+    },
+    {
+      "icon_id": "18551449",
+      "name": "活动",
+      "font_class": "huodong",
+      "unicode": "e6e3",
+      "unicode_decimal": 59107
+    },
+    {
+      "icon_id": "18551451",
+      "name": "情-地图",
+      "font_class": "qing-ditu",
+      "unicode": "e6e5",
+      "unicode_decimal": 59109
+    },
+    {
+      "icon_id": "18551452",
+      "name": "火情",
+      "font_class": "huoqing",
+      "unicode": "e6e6",
+      "unicode_decimal": 59110
+    },
+    {
       "icon_id": "18428812",
       "name": "视频连线",
       "font_class": "shipinlianxian",
