@@ -1,7 +1,14 @@
+const borderColor = "#4E78A4";
+// const borderColor2 = "#2573EF";
+// const textColor = "#fff";
+// const textColor2 = "#92B9F7";
+// const textColor3 = "#A8C7F9";
+// const textColor4 = "#D1C9C4";
+
 module.exports = {
   scrollBarColor: "#40abb2",
   chartLableColor: "#92B9F7",
-  chartBorderColor: "#4E78A4",
+  chartBorderColor: borderColor,
   title: "#669DF4",
   titleActive: "#ffffff",
   titleLevel2: "#D1C9C4",

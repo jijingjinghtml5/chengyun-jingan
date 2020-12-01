@@ -53,7 +53,7 @@ export default {
         { icon: "icon-shizhengyanghu", name: "交通拥堵指数", prop: "jtydzs" },
         { icon: "icon-jianshegongdi1", name: "智能感知预警数", prop: "zngzyjs" },
         { icon: "icon-yuqing", name: "舆情热点数", prop: "yqrds" },
-        { icon: "icon-jingtaijiaotong", name: "重大活动数", valueUnit: "%", valueColor: "#F23470", prop: "zdhds" }
+        { icon: "icon-jingtaijiaotong", name: "重大活动数", showIncrease: false, prop: "zdhds" }
       ]),
       districtItems: Object.freeze([
         { icon: "icon-renkouku", name: "实有人口", prop: "djyl", customClass: "style2" },
@@ -81,8 +81,7 @@ export default {
           increase: 1.08
         },
         zdhds: {
-          value: 98,
-          increase: 1.08
+          value: "开学日"
         }
       }
     };

@@ -13,16 +13,15 @@
       <m-tabs-body-item name="sgy" class="detail">
         <m-row gutter="0.1rem">
           <m-column width="20%">
-            <overview-item v-if="activeItem" v-bind="activeItem" customClass="style2"></overview-item>
+            <overview-item class="active" v-if="activeItem" v-bind="activeItem" customClass="style2"></overview-item>
           </m-column>
-          <m-column width="30%">
-            <level-title :level="2" icon="icon-biaoti" txt="水供应趋势"></level-title>
+          <m-column width="80%">
             <chart-line :chartData="dataset.sgy_chartData" :colors="colors" :smooth="true"></chart-line>
           </m-column>
-          <m-column width="50%">
+          <!-- <m-column width="50%">
             <level-title :level="2" icon="icon-biaoti" txt="街镇用水量"></level-title>
             <chart-bar :chartData="dataset.sgy_chartData2" :colors="colors2"></chart-bar>
-          </m-column>
+          </m-column> -->
         </m-row>
       </m-tabs-body-item>
       <m-tabs-body-item name="dlgy">
@@ -96,7 +95,7 @@ export default {
   inheritAttrs: false,
   data() {
     return {
-      colors: Object.freeze(["#FCBF51", "#DED7D7"]),
+      colors: Object.freeze(["#4FCFD5", "#DED7D7"]),
       colors2: Object.freeze(["#30BC9B", "#92B9F7"]),
       items: Object.freeze([
         { icon: "icon-shuigongying", name: "水供应", nameUnit: "（吨）", prop: "sgy", extraItems: [{ label: "存量", prop: "stock" }] },
@@ -179,6 +178,14 @@ export default {
   .v-chart-container {
     height: 0;
     flex: 1;
+  }
+  .active {
+    /deep/ {
+      .overview-item__name {
+        color: $titleActive;
+        font-weight: bold;
+      }
+    }
   }
 }
 </style>

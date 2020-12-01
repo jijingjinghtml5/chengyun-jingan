@@ -14,7 +14,7 @@
         <m-row class="row-style1 in-flex" gutter="0.1rem">
           <m-column>
             <level-title :level="2" icon="icon-biaoti" txt="实时拥堵路段"></level-title>
-            <div class="list road">
+            <div class="list congestionType">
               <div class="list-item" v-for="(item, i) in dataset.list" :key="i">
                 <div class="list-item__id">{{ i + 1 }}</div>
                 <overview-item
@@ -54,7 +54,7 @@
         </m-row>
         <chartline-compare style="height: 2rem;" :chartData="dataset.testData" :colors="colors2" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chartline-compare>
         <level-title :level="2" icon="icon-biaoti" txt="实时拥堵路段"></level-title>
-        <div class="list road">
+        <div class="list congestionType">
           <m-row gutter="0.1rem">
             <m-column class="list-item" width="50%" v-for="(item, i) in dataset.list" :key="i">
               <div class="list-item__id">{{ i + 1 }}</div>
@@ -78,10 +78,28 @@
             <p class="value" :style="{ color: colors[0] }">{{ dataset.trainStation | initVal | thousandCentimeter }}</p>
           </m-column>
         </m-row>
-        <chart-line style="height: 2rem;" :chartData="dataset.testData" :colors="colors2" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chart-line>
+        <chartline-compare style="height: 2rem;" :chartData="dataset.testData" :colors="colors5" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chartline-compare>
+        <hr class="hr">
+        <div class="flow">
+          <div class="flow-item">
+            <i class="flow-item__icon iconfont icon-daolujiaotong"></i>
+            <div class="flow-item__info">
+              <p class="flow-item__label">到站客流</p>
+              <p class="flow-item__value" style="color: #F23470">{{ 1205098 | thousandCentimeter  }}</p>
+            </div>
+          </div>
+          <div class="flow-item">
+            <i class="flow-item__icon iconfont icon-daolujiaotong"></i>
+            <div class="flow-item__info">
+              <p class="flow-item__label">发送客流</p>
+              <p class="flow-item__value" style="color: #4FCFD5">{{ 1205098 | thousandCentimeter  }}</p>
+            </div>
+          </div>
+        </div>
         <chart-line style="height: 2rem;" :chartData="dataset.testData2" :colors="colors3" :showYLabel="true" :isGradient="true" :gradientBySelf="true"></chart-line>
-        <p class="litter-title"></p>
-        <chart-bar-y class="in-flex" :chartData="dataset.testData3" :colors="colors4" labelColor="#fff" unit="%"></chart-bar-y>
+        <hr class="hr">
+        <p class="litter-title">客流分布</p>
+        <chart-bar-y class="in-flex" :chartData="dataset.testData3" :colors="colors4" labelColor="#fff" unit="%" :isGradient="true"></chart-bar-y>
       </m-tabs-body-item>
     </m-tabs-body>
   </wrap-title>
@@ -122,6 +140,7 @@ export default {
       colors2: Object.freeze(["#4FCFD5", "#DED7D7"]),
       colors3: Object.freeze(["#F23470", "#4FCFD5"]),
       colors4: Object.freeze(["#4FCFD5", "#2E9BCF"]),
+      colors5: Object.freeze(["#2E9BCF", "#DED7D7"]),
       items: Object.freeze([
         { label: "快速路拥堵指数", key: "kslydzs", value: "kslydzs" },
         { label: "地面拥堵指数", key: "dmydzs", value: "dmydzs" }
@@ -461,7 +480,7 @@ export default {
 .list-item__content {
   margin-left: 0.8rem;
 }
-.road {
+.congestionType {
   overflow: auto;
 }
 .trafficFlow {
@@ -472,5 +491,48 @@ export default {
 .traffic-select {
   font-size: inherit;
   color: inherit;
+}
+.flow {
+  display: flex;
+}
+.flow-item {
+  width: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  border-right: 0.02rem dashed #4E78A4;
+  &:last-of-type {
+    border-right-color: transparent;
+  }
+}
+.flow-item__icon {
+  width: 1.2rem;
+  font-size: 0.56rem;
+  color: #1E5CBF;
+  text-align: center;
+  .supportWebkitTextFillColor &{
+    background-image: linear-gradient(225deg, #669DF4 0%, #1E5CBF 100%);;
+    // background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+.flow-item__label {
+  font-size: 0.28rem;
+  color: $titleLevel2;
+  margin-bottom: 0.1rem;
+}
+.flow-item__value {
+  font-size: 0.52rem;
+}
+.hr {
+  height: 0;
+  border: 0.02rem solid #4E78A4;
+  margin: 0.1rem 0;
+}
+.litter-title {
+  font-size: 0.28;
+  color: $titleLevel2;
+  margin-bottom: 0.1rem;
 }
 </style>

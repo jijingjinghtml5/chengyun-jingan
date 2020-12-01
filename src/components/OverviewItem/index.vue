@@ -117,6 +117,7 @@ sub {
   }
   .overview-item__value {
     font-size: 0.72rem;
+    line-height: 0.96rem;
     font-weight: bold;
     sub {
       font-size: 0.36rem;
