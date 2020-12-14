@@ -279,6 +279,7 @@ export default {
         },
         "legendVisible": false,
         "popupEnabled": false,
+        "isFiltered": true,
         "isLocate": true,
         "renderer": {
           type: "simple",

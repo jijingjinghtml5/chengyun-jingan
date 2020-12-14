@@ -4,7 +4,7 @@
         <div class="wall">
           <m-row gutter="10px">
             <m-column v-for="(item, index) in pubilcItems" :key="`public-${index}`">
-              <tile :item="item" class="block clickAble"  @click="handleClick(item)"></tile>
+              <tile :item="item" class="block"  ></tile>
             </m-column>
           </m-row>
         </div>
@@ -125,21 +125,6 @@ export default {
         top: 0,
         right: 250
       },
-      // pubilcItems: [
-      //   {
-      //     label: "一网统管",
-      //     count: 109772,
-      //     rate: 1.08,
-      //     color: "#4FCFD5"
-      //   },
-      //   {
-      //     icon: "icon-biaoti",
-      //     label: "一网通办",
-      //     count: 12198,
-      //     rate: 1.08,
-      //     color: "#2E9BCF"
-      //   }
-      // ],
       items: [
         {
           // icon: "icon-biaoti",
@@ -224,19 +209,6 @@ export default {
       ],
       chunkSize: 5,
       colors: ["#1ABC9C", "#679DF4", "#F96F4F", "#BE6CCC", "#D0021B"]
-      // chartData: [
-      //   ["时间", "网格", "12345热线", "综治", "市场监管", "110非警情"],
-      //   ...getDate("currentMonth").map((v, index) => {
-      //     return [
-      //       v[0],
-      //       Math.floor(Math.random() * 100),
-      //       Math.floor(Math.random() * 100),
-      //       Math.floor(Math.random() * 100),
-      //       Math.floor(Math.random() * 100),
-      //       Math.floor(Math.random() * 100)
-      //     ];
-      //   })
-      // ]
     };
   },
 
