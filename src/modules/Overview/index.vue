@@ -54,7 +54,7 @@ export default {
         { icon: "icon-tianqi", name: "气象指数", showIncrease: false, valueColor: "#6CCB73", prop: "qxzs" },
         { icon: "icon-huoqing", name: "火险指数", showIncrease: false, prop: "hxzs" },
         { icon: "icon-jiaotongyongdu1", name: "交通拥堵指数", showIncrease: false, prop: "jtydzs" },
-        { icon: "icon-ganzhi", name: "智能感知预警", showIncrease: false, prop: "zngzyj" },
+        { icon: "icon-ganzhi", name: "智能感知预警", showIncrease: false, valueUnit: "%", prop: "zngzyj" },
         { icon: "icon-yuqing", name: "舆情热点数", showIncrease: false, prop: "yqrds" },
         { icon: "icon-huodong", name: "重大活动", showIncrease: false, prop: "zdhd" }
       ]),
