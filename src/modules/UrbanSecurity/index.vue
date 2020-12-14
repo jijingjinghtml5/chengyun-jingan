@@ -100,8 +100,8 @@ export default {
       colors: Object.freeze(["#4FCFD5", "#DED7D7"]),
       colors2: Object.freeze(["#30BC9B", "#92B9F7"]),
       items: Object.freeze([
-        { icon: "icon-shuigongying", name: "水供应", nameUnit: "（吨）", showIncrease: false, prop: "water_supply" },
-        { icon: "icon-yongdianliang", name: "电力供应", nameUnit: "（kw）", showIncrease: false, prop: "power_supply" },
+        { icon: "icon-shuigongying", name: "水供应", nameUnit: "（吨/日）", showIncrease: false, prop: "water_supply" },
+        { icon: "icon-yongdianliang", name: "电力供应", nameUnit: "（kw/日）", showIncrease: false, prop: "power_supply" },
         { icon: "icon-xingzhuang", name: "干垃圾处理", nameUnit: "（吨/日）", showIncrease: false, prop: "dry_garbage" },
         { icon: "icon-shilaji", name: "湿垃圾处理", nameUnit: "（吨/日）", showIncrease: false, prop: "wet_garbage" },
         { icon: "icon-kehuishoulaji", span: 1.2, name: "可回收垃圾处理", nameUnit: "（吨/日）", showIncrease: false, prop: "recyclable_waste" }
