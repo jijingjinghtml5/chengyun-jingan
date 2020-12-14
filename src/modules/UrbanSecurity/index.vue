@@ -6,7 +6,8 @@
       <m-tabs-body-item name="overview">
         <m-row gutter="0.1rem">
           <m-column v-for="item in items" :key="item.name">
-            <overview-item v-bind="item" customClass="style2" style="cursor: pointer" @click.native="handleClickForOverviewItem(item)"></overview-item>
+            <!-- @click.native="handleClickForOverviewItem(item)" -->
+            <overview-item v-bind="item" customClass="style2" style="cursor: pointer"></overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>

@@ -4,9 +4,9 @@
       <i class="iconfont" :class="icon"></i>
     </div>
     <ul class="overview-item__content">
-      <li class="overview-item__name">{{ name }}<sub v-if="nameUnit">{{ nameUnit }}</sub></li>
-      <li class="overview-item__value" :style="{ color: vc }">{{ dataset[valueProp] | initVal | thousandCentimeter }}<sub v-if="valueUnit">{{ valueUnit }}</sub></li>
-      <increase v-if="showIncrease" tag="li" :value="dataset[increaseProp] | initVal"></increase>
+      <li class="overview-item__name" v-if="name">{{ name }}<sub v-if="nameUnit">{{ nameUnit }}</sub></li>
+      <li class="overview-item__value" :style="{ color: vc }">{{ (value || dataset[valueProp]) | initVal | thousandCentimeter }}<sub v-if="valueUnit">{{ valueUnit }}</sub></li>
+      <increase v-if="showIncrease" tag="li" :value="increase || dataset[increaseProp] | initVal"></increase>
       <li class="overview-item__extra" v-for="item in extraItems || []" :key="item.key" :style="{ color: item.color }">
         {{ item.label }}：{{ dataset[item.prop] | initVal | thousandCentimeter }} {{ item.unit }}
       </li>
@@ -26,12 +26,15 @@ export default {
     },
     name: {
       type: String,
-      required: true,
       default: ""
     },
     nameUnit: {
       type: String,
       default: ""
+    },
+    value: {
+      type: [String, Number],
+      default: null
     },
     valueUnit: {
       type: String,
@@ -44,6 +47,10 @@ export default {
     valueProp: {
       type: String,
       default: "value"
+    },
+    increase: {
+      type: [String, Number],
+      default: null
     },
     increaseProp: {
       type: String,
@@ -144,7 +151,9 @@ sub {
   }
 }
 .style3,
-.style4 {
+.style4,
+.style6,
+.style7 {
   .overview-item__icon {
     width: 1rem;
     font-size: 0.64rem;
@@ -153,7 +162,7 @@ sub {
   }
   .overview-item__name {
     font-size: 0.28rem;
-    color: #fff;
+    color:#fff;
   }
   .overview-item__value {
     font-size: 0.52rem;
@@ -161,6 +170,26 @@ sub {
     sub {
       font-size: 0.28rem;
       color: #fff;
+    }
+  }
+}
+.style6 {
+  .overview-item__name {
+    color:$titleLevel2;
+  }
+  .overview-item__value {
+    sub {
+      color: #4FCFD5;
+    }
+  }
+}
+.style7 {
+  .overview-item__name {
+    color: $titleLevel2;
+  }
+  .overview-item__value {
+    sub {
+      color: $titleLevel2;
     }
   }
 }

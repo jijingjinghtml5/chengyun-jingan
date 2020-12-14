@@ -98,10 +98,42 @@ export default {
     }
     .title {
       min-width: 2.2rem;
+      .m-tabs {
+        /deep/ {
+          .m-tabs__item.is-active {
+            color: $titleLevel2;
+            font-weight: normal;
+          }
+        }
+      }
     }
     .levelTitle__center,
     .levelTitle__right {
       font-size: 0.32rem;
+      .m-tabs {
+        font-size: inherit;
+      }
+    }
+  }
+  &.level4 {
+    height: 0.48rem;
+    // padding: 0 0.24rem;
+    color: $titleLevel2;
+    i {
+      color: #1E5CBF;
+      .supportWebkitTextFillColor &{
+        background-image: linear-gradient(225deg, #669DF4 0%, #1E5CBF 100%);;
+        // background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+    .title {
+      min-width: 2rem;
+    }
+    .levelTitle__center,
+    .levelTitle__right {
+      font-size: 0.28rem;
       .m-tabs {
         font-size: inherit;
       }
