@@ -61,10 +61,10 @@ export default {
         let timestamp = (new Date()).getTime();
         switch (nv) {
           case "yellow":
-            filter = `(openTS=-259200&args.chs_userId_36=ex.false&args.chs_userId_47=ex.false&args.chs_userId_24=ex.false&((closeTS=ex.false&allEndTS=lt.${timestamp})|(closeTS=ex.true&script="doc['data.closeTS'].value.getMillis()>doc['data.allEndTS'].value.getMillis()")))`;
+            filter = `(openTS=-604800&args.chs_userId_36=ex.false&args.chs_userId_47=ex.false&args.chs_userId_24=ex.false&((closeTS=ex.false&allEndTS=lt.${timestamp})|(closeTS=ex.true&script="doc['data.closeTS'].value.getMillis()>doc['data.allEndTS'].value.getMillis()")))`;
             break;
           case "red":
-            filter = "openTS=today&district_eventType.level_2=in.,重大危险源,路面塌陷,自来水管破裂,路面积水、污水冒溢、粪便冒溢,燃气管破裂,占用消防通道违章停车,人员非正常聚集,电梯困人,超期未整改,相关业务,违规装修、改建";
+            filter = "openTS=-604800&district_eventType.level_2=in.,重大危险源,路面塌陷,自来水管破裂,路面积水、污水冒溢、粪便冒溢,燃气管破裂,占用消防通道违章停车,人员非正常聚集,电梯困人,超期未整改,相关业务,违规装修、改建";
             break;
           case "网格":
           case "市场监管":
