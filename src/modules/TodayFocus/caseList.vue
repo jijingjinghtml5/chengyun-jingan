@@ -24,6 +24,8 @@ import WrapTitle from "@/components/MTitle/WrapTitle";
 import MTitle from "@/components/MTitle/LevelTitle";
 import MList from "@/components/MList/index.vue";
 import { CaseSteps } from "@/mapping";
+import { getUrl } from "@/utils/tools";
+
 // import {formatterDate} from "@"
 
 import { getListData } from "./api";
@@ -49,8 +51,11 @@ export default {
   },
   watch: {
     "item.key": {
-      handler(nv) {
+      handler(nv, old) {
+        if (nv === old) return;
         this.tableData = [];
+        this.$bus.$emit("map-close-model", {});
+        this.$bus.$emit("map-full-extent", {});
         // console.log("watch", this.item);
         let filter = "";
         let timestamp = (new Date()).getTime();
@@ -123,7 +128,8 @@ export default {
       ],
       tableData: [
       ],
-      caseLayer: null
+      caseLayer: null,
+      caseAllLayer: null
     };
   },
   methods: {
@@ -139,6 +145,7 @@ export default {
           break;
         case "派遣":
         case "处理":
+        case "处置":
         case "核查":
           color = "#f1c40f";
 
@@ -160,6 +167,7 @@ export default {
         case "派遣":
           return "icon-paiqian";
         case "处理":
+        case "处置":
           return "icon-chuzhi";
         case "核查":
           return "icon-hecha";
@@ -175,8 +183,8 @@ export default {
           component: "case",
           dataFormat: data => {
             return {
-              // caseId_: row.id,
-              caseId_: "f59f10535b7134eb6367740cbbb62a04"
+              caseId_: row.id
+              // caseId_: "f59f10535b7134eb6367740cbbb62a04"
             };
           }
         });
@@ -184,13 +192,104 @@ export default {
         this.caseLayer && this.caseLayer.close();
       }
     },
+    getMapIconImg() {
+      let img = "";
+      switch (this.item.key) {
+        case "red":
+          img = "/images/mapIcon/red.png";
+          break;
+        case "yellow":
+          img = "/images/mapIcon/yellow.png";
+          break;
+          default:
+            img = "/images/mapIcon/default.png";
+            break;
+      }
+      return img;
+    },
     getListData(filter) {
       this.loading = true;
       getListData(filter).then(res => {
         this.tableData = res.list;
         this.loading = false;
+
+        let img = this.getMapIconImg();
+        this.caseAllLayer.setParameters({
+          "renderer": {
+            "type": "simple",
+            "label": "案件",
+            "visualVariables": [],
+            "symbol": {
+              type: "simple",
+              label: "定位点-附加点",
+              symbol: {
+                type: "simple-marker",
+                size: 25,
+                color: [0, 255, 0],
+                outline: {
+                  color: "#ffffff",
+                  width: "2px"
+                }
+              }
+              // type: "simple",
+              // label: "案件",
+              // symbol: {
+              //   type: "picture-marker",
+              //   url: getUrl(img),
+              //   width: "36px",
+              //   height: "36px"
+              // }
+            }
+          },
+          "data": {
+            "data": this.tableData.map(item => {
+              return {
+                id: item.id,
+                lng: item.lng,
+                lat: item.lat
+              };
+            }),
+            "parsegeometry": "function(item){return {x:item.lng,y:item.lat}}"
+          }
+        }).setPopupConfig({
+          component: "case",
+          dataFormat: data => {
+            return {
+              caseId_: data.id
+              // caseId_: "f59f10535b7134eb6367740cbbb62a04"
+            };
+          }
+        }).open();
+        console.log(">>>>>open");
       }).catch(() => {
         this.loading = false;
+      });
+    },
+    registerLayer() {
+      this.caseAllLayer = this.$_mapProxy.registerLayer("redAndYellowCaseLayer", "红黄灯案件", this.$_mapProxy.MANUAL_GROUP, {
+        "name": "redAndYellowCaseLayer",
+        "data": {
+          "data": [],
+          "parsegeometry": "function(item){return {x:item.lng,y:item.lat}}"
+        },
+        "legendVisible": false,
+        "popupEnabled": false,
+        "isLocate": true,
+        "renderer": {
+          "type": "simple",
+          "label": "案件",
+          "visualVariables": [],
+          "symbol": {
+            type: "simple",
+            label: "点位周边人员",
+            symbol: {
+              type: "picture-marker",
+              url: getUrl(this.aroundPeoplePointImg),
+              width: "36px",
+              height: "36px"
+            }
+          }
+        }
       });
     }
   },
@@ -198,6 +297,8 @@ export default {
     if (this.caseLayer) {
       this.caseLayer.close();
       this.caseLayer = null;
+      this.caseAllLayer.close();
+      this.caseAllLayer = null;
     }
   }
 };
