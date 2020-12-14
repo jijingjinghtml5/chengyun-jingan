@@ -30,8 +30,8 @@ export default {
         { name: "地(个)", iconClass: "icon-bangonglouyu", attr: "area", isExpand: true, columns: 2 },
         { name: "物(台)", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2 },
         { name: "事(个)", iconClass: "icon-jinriguanzhu", attr: "event", isExpand: true, radio: true, columns: 2 },
-        { name: "情(件)", iconClass: "icon-wu", attr: "situation", isExpand: true, columns: 2 },
-        { name: "组织(个)", iconClass: "icon-luchangzhi", attr: "organization", isExpand: true, radio: true, columns: 2 }
+        { name: "情(件)", iconClass: "icon-wu", attr: "situation", isExpand: true, columns: 2, disable: true },
+        { name: "组织(个)", iconClass: "icon-luchangzhi", attr: "organization", isExpand: true, radio: true, columns: 2, disable: true }
       ],
       mapControlItemData: {
         people: "820",
