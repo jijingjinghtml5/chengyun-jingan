@@ -2,6 +2,7 @@ window.$config = {
   apiUrlForTesla: "https://changningfy.iotsh.com.cn",
   // apiUrlForTesla: "http://10.81.72.36:8088",
   apiUrl: "http://10.81.71.38", // 市平台
+  imageRootURL:"http://10.81.71.38/chengyun/videos/chengyun_3_0/",
   // wsUrl: "ws://127.0.0.1:20190/event",
   // 测试
   // wsUrl: "ws://52.83.128.140:20190",

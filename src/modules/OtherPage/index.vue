@@ -18,6 +18,7 @@
 <script>
 import MDialog from "@/components/MDialog";
 import IframeContainer from "@/components/IframeContainer";
+import { getUrls } from "./api";
 import {
   Carousel,
   CarouselItem
@@ -38,7 +39,8 @@ export default {
         height: "2160px"
       },
       iframeSrc: "",
-      dialogVisible: false
+      dialogVisible: false,
+      urls: []
       // urls: [
       //   {
       //       url: require("./img/test.png"),
@@ -94,10 +96,10 @@ export default {
   computed: {
     urlsInner() {
       let data = [];
-      if (window.$config.otherPageUrls) {
-        window.$config.otherPageUrls.forEach((url, index) => {
+      if (this.urls) {
+        this.urls.forEach((url, index) => {
           let i = Math.floor(index / 4);
-          url.img = this.rootUrl + "otherPageImg/" + url.img;
+          url.img = window.$config.imageRootURL + url.img;
           if (data[i]) {
             data[i].push(url);
           } else {
@@ -108,7 +110,6 @@ export default {
       }
        return data;
     }
-
   },
   methods: {
     imgClick(item) {
@@ -117,12 +118,24 @@ export default {
     }
   },
   created() {
-        let urlString = window.location.href;
+      let urlString = window.location.href;
       let subIndex = urlString.lastIndexOf("html");
       let urlStringSub = urlString.substring(0, subIndex + 1);
       subIndex = urlStringSub.lastIndexOf("/");
       // 获取项目根路径
       this.rootUrl = urlStringSub.substring(0, subIndex + 1);
+      getUrls().then(res => {
+        if (res.list) {
+          res.list.forEach(e => {
+              let item = {
+                img: e.image,
+                name: e.name,
+                url: e.url
+              };
+              this.urls.push(item);
+          });
+        }
+      });
   },
   mounted () {
 
