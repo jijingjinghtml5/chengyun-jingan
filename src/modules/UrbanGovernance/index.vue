@@ -78,19 +78,15 @@
       <m-tabs class="road-select" slot="right" v-model="tab" :tabs="tabs"></m-tabs>
     </level-title>
     <ul class="list in-flex">
-      <li class="list-item" v-for="(item, index) in dataset.list" :key="item.id">
+      <li class="list-item" v-for="(item, index) in dataset[tab]" :key="item.primeID">
         <span class="list-item__id">{{ index + 1 }}</span>
         <div class="list-item__infor">
           <p>{{ item.road }}</p>
-          <p>持续时间：{{ item.duration }}</p>
+          <p>指数：{{ item.score }}</p>
         </div>
-        <p v-if="item.status === '严重拥堵'" class="list-item__status serious">
-          <i class="iconfont icon-chaoqianjian-lianghongdeng"></i>
-          {{ item.status }}
-        </p>
-        <p v-else-if="item.status === '拥堵'" class="list-item__status medium">
-          <i class="iconfont icon-jinjidaiban-lianghuangdeng"></i>
-          {{ item.status }}
+        <p class="list-item__status" :style="{ backgroundColor: item.color + '66', borderColor: item.color }">
+          <i class="iconfont" :class="item.icon"></i>
+          {{ item.text }}
         </p>
       </li>
     </ul>
@@ -104,6 +100,7 @@ import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
 import OverviewItem from "@/components/OverviewItem";
 import MTabs from "@/components/MTabs";
+import { getData } from "./api";
 export default {
   name: "UrbanGovernance",
   components: {
@@ -123,21 +120,62 @@ export default {
         { label: "本月", value: "currentMonth" }
       ]),
       tabs: Object.freeze([
-        { label: "快速路", value: "快速路" },
-        { label: "地面道路", value: "地面道路" }
+        { label: "快速路", value: "expressway" },
+        { label: "地面道路", value: "groud_road" }
       ]),
       option: "today",
-      tab: "快速路",
+      tab: "expressway",
       dataset: {
-        list: Object.freeze([
-          { id: 1, road: "嘉闵高速G60立交北向东匝道", duration: "10分钟", status: "严重拥堵" },
-          { id: 2, road: "嘉闵高速G60立交北向东匝道", duration: "10分钟", status: "严重拥堵" },
-          { id: 3, road: "嘉闵高速G60立交北向东匝道", duration: "10分钟", status: "拥堵" },
-          { id: 4, road: "嘉闵高速G60立交北向东匝道", duration: "10分钟", status: "拥堵" },
-          { id: 5, road: "嘉闵高速G60立交北向东匝道", duration: "10分钟", status: "拥堵" }
-        ])
+        expressway: [],
+        groud_road: []
       }
     };
+  },
+  methods: {
+    getData() {
+      getData().then(res => {
+        if (res.expressway) {
+          this.dataset.expressway = Object.freeze((res.expressway || []).map(d => {
+            return {
+              ...d,
+              ...(this.convertScore(d.score))
+            };
+          }));
+        }
+        if (res.groud_road) {
+          this.dataset.groud_road = Object.freeze((res.groud_road || []).map(d => {
+            return {
+              ...d,
+              ...(this.convertScore(d.score))
+            };
+          }));
+        }
+      });
+    },
+    convertScore(score) {
+      const res = { icon: "", color: "", text: "" };
+      if (score >= 70) {
+        res.icon = "icon-qing-ditu";
+        res.color = "#F23470";
+        res.text = "堵塞";
+      } else if (score >= 50) {
+        res.icon = "icon-fengxianshixiang";
+        res.color = "#F96F4F";
+        res.text = "拥挤";
+      } else if (score >= 30) {
+        res.icon = "icon-jiaotongchang";
+        res.color = "#FCBF51";
+        res.text = "较通畅";
+      } else {
+        res.icon = "icon-changtong";
+        res.color = "#1ABC9C";
+        res.text = "通畅";
+      }
+      return res;
+    }
+  },
+  created() {
+    this.$timer.register(this.getData, this);
   }
 };
 </script>
@@ -185,14 +223,14 @@ export default {
   text-align: center;
   border: 0.02rem solid transparent;
   border-radius: 0.22rem;
-  &.serious {
-    background-color: rgba(#F23470, 0.4);
-    border-color: #F23470;
-  }
-  &.medium {
-    background-color: rgba(#FCBF51, 0.4);
-    border-color: #FCBF51;
-  }
+  // &.serious {
+  //   background-color: rgba(#F23470, 0.4);
+  //   border-color: #F23470;
+  // }
+  // &.medium {
+  //   background-color: rgba(#FCBF51, 0.4);
+  //   border-color: #FCBF51;
+  // }
 
 }
 </style>

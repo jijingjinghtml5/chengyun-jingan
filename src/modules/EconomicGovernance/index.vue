@@ -69,7 +69,7 @@
           <m-column class="zsyz">
             <p class="label">新增企业（总数/外资）</p>
             <p class="value">115<sub>/20</sub></p>
-            <p>
+            <p class="increase-wp">
               <increase tag="span" :value="-25.39"></increase>
               /
               <increase tag="span" :value="-0.22"></increase>
@@ -78,7 +78,7 @@
           <m-column class="zsyz">
             <p class="label">千万级投资（总数/外资）</p>
             <p class="value">{{ 7651 | thousandCentimeter }}<sub>/{{ 890 | thousandCentimeter }}</sub></p>
-            <p>
+            <p class="increase-wp">
               <increase tag="span" :value="-6.11"></increase>
               /
               <increase tag="span" :value="0.76"></increase>
@@ -222,6 +222,11 @@ export default {
       color:#4FCFD5;
       bottom: 0;
     }
+  }
+  .increase-wp {
+    height: 0.36rem;
+    display: flex;
+    align-items: center;
   }
 }
 .legend-label {

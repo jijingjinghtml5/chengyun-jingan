@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "18812981",
+      "name": "较通畅",
+      "font_class": "jiaotongchang",
+      "unicode": "e6ed",
+      "unicode_decimal": 59117
+    },
+    {
+      "icon_id": "18812982",
+      "name": "畅通",
+      "font_class": "changtong",
+      "unicode": "e6ee",
+      "unicode_decimal": 59118
+    },
+    {
       "icon_id": "18806907",
       "name": "空气等级",
       "font_class": "kongqidengji",

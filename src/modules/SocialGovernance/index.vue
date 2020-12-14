@@ -25,7 +25,7 @@
           </m-column>
           <m-column width="50%" >
             <overview-item
-              name="交通事故发生数（㎡）"
+              name="交通事故发生数（起）"
               value="5"
               increase="6.11"
               customClass="style6">
@@ -33,7 +33,7 @@
           </m-column>
           <m-column width="50%" >
             <overview-item
-              name="火灾发生数（㎡）"
+              name="火灾发生数（起）"
               value="0"
               :increase="0"
               customClass="style6">
