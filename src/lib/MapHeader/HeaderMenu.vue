@@ -10,7 +10,7 @@
               {{item.name}}
               <span v-if="item.columns>0" class="iconfont icon-arrow_right mapControlLableIcon"></span>
             </p>
-            <p class="mapControlLableNumber1">暂无数据</p>
+            <!-- <p class="mapControlLableNumber1">暂无数据</p> -->
           </div>
         </div>
         <div @click="mapLayerControlClick(item)" v-else>
