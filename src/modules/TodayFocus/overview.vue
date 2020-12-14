@@ -32,7 +32,7 @@ import LineChart from "@/components/Charts/Line/ChartLine";
 import Tile from "@/components/Tile/index2";
 import Tile1 from "@/components/Tile/index1";
 
-import { getDate } from "@/utils/tools";
+import { getDate, generateKeyValuePair } from "@/utils/tools";
 
 import Vue from "vue";
 import { Row, Col } from "element-ui";
@@ -42,9 +42,29 @@ Vue.use(Col);
 export default {
   name: "TodayFocusOverview",
   components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1 },
+  props: {
+    dataset: {
+      type: Object,
+      default() {
+        return {
+          trendData: [],
+          stats: {},
+          gridData: {
+            today: "-",
+            yesterday: "-"
+          }
+        };
+      }
+    }
+  },
   computed: {
     otherItems() {
-      let items = [...this.items];
+      let items = [...this.items].map(item => {
+        return {
+          ...item,
+          ...(this.dataset.stats[item.key] || {})
+        };
+      });
       const length = items.length;
       if (length < this.chunkSize) {
         return items;
@@ -54,6 +74,46 @@ export default {
         chunks.push(items.splice(0, this.chunkSize));
       }
       return chunks;
+    },
+    pubilcItems() {
+      const grid = this.dataset.gridData;
+      let gridRate = grid.yesterday ? Math.floor(((grid.today - grid.yesterday) / grid.yesterday) * 10000) / 100 : "-";
+
+      return [
+        {
+          label: "一网统管",
+          count: grid.today,
+          rate: gridRate,
+          color: gridRate > 0 ? "#4FCFD5" : (gridRate < 0 ? "#E64C3B" : "#2E9BCF")
+        },
+        {
+          icon: "icon-biaoti",
+          label: "一网通办",
+          count: "-",
+          rate: "-",
+          color: "#2E9BCF"
+        }
+      ];
+    },
+    chartData() {
+      const grid = generateKeyValuePair("time_fm", "count", this.dataset.trendData["网格"]);
+      const zhongzhi = generateKeyValuePair("time_fm", "count", this.dataset.trendData["综治"]);
+      const shichang = generateKeyValuePair("time_fm", "count", this.dataset.trendData["市场监管"]);
+      const feijingqing = generateKeyValuePair("time_fm", "count", this.dataset.trendData["110非警情"]);
+
+      return [
+        ["时间", "网格", "综治", "市场监管", "110非警情"],
+        ...getDate(7, { dataConfig: { dateFmt: "yyyy-MM-dd" }, containToday: true }).map((v, index) => {
+          let time = v[0];
+          return [
+            this.$f.formatterDate(v[0], "MM.dd"),
+            grid[time] || 0,
+            zhongzhi[time] || 0,
+            shichang[time] || 0,
+            feijingqing[time] || 0
+          ];
+        })
+      ];
     }
   },
   data() {
@@ -65,110 +125,121 @@ export default {
         top: 0,
         right: 250
       },
-      pubilcItems: [
-        {
-          label: "一网统管",
-          count: 109772,
-          rate: 1.08,
-          color: "#4FCFD5"
-        },
-        {
-          icon: "icon-biaoti",
-          label: "一网通办",
-          count: 12198,
-          rate: 1.08,
-          color: "#2E9BCF"
-        }
-      ],
+      // pubilcItems: [
+      //   {
+      //     label: "一网统管",
+      //     count: 109772,
+      //     rate: 1.08,
+      //     color: "#4FCFD5"
+      //   },
+      //   {
+      //     icon: "icon-biaoti",
+      //     label: "一网通办",
+      //     count: 12198,
+      //     rate: 1.08,
+      //     color: "#2E9BCF"
+      //   }
+      // ],
       items: [
         {
           // icon: "icon-biaoti",
           label: "12345热线",
-          count: 30,
-          rate: 1.08,
+          count: "-",
+          key: "12345",
+          rate: "-",
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
           label: "110",
-          count: 0,
-          rate: 1.08,
+          count: "-",
+          key: "110",
+          rate: "-",
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
           label: "119",
-          count: 78,
-          rate: 1.08,
+          count: "-",
+          key: "119",
+          rate: "-",
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
           label: "120",
-          count: 0,
-          rate: -1.08,
+          count: "-",
+          key: "120",
+          rate: "-",
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
           label: "962121",
-          count: 0,
-          rate: -1.08,
+          count: "-",
+          key: "962121",
+          rate: "-",
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
           label: "网格巡查",
-          count: 104800,
-          rate: 1.08,
+          count: "-",
+          key: "网格",
+          rate: "-",
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
           label: "市场监管",
-          count: 60,
-          rate: 1.08,
+          count: "-",
+          key: "市场监管",
+          rate: "-",
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
           label: "110非警情",
-          count: 60,
-          rate: 1.08,
+          count: "-",
+          key: "110非警情",
+          rate: "-",
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
           label: "综治",
-          count: 60,
-          rate: 1.08,
+          count: "-",
+          key: "综治",
+          rate: "-",
           unit: "件"
         },
         {
           // icon: "icon-biaoti",
           label: "矛盾纠纷",
-          count: 60,
-          rate: 1.08,
+          count: "-",
+          key: "矛盾纠纷",
+          rate: "-",
           unit: "件"
         }
       ],
       chunkSize: 5,
-      colors: ["#1ABC9C", "#679DF4", "#F96F4F", "#BE6CCC", "#D0021B"],
-      chartData: [
-        ["时间", "网格", "12345热线", "综治", "市场监管", "110非警情"],
-        ...getDate("currentMonth").map((v, index) => {
-          return [
-            v[0],
-            Math.floor(Math.random() * 100),
-            Math.floor(Math.random() * 100),
-            Math.floor(Math.random() * 100),
-            Math.floor(Math.random() * 100),
-            Math.floor(Math.random() * 100)
-          ];
-        })
-      ]
+      colors: ["#1ABC9C", "#679DF4", "#F96F4F", "#BE6CCC", "#D0021B"]
+      // chartData: [
+      //   ["时间", "网格", "12345热线", "综治", "市场监管", "110非警情"],
+      //   ...getDate("currentMonth").map((v, index) => {
+      //     return [
+      //       v[0],
+      //       Math.floor(Math.random() * 100),
+      //       Math.floor(Math.random() * 100),
+      //       Math.floor(Math.random() * 100),
+      //       Math.floor(Math.random() * 100),
+      //       Math.floor(Math.random() * 100)
+      //     ];
+      //   })
+      // ]
     };
   },
+
   methods: {
     handleClick(item) {
       console.log("item,", item);
