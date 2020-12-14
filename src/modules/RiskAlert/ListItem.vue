@@ -5,17 +5,17 @@
     </el-col>
     <el-col :span="6" class="title">
       <div class="level1">{{item.title}}</div>
-      <div class="level2">更新时间:{{item.update_time}}</div>
+      <!-- <div class="level2">更新时间:{{item.update_time}}</div> -->
     </el-col>
     <el-col :span="12" class="metrics">
       <div class="metric-item" v-for="metric in item.metrics" :key="metric.label">
         <div class="level2">{{metric.label}}</div>
-        <div class="value" :style="`color: ${metric.color} `">{{metric.count}}</div>
+        <div class="value" :style="`color: ${metric.color} `">{{metric.key ? dataset[metric.key] : '-'}}</div>
       </div>
     </el-col>
     <el-col :span="3" class="opt">
       <slot :name="item.slot" v-bind:item="item">
-        <span class="iconfont icon-jinru clickAble"></span>
+        <!-- <span class="iconfont icon-jinru clickAble"></span> -->
       </slot>
     </el-col>
   </el-row>
@@ -55,6 +55,12 @@ export default {
             }
           ]
         };
+      }
+    },
+    dataset: {
+      type: Object,
+      default() {
+        return {};
       }
     }
   }

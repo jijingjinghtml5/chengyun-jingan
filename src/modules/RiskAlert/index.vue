@@ -1,15 +1,15 @@
 <template>
 <div class="container gradient-bg">
     <wrap-title txt="风险预警" :level="1" icon="icon-ditanshijiancha">
-      <div slot="right" class="title-right">
+      <!-- <div slot="right" class="title-right">
         <span>预警总数：</span>
         <span>{{total | thousandCentimeter}}</span>
-      </div>
+      </div> -->
       <div class="list">
-        <list-item v-for="(item, index) in items" :key="index" :item="item">
+        <list-item v-for="(item, index) in items" :key="index" :item="item" :dataset="itemData">
           <template v-slot:yq="item">
-            <span class="iconfont icon-jinru clickAble" style="margin-right:20px;"></span>
-            <span class="iconfont icon-tiaozhuandaojiezhen clickAble"></span>
+            <!-- <span class="iconfont icon-jinru clickAble" style="margin-right:20px;"></span> -->
+            <!-- <span class="iconfont icon-tiaozhuandaojiezhen clickAble"></span> -->
           </template>
         </list-item>
       </div>
@@ -23,6 +23,8 @@ import MTitle from "@/components/MTitle/LevelTitle";
 
 import ListItem from "./ListItem.vue";
 
+import { getData } from "./api";
+
 export default {
   name: "RiskAlert",
   inject: ["createFnForCalcRealPx"],
@@ -33,6 +35,7 @@ export default {
       onMap: false,
       activeIndex: -1,
       total: 12,
+      itemData: {},
       items: [
         {
           icon: "icon-yiqingfangkong",
@@ -44,16 +47,19 @@ export default {
             {
               label: "新增集观",
               count: 1,
+              key: "isolation_add",
               color: "#F23470"
             },
             {
               label: "解除集观",
               count: 2,
+              key: "isolation_remove",
               color: "#6CCB73"
             },
             {
               label: "新增居家观察",
               count: 78,
+              key: "home_add",
               color: "#F96F4F"
             }
           ]
@@ -67,6 +73,7 @@ export default {
             {
               label: "道路拥堵",
               count: 78,
+              key: "crowd_road_count",
               color: "#4FCFD5"
             },
             {
@@ -100,6 +107,7 @@ export default {
             {
               label: "物联感知",
               count: 78,
+              key: "iot_count",
               color: "#4FCFD5"
             }
           ]
@@ -130,7 +138,15 @@ export default {
       ]
     };
   },
+  created() {
+    this.$timer.register(this.getData, this);
+  },
   methods: {
+    getData() {
+      getData().then(res => {
+        this.itemData = res.data;
+      });
+    },
     showDetail(item) {
       this.activeItem = item;
     },
