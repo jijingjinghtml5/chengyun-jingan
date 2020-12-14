@@ -43,10 +43,6 @@ export default {
       },
       checkItems: {
         people: [
-          {
-            name: "实有人口",
-            nameKey: "name",
-            children: [
               {
                 name: "户籍人口",
                 nameKey: "name",
@@ -61,70 +57,74 @@ export default {
                 name: "境外人口",
                 nameKey: "name",
                 checked: false
+              },
+              {
+                name: "特殊人群",
+                nameKey: "name",
+                checked: false
               }
-
-            ],
-            childKey: "children"
-          }
         ],
         thing: [
           {
-            name: "部件",
+            name: "城市部件",
             nameKey: "name",
-            children: [
-              {
-                name: "部件1",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "部件2",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "部件3",
-                nameKey: "name",
-                checked: false
-              }
-
-            ],
-            childKey: "children"
+            checked: false
           },
           {
-            name: "管线",
+            name: "地下管线",
             nameKey: "name",
-            children: [
-              {
-                name: "管线1",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "管线2",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "管线3",
-                nameKey: "name",
-                checked: false
-              }
-
-            ],
-            childKey: "children"
+            checked: false
+          },
+          {
+            name: "神经元传感器",
+            nameKey: "name",
+            checked: false
           }
         ],
         area: [
               {
-                name: "学校",
+                name: "公共设施",
                 nameKey: "name",
-                checked: false
+                children: [
+                  {
+                    name: "学校",
+                    nameKey: "name",
+                    checked: false
+                  },
+                                    {
+                    name: "医院",
+                    nameKey: "name",
+                    checked: false
+                  },
+                  {
+                    name: "养老院",
+                    nameKey: "name",
+                    checked: false
+                  }
+                ],
+                childKey: "children"
               },
               {
-                name: "公园",
+                name: "公共设施",
                 nameKey: "name",
-                checked: false
+                children: [
+                  {
+                    name: "学校",
+                    nameKey: "name",
+                    checked: false
+                  },
+                  {
+                    name: "医院",
+                    nameKey: "name",
+                    checked: false
+                  },
+                  {
+                    name: "养老院",
+                    nameKey: "name",
+                    checked: false
+                  }
+                ],
+                childKey: "children"
               },
               {
                 name: "商业楼宇",
@@ -132,19 +132,42 @@ export default {
                 checked: false
               },
               {
-                name: "医院",
+                name: "休闲购物广场",
                 nameKey: "name",
                 checked: false
               },
               {
-                name: "养老院",
+                name: "基础设施",
                 nameKey: "name",
-                checked: false
-              },
-              {
-                name: "图书馆",
-                nameKey: "name",
-                checked: false
+                children: [
+                    {
+                      name: "公园",
+                      nameKey: "name",
+                      checked: false
+                    },
+                    {
+                      name: "绿地",
+                      nameKey: "name",
+                      checked: false
+                    },
+                    {
+                      name: "跑道",
+                      nameKey: "name",
+                      checked: false
+                    },
+                    {
+                      name: "健身设施",
+                      nameKey: "name",
+                      checked: false
+                    },
+                    {
+                      name: "文化场所",
+                      nameKey: "name",
+                      checked: false
+                    }
+
+                ],
+                childKey: "children"
               }
         ],
         event: [

@@ -22,7 +22,7 @@
               {{item.name}}
               <span v-if="item.columns>0" class="iconfont icon-arrow_right mapControlLableIcon"></span>
             </p>
-            <p class="mapControlLableNumber">{{item.module ? item.module.mapControlItemData[item.attr] : mapControlItemData[item.attr] | thousandCentimeter}}</p>
+            <!-- <p class="mapControlLableNumber">{{item.module ? item.module.mapControlItemData[item.attr] : mapControlItemData[item.attr] | thousandCentimeter}}</p> -->
           </div>
         </div>
          <!-- 下面组件为tree-list的重构组件，自动根据数据展示动态列数，不需要手动设置列数 -->
