@@ -19,12 +19,12 @@
           <div class="cell detail">
             <div class="item">
               <p class="level2 text-ellipsis">问题发现数(件)</p>
-              <p class="level0 text-ellipsis" style="color:#2E9BCF;">{{ item.security | thousandCentimeter }}</p>
+              <p class="level0 text-ellipsis" style="color:#2E9BCF;">{{ item.find | thousandCentimeter }}</p>
             </div>
             <div class="split"></div>
             <div class="item">
               <p class="level2 text-ellipsis">问题办结数(件)</p>
-              <p class="level0 text-ellipsis" style="color:#F23470;">{{ item.manage | thousandCentimeter }}</p>
+              <p class="level0 text-ellipsis" style="color:#F23470;">{{ item.done | thousandCentimeter }}</p>
             </div>
           </div>
           <div class="cell opt">
@@ -45,6 +45,7 @@ import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import MDialog from "@/components/MDialog";
 import IframeContainer from "@/components/IframeContainer";
 
+import { getSumaryData } from "./api";
 export default {
   name: "TownSummary",
   inject: ["createFnForCalcRealPx", "getGlobalConfig"],
@@ -56,12 +57,12 @@ export default {
           town: item.name,
           url: item.url,
           score: "-",
-          security: "-",
-          manage: "-",
-          service: "-"
+          find: "-",
+          done: "-"
         };
     });
     return {
+      townList: townList,
       activeIndex: -1,
       total: 1000,
       dataset: townList,
@@ -74,11 +75,33 @@ export default {
       dialogVisible: false
     };
   },
+  created() {
+    this.$timer.register(this.getData, this);
+  },
   methods: {
     gotoTown(item) {
       console.log("item", item);
       this.dialogVisible = true;
       this.iframeSrc = item.url;
+    },
+    getData() {
+      getSumaryData().then(res => {
+        console.log("res", res);
+        let _d = {};
+        (res.data || []).map(item => {
+          _d[item.town] = item;
+        });
+        this.dataset = this.townList.map(item => {
+          let townData = _d[item.town] || {};
+          return {
+            ...item,
+            score: townData.score,
+            find: townData.open_count,
+            done: townData.close_count
+          };
+        });
+                      console.log(">>>>", _d, this.dataset);
+      });
     }
   }
 };

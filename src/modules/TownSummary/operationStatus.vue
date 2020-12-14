@@ -9,6 +9,8 @@
 <script>
 import MTabs from "@/components/MTabs";
 import ChartbarY from "@/components/Charts/BarY/ChartBarYForValuePosition";
+import { reCallAndNeedCallApi } from "@/utils/tools";
+import { getChartData } from "./api";
 export default {
   name: "operationStatus",
   components: {
@@ -24,49 +26,115 @@ export default {
         { label: "110非警情", value: "110" }
       ]),
       tabs2: Object.freeze([
-        { label: "居家隔离工单", value: "homeQuarantine" },
         { label: "1+3+N在岗数", value: "1+3+N" },
+        { label: "居家隔离工单", value: "homeQuarantine" },
         { label: "151智能感知事件", value: "151" }
       ]),
       tab: "grid",
-      tab2: "homeQuarantine",
+      tab2: "1+3+N",
       dataset: {
         grid: [
-          ["网格事部件", "数量"],
-          ["南京西路", 2098],
-          ["静安寺", 1752],
-          ["共和新路", 1265],
-          ["大宁路", 1087],
-          ["曹家渡", 887],
-          ["天目西路", 887],
-          ["宝山路", 887],
-          ["江宁路", 887],
-          ["北站", 887],
-          ["临汾路", 887],
-          ["芷江西", 887],
-          ["石门二路", 887],
-          ["彭浦新村", 887],
-          ["彭浦镇", 887]
+          ["网格事部件", "数量"]
+          // ["南京西路", 2098],
+          // ["静安寺", 1752],
+          // ["共和新路", 1265],
+          // ["大宁路", 1087],
+          // ["曹家渡", 887],
+          // ["天目西路", 887],
+          // ["宝山路", 887],
+          // ["江宁路", 887],
+          // ["北站", 887],
+          // ["临汾路", 887],
+          // ["芷江西", 887],
+          // ["石门二路", 887],
+          // ["彭浦新村", 887],
+          // ["彭浦镇", 887]
         ],
+        "110": [],
         homeQuarantine: [
-          ["居家隔离工单", "数量"],
-          ["南京西路", 2098],
-          ["静安寺", 1752],
-          ["共和新路", 1265],
-          ["大宁路", 1087],
-          ["曹家渡", 887],
-          ["天目西路", 887],
-          ["宝山路", 887],
-          ["江宁路", 887],
-          ["北站", 887],
-          ["临汾路", 887],
-          ["芷江西", 887],
-          ["石门二路", 887],
-          ["彭浦新村", 887],
-          ["彭浦镇", 887]
-        ]
-      }
+          ["居家隔离工单", "数量"]
+          // ["南京西路", 2098],
+          // ["静安寺", 1752],
+          // ["共和新路", 1265],
+          // ["大宁路", 1087],
+          // ["曹家渡", 887],
+          // ["天目西路", 887],
+          // ["宝山路", 887],
+          // ["江宁路", 887],
+          // ["北站", 887],
+          // ["临汾路", 887],
+          // ["芷江西", 887],
+          // ["石门二路", 887],
+          // ["彭浦新村", 887],
+          // ["彭浦镇", 887]
+        ],
+        "1+3+N": [],
+        "151": []
+      },
+      callApi1: null,
+      callApi2: null
     };
+  },
+  watch: {
+    tab() {
+      this.callApi1(this.tab);
+    },
+    tab2() {
+      this.callApi2(this.tab2);
+    }
+  },
+  methods: {
+    afterCalloApi(data, key) {
+      console.log(">>>>", data, key);
+      if (!data) return;
+      this.dataset[key] = [
+        ["街镇", "数量"],
+        ...(data.data || []).map(item => {
+          return [item.town.replace("街道", ""), item.count];
+        })
+      ];
+    }
+  },
+  created() {
+    this.callApi1 = reCallAndNeedCallApi(this, 10 * 60 * 1000, {
+      grid: {
+        api: getChartData,
+        params: [1],
+        cb: this.afterCalloApi
+      },
+      // hotline: {
+      //   api: getChartData,
+      //   params: [2],
+      //   cb: this.afterCalloApi
+      // },
+      "110": {
+        api: getChartData,
+        params: [3],
+        cb: this.afterCalloApi
+      }
+
+    });
+
+    this.callApi2 = reCallAndNeedCallApi(this, 10 * 60 * 1000, {
+      homeQuarantine: {
+        api: getChartData,
+        params: [4],
+        cb: this.afterCalloApi
+      },
+      "1+3+N": {
+        api: getChartData,
+        params: [5],
+        cb: this.afterCalloApi
+      },
+      "151": {
+        api: getChartData,
+        params: [6],
+        cb: this.afterCalloApi
+      }
+    });
+
+    this.callApi1("grid");
+    this.callApi2("1+3+N");
   }
 };
 </script>
