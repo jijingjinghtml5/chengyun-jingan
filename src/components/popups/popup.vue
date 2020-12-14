@@ -17,7 +17,12 @@ import caseDetailMixin from "@/components/caseDetail-px/index.js";
 export default {
   components: {
     RiskAlertPopup: () => import("./RiskAlertPopup"),
-    BasicPopup: () => import("./page1/BasicPopup")
+    BasicPopup: () => import("./page1/BasicPopup"),
+    gridPopup: () => import("./page1/gridPopup"),
+    juweiPopup: () => import("./page1/juweiPopup"),
+    townPopup: () => import("./page1/townPopup"),
+    neuronPopup: () => import("./page1/neuronPopup")
+
   },
   inject: ["getGlobalConfig"],
   mixins: [caseDetailMixin],

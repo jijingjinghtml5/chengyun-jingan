@@ -17,6 +17,7 @@ import { getCaseTownCount, getPeopleStatistic, getNeuronData } from "./api";
 import { thousandCentimeter, getUrl } from "@/utils/tools";
 import partClassData from "./data/partsClass";
 import pipelineData from "./data/pipelineLength";
+import neuronData from "./data/data";
 
 export default {
   name: "MapTitle",
@@ -32,7 +33,7 @@ export default {
      mapControlItem: [
         { name: "人(万人)", iconClass: "icon-renqunjuji", attr: "people", isExpand: true, columns: 2, radio: true },
         { name: "地(个)", iconClass: "icon-bangonglouyu", attr: "area", isExpand: true, columns: 2 },
-        { name: "物(台)", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2 },
+        { name: "物(台)", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2, radio: true },
         { name: "事(个)", iconClass: "icon-jinriguanzhu", attr: "event", isExpand: true, radio: true, columns: 2 },
         { name: "情(件)", iconClass: "icon-wu", attr: "situation", isExpand: true, columns: 2, disable: true },
         { name: "组织(个)", iconClass: "icon-luchangzhi", attr: "organization", isExpand: true, radio: true, columns: 2, disable: true }
@@ -86,9 +87,10 @@ export default {
           },
           {
             name: "神经元传感器",
-            type: "neuron",
             nameKey: "name",
-            checked: false
+            // type: "neuron",
+            children: [],
+            childKey: "children"
           }
         ],
         area: [
@@ -262,8 +264,7 @@ export default {
   },
   handlerNeuron(item) {
     if (item.checked) {
-      getNeuronData().then(res => {
-        console.log(res, "getNeuronData---------------------");
+      getNeuronData(item.name).then(res => {
               this.thingsPerceptionLayer.setParameters({
                 "data": {
                   "content": res.data,
@@ -677,6 +678,15 @@ export default {
         type: "baseLayer"
       };
       this.checkItems.thing[1].children.push(item);
+    });
+    neuronData.forEach(e => {
+        let item = {
+        name: e.key,
+        nameKey: "name",
+        checked: false,
+        type: "neuron"
+      };
+      this.checkItems.thing[2].children.push(item);
     });
   },
   mounted() {
