@@ -196,22 +196,80 @@ export default {
       this.tabModelLayer("建筑白模", false);
     },
     openStreetLayer() {
-      this.tabMapLayer("街道乡镇组", true);
+      this.useMapStatus();
+      this.openBoundary("townBoundaryLayer", "街道乡镇");
+      // this.tabMapLayer("街道乡镇组", true);
+    },
+    openBoundary(layerName, boundaryName) {
+      const cmd = {
+        name: layerName,
+        type: "layer",
+        isLocate: false,
+        legendVisible: false,
+        popupEnabled: false,
+        data: {
+          layers: {
+            name: boundaryName
+          }
+        },
+        renderer: {
+            type: "simple",
+                symbol: {
+                  type: "simple-fill",
+                  color: [105, 240, 174, 0],
+                  style: "solid",
+                  outline: {
+                    color: [105, 240, 174, 1],
+                    width: 3
+                  }
+                }
+        }
+      };
+      const commandParams = {
+        ActionName: "ShowData",
+        Parameters: JSON.stringify(cmd)
+      };
+      window.bridge.Invoke(commandParams);
+    },
+    removeLayer (layerName) {
+      const commandParams = {
+        ActionName: "doRemoveShowData",
+        Parameters: JSON.stringify([
+          layerName
+        ])
+      };
+      window.bridge.Invoke(commandParams);
     },
     openJuweiLayer() {
-      this.tabMapLayer("居委会", true);
+      this.useMapStatus();
+      this.openBoundary("juweiBoundaryLayer", "居委会");
     },
     closeJuweiLayer() {
-      this.tabMapLayer("居委会", false);
+       this.removeLayer("juweiBoundaryLayer");
     },
     closeStreetLayer() {
-      this.tabMapLayer("街道乡镇组", false);
+      this.removeLayer("townBoundaryLayer");
     },
     openGridLayer() {
-      this.tabMapLayer("责任网格", true);
+      this.useMapStatus();
+      this.openBoundary("gridBoundaryLayer", "责任网格1");
     },
     closeGridLayer() {
-       this.tabMapLayer("责任网格", false);
+       this.removeLayer("gridBoundaryLayer");
+    },
+    useMapStatus() {
+         if (this.btnActives[4]) {
+           this.btnActives[4] = !this.btnActives[4];
+           this.closeSimpleModelLayer();
+         }
+          if (this.btnActives[5]) {
+           this.btnActives[5] = !this.btnActives[5];
+           this.closeDetailModelLayer();
+         }
+                  if (!this.btnActives[0]) {
+           this.btnActives[0] = !this.btnActives[0];
+         }
+         this.fullExtent();
     },
 
     fullExtent() {

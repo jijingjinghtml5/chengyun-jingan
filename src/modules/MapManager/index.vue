@@ -113,6 +113,22 @@ export default {
         });
         return;
        }
+       if (data.juweiBoundaryLayer) {
+         this._openPopup("juweiPopup", data.juweiBoundaryLayer[0]);
+         return;
+       }
+       if (data.townBoundaryLayer) {
+         this._openPopup("townPopup", data.townBoundaryLayer[0]);
+         return;
+       }
+       if (data.gridBoundaryLayer) {
+         this._openPopup("gridPopup", data.gridBoundaryLayer[0]);
+         return;
+       }
+       if (data.thingsPerceptionLayer) {
+         this._openPopup("neuronPopup", data.thingsPerceptionLayer[0]);
+         return;
+       }
        if (data) {
           let len = Object.keys(data).length;
           if (len === 1) {
@@ -185,7 +201,35 @@ export default {
       window.bridge.Invoke(commandParams);
   },
     onMapReady() {
-
+      let dataCmd = {
+        ActionName: "ShowData",
+        Parameters: {
+          name: "filterLayer",
+          type: "layer",
+          filterMode: "all",
+          data: {
+            layers: {
+              name: "区县边界"
+            }
+          },
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "line-3d",
+              symbolLayers: [
+                {
+                  type: "line",
+                  size: 5,
+                  material: {
+                    color: [0, 0, 0, 0]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      };
+      window.bridge.Invoke(dataCmd);
     }
 
   },
