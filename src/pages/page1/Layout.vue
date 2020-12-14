@@ -160,7 +160,7 @@ export default {
               w: 18,
               h: 94,
               i: 2,
-              // component: "MapManager",
+              component: "MapManager",
               moved: false
             },
 

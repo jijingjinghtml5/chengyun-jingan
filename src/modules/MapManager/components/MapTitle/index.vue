@@ -29,7 +29,7 @@ export default {
       },
      mapControlItem: [
         { name: "人(万人)", iconClass: "icon-renqunjuji", attr: "people", isExpand: true, columns: 2, radio: true },
-        { name: "地(个)", iconClass: "icon-bangonglouyu", attr: "area", isExpand: true, columns: 2, radio: true },
+        { name: "地(个)", iconClass: "icon-bangonglouyu", attr: "area", isExpand: true, columns: 2 },
         { name: "物(台)", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2, radio: true },
         { name: "事(个)", iconClass: "icon-jinriguanzhu", attr: "event", isExpand: true, radio: true, columns: 2 },
         { name: "情(件)", iconClass: "icon-wu", attr: "situation", isExpand: true, columns: 2, disable: true },
@@ -94,16 +94,19 @@ export default {
                   {
                     name: "学校",
                     nameKey: "name",
+                    type: "baseLayer",
                     checked: false
                   },
-                                    {
+                  {
                     name: "医院",
                     nameKey: "name",
+                    type: "baseLayer",
                     checked: false
                   },
                   {
                     name: "养老院",
                     nameKey: "name",
+                    type: "baseLayer",
                     checked: false
                   }
                 ],
@@ -116,42 +119,47 @@ export default {
                     {
                       name: "公园",
                       nameKey: "name",
+                      type: "baseLayer",
                       checked: false
                     },
                     {
                       name: "绿地",
                       nameKey: "name",
+                      type: "baseLayer",
                       checked: false
                     },
                     {
                       name: "跑道",
                       nameKey: "name",
+                      type: "baseLayer",
                       checked: false
                     },
                     {
                       name: "健身设施",
                       nameKey: "name",
+                      type: "baseLayer",
                       checked: false
                     },
                     {
                       name: "文化场所",
                       nameKey: "name",
+                      type: "baseLayer",
                       checked: false
                     }
 
                 ],
                 childKey: "children"
-              },
-              {
-                name: "商业楼宇",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "休闲购物广场",
-                nameKey: "name",
-                checked: false
               }
+              // {
+              //   name: "商业楼宇",
+              //   nameKey: "name",
+              //   checked: false
+              // },
+              // {
+              //   name: "休闲购物广场",
+              //   nameKey: "name",
+              //   checked: false
+              // }
         ],
         event: [
               {
@@ -212,6 +220,7 @@ export default {
   methods: {
   mapHeaderItemChoose(data) {
     console.log(data, "mapHeaderItemChoose--------------");
+    this.$_mapProxy.map._closePopup();
     this.$bus.$emit("map-close-model", {});
     this.$bus.$emit("map-full-extent", {});
     switch (data.item.type) {
@@ -221,7 +230,24 @@ export default {
       case "people":
         this.handlerPeople(data.item);
         break;
+      case "baseLayer":
+        this.tabLayer(data.item.name, data.item.checked);
+        break;
     }
+  },
+  tabLayer(layerName, visible) {
+      let cmd = {
+        "ActionName": "LayerVisible",
+        "Parameters": [
+          {
+            "name": layerName,
+            "visible": visible,
+            popupEnabled: false,
+            legendVisible: false
+          }
+        ]
+      };
+     window.bridge.Invoke(cmd);
   },
   handlerPeople(item) {
     if (item.checked) {

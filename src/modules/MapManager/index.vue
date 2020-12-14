@@ -15,7 +15,6 @@ import citymap from "@/components/citymap";
 import maptitle from "./components/MapTitle";
 import maptool from "./components/MapTool";
 import videomap from "./components/video";
-import { thousandCentimeter } from "@/utils/tools";
 import { getCaseTownList } from "./api";
 export default {
   name: "MapManager",
@@ -105,12 +104,21 @@ export default {
             this.removeLayer("townLayer");
           }, 1500);
         });
+        return;
       }
       if (data.townCasePointLayer) {
         this._openPopup("case", {
           caseId_: data.townCasePointLayer[0].id,
           caseDefaultInfo_: data.townCasePointLayer[0]
         });
+        return;
+       }
+       if (data) {
+          let len = Object.keys(data).length;
+          if (len === 1) {
+            return;
+          }
+          this._openPopup("basicPopup", data);
        }
       },
       goToTown (name) {

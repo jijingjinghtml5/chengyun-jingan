@@ -16,7 +16,8 @@ import caseDetailMixin from "@/components/caseDetail-px/index.js";
 
 export default {
   components: {
-    RiskAlertPopup: () => import("./RiskAlertPopup")
+    RiskAlertPopup: () => import("./RiskAlertPopup"),
+    BasicPopup: () => import("./page1/BasicPopup")
   },
   inject: ["getGlobalConfig"],
   mixins: [caseDetailMixin],
