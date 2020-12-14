@@ -15,6 +15,8 @@
 import HeaderMenu from "@/lib/MapHeader/HeaderMenu";
 import { getCaseTownCount, getPeopleStatistic } from "./api";
 import { thousandCentimeter } from "@/utils/tools";
+import partClassData from "./data/partsClass";
+import pipelineData from "./data/pipelineLength";
 
 export default {
   name: "MapTitle",
@@ -73,12 +75,14 @@ export default {
           {
             name: "城市部件",
             nameKey: "name",
-            checked: false
+            children: [],
+            childKey: "children"
           },
           {
             name: "地下管线",
             nameKey: "name",
-            checked: false
+            children: [],
+            childKey: "children"
           },
           {
             name: "神经元传感器",
@@ -117,36 +121,53 @@ export default {
                 nameKey: "name",
                 children: [
                     {
-                      name: "公园",
+                      name: "公共绿地",
                       nameKey: "name",
                       type: "baseLayer",
                       checked: false
                     },
                     {
-                      name: "绿地",
+                      name: "小区绿化",
                       nameKey: "name",
                       type: "baseLayer",
                       checked: false
                     },
                     {
-                      name: "跑道",
+                      name: "行道树",
                       nameKey: "name",
                       type: "baseLayer",
                       checked: false
                     },
                     {
-                      name: "健身设施",
+                      name: "花架花钵",
                       nameKey: "name",
                       type: "baseLayer",
                       checked: false
                     },
                     {
-                      name: "文化场所",
+                      name: "街头座椅",
+                      nameKey: "name",
+                      type: "baseLayer",
+                      checked: false
+                    },
+                    {
+                      name: "单位绿化",
+                      nameKey: "name",
+                      type: "baseLayer",
+                      checked: false
+                    },
+                    {
+                      name: "雕塑",
+                      nameKey: "name",
+                      type: "baseLayer",
+                      checked: false
+                    },
+                    {
+                      name: "河道绿化",
                       nameKey: "name",
                       type: "baseLayer",
                       checked: false
                     }
-
                 ],
                 childKey: "children"
               }
@@ -595,6 +616,24 @@ export default {
   },
   created() {
     this.registerPointLayer();
+    partClassData.list[0].subclass.forEach(e => {
+      let item = {
+        name: e.name,
+        nameKey: "name",
+        checked: false,
+        type: "baseLayer"
+      };
+      this.checkItems.thing[0].children.push(item);
+    });
+    pipelineData.list[0].subclass.forEach(e => {
+      let item = {
+        name: e.name,
+        nameKey: "name",
+        checked: false,
+        type: "baseLayer"
+      };
+      this.checkItems.thing[1].children.push(item);
+    });
   },
   mounted() {
       this.$bus.$on("map-header-menu-choose", res => {
