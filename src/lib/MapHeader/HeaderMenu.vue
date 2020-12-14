@@ -1,7 +1,19 @@
 <template>
   <div class="menu-container">
     <div class="mapControlItem" v-for="(item ,index) in mapControlItem" :key="index">
-        <div @click="mapLayerControlClick(item)">
+        <div v-if="item.disable">
+          <div class="iconfontContainer" :class="item.attr === itemClickAttr ? 'active' : ''">
+            <span class="iconfont mapControlIcon1" :class="item.iconClass"></span>
+          </div>
+          <div class="mapControlLable" :class="item.attr === itemClickAttr ? 'activeRotate' : ''">
+            <p class="mapControlLableText">
+              {{item.name}}
+              <span v-if="item.columns>0" class="iconfont icon-arrow_right mapControlLableIcon"></span>
+            </p>
+            <p class="mapControlLableNumber1">暂无数据</p>
+          </div>
+        </div>
+        <div @click="mapLayerControlClick(item)" v-else>
           <div class="iconfontContainer" :class="item.attr === itemClickAttr ? 'active' : ''">
             <span class="iconfont mapControlIcon" :class="item.iconClass"></span>
           </div>
@@ -183,6 +195,15 @@ export default {
           -webkit-text-fill-color: transparent;
         }
       }
+     .mapControlIcon1 {
+        display: block;
+        width: 0.9rem;
+        height: 0.9rem;
+        text-align: center;
+        font-size: 0.5rem;
+        line-height: 0.9rem;
+        color: #c1cedf;
+      }
     }
 
     .mapControlLable {
@@ -207,6 +228,13 @@ export default {
         color: #ffffff;
         text-align: right;
         margin-top: 0.1rem;
+      }
+      .mapControlLableNumber1{
+        font-size: 0.32rem;
+        color: #ffffff;
+        text-align: right;
+        margin-top: 0.2rem;
+
       }
     }
   }
