@@ -66,6 +66,13 @@ export default {
           case "red":
             filter = "openTS=-604800&district_eventType.level_2=in.,重大危险源,路面塌陷,自来水管破裂,路面积水、污水冒溢、粪便冒溢,燃气管破裂,占用消防通道违章停车,人员非正常聚集,电梯困人,超期未整改,相关业务,违规装修、改建";
             break;
+          case "网格":
+          case "市场监管":
+          case "综治":
+          case "110非警情":
+            filter = `openTS=today&event_source=eq.${nv}`;
+            break;
+
           default:
         }
         if (filter) {
@@ -78,6 +85,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       filters: {
         name: {
           filters: [
@@ -187,7 +195,6 @@ export default {
           dataFormat: data => {
             return {
               caseId_: row.id
-              // caseId_: "f59f10535b7134eb6367740cbbb62a04"
             };
           }
         });
@@ -204,9 +211,21 @@ export default {
         case "yellow":
           img = "/mapIcon/yellow.png";
           break;
-          default:
-            img = "/mapIcon/default.png";
-            break;
+        case "网格":
+          img = "/mapIcon/allAndGrid.png";
+          break;
+        case "综治":
+          img = "/mapIcon/allAndAdmin.png";
+          break;
+        case "110非警情":
+          img = "/mapIcon/allAndPolice.png";
+          break;
+        case "市场监管":
+          img = "/mapIcon/allAndMarket.png";
+          break;
+        default:
+          img = "/mapIcon/default.png";
+          break;
       }
       return img;
     },
