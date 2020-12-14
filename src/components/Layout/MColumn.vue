@@ -23,7 +23,7 @@ export default {
   },
   props: {
     span: {
-      type: String,
+      type: [String, Number],
       default: "1"
     },
     width: {
