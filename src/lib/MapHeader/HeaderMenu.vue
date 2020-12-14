@@ -2,7 +2,7 @@
   <div class="menu-container">
     <div class="mapControlItem" v-for="(item ,index) in mapControlItem" :key="index">
         <div v-if="item.disable">
-          <div class="iconfontContainer" :class="item.attr === itemClickAttr ? 'active' : ''">
+          <div class="iconfontContainer1" :class="item.attr === itemClickAttr ? 'active' : ''">
             <span class="iconfont mapControlIcon1" :class="item.iconClass"></span>
           </div>
           <div class="mapControlLable" :class="item.attr === itemClickAttr ? 'activeRotate' : ''">
@@ -193,6 +193,28 @@ export default {
           // background-clip: text;
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
+        }
+      }
+
+    }
+  .iconfontContainer1 {
+      width: 0.9rem;
+      height: 0.9rem;
+      display: inline-block;
+      line-height: 0.9rem;
+      vertical-align: middle;
+      background: url("./imgs/frame1.png") no-repeat center center;
+      background-size: cover;
+      &.active {
+        background-color: rgba(37, 115, 239, 0.4);
+        >span{
+          color: white;
+              .supportWebkitTextFillColor &{
+                background-image: none;
+                // background-clip: text;
+                -webkit-background-clip: unset;
+                -webkit-text-fill-color: unset;
+              }
         }
       }
      .mapControlIcon1 {
