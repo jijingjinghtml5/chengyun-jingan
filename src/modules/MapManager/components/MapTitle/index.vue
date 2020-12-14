@@ -13,7 +13,8 @@
 </template>
 <script>
 import HeaderMenu from "@/lib/MapHeader/HeaderMenu";
-import { getCaseTownCount, getCaseTownList } from "./api";
+import { getCaseTownCount, getPeopleStatistic } from "./api";
+import { thousandCentimeter } from "@/utils/tools";
 
 export default {
   name: "MapTitle",
@@ -45,25 +46,28 @@ export default {
       checkItems: {
         people: [
               {
-                name: "户籍人口",
+                name: "户籍人员",
                 nameKey: "name",
+                type: "people",
                 checked: false
               },
               {
-                name: "来沪人口",
+                name: "来沪人员",
                 nameKey: "name",
+                 type: "people",
                 checked: false
               },
               {
-                name: "境外人口",
+                name: "境外人员",
                 nameKey: "name",
-                checked: false
-              },
-              {
-                name: "特殊人群",
-                nameKey: "name",
+                 type: "people",
                 checked: false
               }
+              // {
+              //   name: "特殊人群",
+              //   nameKey: "name",
+              //   checked: false
+              // }
         ],
         thing: [
           {
@@ -214,10 +218,29 @@ export default {
       case "event":
         this.handlerEvent(data.item);
         break;
+      case "people":
+        this.handlerPeople(data.item);
+        break;
+    }
+  },
+  handlerPeople(item) {
+    if (item.checked) {
+      getPeopleStatistic(item.name).then(res => {
+      let peopleTownData = [];
+      res.data.forEach((e, i) => {
+        let item = {};
+        item.count = thousandCentimeter(e.count);
+        item.name = e.town;
+        item.typeValue = 4 - Math.ceil((i + 1) / 5);
+        peopleTownData.push(item);
+      });
+      this.addTownPeople(peopleTownData);
+    });
+    } else {
+      this.removeLayer("townPeopleLayer");
     }
   },
   handlerEvent(item) {
-        console.log(item, "item--------------");
         if (item.checked) {
           getCaseTownCount("静安区", item.name).then(res => {
             if (res.data.length > 0) {
@@ -263,12 +286,21 @@ export default {
       return classifyData;
     },
       // 街镇案件分类图
-    addTownArea (data, district) {
+    addTownArea (data, district, layerName, legendVisible) {
+      let layerNameN = "townLayer";
+      if (layerName) {
+        layerNameN = layerName;
+      }
+      let legendVisibleBool = true;
+      if (legendVisible) {
+        legendVisibleBool = false;
+      }
       const cmd = {
         ActionName: "ShowData",
         Parameters: {
-          name: "townLayer",
+          name: layerNameN,
           type: "layer",
+          legendVisible: legendVisibleBool,
           popupEnabled: false,
           isLocate: true,
           data: {
@@ -370,6 +402,125 @@ export default {
               {
                 value: 6,
                 label: "无结案",
+                symbol: {
+                  type: "simple-fill",
+                  color: [100, 100, 100, 0.5],
+                  style: "solid",
+                  outline: {
+                    color: [100, 100, 100, 1],
+                    width: 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      };
+      window.bridge.Invoke(cmd);
+    },
+      // 街镇案件分类图
+    addTownPeople (data) {
+      const cmd = {
+        ActionName: "ShowData",
+        Parameters: {
+          name: "townPeopleLayer",
+          type: "layer",
+          legendVisible: false,
+          popupEnabled: false,
+          isLocate: true,
+          data: {
+            content: data,
+            layers: {
+              name: "街道乡镇",
+              where: "所属区县='静安区'"
+            },
+            join: "街道名称=name"
+          },
+          labels: [
+            {
+              fields: [
+                "#.街道名称",
+                 "#.count"
+              ],
+              color: [
+                255,
+                255,
+                255,
+                1
+              ],
+              size: 20,
+              font: {
+                family: "fangsong",
+                weight: "normal"
+              }
+            }
+          ],
+          renderer: {
+            type: "unique-value",
+            field: "typeValue",
+            uniqueValueInfos: [
+              {
+                value: 1,
+                symbol: {
+                  type: "simple-fill",
+                  color: [105, 240, 174, 0.5],
+                  style: "solid",
+                  outline: {
+                    color: [105, 240, 174, 1],
+                    width: 1
+                  }
+                }
+              },
+              {
+                value: 2,
+                symbol: {
+                  type: "simple-fill",
+                  color: [132, 255, 255, 0.5],
+                  style: "solid",
+                  outline: {
+                    color: [132, 255, 255, 1],
+                    width: 1
+                  }
+                }
+              },
+              {
+                value: 3,
+                symbol: {
+                  type: "simple-fill",
+                  color: [253, 204, 132, 0.5],
+                  style: "solid",
+                  outline: {
+                    color: [253, 204, 132, 1],
+                    width: 1
+                  }
+                }
+              },
+              {
+                value: 4,
+                symbol: {
+                  type: "simple-fill",
+                  color: [234, 128, 252, 0.5],
+                  style: "solid",
+                  outline: {
+                    color: [234, 128, 252, 1],
+                    width: 1
+                  }
+                }
+              },
+              {
+                value: 5,
+                symbol: {
+                  type: "simple-fill",
+                  color: [255, 138, 128, 0.5],
+                  style: "solid",
+                  outline: {
+                    color: [255, 138, 128, 1],
+                    width: 1
+                  }
+                }
+              },
+              {
+                value: 6,
                 symbol: {
                   type: "simple-fill",
                   color: [100, 100, 100, 0.5],
