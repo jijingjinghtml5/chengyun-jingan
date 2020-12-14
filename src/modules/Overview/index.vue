@@ -31,6 +31,7 @@ import MColumn from "@/components/Layout/MColumn";
 import OverviewItem from "@/components/OverviewItem";
 import MTabsBody from "@/components/MTabsBody/MTabsBody";
 import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
+import { getData } from "./api";
 export default {
   name: "OverView",
   components: {
@@ -51,18 +52,18 @@ export default {
       ]),
       todayItems: Object.freeze([
         { icon: "icon-tianqi", name: "气象指数", showIncrease: false, valueColor: "#6CCB73", prop: "qxzs" },
-        { icon: "icon-huoqing", name: "火险指数", prop: "hxzs" },
-        { icon: "icon-jiaotongyongdu1", name: "交通拥堵指数", prop: "jtydzs" },
-        { icon: "icon-ganzhi", name: "智能感知预警数", prop: "zngzyjs" },
-        { icon: "icon-yuqing", name: "舆情热点数", prop: "yqrds" },
-        { icon: "icon-huodong", name: "重大活动数", showIncrease: false, prop: "zdhds" }
+        { icon: "icon-huoqing", name: "火险指数", showIncrease: false, prop: "hxzs" },
+        { icon: "icon-jiaotongyongdu1", name: "交通拥堵指数", showIncrease: false, prop: "jtydzs" },
+        { icon: "icon-ganzhi", name: "智能感知预警", showIncrease: false, prop: "zngzyj" },
+        { icon: "icon-yuqing", name: "舆情热点数", showIncrease: false, prop: "yqrds" },
+        { icon: "icon-huodong", name: "重大活动", showIncrease: false, prop: "zdhd" }
       ]),
       districtItems: Object.freeze([
         { icon: "icon-renkouku", name: "实有人口", nameUnit: "（万人）", prop: "djyl", customClass: "style2" },
         { icon: "icon-shichang", name: "实有法人", nameUnit: "（万个）", prop: "ggfw", customClass: "style2" },
         { icon: "icon-GDP", name: "GDP", nameUnit: "（万元）", prop: "gggl", customClass: "style2" },
         { icon: "icon-chuzu", name: "企业总产值", nameUnit: "（万元）", prop: "shcy", customClass: "style2" },
-        { icon: "icon-shuishou", name: "税收总收入", nameUnit: "（万元）", prop: "ggaq", customClass: "style2" }
+        { icon: "icon-shichang", name: "税收总收入", nameUnit: "（万元）", prop: "ggaq", customClass: "style2" }
       ]),
       firstTab: "today",
       secondTab: "today",
@@ -71,20 +72,16 @@ export default {
           value: "正常"
         },
         hxzs: {
-          value: "一级",
-          increase: 0
+          value: "一级"
         },
         jtydzs: {
-          value: 10,
-          increase: 0
+          value: "-"
         },
         zngzyjs: {
-          value: 30,
-          increase: -1.08
+          value: "-"
         },
         yqrds: {
-          value: 10987,
-          increase: 1.08
+          value: 10987
         },
         zdhds: {
           value: "元旦 "
@@ -137,10 +134,23 @@ export default {
             }
           });
       });
+    },
+    getData() {
+      getData().then(res => {
+        if (res.api) {
+          this.dataset.jtydzs = {
+            value: Math.round(res.api.traffic_index * 100) / 100
+          };
+          this.dataset.zngzyj = {
+            value: Math.round(res.api.device_online_percent * 100) / 100
+          };
+        }
+      });
     }
   },
   created() {
     this.registerLayersForTodayOverview();
+    this.$timer.register(this.getData, this);
   }
 };
 </script>
