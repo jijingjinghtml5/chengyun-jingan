@@ -13,8 +13,8 @@
 </template>
 <script>
 import HeaderMenu from "@/lib/MapHeader/HeaderMenu";
-import { getCaseTownCount, getPeopleStatistic } from "./api";
-import { thousandCentimeter } from "@/utils/tools";
+import { getCaseTownCount, getPeopleStatistic, getNeuronData } from "./api";
+import { thousandCentimeter, getUrl } from "@/utils/tools";
 import partClassData from "./data/partsClass";
 import pipelineData from "./data/pipelineLength";
 
@@ -32,7 +32,7 @@ export default {
      mapControlItem: [
         { name: "人(万人)", iconClass: "icon-renqunjuji", attr: "people", isExpand: true, columns: 2, radio: true },
         { name: "地(个)", iconClass: "icon-bangonglouyu", attr: "area", isExpand: true, columns: 2 },
-        { name: "物(台)", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2, radio: true },
+        { name: "物(台)", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2 },
         { name: "事(个)", iconClass: "icon-jinriguanzhu", attr: "event", isExpand: true, radio: true, columns: 2 },
         { name: "情(件)", iconClass: "icon-wu", attr: "situation", isExpand: true, columns: 2, disable: true },
         { name: "组织(个)", iconClass: "icon-luchangzhi", attr: "organization", isExpand: true, radio: true, columns: 2, disable: true }
@@ -86,6 +86,7 @@ export default {
           },
           {
             name: "神经元传感器",
+            type: "neuron",
             nameKey: "name",
             checked: false
           }
@@ -254,6 +255,24 @@ export default {
       case "baseLayer":
         this.tabLayer(data.item.name, data.item.checked);
         break;
+      case "neuron":
+        this.handlerNeuron(data.item);
+        break;
+    }
+  },
+  handlerNeuron(item) {
+    if (item.checked) {
+      getNeuronData().then(res => {
+        console.log(res, "getNeuronData---------------------");
+              this.thingsPerceptionLayer.setParameters({
+                "data": {
+                  "content": res.data,
+                  "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
+                }
+              }).open();
+      });
+    } else {
+        this.thingsPerceptionLayer.close();
     }
   },
   tabLayer(layerName, visible) {
@@ -612,10 +631,35 @@ export default {
           }
         }
       });
+     },
+    registerThingsPerceptionLayer() {
+    this.thingsPerceptionLayer = this.$_mapProxy.registerLayer("thingsPerceptionLayer", "神经元图层").setParameters({
+      "name": "thingsPerceptionLayer",
+      "type": "point",
+      "mode": "replace",
+      "data": {
+        "content": [],
+        "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
+      },
+      "legendVisible": false,
+      "popupEnabled": false,
+      "isFiltered": true,
+      "isLocate": false,
+      "renderer": {
+          "type": "simple",
+           symbol: {
+            type: "picture-marker",
+            url: getUrl("/mapIcon/neuron/WellCoverSensor.png"),
+            width: "50px",
+            height: "50px"
+           }
+        }
+      });
      }
   },
   created() {
     this.registerPointLayer();
+    this.registerThingsPerceptionLayer();
     partClassData.list[0].subclass.forEach(e => {
       let item = {
         name: e.name,

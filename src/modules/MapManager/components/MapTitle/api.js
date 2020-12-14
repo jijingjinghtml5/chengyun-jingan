@@ -21,3 +21,13 @@ export function getCaseTownCount (district, type) {
     }
   });
 }
+
+// 获取神经元数据分类添加点位图层
+export function getNeuronData() {
+  return request({
+    url: "/v2/data-api/397",
+    params: {
+      filter: "isSensor=eq.true&isVirtual=eq.false&exists=eq.true"
+    }
+  });
+}
