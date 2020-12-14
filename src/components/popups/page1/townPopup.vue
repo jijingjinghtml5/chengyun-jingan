@@ -1,25 +1,12 @@
 <template>
   <div  class="panel">
     <div class="category">街道</div>
-    <div class="name"></div>
+    <div class="name">{{info["街道名称"]||""}}</div>
     <div class="basic-info">
       <div class="item">
-        <span>供应商: </span>
-        <span style="color:#ffffff;">{{info["vendor"]||""}}</span>
-      </div>
-      <div class="item">
-        <span>地址: </span>
-        <span style="color:#ffffff;">{{info["address"]||"" }}</span>
-      </div>
-      <div class="item">
-        <span>类型: </span>
-        <span style="color:#ffffff;">{{info["PTscene"]||""}}</span>
-      </div>
-      <!-- <div class="item">
-        <img style="width:560px;316px;" :src="detail['image'] || require('@/assets/images/default.png')" />
-      </div> -->
+        建设中.......
     </div>
-
+   </div>
   </div>
 </template>
 <script>
@@ -97,6 +84,8 @@ export default {
   font-size: 16*2px;
   color:rgba(146, 185, 247, 1);
   .item{
+      font-size: 36px;
+    text-align: center;
     padding: 10px 0;
   }
   .split-line{

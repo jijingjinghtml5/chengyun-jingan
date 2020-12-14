@@ -129,7 +129,7 @@ export default {
   line-height: 1;
   color: #92b9f7;
   cursor: pointer;
-  z-index: 2;
+  z-index: 10000;
   .iconfont {
     position: absolute;
     top: 50%;
