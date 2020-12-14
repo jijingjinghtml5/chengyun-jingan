@@ -10,32 +10,32 @@
           <m-column width="50%">
             <overview-item
               name="刑事案件发生数（起）"
-              value="30"
-              increase="18.45"
+              :value="dataset.criminal_case_number"
+              :increase="dataset.criminal_case_number_increase"
               customClass="style6">
             </overview-item>
           </m-column>
           <m-column width="50%">
             <overview-item
               name="治安案件发生数（起）"
-              value="42"
-              increase="6.11"
+              :value="dataset.public_security_case_number"
+              :increase="dataset.public_security_case_number_increase"
               customClass="style6">
             </overview-item>
           </m-column>
           <m-column width="50%" >
             <overview-item
               name="交通事故发生数（起）"
-              value="5"
-              increase="6.11"
+              :value="dataset.traffic_accident_number"
+              :increase="dataset.traffic_accident_number_increase"
               customClass="style6">
             </overview-item>
           </m-column>
           <m-column width="50%" >
             <overview-item
               name="火灾发生数（起）"
-              value="0"
-              :increase="0"
+              :value="dataset.fire_number"
+              :increase="dataset.fire_number_increase"
               customClass="style6">
             </overview-item>
           </m-column>
@@ -46,40 +46,40 @@
           <m-column width="50%">
             <overview-item
               name="居家养老服务（人次）"
-              value="2987"
-              :increase="18.45"
+              :value="dataset.home_care_service"
+              :increase="dataset.home_care_service_increase"
               customClass="style6">
             </overview-item>
           </m-column>
           <m-column width="50%">
             <overview-item
               name="社会综合帮扶（人次）"
-              value="42"
-              :increase="-6.11"
+              :value="dataset.comprehensive_social_assistance"
+              :increase="dataset.comprehensive_social_assistance_increase"
               customClass="style6">
             </overview-item>
           </m-column>
           <m-column width="33.33%">
             <overview-item
               name="廉租房受理(人次)"
-              value="5982"
-              :increase="18.45"
+              :value="dataset.cheap_house_acceptance"
+              :increase="dataset.cheap_house_acceptance_increase"
               customClass="style6">
             </overview-item>
           </m-column>
           <m-column width="33.33%">
             <overview-item
               name="新增就业岗位(个)"
-              value="65432"
-              :increase="6.11"
+              :value="dataset.new_jobs"
+              :increase="dataset.new_jobs_increase"
               customClass="style6">
             </overview-item>
           </m-column>
           <m-column width="33.33%">
             <overview-item
               name="法律援助咨询(人)"
-              value="76"
-              :increase="0"
+              :value="dataset.legal_aid_consultation"
+              :increase="dataset.legal_aid_consultation_increase"
               customClass="style6">
             </overview-item>
           </m-column>
@@ -91,34 +91,34 @@
       <m-column width="50%">
         <overview-item
           name="信访接待数（件）"
-          value="201"
-          :increase="36.27"
+          :value="dataset.petition_letter_visits"
+          :increase="dataset.petition_letter_visits_increase"
           customClass="style6">
         </overview-item>
       </m-column>
       <m-column width="50%">
         <overview-item
           name="12345诉求数（人）"
-          value="502"
-          :increase="6.30"
+          :value="dataset.appeal_12345_number"
+          :increase="dataset.appeal_12345_number_increase"
           customClass="style6">
         </overview-item>
       </m-column>
       <m-column width="50%">
         <overview-item
           name="市民满意度"
-          value="90"
           valueUnit="%"
-          :increase="36.27"
+          :value="dataset.citizen_satisfaction_survey"
+          :increase="dataset.citizen_satisfaction_survey_increase"
           customClass="style6">
         </overview-item>
       </m-column>
       <m-column width="50%">
         <overview-item
           name="问题解决率"
-          value="99.8"
+          :value="dataset.problem_solving_rate"
           valueUnit="%"
-          :increase="-6.30"
+          :increase="dataset.problem_solving_rate_increase"
           customClass="style6">
         </overview-item>
       </m-column>
@@ -138,7 +138,8 @@ import MTabs from "@/components/MTabs";
 import MTabsBody from "@/components/MTabsBody/MTabsBody";
 import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import ChartLine from "@/components/Charts/Line/ChartLine";
-import { getDate } from "@/utils/tools";
+// import { getDate } from "@/utils/tools";
+import { getData } from "./api";
 export default {
   name: "UrbanGovernance",
   components: {
@@ -178,13 +179,41 @@ export default {
       tab: "社会治安",
       dataset: {
         chartData: [
-          ["民生保障", "肉禽蛋水产", "蔬菜豆制品", "米面粮油", "水果"],
-          ...(getDate("currentMonth").map(d => {
-            return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
-          }))
+          ["民生保障", "肋条肉", "鸡蛋", "草鱼", "青菜"]
         ]
+        // chartData: [
+        //   ["民生保障", "肉禽蛋水产", "蔬菜豆制品", "米面粮油", "水果"],
+        //   ...(getDate("currentMonth").map(d => {
+        //     return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
+        //   }))
+        // ]
       }
     };
+  },
+  methods: {
+    getData() {
+      getData().then(res => {
+        console.log(res, ".....");
+        if (res.statistics_db && res.statistics_db[0]) {
+          this.dataset = {
+            ...this.dataset,
+            ...res.statistics_db[0]
+          };
+        }
+        if (res.chart_db) {
+          let dims = this.dataset.chartData.slice(0, 1);
+          this.dataset.chartData = [
+            ...dims,
+            ...(res.chart_db.map(d => {
+              return [d.time, parseFloat(d.meat_poultry_eggs_aquatic), parseFloat(d.vegetable_bean), parseFloat(d.rice_flour_grain_oil), parseFloat(d.fruits)];
+            }))
+          ];
+        }
+      });
+    }
+  },
+  created() {
+    this.$timer.register(this.getData, this);
   }
 };
 </script>

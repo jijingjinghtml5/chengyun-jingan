@@ -114,8 +114,8 @@ export default {
           extraCssText: "transform: translate(-50%, -50%); text-align: center; line-height: 1.5;z-index: 1;width: 40%; padding: 0;",
           formatter: params => {
             let increase = "";
-            if (params.data[2] >= 0) {
-              const prefix = this.getPrefix(params.data[2]);
+            const prefix = this.getPrefix(params.data[2]);
+            if (prefix) {
               increase = `
                 <p style="font-size: ${+this.fontSize_}px;color:#fff">
                   <i class="iconfont ${this[prefix + "Icon"]}" style="color:${this[prefix + "Color"]}"></i>

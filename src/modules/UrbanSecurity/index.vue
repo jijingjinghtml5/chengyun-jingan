@@ -161,7 +161,7 @@ export default {
     },
     getData() {
       getData().then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.db && res.db[0]) {
           this.dataset.water_supply = res.db[0].water_supply;
           this.dataset.power_supply = res.db[0].power_supply;
