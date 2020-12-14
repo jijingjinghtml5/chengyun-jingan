@@ -113,6 +113,10 @@ export default {
         });
         return;
        }
+       if (data.townPeopleLayer) {
+        return;
+       }
+
        if (data.juweiBoundaryLayer) {
          this._openPopup("juweiPopup", data.juweiBoundaryLayer[0]);
          return;

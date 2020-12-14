@@ -63,7 +63,7 @@ export default {
            closeLable: "关闭网格边界"
         },
         "居委边界": {
-           number: 346,
+           number: 267,
            openFunction: "openJuweiLayer",
            closeFunction: "closeJuweiLayer",
            openLable: "打开居委会边界",
