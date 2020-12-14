@@ -15,6 +15,7 @@ import citymap from "@/components/citymap";
 import maptitle from "./components/MapTitle";
 import maptool from "./components/MapTool";
 import videomap from "./components/video";
+import { thousandCentimeter } from "@/utils/tools";
 import { getCaseTownList } from "./api";
 export default {
   name: "MapManager",
