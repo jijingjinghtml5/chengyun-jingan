@@ -132,6 +132,9 @@ export default {
       caseAllLayer: null
     };
   },
+  created() {
+    this.registerLayer();
+  },
   methods: {
     handleClick() {
       this.$emit("click", "dashboard", this.item);
@@ -196,13 +199,13 @@ export default {
       let img = "";
       switch (this.item.key) {
         case "red":
-          img = "/images/mapIcon/red.png";
+          img = "/mapIcon/red.png";
           break;
         case "yellow":
-          img = "/images/mapIcon/yellow.png";
+          img = "/mapIcon/yellow.png";
           break;
           default:
-            img = "/images/mapIcon/default.png";
+            img = "/mapIcon/default.png";
             break;
       }
       return img;
@@ -210,39 +213,24 @@ export default {
     getListData(filter) {
       this.loading = true;
       getListData(filter).then(res => {
+        // console.log(">>>>>>>>", res);
         this.tableData = res.list;
         this.loading = false;
 
         let img = this.getMapIconImg();
         this.caseAllLayer.setParameters({
           "renderer": {
-            "type": "simple",
-            "label": "案件",
-            "visualVariables": [],
-            "symbol": {
-              type: "simple",
-              label: "定位点-附加点",
-              symbol: {
-                type: "simple-marker",
-                size: 25,
-                color: [0, 255, 0],
-                outline: {
-                  color: "#ffffff",
-                  width: "2px"
-                }
-              }
-              // type: "simple",
-              // label: "案件",
-              // symbol: {
-              //   type: "picture-marker",
-              //   url: getUrl(img),
-              //   width: "36px",
-              //   height: "36px"
-              // }
+            type: "simple",
+            label: "案件",
+            symbol: {
+              type: "picture-marker",
+              url: getUrl(img),
+              width: "36px",
+              height: "36px"
             }
           },
           "data": {
-            "data": this.tableData.map(item => {
+            "content": this.tableData.map(item => {
               return {
                 id: item.id,
                 lng: item.lng,
@@ -256,11 +244,9 @@ export default {
           dataFormat: data => {
             return {
               caseId_: data.id
-              // caseId_: "f59f10535b7134eb6367740cbbb62a04"
             };
           }
         }).open();
-        console.log(">>>>>open");
       }).catch(() => {
         this.loading = false;
       });
@@ -276,17 +262,15 @@ export default {
         "popupEnabled": false,
         "isLocate": true,
         "renderer": {
-          "type": "simple",
-          "label": "案件",
-          "visualVariables": [],
-          "symbol": {
-            type: "simple",
-            label: "点位周边人员",
-            symbol: {
-              type: "picture-marker",
-              url: getUrl(this.aroundPeoplePointImg),
-              width: "36px",
-              height: "36px"
+          type: "simple",
+          label: "案件",
+          symbol: {
+            type: "simple-marker",
+            size: 10,
+            color: [0, 255, 0],
+            outline: {
+              color: "#ffffff",
+              width: "2px"
             }
           }
         }
