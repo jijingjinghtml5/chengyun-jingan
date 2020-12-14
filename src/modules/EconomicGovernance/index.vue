@@ -243,7 +243,7 @@ export default {
             this.dataset[key] = Object.freeze([
               ...dims,
               ...((res[key] || []).map(d => {
-                return [d.name, parseFloat(d.value), d.increase || "-", !d.percent || d.percent === "-" ? "-" : Math.round(d.percent * 1000) / 100];
+                return [d.name, parseFloat(d.value), d.increase || "-", !d.percent || d.percent === "-" ? "-" : Math.round(d.percent * 10000) / 100];
               }))
             ]);
             // this.dataset[key] = Object.freeze((res[key] || []))
