@@ -3,7 +3,7 @@
     <maptitle></maptitle>
     <citymap ref='Map'></citymap>
     <maptool></maptool>
-    <!-- <videomap></videomap> -->
+    <videomap></videomap>
         <!---左侧通用弹窗容器-->
     <popup-container :mapData="popupMapData" :componentName="popupComponentName" :popupBool.sync="popupBool" @closePopup='_closePopup'
     :stylePopup='stylePopup' ></popup-container>
