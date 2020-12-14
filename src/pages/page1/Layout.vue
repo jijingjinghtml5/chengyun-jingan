@@ -41,9 +41,9 @@ import VueGridLayout from "vue-grid-layout";
 import LeftHeader from "@/modules/LeftHeader";
 import Overview from "@/modules/Overview";
 import UrbanSecurity from "@/modules/UrbanSecurity";
-import RegionalTransportation from "@/modules/RegionalTransportation";
-import EconomicDevelopment from "@/modules/EconomicDevelopment";
-import LivelihoodSecurity from "@/modules/LivelihoodSecurity";
+import UrbanGovernance from "@/modules/UrbanGovernance";
+import SocialGovernance from "@/modules/SocialGovernance";
+import EconomicGovernance from "@/modules/EconomicGovernance";
 
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
@@ -77,9 +77,9 @@ export default {
     LeftHeader,
     Overview,
     UrbanSecurity,
-    RegionalTransportation,
-    EconomicDevelopment,
-    LivelihoodSecurity,
+    UrbanGovernance,
+    SocialGovernance,
+    EconomicGovernance,
     test: () => import("@/modules/test")
   },
   provide() {
@@ -189,7 +189,7 @@ export default {
               w: 5,
               h: 62,
               i: 131,
-              component: "EconomicDevelopment",
+              component: "UrbanGovernance",
               moved: false
             },
             // 经济发展
@@ -199,7 +199,7 @@ export default {
               w: 5,
               h: 62,
               i: 132,
-              component: "LivelihoodSecurity",
+              component: "SocialGovernance",
               moved: false
             },
             // 舆情热点
@@ -209,7 +209,7 @@ export default {
               w: 5,
               h: 62,
               i: 133,
-              component: "RegionalTransportation",
+              component: "EconomicGovernance",
               moved: false
             },
 

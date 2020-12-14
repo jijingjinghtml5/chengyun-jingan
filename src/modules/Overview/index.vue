@@ -50,23 +50,28 @@ export default {
       ]),
       todayItems: Object.freeze([
         { icon: "icon-tianqi", name: "气象指数", showIncrease: false, valueColor: "#6CCB73", prop: "qxzs" },
+        { icon: "icon-jiaotongyongdu1", name: "火险指数", prop: "hxzs" },
         { icon: "icon-jiaotongyongdu1", name: "交通拥堵指数", prop: "jtydzs" },
         { icon: "icon-ganzhi", name: "智能感知预警数", prop: "zngzyjs" },
         { icon: "icon-yuqing", name: "舆情热点数", prop: "yqrds" },
         { icon: "icon-huodong", name: "重大活动数", showIncrease: false, prop: "zdhds" }
       ]),
       districtItems: Object.freeze([
-        { icon: "icon-renkouku", name: "实有人口", prop: "djyl", customClass: "style2" },
-        { icon: "icon-GDP", name: "GDP", prop: "gggl", customClass: "style2" },
-        { icon: "icon-shichang", name: "税收总量", prop: "ggaq", customClass: "style2" },
-        { icon: "icon-chuzu", name: "商务楼宇", prop: "ggfw", customClass: "style2" },
-        { icon: "icon-jiuye", name: "就业率", valueUnit: "%", prop: "shcy", customClass: "style2" }
+        { icon: "icon-renkouku", name: "实有人口", nameUnit: "（万人）", prop: "djyl", customClass: "style2" },
+        { icon: "icon-chuzu", name: "实有法人", nameUnit: "（万个）", prop: "ggfw", customClass: "style2" },
+        { icon: "icon-GDP", name: "GDP", nameUnit: "（万元）", prop: "gggl", customClass: "style2" },
+        { icon: "icon-jiuye", name: "企业总产值", nameUnit: "（万元）", prop: "shcy", customClass: "style2" },
+        { icon: "icon-shichang", name: "税收总收入", nameUnit: "（万元）", prop: "ggaq", customClass: "style2" }
       ]),
       firstTab: "today",
       secondTab: "today",
       dataset: {
         qxzs: {
           value: "正常"
+        },
+        hxzs: {
+          value: "一级",
+          increase: 0
         },
         jtydzs: {
           value: 10,
@@ -81,7 +86,7 @@ export default {
           increase: 1.08
         },
         zdhds: {
-          value: "开学日"
+          value: "元旦 "
         }
       }
     };
