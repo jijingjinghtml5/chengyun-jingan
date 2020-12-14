@@ -58,7 +58,7 @@
       </m-column>
       <m-column width="50%">
         <overview-item
-          name="视频安全监督检查（人次）"
+          name="食品安全监督检查（人次）"
           value="3209"
           increase="18.45"
           customClass="style6">

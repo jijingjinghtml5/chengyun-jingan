@@ -1,13 +1,13 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-zonghezhili" :txt="title">
     <span slot="center" v-show="tab !== 'overview'" class="back" @click="handleClickForBack">[返回上一级]</span>
-    <m-select class="style1" slot="right" v-model="option" :options="options"></m-select>
+    <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
     <m-tabs-body :tab="tab">
       <m-tabs-body-item name="overview">
         <m-row gutter="0.1rem">
           <m-column v-for="item in items" :key="item.name">
             <!-- @click.native="handleClickForOverviewItem(item)" -->
-            <overview-item v-bind="item" customClass="style2" style="cursor: pointer"></overview-item>
+            <overview-item v-bind="item" :value="dataset[item.prop]" customClass="style2" style="cursor: pointer"></overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
@@ -78,6 +78,7 @@ import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import ChartLine from "@/components/Charts/Line/ChartLineForCompare";
 import ChartBar from "./ChartBar";
 import MSelect from "@/components/MSelect";
+import { getData } from "./api";
 export default {
   name: "OverView",
   components: {
@@ -99,11 +100,11 @@ export default {
       colors: Object.freeze(["#4FCFD5", "#DED7D7"]),
       colors2: Object.freeze(["#30BC9B", "#92B9F7"]),
       items: Object.freeze([
-        { icon: "icon-shuigongying", name: "水供应", nameUnit: "（吨）", prop: "sgy", extraItems: [{ label: "存量", prop: "stock" }] },
-        { icon: "icon-yongdianliang", name: "电力供应", nameUnit: "（kw）", prop: "dlgy", extraItems: [{ label: "存量", prop: "stock" }] },
-        { icon: "icon-ranqigongying", name: "燃气供应", nameUnit: "（m³）", prop: "rqgy", extraItems: [{ label: "存量", prop: "stock" }] },
-        { icon: "icon-lajichuli", name: "垃圾处理", nameUnit: "（吨）", prop: "ljcl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] },
-        { icon: "icon-wushuichuli ", name: "污水处理", nameUnit: "（吨）", prop: "wscl", extraItems: [{ label: "处理率", prop: "treatmentRate" }] }
+        { icon: "icon-shuigongying", name: "水供应", nameUnit: "（吨）", showIncrease: false, prop: "water_supply" },
+        { icon: "icon-yongdianliang", name: "电力供应", nameUnit: "（kw）", showIncrease: false, prop: "power_supply" },
+        { icon: "icon-xingzhuang", name: "干垃圾处理", nameUnit: "（吨）", showIncrease: false, prop: "dry_garbage" },
+        { icon: "icon-shilaji", name: "湿垃圾处理", nameUnit: "（吨）", showIncrease: false, prop: "wet_garbage" },
+        { icon: "icon-kehuishoulaji", name: "可回收垃圾处理", nameUnit: "（吨）", showIncrease: false, prop: "recyclable_waste" }
       ]),
       options: Object.freeze([
         { label: "本周", value: "currentWeek" },
@@ -113,6 +114,11 @@ export default {
       activeItem: null,
       option: "currentWeek",
       dataset: {
+        water_supply: "-",
+        power_supply: "-",
+        dry_garbage: "-",
+        wet_garbage: "-",
+        recyclable_waste: "-",
         sgy_chartData: [
           ["水供应趋势", "xxx", "xxx2"],
           ["11.02", 500, 400],
@@ -152,7 +158,22 @@ export default {
     handleClickForBack() {
       this.tab = "overview";
       this.activeItem = null;
+    },
+    getData() {
+      getData().then(res => {
+        console.log(res);
+        if (res.db && res.db[0]) {
+          this.dataset.water_supply = res.db[0].water_supply;
+          this.dataset.power_supply = res.db[0].power_supply;
+          this.dataset.dry_garbage = res.db[0].dry_garbage;
+          this.dataset.wet_garbage = res.db[0].wet_garbage;
+          this.dataset.recyclable_waste = res.db[0].recyclable_waste;
+        }
+      });
     }
+  },
+  created() {
+    this.$timer.register(this.getData, this);
   }
 };
 </script>

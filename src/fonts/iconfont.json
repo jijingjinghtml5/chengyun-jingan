@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11344635",
+      "name": "湿垃圾",
+      "font_class": "shilaji",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "11999007",
+      "name": "干垃圾",
+      "font_class": "xingzhuang",
+      "unicode": "e69a",
+      "unicode_decimal": 59034
+    },
+    {
+      "icon_id": "16811005",
+      "name": "可回收垃圾",
+      "font_class": "kehuishoulaji",
+      "unicode": "e69b",
+      "unicode_decimal": 59035
+    },
+    {
       "icon_id": "18812981",
       "name": "较通畅",
       "font_class": "jiaotongchang",

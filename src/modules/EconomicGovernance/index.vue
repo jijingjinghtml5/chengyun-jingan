@@ -1,7 +1,7 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-jingji" txt="经济治理">
     <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
-    <level-title :level="2" icon="icon-biaoti" txt="五大产业税收收入"></level-title>
+    <level-title :level="2" icon="icon-biaoti" txt="六大产业税收收入"></level-title>
     <overview-item style="margin-top: -0.2rem;" value="155091" valueUnit="万元" :increase="-2.43" customClass="style7"></overview-item>
     <chart-pie class="in-flex" :chartData="dataset.chartData" :colors="colors" :fontSize="0.24" unit="亿元" labelColor="#D1C9C4">
       <template v-slot:li="{ item }">
