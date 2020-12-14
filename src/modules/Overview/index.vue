@@ -13,7 +13,7 @@
       <m-tabs-body-item name="district">
         <m-row>
           <m-column  v-for="item in districtItems" :key="item.name">
-            <overview-item v-bind="item"></overview-item>
+            <overview-item v-bind="item" :dataset="dataset[item.prop]"></overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
@@ -59,20 +59,20 @@ export default {
         { icon: "icon-huodong", name: "重大活动", showIncrease: false, prop: "zdhd" }
       ]),
       districtItems: Object.freeze([
-        { icon: "icon-renkouku", name: "实有人口", nameUnit: "（万人）", prop: "djyl", customClass: "style2" },
-        { icon: "icon-shichang", name: "实有法人", nameUnit: "（万个）", prop: "ggfw", customClass: "style2" },
-        { icon: "icon-GDP", name: "GDP", nameUnit: "（万元）", prop: "gggl", customClass: "style2" },
-        { icon: "icon-chuzu", name: "企业总产值", nameUnit: "（万元）", prop: "shcy", customClass: "style2" },
-        { icon: "icon-shichang", name: "税收总收入", nameUnit: "（万元）", prop: "ggaq", customClass: "style2" }
+        { icon: "icon-renkouku", name: "实有人口", nameUnit: "（万人）", showIncrease: false, prop: "syrk", customClass: "style2" },
+        { icon: "icon-shichang", name: "实有法人", nameUnit: "（万个）", showIncrease: false, prop: "syfr", customClass: "style2" },
+        { icon: "icon-GDP", name: "GDP", nameUnit: "（万元）", prop: "gdp", customClass: "style2" },
+        { icon: "icon-chuzu", name: "企业总产值", nameUnit: "（万元）", prop: "qyzcz", customClass: "style2" },
+        { icon: "icon-shichang", name: "税收总收入", nameUnit: "（万元）", prop: "sszsr", customClass: "style2" }
       ]),
       firstTab: "today",
       secondTab: "today",
       dataset: {
         qxzs: {
-          value: "正常"
+          value: "-"
         },
         hxzs: {
-          value: "一级"
+          value: "-"
         },
         jtydzs: {
           value: "-"
@@ -81,11 +81,16 @@ export default {
           value: "-"
         },
         yqrds: {
-          value: 10987
+          value: "-"
         },
         zdhds: {
-          value: "元旦 "
-        }
+          value: "-"
+        },
+        syrk: { value: "-" },
+        syfr: { value: "-" },
+        gdp: { value: "-" },
+        qyzcz: { value: "-" },
+        sszsr: { value: "-" }
       }
     };
   },
@@ -144,6 +149,21 @@ export default {
           this.dataset.zngzyj = {
             value: Math.round(res.api.device_online_percent * 100) / 100
           };
+        }
+
+        if (res.db && res.db[0]) {
+          this.dataset.qxzs = { value: res.db[0].qxzs };
+          this.dataset.hxzs = { value: res.db[0].hxzs };
+          this.dataset.yqrds = { value: res.db[0].yqrds };
+          this.dataset.zdhd = { value: res.db[0].zdhd };
+        }
+
+        if (res.district && res.district[0]) {
+          this.dataset.syrk.value = res.district[0].syrk;
+          this.dataset.syfr.value = res.district[0].syfr;
+          this.dataset.gdp.value = res.district[0].gdp;
+          this.dataset.qyzcz.value = res.district[0].qyzcz;
+          this.dataset.sszsr.value = res.district[0].sszsr;
         }
       });
     }
