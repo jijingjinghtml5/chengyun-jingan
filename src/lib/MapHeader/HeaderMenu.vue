@@ -1,7 +1,19 @@
 <template>
   <div class="menu-container">
     <div class="mapControlItem" v-for="(item ,index) in mapControlItem" :key="index">
-        <div @click="mapLayerControlClick(item)">
+        <div v-if="item.disable">
+          <div class="iconfontContainer1" :class="item.attr === itemClickAttr ? 'active' : ''">
+            <span class="iconfont mapControlIcon1" :class="item.iconClass"></span>
+          </div>
+          <div class="mapControlLable" :class="item.attr === itemClickAttr ? 'activeRotate' : ''">
+            <p class="mapControlLableText">
+              {{item.name}}
+              <span v-if="item.columns>0" class="iconfont icon-arrow_right mapControlLableIcon"></span>
+            </p>
+            <p class="mapControlLableNumber1">暂无数据</p>
+          </div>
+        </div>
+        <div @click="mapLayerControlClick(item)" v-else>
           <div class="iconfontContainer" :class="item.attr === itemClickAttr ? 'active' : ''">
             <span class="iconfont mapControlIcon" :class="item.iconClass"></span>
           </div>
@@ -10,7 +22,7 @@
               {{item.name}}
               <span v-if="item.columns>0" class="iconfont icon-arrow_right mapControlLableIcon"></span>
             </p>
-            <p class="mapControlLableNumber">{{item.module ? item.module.mapControlItemData[item.attr] : mapControlItemData[item.attr] | thousandCentimeter}}</p>
+            <!-- <p class="mapControlLableNumber">{{item.module ? item.module.mapControlItemData[item.attr] : mapControlItemData[item.attr] | thousandCentimeter}}</p> -->
           </div>
         </div>
          <!-- 下面组件为tree-list的重构组件，自动根据数据展示动态列数，不需要手动设置列数 -->
@@ -183,6 +195,37 @@ export default {
           -webkit-text-fill-color: transparent;
         }
       }
+
+    }
+  .iconfontContainer1 {
+      width: 0.9rem;
+      height: 0.9rem;
+      display: inline-block;
+      line-height: 0.9rem;
+      vertical-align: middle;
+      background: url("./imgs/frame1.png") no-repeat center center;
+      background-size: cover;
+      &.active {
+        background-color: rgba(37, 115, 239, 0.4);
+        >span{
+          color: white;
+              .supportWebkitTextFillColor &{
+                background-image: none;
+                // background-clip: text;
+                -webkit-background-clip: unset;
+                -webkit-text-fill-color: unset;
+              }
+        }
+      }
+     .mapControlIcon1 {
+        display: block;
+        width: 0.9rem;
+        height: 0.9rem;
+        text-align: center;
+        font-size: 0.5rem;
+        line-height: 0.9rem;
+        color: #c1cedf;
+      }
     }
 
     .mapControlLable {
@@ -207,6 +250,13 @@ export default {
         color: #ffffff;
         text-align: right;
         margin-top: 0.1rem;
+      }
+      .mapControlLableNumber1{
+        font-size: 0.32rem;
+        color: #ffffff;
+        text-align: right;
+        margin-top: 0.2rem;
+
       }
     }
   }

@@ -17,7 +17,7 @@
       </div>
       <div class="wall-panel">
         <m-row class="tile-row" gutter="20px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
-            <MColumn :span="5" v-for="(item, index) in chunk" :key="`other-${index}`">
+            <MColumn span="5" v-for="(item, index) in chunk" :key="`other-${index}`">
               <tile1 :item="item" class="block clickAble" @click="handleClick(item)"></tile1>
             </MColumn>
           </m-row>

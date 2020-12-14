@@ -91,12 +91,12 @@ export default {
     },
     // 初始化地图响应事件
     initCityMapEvent() {
-      // let that = this;
+      let that = this;
       this.bridge.removeEventListener();
       this.bridge.addEventListener(function (arg) {
         switch (arg.action) {
             case "mapclick":
-              this.mapClickHandle(arg.data);
+              that.mapClickHandle(arg.data);
                 // 地图点选消息
                 break;
             case "ResetMap":

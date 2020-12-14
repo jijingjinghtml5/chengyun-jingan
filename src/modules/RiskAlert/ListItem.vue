@@ -62,10 +62,10 @@ export default {
 </script>
 <style lang="scss" scoped>
   .item{
-    padding: 20px 0;
+    padding: 25px 0;
     border-top: 2px solid #4E78A4;
     border-bottom: 2px solid #4E78A4;
-    line-height: 1.5;
+    line-height: 2.2;
     display: flex;
     align-items: center;
     margin-bottom: 10px;

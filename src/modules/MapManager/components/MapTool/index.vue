@@ -37,7 +37,7 @@ export default {
         { "name": "网格边界", "status": false },
         { "name": "居委边界", "status": false },
         { "name": "建筑白模", "status": false },
-        { "name": "建筑精模", "status": true },
+        { "name": "建筑精模", "status": false },
         { "name": "底图切换", "status": true }
       ],
       functionDatas: {
@@ -134,7 +134,7 @@ export default {
     },
     onMapReady() {
       this.initPosition();
-      this.openDetailModelLayer();
+      // this.openDetailModelLayer();
       this.openRemoteScenseLayer();
     },
     tabMapLayer(name, status) {
@@ -254,6 +254,22 @@ export default {
         this.labelActives.push(false);
       });
        this.$bus.$on("citymap-ready", this.onMapReady);
+       this.$bus.$on("map-close-model", () => {
+         if (this.btnActives[4]) {
+           this.btnActives[4] = !this.btnActives[4];
+           this.closeSimpleModelLayer();
+         }
+          if (this.btnActives[5]) {
+           this.btnActives[5] = !this.btnActives[5];
+           this.closeDetailModelLayer();
+         }
+       });
+       this.$bus.$on("map-full-extent", () => {
+         if (!this.btnActives[0]) {
+           this.btnActives[0] = !this.btnActives[0];
+         }
+         this.fullExtent();
+       });
   }
 };
 </script>
