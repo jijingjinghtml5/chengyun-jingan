@@ -103,30 +103,30 @@ export default {
               color: "#4FCFD5"
             }
           ]
-        },
-        {
-          icon: "icon-renqunjuji",
-          title: "人群聚集",
-          color: "#2E9BCF",
-          update_time: "今日8:00",
-          metrics: [
-            {
-              label: "重点场所",
-              count: 102,
-              color: "#F23470"
-            },
-            {
-              label: "道路/园区",
-              count: 69,
-              color: "#6CCB73"
-            },
-            {
-              label: "交通枢纽",
-              count: 78,
-              color: "#6CCB73"
-            }
-          ]
         }
+        // {
+        //   icon: "icon-renqunjuji",
+        //   title: "人群聚集",
+        //   color: "#2E9BCF",
+        //   update_time: "今日8:00",
+        //   metrics: [
+        //     {
+        //       label: "重点场所",
+        //       count: 102,
+        //       color: "#F23470"
+        //     },
+        //     {
+        //       label: "道路/园区",
+        //       count: 69,
+        //       color: "#6CCB73"
+        //     },
+        //     {
+        //       label: "交通枢纽",
+        //       count: 78,
+        //       color: "#6CCB73"
+        //     }
+        //   ]
+        // }
       ]
     };
   },
