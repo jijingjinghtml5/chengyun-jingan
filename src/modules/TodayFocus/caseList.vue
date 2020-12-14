@@ -281,6 +281,8 @@ export default {
     if (this.caseLayer) {
       this.caseLayer.close();
       this.caseLayer = null;
+    }
+    if (this.caseAllLayer) {
       this.caseAllLayer.close();
       this.caseAllLayer = null;
     }
