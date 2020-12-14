@@ -10,7 +10,7 @@
     <slot name="bottom">
       <div class="rate">
         <span :class="`iconfont ${cIcon}`" style="margin-right:0.1rem"></span>
-        <span>{{Math.abs(item.rate).toFixed(2)}}%</span>
+        <span>{{item.rate}}%</span>
       </div>
     </slot>
   </div>

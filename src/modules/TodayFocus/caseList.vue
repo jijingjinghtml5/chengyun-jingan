@@ -4,15 +4,16 @@
     <span @click="handleClick" class="clickAble">[案件概览]</span>
   </div>
   <m-list style="height: 920px;"
+   :loading="loading"
     ref="caseList"
     :headers="headers"
     :dataset="tableData"
     @rowClick="handleRowClick"
   >
     <template  v-slot:state="{row}">
-      <div :style="`color: ${getStatusColor(row.state)}`">
-        <span class="iconfont " :class="getIcon(row.state)"></span>
-        <span>{{row.state}}</span>
+      <div :style="`color: ${getStatusColor(row.status)}`">
+        <span class="iconfont " :class="getIcon(row.status)"></span>
+        <span>{{row.status}}</span>
       </div>
     </template>
   </m-list>
@@ -24,6 +25,8 @@ import MTitle from "@/components/MTitle/LevelTitle";
 import MList from "@/components/MList/index.vue";
 import { CaseSteps } from "@/mapping";
 // import {formatterDate} from "@"
+
+import { getListData } from "./api";
 
 export default {
   name: "TodayFocusList",
@@ -41,7 +44,31 @@ export default {
     },
     withDashboard: {
       type: Boolean,
-      default: true
+      default: false
+    }
+  },
+  watch: {
+    "item.key": {
+      handler(nv) {
+        this.tableData = [];
+        // console.log("watch", this.item);
+        let filter = "";
+        let timestamp = (new Date()).getTime();
+        switch (nv) {
+          case "yellow":
+            filter = `(openTS=-604800&args.chs_userId_36=ex.false&args.chs_userId_47=ex.false&args.chs_userId_24=ex.false&((closeTS=ex.false&allEndTS=lt.${timestamp})|(closeTS=ex.true&script="doc['data.closeTS'].value.getMillis()>doc['data.allEndTS'].value.getMillis()")))`;
+            break;
+          case "red":
+            filter = "openTS=-604800&district_eventType.level_2=in.,重大危险源,路面塌陷,自来水管破裂,路面积水、污水冒溢、粪便冒溢,燃气管破裂,占用消防通道违章停车,人员非正常聚集,电梯困人,超期未整改,相关业务,违规装修、改建";
+            break;
+          default:
+        }
+        if (filter) {
+          this.getListData(filter);
+        }
+      },
+      deep: true,
+      immediate: true
     }
   },
   data() {
@@ -67,18 +94,20 @@ export default {
       headers: [
         {
           label: "案件",
-          prop: "name"
+          prop: "eventName",
+          width: "280px"
         },
         {
           label: "发生时间",
-          prop: "timestamp",
+          prop: "openTS",
           type: "date",
           isSecond: true,
           dateFmt: "MM.dd hh:mm"
         },
         {
           label: "发生位置",
-          prop: "address"
+          prop: "address",
+          align: "left"
         },
         {
           label: "所属街道",
@@ -86,73 +115,13 @@ export default {
         },
         {
           label: "处置阶段",
-          prop: "state",
+          prop: "status",
           filter: true,
           type: "slot",
           slot: "state"
         }
       ],
       tableData: [
-        {
-          id: 1,
-          name: "2020新冠案件",
-          timestamp: "1606112715",
-          address: "曲阳路",
-          town: "南京西路街道",
-          state: "发现",
-          lng: "-2505.05087418",
-          lat: "-305.89530435335"
-        },
-        {
-          id: 2,
-          name: "2020新冠案件",
-          timestamp: "1606112715",
-          address: "曲阳路",
-          town: "南京西路街道",
-          state: "立案",
-          lng: "-2505.05087418",
-          lat: "-305.89530435335"
-        },
-        {
-          id: 3,
-          name: "2020新冠案件",
-          timestamp: "1606112715",
-          address: "曲阳路",
-          town: "南京西路街道",
-          state: "派遣",
-          lng: "-2505.05087418",
-          lat: "-305.89530435335"
-        },
-        {
-          id: 6,
-          name: "2020新冠案件",
-          timestamp: "1606112715",
-          address: "曲阳路",
-          town: "南京西路街道",
-          state: "处理",
-          lng: "-2505.05087418",
-          lat: "-305.89530435335"
-        },
-        {
-          id: 4,
-          name: "2020新冠案件",
-          timestamp: "1606112715",
-          address: "曲阳路",
-          town: "南京西路街道",
-          state: "核查",
-          lng: "-2505.05087418",
-          lat: "-305.89530435335"
-        },
-        {
-          id: 5,
-          name: "2020新冠案件",
-          timestamp: "1606112715",
-          address: "曲阳路",
-          town: "南京西路街道",
-          state: "结案",
-          lng: "-2505.05087418",
-          lat: "-305.89530435335"
-        }
       ],
       caseLayer: null
     };
@@ -214,6 +183,15 @@ export default {
       } else {
         this.caseLayer && this.caseLayer.close();
       }
+    },
+    getListData(filter) {
+      this.loading = true;
+      getListData(filter).then(res => {
+        this.tableData = res.list;
+        this.loading = false;
+      }).catch(() => {
+        this.loading = false;
+      });
     }
   },
   beforeDestroy() {
