@@ -5,12 +5,12 @@
       <p class="clock-date">{{ now | formatterDate2 }}</p>
     </div>
     <ul class="left-header__item condition">
-      <li class="img">
+      <!-- <li class="img">
         <img src="@/assets/images/weather/sun-rain.png" alt="">
-      </li>
+      </li> -->
       <li>
         <p class="temp">{{ weather.temperature | initVal }}°C</p>
-        <p class="report">晴转小雨</p>
+        <p class="report">多云转晴</p>
       </li>
       <!-- <li class="img hasBorder">
         <img src="@/assets/images/weather/1-3.png" alt="">
@@ -43,42 +43,73 @@ export default {
       now: new Date(),
       weatherItems: Object.freeze([
         {
-          icon: "iconfont icon-shidu1",
+          icon: "iconfont icon-shidu",
           label: "湿度",
           key: "humidity",
-          unit: ""
+          unit: "%"
         },
         {
-          icon: "iconfont icon-kongqizhuangkuang",
-          label: "空气状况",
-          key: "air_condition",
-          unit: ""
+          icon: "iconfont icon-jiangyu",
+          label: "降雨量",
+          key: "precipitation",
+          unit: "mm"
         },
         {
-          icon: "iconfont icon-kongqidengji",
-          label: "空气等级",
-          key: "air_level",
-          unit: ""
+          icon: "iconfont icon-fengli",
+          label: "风速",
+          key: "windSpeed",
+          unit: "m/s"
+        },
+
+        {
+          icon: "iconfont icon-PM",
+          label: "PM2.5",
+          key: "pm25",
+          unit: "μg/m³"
         },
         {
-          icon: "iconfont icon-kongqizhiliang",
-          label: "空气AQI",
+          icon: "iconfont icon-yangchen",
+          label: "AQI",
           key: "aqi",
           unit: ""
-        },
-        {
-          icon: "iconfont icon-yangchen1",
-          label: "扬尘指数",
-          key: "yangchen",
-          unit: ""
         }
+        // {
+        //   icon: "iconfont icon-shidu1",
+        //   label: "湿度",
+        //   key: "humidity",
+        //   unit: ""
+        // },
+        // {
+        //   icon: "iconfont icon-kongqizhuangkuang",
+        //   label: "空气状况",
+        //   key: "air_condition",
+        //   unit: ""
+        // },
+        // {
+        //   icon: "iconfont icon-kongqidengji",
+        //   label: "空气等级",
+        //   key: "air_level",
+        //   unit: ""
+        // },
+        // {
+        //   icon: "iconfont icon-kongqizhiliang",
+        //   label: "空气AQI",
+        //   key: "aqi",
+        //   unit: ""
+        // },
+        // {
+        //   icon: "iconfont icon-yangchen1",
+        //   label: "扬尘指数",
+        //   key: "yangchen",
+        //   unit: ""
+        // }
       ]),
       weather: {
         temperature: "-",
         api: "-",
-        yangchen: "-",
-        air_condition: "-",
-        air_level: "-",
+        pm25: "-",
+        precipitation: "-",
+        windSpeed: "-",
         humidity: "-"
       }
     };
@@ -106,9 +137,9 @@ export default {
         this.weather = {
           temperature: weatherDatas.newData.temperature,
           humidity: weatherDatas.newData.humidity,
-          // precipitation: weatherDatas.newData.precipitation,
-          // windSpeed: weatherDatas.newData.windSpeed,
-          // pm25: weatherData[0].content.pm25,
+          precipitation: weatherDatas.newData.precipitation,
+          windSpeed: weatherDatas.newData.windSpeed,
+          pm25: weatherData[0].content.pm25,
           qpi: weatherData[0].content.aqi
         };
       }
@@ -162,6 +193,7 @@ export default {
   align-items: center;
   text-align: center;
   line-height: 0.48rem;
+  justify-content: center;
   > li {
     margin-right: 0.1rem;
     flex-shrink: 0;
