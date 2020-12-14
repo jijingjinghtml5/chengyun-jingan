@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-      <el-carousel height="250px" arrow="always" :autoplay='false' indicator-position="none">
+      <el-carousel height="250px" arrow="always" :autoplay='false' indicator-position="none" :loop="false">
         <el-carousel-item v-for="(items,indexs) in urlsInner" :key="indexs" >
           <div class="tab-container">
             <div class="img-container" v-for="(item,index) in items" :key="index">

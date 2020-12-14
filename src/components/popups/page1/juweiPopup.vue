@@ -1,19 +1,10 @@
 <template>
   <div  class="panel">
     <div class="category">居委</div>
-    <div class="name"></div>
+    <div class="name">{{info["居委会名称"]}}</div>
     <div class="basic-info">
       <div class="item">
-        <span>供应商: </span>
-        <span style="color:#ffffff;">{{info["vendor"]||""}}</span>
-      </div>
-      <div class="item">
-        <span>地址: </span>
-        <span style="color:#ffffff;">{{info["address"]||"" }}</span>
-      </div>
-      <div class="item">
-        <span>类型: </span>
-        <span style="color:#ffffff;">{{info["PTscene"]||""}}</span>
+        建设中.......
       </div>
       <!-- <div class="item">
         <img style="width:560px;316px;" :src="detail['image'] || require('@/assets/images/default.png')" />
@@ -96,6 +87,8 @@ export default {
   font-size: 16*2px;
   color:rgba(146, 185, 247, 1);
   .item{
+    font-size: 36px;
+    text-align: center;
     padding: 10px 0;
   }
   .split-line{

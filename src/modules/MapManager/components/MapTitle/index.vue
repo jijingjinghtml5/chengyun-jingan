@@ -31,12 +31,12 @@ export default {
 
       },
      mapControlItem: [
-        { name: "人(人)", iconClass: "icon-renqunjuji", attr: "people", isExpand: true, columns: 2, radio: true },
-        { name: "地(个)", iconClass: "icon-bangonglouyu", attr: "area", isExpand: true, columns: 2 },
-        { name: "物(台)", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2, radio: true },
-        { name: "事(个)", iconClass: "icon-jinriguanzhu", attr: "event", isExpand: true, radio: true, columns: 2 },
-        { name: "情(件)", iconClass: "icon-wu", attr: "situation", isExpand: true, columns: 2, disable: true },
-        { name: "组织(个)", iconClass: "icon-luchangzhi", attr: "organization", isExpand: true, radio: true, columns: 2, disable: true }
+        { name: "人", iconClass: "icon-renqunjuji", attr: "people", isExpand: true, columns: 2, radio: true },
+        { name: "地", iconClass: "icon-bangonglouyu", attr: "area", isExpand: true, columns: 2 },
+        { name: "物", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2, radio: true },
+        { name: "事", iconClass: "icon-jinriguanzhu", attr: "event", isExpand: true, radio: true, columns: 2 },
+        { name: "情", iconClass: "icon-wu", attr: "situation", isExpand: true, columns: 2, disable: true },
+        { name: "组织", iconClass: "icon-luchangzhi", attr: "organization", isExpand: true, radio: true, columns: 2, disable: true }
       ],
       mapControlItemData: {
         people: "820",

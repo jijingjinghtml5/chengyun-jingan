@@ -104,7 +104,7 @@ export default {
   width: 6.4rem;
   height: 15.6rem;
   padding: 0.4rem;
-  border: 1px solid #4E78A4;
+   border: 1px solid #4E78A4;
 
   font-size: 16*2px;
   color:rgba(146, 185, 247, 1);

@@ -37,8 +37,8 @@ export default {
         { "name": "网格边界", "status": false },
         { "name": "居委边界", "status": false },
         { "name": "建筑白模", "status": false },
-        { "name": "建筑精模", "status": false },
-        { "name": "底图切换", "status": false }
+        { "name": "建筑精模", "status": true },
+        { "name": "底图切换", "status": true }
       ],
       functionDatas: {
         "全图": {
@@ -134,8 +134,8 @@ export default {
     },
     onMapReady() {
       this.initPosition();
-      // this.openDetailModelLayer();
-      // this.openRemoteScenseLayer();
+      this.openDetailModelLayer();
+      this.openRemoteScenseLayer();
     },
     tabMapLayer(name, status) {
        let cmd = {
@@ -266,7 +266,11 @@ export default {
            this.btnActives[5] = !this.btnActives[5];
            this.closeDetailModelLayer();
          }
-                  if (!this.btnActives[0]) {
+        if (this.btnActives[6]) {
+           this.btnActives[6] = !this.btnActives[6];
+           this.closeRemoteScenseLayer();
+         }
+         if (!this.btnActives[0]) {
            this.btnActives[0] = !this.btnActives[0];
          }
          this.fullExtent();
@@ -320,6 +324,10 @@ export default {
           if (this.btnActives[5]) {
            this.btnActives[5] = !this.btnActives[5];
            this.closeDetailModelLayer();
+         }
+         if (this.btnActives[6]) {
+           this.btnActives[6] = !this.btnActives[6];
+           this.closeRemoteScenseLayer();
          }
        });
        this.$bus.$on("map-full-extent", () => {
