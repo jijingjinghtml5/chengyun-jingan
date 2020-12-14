@@ -189,7 +189,7 @@ export default {
               w: 5,
               h: 62,
               i: 131,
-              component: "UrbanGovernance",
+              component: "EconomicGovernance",
               moved: false
             },
             // 经济发展
@@ -209,7 +209,7 @@ export default {
               w: 5,
               h: 62,
               i: 133,
-              component: "EconomicGovernance",
+              component: "UrbanGovernance",
               moved: false
             },
 

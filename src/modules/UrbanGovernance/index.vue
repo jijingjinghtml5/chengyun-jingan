@@ -6,24 +6,24 @@
       <m-column>
         <overview-item
           name="绿地建设（㎡）"
-          value="30"
-          increase="18.45"
+          :value="dataset.statistics.greenland"
+          :increase="dataset.statistics.greenland_increase"
           customClass="style6">
         </overview-item>
       </m-column>
       <m-column>
         <overview-item
           name="住宅建设（㎡）"
-          value="42"
-          increase="6.11"
+          :value="dataset.statistics.residence"
+          :increase="dataset.statistics.residence_increase"
           customClass="style6">
         </overview-item>
       </m-column>
       <m-column>
         <overview-item
           name="商品房开发（㎡）"
-          value="42"
-          increase="6.11"
+          :value="dataset.statistics.house"
+          :increase="dataset.statistics.house_increase"
           customClass="style6">
         </overview-item>
       </m-column>
@@ -33,42 +33,42 @@
       <m-column width="33.33%">
         <overview-item
           name="劳动仲裁（件）"
-          value="30"
-          increase="18.45"
+          :value="dataset.statistics.labor_arbitation"
+          :increase="dataset.statistics.labor_arbitation_increase"
           customClass="style6">
         </overview-item>
       </m-column>
       <m-column width="33.33%">
         <overview-item
           name="消费者投诉办结率"
-          value="96.18"
+          :value="dataset.statistics.consumer_complaint_completion_rate"
+          :increase="dataset.statistics.consumer_complaint_completion_rate_increase"
           valueUnit="%"
-          increase="6.11"
           customClass="style6">
         </overview-item>
       </m-column>
       <m-column width="33.33%">
         <overview-item
           name="质量投诉处理率"
-          value="100"
+          :value="dataset.statistics.quality_complaint_handle_rate"
+          :increase="dataset.statistics.quality_complaint_handle_rate_increase"
           valueUnit="%"
-          increase="6.11"
           customClass="style6">
         </overview-item>
       </m-column>
       <m-column width="50%">
         <overview-item
           name="食品安全监督检查（人次）"
-          value="3209"
-          increase="18.45"
+          :value="dataset.statistics.food_safety_check"
+          :increase="dataset.statistics.qfood_safety_check_increase"
           customClass="style6">
         </overview-item>
       </m-column>
       <m-column width="50%">
         <overview-item
           name="生产安全事故（件）"
-          value="42"
-          :increase="-6.11"
+          :value="dataset.statistics.production_safety_accident"
+          :increase="dataset.statistics.production_safety_accident_increase"
           customClass="style6">
         </overview-item>
       </m-column>
@@ -127,7 +127,8 @@ export default {
       tab: "expressway",
       dataset: {
         expressway: [],
-        groud_road: []
+        groud_road: [],
+        statistics: {}
       }
     };
   },
@@ -149,6 +150,9 @@ export default {
               ...(this.convertScore(d.score))
             };
           }));
+        }
+        if (res.db && res.db[0]) {
+          this.dataset.statistics = res.db[0];
         }
       });
     },
