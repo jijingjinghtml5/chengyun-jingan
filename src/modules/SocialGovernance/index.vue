@@ -85,6 +85,19 @@
           </m-column>
         </m-row>
       </m-tabs-body-item>
+      <m-tabs-body-item name="社会管理">
+        <m-row>
+          <m-column v-for="(item, index) in shglItems" :key="`shgl-${index}`" :width="item.width">
+            <overview-item2
+              :name="`${item.key}`"
+              :nameUnit="itemsData[item.key] ? itemsData[item.key].unit : ''"
+              :value="itemsData[item.key]?itemsData[item.key].value:'-'"
+              :increase="itemsData[item.key]?itemsData[item.key].rate: null"
+              customClass="style6">
+            </overview-item2>
+          </m-column>
+        </m-row>
+      </m-tabs-body-item>
     </m-tabs-body>
     <level-title :level="2" icon="icon-biaoti" txt="民生民意"></level-title>
     <m-row>
@@ -134,14 +147,15 @@ import MSelect from "@/components/MSelect";
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
 import OverviewItem from "@/components/OverviewItem";
+import OverviewItem2 from "@/components/OverviewItem/index2";
 import MTabs from "@/components/MTabs";
 import MTabsBody from "@/components/MTabsBody/MTabsBody";
 import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import ChartLine from "@/components/Charts/Line/ChartLine";
 // import { getDate } from "@/utils/tools";
-import { getData } from "./api";
+import { getData, getItemData } from "./api";
 export default {
-  name: "UrbanGovernance",
+  name: "SocialGovernance",
   components: {
     WrapTitle,
     LevelTitle,
@@ -149,6 +163,7 @@ export default {
     MRow,
     MColumn,
     OverviewItem,
+    OverviewItem2,
     MTabs,
     MTabsBody,
     MTabsBodyItem,
@@ -173,7 +188,8 @@ export default {
       ]),
       tabs: Object.freeze([
         { label: "社会治安", value: "社会治安" },
-        { label: "社会救助", value: "社会救助" }
+        { label: "社会救助", value: "社会救助" },
+        { label: "社会管理", value: "社会管理" }
       ]),
       option: "currentWeek",
       tab: "社会治安",
@@ -187,13 +203,36 @@ export default {
         //     return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
         //   }))
         // ]
-      }
+      },
+      shglItems: [
+        {
+          key: "食品安全监督检查",
+          width: "50%"
+        },
+        {
+          key: "生产安全事故",
+          width: "50%"
+        },
+        {
+          key: "劳动仲裁",
+          width: "30%"
+        },
+        {
+          key: "消费者投诉办结率",
+          width: "35%"
+        },
+        {
+          key: "质量投诉处理率",
+          width: "35%"
+        }
+      ],
+      itemsData: {} // 社会管理数据
     };
   },
   methods: {
     getData() {
       getData().then(res => {
-        console.log(res, ".....");
+        // console.log(res, ".....");
         if (res.statistics_db && res.statistics_db[0]) {
           this.dataset = {
             ...this.dataset,
@@ -209,6 +248,15 @@ export default {
             }))
           ];
         }
+      });
+
+      getItemData().then(res => {
+        // console.log(">>>>>>>", res);
+        let tmp = {};
+        (res.shgl || []).map(item => {
+          tmp[item.name] = item;
+        });
+        this.itemsData = tmp;
       });
     }
   },
