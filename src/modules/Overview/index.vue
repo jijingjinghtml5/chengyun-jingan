@@ -47,7 +47,7 @@ export default {
   data() {
     return {
       tabs: Object.freeze([
-        { label: "今日城运概况", value: "today" },
+        { label: "今日概况", value: "today" },
         { label: "全区概览", value: "district" }
       ]),
       todayItems: Object.freeze([

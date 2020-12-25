@@ -4,7 +4,7 @@
     <level-title :level="2" icon="icon-biaoti" txt="五大产业和房地产业"></level-title>
     <overview-item
       style="margin-top: -0.2rem;"
-      valueUnit="万元"
+      valueUnit="亿元"
       :value="dataset.statistics.six_industries_tax_revenue"
       :increase="dataset.statistics.six_industries_tax_revenue_increase"
       customClass="style7"></overview-item>
