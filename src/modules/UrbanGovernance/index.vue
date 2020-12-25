@@ -3,76 +3,48 @@
     <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
     <level-title :level="2" icon="icon-biaoti" txt="城市建设"></level-title>
     <m-row>
-      <m-column>
-        <overview-item
-          name="绿地建设（㎡）"
-          :value="dataset.statistics.greenland"
-          :increase="dataset.statistics.greenland_increase"
+      <m-column v-for="(item, index) in jsItems" :key="`js-${index}`" :width="item.width">
+        <overview-item2
+          :name="`${item.key}`"
+          :nameUnit="itemsData[item.key] ? itemsData[item.key].unit : ''"
+          :value="itemsData[item.key]?itemsData[item.key].value:'-'"
+          :increase="itemsData[item.key]?itemsData[item.key].rate: null"
           customClass="style6">
-        </overview-item>
-      </m-column>
-      <m-column>
-        <overview-item
-          name="住宅建设（㎡）"
-          :value="dataset.statistics.residence"
-          :increase="dataset.statistics.residence_increase"
-          customClass="style6">
-        </overview-item>
-      </m-column>
-      <m-column>
-        <overview-item
-          name="商品房开发（㎡）"
-          :value="dataset.statistics.house"
-          :increase="dataset.statistics.house_increase"
-          customClass="style6">
-        </overview-item>
+        </overview-item2>
       </m-column>
     </m-row>
-    <level-title :level="2" icon="icon-biaoti" txt="城市管理"></level-title>
-    <m-row>
-      <m-column width="33.33%">
-        <overview-item
-          name="劳动仲裁（件）"
-          :value="dataset.statistics.labor_arbitation"
-          :increase="dataset.statistics.labor_arbitation_increase"
-          customClass="style6">
-        </overview-item>
-      </m-column>
-      <m-column width="33.33%">
-        <overview-item
-          name="消费者投诉办结率"
-          :value="dataset.statistics.consumer_complaint_completion_rate"
-          :increase="dataset.statistics.consumer_complaint_completion_rate_increase"
-          valueUnit="%"
-          customClass="style6">
-        </overview-item>
-      </m-column>
-      <m-column width="33.33%">
-        <overview-item
-          name="质量投诉处理率"
-          :value="dataset.statistics.quality_complaint_handle_rate"
-          :increase="dataset.statistics.quality_complaint_handle_rate_increase"
-          valueUnit="%"
-          customClass="style6">
-        </overview-item>
-      </m-column>
-      <m-column width="50%">
-        <overview-item
-          name="食品安全监督检查（人次）"
-          :value="dataset.statistics.food_safety_check"
-          :increase="dataset.statistics.qfood_safety_check_increase"
-          customClass="style6">
-        </overview-item>
-      </m-column>
-      <m-column width="50%">
-        <overview-item
-          name="生产安全事故（件）"
-          :value="dataset.statistics.production_safety_accident"
-          :increase="dataset.statistics.production_safety_accident_increase"
-          customClass="style6">
-        </overview-item>
-      </m-column>
-    </m-row>
+    <level-title :level="2" icon="icon-biaoti" txt="城市发展"></level-title>
+    <div>
+      <m-row>
+        <m-column v-for="(item, index) in fzItems" :key="`fz-${index}`" :width="item.width">
+          <overview-item2
+            :name="`${item.key}`"
+            :nameUnit="itemsData[item.key] ? itemsData[item.key].unit : ''"
+            :value="itemsData[item.key]?itemsData[item.key].value:'-'"
+            :showIncrease="false"
+            customClass="style6">
+          </overview-item2>
+          <div>
+            <span>累计: </span>
+            <span>{{itemsData[item.key] ? itemsData[item.key+'-累计'].value :''}}</span>
+          </div>
+        </m-column>
+      </m-row>
+      <m-row style="margin-top:20px;">
+        <m-column width="50%">
+          <overview-item2
+            name="固定资产投资"
+            :nameUnit="itemsData['固定资产投资'] ? itemsData['固定资产投资'].unit : ''"
+            :value="itemsData['固定资产投资']?itemsData['固定资产投资'].value:'-'"
+            :increase="itemsData['固定资产投资']?itemsData['固定资产投资'].rate: null"
+            customClass="style6">
+          </overview-item2>
+        </m-column>
+        <m-column width="50%">
+          <chart-bar :chartData="chartData" :colors="colors" labelColor="#D1C9C4"></chart-bar>
+        </m-column>
+      </m-row>
+    </div>
     <level-title :level="2" icon="icon-biaoti" txt="城市交通"></level-title>
     <level-title :level="4" txt="实时拥堵路段">
       <m-tabs class="road-select" slot="right" v-model="tab" :tabs="tabs"></m-tabs>
@@ -99,8 +71,11 @@ import MSelect from "@/components/MSelect";
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
 import OverviewItem from "@/components/OverviewItem";
+import OverviewItem2 from "@/components/OverviewItem/index2";
 import MTabs from "@/components/MTabs";
+import ChartBar from "@/components/Charts/BarY/ChartBarY";
 import { getData } from "./api";
+
 export default {
   name: "UrbanGovernance",
   components: {
@@ -110,7 +85,23 @@ export default {
     MRow,
     MColumn,
     OverviewItem,
-    MTabs
+    OverviewItem2,
+    MTabs,
+    ChartBar
+  },
+  computed: {
+    chartData() {
+      let tmpArr = this.dataset.items.filter(item => {
+        return item.tags === "固定资产图表";
+      }).map(item => {
+        return [item.name, item.value];
+      });
+
+      return [
+        ["项目", "数值"],
+        ...tmpArr
+      ];
+    }
   },
   data() {
     return {
@@ -128,8 +119,35 @@ export default {
       dataset: {
         expressway: [],
         groud_road: [],
-        statistics: {}
-      }
+        statistics: {},
+        items: []
+      },
+      jsItems: [
+        {
+          key: "绿地建设",
+          width: "33.3%"
+        },
+        {
+          key: "住宅建设",
+          width: "33.3%"
+        },
+        {
+          key: "商品房开发",
+          width: "33.3%"
+        }
+      ],
+      fzItems: [
+        {
+          key: "AQI优良",
+          width: "50%"
+        },
+        {
+          key: "动迁及征收",
+          width: "50%"
+        }
+      ],
+      itemsData: {},
+      colors: ["#4FCFD5"]
     };
   },
   methods: {
@@ -154,6 +172,12 @@ export default {
         if (res.db && res.db[0]) {
           this.dataset.statistics = res.db[0];
         }
+        let tmp = {};
+        this.dataset.items = res.items || [];
+        (res.items || []).map(item => {
+          tmp[item.name] = item;
+        });
+        this.itemsData = tmp;
       });
     },
     convertScore(score) {
