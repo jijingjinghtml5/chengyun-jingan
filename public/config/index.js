@@ -34,37 +34,4 @@ window.$config = {
     //   agentid: "1000211", 
     //   redirectUri: "127.0.0.1:8081",
     // }
-    // 子页面跳转配置，其中图片放在根目录otherPageImg
-    otherPageUrls: [
-      {
-          img: "test.png",
-          name: "历史保护建筑",
-          url: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-      },
-      {
-          img: "test.png",
-          name: "上海火车站区域",
-          url: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-      },
-      {
-          img: "test.png",
-          name: "静安区党建",
-          url: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-      },
-      {
-          img: "test.png",
-          name: "营商环境",
-          src: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-      },
-      {
-          img: "test.png",
-          name: "静安区管理平台",
-          url: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-      },
-      {
-          img: "test.png",
-          name: "上海火车站区域",
-          url: "http://10.81.71.38/chengyun/chengyun-grid-v2/city.html?code=fhuvVWCejO4MII0diuvIBhRkRfUyWkkw"
-      }
-    ]
 };

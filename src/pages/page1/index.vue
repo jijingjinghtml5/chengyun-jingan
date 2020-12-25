@@ -1,13 +1,15 @@
 <template>
   <div id="app">
-    <layout></layout>
+    <layout v-if="isLogin"></layout>
   </div>
 </template>
 
 <script>
 import Layout from "./Layout";
+import LoginMixins from "@/pages/Login/mixins/Login.js";
 export default {
   name: "App",
+  mixins: [LoginMixins],
 
   components: {
     Layout

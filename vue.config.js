@@ -23,6 +23,13 @@ module.exports = {
       filename: "page1.html",
       title: "静安城运",
       chunks: ["chunk-vendors", "chunk-common", "page1"]
+    },
+    login: {
+      entry: "src/pages/Login/entry.js",
+      template: "public/login.html",
+      filename: "login.html",
+      title: "登陆",
+      chunks: ["chunk-vendors", "chunk-common", "login"]
     }
   },
   productionSourceMap: false,
