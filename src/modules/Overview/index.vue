@@ -6,14 +6,19 @@
         <m-row>
           <m-column  v-for="item in todayItems" :key="item.name">
             <!-- @click.native="handleClickForOpenLayer(item)" -->
-            <overview-item v-bind="item" customClass="style2" :dataset="dataset[item.prop]"></overview-item>
+            <overview-item v-bind="item" customClass="style2" :dataset="itemsData[item.name] || dataset[item.prop]"></overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
       <m-tabs-body-item name="district">
         <m-row>
           <m-column  v-for="item in districtItems" :key="item.name">
-            <overview-item v-bind="item" :dataset="dataset[item.prop]"></overview-item>
+            <overview-item
+              v-bind="item"
+              :nameUnit="itemsData[item.name] ? `(${itemsData[item.name].unit})` : ''"
+              :dataset="itemsData[item.name] || dataset[item.prop]"
+              :showIncrease="false"
+             ></overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
@@ -51,10 +56,10 @@ export default {
         { label: "全区概览", value: "district" }
       ]),
       todayItems: Object.freeze([
-        { icon: "icon-tianqi", name: "气象指数", showIncrease: false, valueColor: "#6CCB73", prop: "qxzs" },
+        { icon: "icon-tianqi", name: "气象预警", showIncrease: false, valueColor: "#6CCB73", prop: "qxzs" },
         { icon: "icon-huoqing", name: "火险指数", showIncrease: false, prop: "hxzs" },
         { icon: "icon-jiaotongyongdu1", name: "交通拥堵指数", showIncrease: false, prop: "jtydzs" },
-        { icon: "icon-ganzhi", name: "智能感知预警", showIncrease: false, valueUnit: "%", prop: "zngzyj" },
+        // { icon: "icon-ganzhi", name: "智能感知预警", showIncrease: false, valueUnit: "%", prop: "zngzyj" },
         { icon: "icon-yuqing", name: "舆情热点数", showIncrease: false, prop: "yqrds" },
         { icon: "icon-huodong", name: "重大活动", showIncrease: false, prop: "zdhd" }
       ]),
@@ -91,7 +96,8 @@ export default {
         gdp: { value: "-" },
         qyzcz: { value: "-" },
         sszsr: { value: "-" }
-      }
+      },
+      itemsData: {}
     };
   },
   methods: {
@@ -150,7 +156,13 @@ export default {
             value: Math.round(res.api.device_online_percent * 100) / 100
           };
         }
-
+        if (res.items) {
+          let tmp = {};
+          (res.items || []).map(item => {
+            tmp[item.name] = item;
+          });
+          this.itemsData = tmp;
+        }
         if (res.db && res.db[0]) {
           this.dataset.qxzs = { value: res.db[0].qxzs };
           this.dataset.hxzs = { value: res.db[0].hxzs };
