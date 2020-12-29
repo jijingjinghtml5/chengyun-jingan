@@ -3,13 +3,13 @@
     <LivePlayer class="livePlayer" ref="livePlayer" :videoUrl="videoUrl" :autoplay="true" :loop="true"
         :live="live" :muted="true" @play="canplay" :controls="true" :video-title="code"/>
 
-    <div v-if="posterShow && videoUrl != ''" class="MsgBox" style="background-color:#000;">
+    <div v-if="posterShow" class="MsgBox" style="background-color:#000;">
       <div class="tip-info">
         <img :src="require('@/assets/videoPlayer/videoPlayer_loading.gif')" />
       </div>
     </div>
 
-    <div v-show="videoUrl === ''" class="MsgBox">
+    <div v-show="!posterShow && videoUrl === ''" class="MsgBox">
       <div class="tip-info">
         <img :src="require('@/assets/videoPlayer/videoPlayer_cam.png')" />
         <p>等待视频接入</p>
@@ -42,7 +42,7 @@ export default {
     return {
       version: "1.0.2.20191112_rem",
 
-      posterShow: true,
+      posterShow: false,
       player: null,
       videoUrl: "",
       code: ""
@@ -51,21 +51,21 @@ export default {
   watch: {
     videoSrc: {
       handler (nv) {
-        if (nv && (nv.url || nv.url === "")) {
-          console.log("qvPlayerVersion：" + this.version);
-          console.log("videoUrl：" + nv.url);
+        if (nv && nv.code) {
+          console.log("player：qv-player; videoUrl：" + nv.url);
           this.posterShow = true;
-          this.videoUrl = "";
-          this.$nextTick(() => {
-            this.videoUrl = nv.url;
-            this.code = nv.code || "";
-            if (nv.url && nv.type !== "rtmp/flv") {
-              this.$nextTick(() => {
-                this.player = this.$el.getElementsByTagName("video")[0];
-                this.player.addEventListener("canplay", this.canplay);
-              });
-            }
-          });
+          this.videoUrl = nv.url;
+          this.code = nv.code;
+          if (nv.url && nv.type !== "rtmp/flv") {
+            this.$nextTick(() => {
+              this.player = this.$el.getElementsByTagName("video")[0];
+              this.player.addEventListener("canplay", this.canplay);
+            });
+          }
+        } else {
+           this.posterShow = false;
+           this.videoUrl = "";
+           this.code = "";
         }
       },
       immediate: true
@@ -96,20 +96,20 @@ export default {
     width: 100%;
     height: 100%;
     /deep/ {
-      video {
-        object-fit: cover;
-      }
-      .video-wrapper {
+      .video-wrapper{
         width: 100%;
         height: 100%;
         padding-bottom: 0 !important;
       }
-      .video-title {
-        right: auto;
-        top: 0.1rem;
-        right: 0.1rem;
+      .video-wrapper .video-js .vjs-control-bar {
         font-size: 0.24rem;
-        max-width: 4rem;
+      }
+      .video-wrapper .video-title {
+        max-width: 5rem;
+        font-size: 0.24rem;
+      }
+      video {
+        object-fit: cover;
       }
     }
   }

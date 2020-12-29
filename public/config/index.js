@@ -8,7 +8,8 @@ window.$config = {
   // wsUrl: "ws://52.83.128.140:20190",
   videoDelay: 500,
   noAuthPage: "./403.html",
-  videoService: 'http://10.81.71.39:8080',
+  layoutConfigUrl: "/v2/screen-manage/config-new",
+  videoService: 'http://10.89.1.154:9001',
   //居委地址
   villageUrl: "http://10.87.105.104/flattening/exhibition",
   shequyun: "http://10.87.105.104/flattening/exhibition",

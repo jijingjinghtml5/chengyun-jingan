@@ -1,16 +1,15 @@
 import request from "@/http/request";
 import videoService from "@/http/requestVideoService";
+
 // 获取配置
 export function getLayoutConfig(token, _params) {
-  let params = {
-    keys: ["screenConfig", "streets", "layoutConfig", "videoConfig"]
-  };
+  let params = {};
   if (token) {
     params.token = token;
   }
   params = { ...params, ..._params };
   return request({
-    url: "/v2/screen-manage/config",
+    url: window.$config.layoutConfigUrl || "/v2/screen-manage/config",
     params
   });
 }
