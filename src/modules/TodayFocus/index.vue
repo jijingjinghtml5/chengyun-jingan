@@ -48,7 +48,8 @@ export default {
       return {
         trendData: this.trendData,
         stats: this.stats,
-        gridData: this.gridData
+        gridData: this.gridData,
+        itemsData: this.itemsData
       };
     }
   },
@@ -63,7 +64,8 @@ export default {
       gridData: {
         today: "-",
         yesterday: "-"
-      }
+      },
+      itemsData: {}
     };
   },
   created() {
@@ -92,6 +94,12 @@ export default {
         // console.log("stats", res.data.stats, this.stats);
         this.gridData.today = res.data.today_total;
         this.gridData.yesterday = res.data.yesterday_total;
+
+        let tmp = {};
+        (res.items || []).map(item => {
+          tmp[item.name] = item;
+        });
+        this.itemsData = tmp;
       });
     },
     handleClick(type, item) {

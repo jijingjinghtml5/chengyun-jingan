@@ -6,7 +6,7 @@
         <span v-if="item.unit" class="unit"> ( {{item.unit}} )</span>
       </div>
     </slot>
-    <slot name="center"><div class="number" :style="{'color': item.color}">{{item.count | thousandCentimeter}}</div></slot>
+    <slot name="center"><div class="number" :style="{'color': item.color}">{{ item.value || item.count | thousandCentimeter}}</div></slot>
     <slot name="bottom">
       <div class="rate">
         <span :class="`iconfont ${cIcon}`" style="margin-right:0.1rem"></span>

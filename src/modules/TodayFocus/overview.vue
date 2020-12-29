@@ -52,7 +52,8 @@ export default {
           gridData: {
             today: "-",
             yesterday: "-"
-          }
+          },
+          itemsData: {}
         };
       }
     }
@@ -62,9 +63,10 @@ export default {
       let items = [...this.items].map(item => {
         return {
           ...item,
-          ...(this.dataset.stats[item.key] || {})
+          ...(this.dataset.stats[item.key] || this.dataset.itemsData[item.key] || {})
         };
       });
+      console.log("xxxxx", this.dataset.itemsData, items);
       const length = items.length;
       if (length < this.chunkSize) {
         return items;
@@ -89,8 +91,8 @@ export default {
         {
           icon: "icon-biaoti",
           label: "一网通办",
-          count: "-",
-          rate: "-",
+          count: this.dataset.itemsData["一网通办"] ? this.dataset.itemsData["一网通办"].value : "-",
+          rate: this.dataset.itemsData["一网通办"] ? this.dataset.itemsData["一网通办"].rate : "-",
           color: "#2E9BCF"
         }
       ];
@@ -130,7 +132,7 @@ export default {
           // icon: "icon-biaoti",
           label: "12345热线",
           count: "-",
-          key: "12345",
+          key: "12345热线",
           rate: "-",
           unit: "件"
         },
