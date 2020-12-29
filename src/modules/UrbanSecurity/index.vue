@@ -7,7 +7,10 @@
         <m-row gutter="0.1rem">
           <m-column v-for="item in items" :key="item.name" :span="item.span || 1">
             <!-- @click.native="handleClickForOverviewItem(item)" -->
-            <overview-item v-bind="item" :value="dataset[item.prop]" customClass="style2" style="cursor: pointer"></overview-item>
+            <overview-item
+            v-bind="item"
+            :dataset="itemsData[item.name] || dataset[item.prop]"
+            customClass="style2" style="cursor: pointer"></overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
@@ -100,11 +103,11 @@ export default {
       colors: Object.freeze(["#4FCFD5", "#DED7D7"]),
       colors2: Object.freeze(["#30BC9B", "#92B9F7"]),
       items: Object.freeze([
-        { icon: "icon-shuigongying", name: "水供应", nameUnit: "（吨/日）", showIncrease: false, prop: "water_supply" },
-        { icon: "icon-yongdianliang", name: "电力供应", nameUnit: "（kw/日）", showIncrease: false, prop: "power_supply" },
-        { icon: "icon-xingzhuang", name: "干垃圾处理", nameUnit: "（吨/日）", showIncrease: false, prop: "dry_garbage" },
-        { icon: "icon-shilaji", name: "湿垃圾处理", nameUnit: "（吨/日）", showIncrease: false, prop: "wet_garbage" },
-        { icon: "icon-kehuishoulaji", span: 1.2, name: "可回收垃圾处理", nameUnit: "（吨/日）", showIncrease: false, prop: "recyclable_waste" }
+        { icon: "icon-shuigongying", name: "处置力量", nameUnit: "(人)", showIncrease: false, prop: "water_supply" },
+        { icon: "icon-yongdianliang", name: "在岗人数", nameUnit: "(人)", showIncrease: false, prop: "power_supply" },
+        { icon: "icon-ganzhi", name: "智能感知预警", showIncrease: false, valueUnit: "%", prop: "zngzyj" },
+        { icon: "icon-shilaji", name: "网格案件数", nameUnit: "(件)", showIncrease: false, prop: "wet_garbage" },
+        { icon: "icon-kehuishoulaji", span: 1.2, name: "市民服务热线", nameUnit: "(件)", showIncrease: false, prop: "recyclable_waste" }
       ]),
       options: Object.freeze([
         { label: "本周", value: "currentWeek" },
@@ -114,11 +117,9 @@ export default {
       activeItem: null,
       option: "currentWeek",
       dataset: {
-        water_supply: "-",
-        power_supply: "-",
-        dry_garbage: "-",
-        wet_garbage: "-",
-        recyclable_waste: "-",
+        zngzyj: {
+          value: "-"
+        },
         sgy_chartData: [
           ["水供应趋势", "xxx", "xxx2"],
           ["11.02", 500, 400],
@@ -138,12 +139,13 @@ export default {
           ["曹家渡", 200, 100],
           ["天目西", 200, 100]
         ]
-      }
+      },
+      itemsData: {}
     };
   },
   computed: {
     title() {
-      let res = "城市保障";
+      let res = "城市运行";
       if (this.activeItem) {
         res += `-${this.activeItem.name}`;
       }
@@ -162,13 +164,23 @@ export default {
     getData() {
       getData().then(res => {
         // console.log(res);
-        if (res.db && res.db[0]) {
-          this.dataset.water_supply = res.db[0].water_supply;
-          this.dataset.power_supply = res.db[0].power_supply;
-          this.dataset.dry_garbage = res.db[0].dry_garbage;
-          this.dataset.wet_garbage = res.db[0].wet_garbage;
-          this.dataset.recyclable_waste = res.db[0].recyclable_waste;
+        // if (res.db && res.db[0]) {
+        //   this.dataset.water_supply = res.db[0].water_supply;
+        //   this.dataset.power_supply = res.db[0].power_supply;
+        //   this.dataset.dry_garbage = res.db[0].dry_garbage;
+        //   this.dataset.wet_garbage = res.db[0].wet_garbage;
+        //   this.dataset.recyclable_waste = res.db[0].recyclable_waste;
+        // }
+        if (res.api) {
+          this.dataset.zngzyj = {
+            value: Math.round(res.api.device_online_percent * 100) / 100
+          };
         }
+        let tmp = {};
+        (res.items || []).map(item => {
+          tmp[item.name] = item;
+        });
+        this.itemsData = tmp;
       });
     }
   },
