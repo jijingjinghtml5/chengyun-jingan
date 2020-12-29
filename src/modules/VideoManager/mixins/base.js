@@ -206,17 +206,8 @@ export default {
           "w": 48,
           "x": 0,
           "y": 24
-        },
-        {
-          "component": "",
-          "h": 8,
-          "i": 1,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 32
-        }]);
+        }
+        ]);
         this.defaultLayoutConfig.playInterval = (videoConfig.playInterval || 60) * 1000;
         // this.defaultLayoutConfig.playInterval = 20000;
         this.currentLayoutConfig = this.defaultLayoutConfig;

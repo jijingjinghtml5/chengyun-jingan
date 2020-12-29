@@ -41,10 +41,12 @@
         <span :class="{active: videoLayerStatus === true}" class="status-text" >{{ statusText }}</span>
       </div>
     </div>
-    <video-mode
+    <div class="container-wrap">
+      <video-mode
       :config="currentLayoutConfig"
       :videos="pageVideos"
     ></video-mode>
+    </div>
   </div>
 </template>
 <script>
@@ -68,9 +70,9 @@ export default {
   border: 0.02rem solid #4e78a4;
 }
 .opt-btns-wp {
-  position: absolute;
-  top: 0.2rem;
-  left: 0.2rem;
+  // position: absolute;
+  // top: 0.2rem;
+  // left: 0.2rem;
   display: flex;
   align-items: center;
   z-index: 1;
@@ -112,7 +114,7 @@ export default {
 
     .el-button.text-btn {
       font-size: 0.36rem !important;
-      height: 0.78rem;
+      height: 0.8rem;
     }
 
     .el-button.text-btn span {
@@ -133,15 +135,19 @@ export default {
 }
 .select-wp {
   font-size: 0;
-  width: 3.2rem;
+  width: 3.6rem;
   .videoTypeSelect{
-    width: 3.2rem;
+    width: 3.6rem;
   }
+}
+.container-wrap{
+  height: calc(100% - 80px);
 }
 .actions-panel {
   position: absolute;
   top: 0.788rem;
   left: 0rem;
+  z-index:999
 }
 .peripheral-video {
   display: flex;
