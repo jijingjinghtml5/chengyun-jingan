@@ -103,11 +103,11 @@ export default {
       colors: Object.freeze(["#4FCFD5", "#DED7D7"]),
       colors2: Object.freeze(["#30BC9B", "#92B9F7"]),
       items: Object.freeze([
-        { icon: "icon-shuigongying", name: "处置力量", nameUnit: "(人)", showIncrease: false, prop: "water_supply" },
-        { icon: "icon-yongdianliang", name: "在岗人数", nameUnit: "(人)", showIncrease: false, prop: "power_supply" },
+        { icon: "icon-chuzhililiang1", name: "处置力量", nameUnit: "(人)", showIncrease: false, prop: "water_supply" },
+        { icon: "icon-zaigangrenshu", name: "在岗人数", nameUnit: "(人)", showIncrease: false, prop: "power_supply" },
         { icon: "icon-ganzhi", name: "智能感知预警", showIncrease: false, valueUnit: "%", prop: "zngzyj" },
-        { icon: "icon-shilaji", name: "网格案件数", nameUnit: "(件)", showIncrease: false, prop: "wet_garbage" },
-        { icon: "icon-kehuishoulaji", span: 1.2, name: "市民服务热线", nameUnit: "(件)", showIncrease: false, prop: "recyclable_waste" }
+        { icon: "icon-wanggeanjian", name: "网格案件数", nameUnit: "(件)", showIncrease: false, prop: "wet_garbage" },
+        { icon: "icon-rexian", span: 1.2, name: "市民服务热线", nameUnit: "(件)", showIncrease: false, prop: "recyclable_waste" }
       ]),
       options: Object.freeze([
         { label: "本周", value: "currentWeek" },

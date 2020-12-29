@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "19119054",
+      "name": "处置力量",
+      "font_class": "chuzhililiang1",
+      "unicode": "e69c",
+      "unicode_decimal": 59036
+    },
+    {
+      "icon_id": "19119055",
+      "name": "网格案件",
+      "font_class": "wanggeanjian",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    },
+    {
+      "icon_id": "19119056",
+      "name": "热线",
+      "font_class": "rexian",
+      "unicode": "e69e",
+      "unicode_decimal": 59038
+    },
+    {
+      "icon_id": "19119057",
+      "name": "在岗人数",
+      "font_class": "zaigangrenshu",
+      "unicode": "e69f",
+      "unicode_decimal": 59039
+    },
+    {
       "icon_id": "11344635",
       "name": "湿垃圾",
       "font_class": "shilaji",
