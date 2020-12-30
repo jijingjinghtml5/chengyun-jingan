@@ -10,7 +10,7 @@
       </li> -->
       <li>
         <p class="temp">{{ weather.temperature | initVal }}°C</p>
-        <p class="report">多云转晴</p>
+        <p class="report"></p>
       </li>
       <!-- <li class="img hasBorder">
         <img src="@/assets/images/weather/1-3.png" alt="">
@@ -25,7 +25,7 @@
 <script>
 import Weather from "./Weather";
 import { formatterDate } from "@/utils/tools";
-import { getWeatherData } from "./api";
+import { getWeatherData, getAQI } from "./api";
 const DayMapping = {
   0: "周日",
   1: "周一",
@@ -132,16 +132,26 @@ export default {
     async getWeatherDataValue() {
       const weatherDatas = await getWeatherData();
       let weatherData = weatherDatas.cityWeather;
-      console.log(weatherDatas);
+      console.log(">>>>weather", weatherDatas);
       if (weatherData && weatherData.length > 0) {
         this.weather = {
           temperature: weatherDatas.newData.temperature,
           humidity: weatherDatas.newData.humidity,
           precipitation: weatherDatas.newData.precipitation,
-          windSpeed: weatherDatas.newData.windSpeed,
-          pm25: weatherData[0].content.pm25,
-          qpi: weatherData[0].content.aqi
+          windSpeed: weatherDatas.newData.windSpeed
+          // pm25: weatherData[0].content.pm25,
+          // qpi: weatherData[0].content.aqi
         };
+      }
+      const aqiData = await getAQI();
+      console.log(">>>>aq", aqiData);
+      if (aqiData) {
+        aqiData.api_list.map(item => {
+          if (item.MN === "静安区平均值") {
+            this.weather.pm25 = item.PM25;
+            this.weather.aqi = item.AQI;
+          }
+        });
       }
     }
   },
