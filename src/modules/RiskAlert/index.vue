@@ -45,19 +45,31 @@ export default {
           slot: "yq",
           metrics: [
             {
-              label: "新增集观",
+              label: "当前管控",
               count: 1,
               key: "isolation_add",
               color: "#F23470"
             },
             {
-              label: "解除集观",
+              label: "新增集隔",
+              count: 2,
+              key: "isolation_remove",
+              color: "#6CCB73"
+            },
+            {
+              label: "解除集隔",
               count: 2,
               key: "isolation_remove",
               color: "#6CCB73"
             },
             {
               label: "新增居家观察",
+              count: 78,
+              key: "home_add",
+              color: "#F96F4F"
+            },
+            {
+              label: "解除居家观察",
               count: 78,
               key: "home_add",
               color: "#F96F4F"
