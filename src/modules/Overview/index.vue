@@ -4,7 +4,10 @@
     <m-tabs-body :tab="secondTab">
       <m-tabs-body-item name="today" class="today-overview">
         <m-row>
-          <m-column  v-for="item in todayItems" :key="item.name">
+          <m-column >
+            <weather-item v-bind="todayItems[0]" customClass="style2" :dataset="itemsData['气象预警']"></weather-item>
+          </m-column>
+          <m-column  v-for="item in todayItems.filter((item,index)=>{return index>0})" :key="item.name">
             <!-- @click.native="handleClickForOpenLayer(item)" -->
             <overview-item v-bind="item" customClass="style2" :dataset="itemsData[item.name] || dataset[item.prop]"></overview-item>
           </m-column>
@@ -33,7 +36,8 @@ import WrapTitle from "@/components/MTitle/WrapTitle";
 import MTabs from "@/components/MTabs";
 import MRow from "@/components/Layout/MRow";
 import MColumn from "@/components/Layout/MColumn";
-import OverviewItem from "@/components/OverviewItem";
+import OverviewItem from "@/components/OverviewItem/index";
+import WeatherItem from "./weather";
 import MTabsBody from "@/components/MTabsBody/MTabsBody";
 import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import { getData } from "./api";
@@ -45,6 +49,7 @@ export default {
     MRow,
     MColumn,
     OverviewItem,
+    WeatherItem,
     MTabsBody,
     MTabsBodyItem
   },

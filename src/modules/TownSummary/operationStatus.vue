@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     afterCalloApi(data, key) {
-      console.log(">>>>", data, key);
+      // console.log(">>>>", data, key);
       if (!data) return;
       this.dataset[key] = [
         ["街镇", "数量"],

@@ -100,7 +100,7 @@ export default {
             done: townData.close_count
           };
         });
-                      console.log(">>>>", _d, this.dataset);
+                      // console.log(">>>>", _d, this.dataset);
       });
     }
   }

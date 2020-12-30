@@ -157,7 +157,7 @@ export default {
   methods: {
     getData() {
       getData().then(res => {
-        console.log(">>>>", res);
+        // console.log(">>>>", res);
         if (res.data) {
           this.dataset = res.data;
           this.dataset.health_stats_total = res.data.public_health_stats.total;
@@ -173,7 +173,7 @@ export default {
           tmp[item.name] = item;
         });
         this.itemsData = tmp;
-        console.log(">>>>", this.itemsData);
+        // console.log(">>>>", this.itemsData);
       });
     },
     showDetail(item) {
