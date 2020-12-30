@@ -10,7 +10,7 @@
     <el-col :span="18" class="metrics">
       <div class="metric-item" v-for="metric in item.metrics" :key="metric.label">
         <div class="level2">{{metric.label}}</div>
-        <div class="value" :style="`color: ${metric.color} `">{{metric.key ? dataset[metric.key] : '-'}}</div>
+        <div class="value" :style="`color: ${metric.color} `">{{ itemsData[metric.label] ? itemsData[metric.label].value : (metric.key ? $f.thousandCentimeter(dataset[metric.key]) : '-') }}</div>
       </div>
     </el-col>
     <!-- <el-col :span="3" class="opt">
@@ -57,6 +57,12 @@ export default {
       }
     },
     dataset: {
+      type: Object,
+      default() {
+        return {};
+      }
+    },
+    itemsData: {
       type: Object,
       default() {
         return {};

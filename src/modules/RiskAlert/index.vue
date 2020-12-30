@@ -6,11 +6,11 @@
         <span>{{total | thousandCentimeter}}</span>
       </div> -->
       <div class="list">
-        <list-item v-for="(item, index) in items" :key="index" :item="item" :dataset="itemData">
-          <template v-slot:yq="item">
-            <!-- <span class="iconfont icon-jinru clickAble" style="margin-right:20px;"></span> -->
-            <!-- <span class="iconfont icon-tiaozhuandaojiezhen clickAble"></span> -->
-          </template>
+        <list-item v-for="(item, index) in items" :key="index" :item="item" :dataset="dataset" :itemsData="itemsData">
+          <!-- <template v-slot:yq="item">
+            <span class="iconfont icon-jinru clickAble" style="margin-right:20px;"></span>
+            <span class="iconfont icon-tiaozhuandaojiezhen clickAble"></span>
+          </template> -->
         </list-item>
       </div>
     </wrap-title>
@@ -35,7 +35,7 @@ export default {
       onMap: false,
       activeIndex: -1,
       total: 12,
-      itemData: {},
+      dataset: {},
       items: [
         {
           icon: "icon-yiqingfangkong",
@@ -47,32 +47,32 @@ export default {
             {
               label: "当前管控",
               count: 1,
-              key: "isolation_add",
+              key: "health_stats_total",
               color: "#F23470"
             },
             {
               label: "新增集隔",
               count: 2,
-              key: "isolation_remove",
-              color: "#6CCB73"
+              key: "health_stats_isolation_add",
+              color: "#F96F4F"
             },
             {
               label: "解除集隔",
               count: 2,
-              key: "isolation_remove",
+              key: "health_stats_isolation_remove",
               color: "#6CCB73"
             },
             {
               label: "新增居家观察",
               count: 78,
-              key: "home_add",
+              key: "health_stats_home_add",
               color: "#F96F4F"
             },
             {
               label: "解除居家观察",
               count: 78,
-              key: "home_add",
-              color: "#F96F4F"
+              key: "health_stats_home_add",
+              color: "#6CCB73"
             }
           ]
         },
@@ -147,7 +147,8 @@ export default {
         //     }
         //   ]
         // }
-      ]
+      ],
+      itemsData: {}
     };
   },
   created() {
@@ -156,7 +157,23 @@ export default {
   methods: {
     getData() {
       getData().then(res => {
-        this.itemData = res.data;
+        console.log(">>>>", res);
+        if (res.data) {
+          this.dataset = res.data;
+          this.dataset.health_stats_total = res.data.public_health_stats.total;
+          this.dataset.health_stats_isolation_add = res.data.public_health_stats.isolation_observe_stats.today_add;
+          this.dataset.health_stats_isolation_remove = res.data.public_health_stats.isolation_observe_stats.today_remove;
+          this.dataset.health_stats_home_add = res.data.public_health_stats.home_observe_stats.today_add;
+          this.dataset.health_stats_home_remove = res.data.public_health_stats.home_observe_stats.today_remove;
+        }
+
+        let tmp = {};
+        this.dataset.items = res.items || [];
+        (res.items || []).map(item => {
+          tmp[item.name] = item;
+        });
+        this.itemsData = tmp;
+        console.log(">>>>", this.itemsData);
       });
     },
     showDetail(item) {
