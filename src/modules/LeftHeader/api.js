@@ -15,6 +15,6 @@ export function getWeatherData() {
  */
 export function getAQI() {
   return request3({
-    url: "http://101.230.224.88:18080/frontend/screenApi.do?token=JingAn@2020"
+    url: "https://changningfy.iotsh.com.cn/frontend/screenApi.do?token=JingAn@2020"
   });
 }

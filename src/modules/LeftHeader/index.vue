@@ -106,7 +106,7 @@ export default {
       ]),
       weather: {
         temperature: "-",
-        api: "-",
+        aqi: "-",
         pm25: "-",
         precipitation: "-",
         windSpeed: "-",
@@ -144,14 +144,18 @@ export default {
         };
       }
       const aqiData = await getAQI();
-      console.log(">>>>aq", aqiData);
+      // console.log(">>>>aq", aqiData);
       if (aqiData) {
-        aqiData.api_list.map(item => {
+        aqiData.aqi_list.map(item => {
           if (item.MN === "静安区平均值") {
-            this.weather.pm25 = item.PM25;
-            this.weather.aqi = item.AQI;
+            this.weather = {
+              ...this.weather,
+              pm25: item.PM25,
+              aqi: item.AQI
+            };
           }
         });
+        // console.log(">>>>w", this.weather);
       }
     }
   },
