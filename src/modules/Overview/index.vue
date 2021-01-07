@@ -200,6 +200,27 @@ export default {
 .today-overview {
   .overview-item {
     cursor: pointer;
+    height: 100%;
+    align-items: flex-start;
+    /deep/ {
+      .overview-item__icon {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      // .overview-item__content {
+      //   height: 100%;
+      //   display: flex;
+      //   flex-direction: column;
+      // }
+      // .overview-item__value {
+      //   flex: 1;
+      //   display: flex;
+      //   flex-direction: column;
+      //   justify-content: center;
+      // }
+    }
   }
 }
 </style>

@@ -68,7 +68,7 @@ export default {
   components: {
     GridLayout: VueGridLayout.GridLayout,
     GridItem: VueGridLayout.GridItem,
-    MapManager: () => import("@/modules/MapManager"),
+    // MapManager: () => import("@/modules/MapManager"),
     TodayFocus: () => import("@/modules/TodayFocus"),
     RiskAlert: () => import("@/modules/RiskAlert"),
     TownSummary: () => import("@/modules/TownSummary"),
