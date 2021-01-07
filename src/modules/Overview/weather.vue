@@ -165,6 +165,9 @@ export default {
         case "沙尘暴":
           warn = "14";
           break;
+        case "低温":
+          warn = "15";
+          break;
       }
       return warn ? warn + color : null;
     }
