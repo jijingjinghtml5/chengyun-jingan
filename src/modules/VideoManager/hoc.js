@@ -48,25 +48,25 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
     },
     methods: {
       handleVideoForTransferAndSendData(nv) {
+        // console.log(">>>>>>>video", nv);
         let ov = this.result;
-        console.log("handleVideoForTransferAndSendData", nv, ov);
+        this.result = null;
         const isObjectFornv = Object.prototype.toString.call(nv) === "[object Object]";
         const isObjectForov = Object.prototype.toString.call(ov) === "[object Object]";
         let repeat = [];
         let norepeat = [];
         nv = isObjectFornv ? [nv] : nv;
-
+        ov = isObjectForov ? [ov] : ov;
         if (ov) {
-          ov = (isObjectForov ? [ov] : ov).filter(d => !!d.url);
-          ov.forEach(d => {
-            if (nv.some(n => n.id === d.id)) {
+          ov.forEach((d, index) => {
+            if (nv && nv[index] && nv[index].code === d.code) {
               repeat.push(d);
             } else {
               norepeat.push(d);
             }
           });
           if (norepeat.length > 0) {
-            sendAfterCloseVideo(norepeat.map(d => {
+            sendAfterCloseVideo(norepeat.filter(d => !!d.url).map(d => {
               return {
                 cameraId: d.code,
                 districtCode: d.district,
@@ -77,7 +77,6 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
             .catch(error => { console.log("api: sendAfterCloseVideo, status: error.", error); });
           }
         }
-
         if (nv && nv.length) {
           const repeatMapping = generateKeyValuePair("code", "url", repeat);
           let initData = nv.map(d => {
@@ -90,15 +89,21 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
             };
           });
           this.result = isObjectFornv ? initData[0] : initData;
-          const nvParams = nv.filter(d => !!d).map(d => {
+
+          // 添加用户信息
+          let userInfo = window.sessionStorage.getItem("_userInfo");
+          userInfo = userInfo ? JSON.parse(userInfo) : null;
+          const userId = userInfo ? userInfo.id : null;
+          const nvParams = nv.filter(d => !d.url).map(d => {
             return {
               cameraId: d.code,
               districtCode: d.district,
               streetCode: d.town || d.district,
-              streamType: d.type
+              streamType: d.type,
+              userId: userId
             };
           });
-
+          // console.log("----", nvParams);
           getVideoRealUrl(nvParams, this.cancelTokenKey).then(res => {
             if (res.resultCode === "200") {
               // console.log("请求成功", res.resultData);
@@ -110,7 +115,6 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
                 };
               });
               this.result = isObjectFornv ? resultData[0] : resultData;
-              console.log("reuslt", this.result);
             }
           }).catch(err => {
             console.log("转义失败", err);

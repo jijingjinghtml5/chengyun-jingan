@@ -17,7 +17,7 @@ export function getVideoRealUrl(data, cancelTokenKey) {
     data: Array.isArray(data) ? data : [data],
     headers: {
       "Content-Type": "application/json",
-      "token": "110be99eb5b840d086d6bec05aaf63bf"
+      "token": "a47e2ecc6a4543138389128787b9b978"
     },
     cancelTokenKey: cancelTokenKey || "getVideoRealUrl"
   });
@@ -33,7 +33,7 @@ export function sendAfterCloseVideo(data) {
     },
     headers: {
       "Content-Type": "application/json",
-      "token": "110be99eb5b840d086d6bec05aaf63bf"
+      "token": "a47e2ecc6a4543138389128787b9b978"
     }
   });
 }

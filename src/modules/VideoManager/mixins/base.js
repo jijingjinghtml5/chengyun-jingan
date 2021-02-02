@@ -126,13 +126,13 @@ export default {
       };
 
       const handleClickForMapPeripheralVideo = res => {
-        console.log("周边视频", res);
+        // console.log("周边视频", res);
         if (!res.data.lat || !res.data.lng) return false;
-        this.currentMapGroupId = res.relationLayInfo.groupId;
+        this.currentMapGroupId = res.relationLayInfo ? res.relationLayInfo.groupId : this.$_mapProxy.MANUAL_GROUP;
         this.relationLayInfo = res.relationLayInfo;
         this.handleClickForOpenPeripheralVideo({
           ...res.data,
-          radius: this.surroundRadius
+          radius: res.data.radius || this.surroundRadius
         });
       };
 
@@ -149,7 +149,7 @@ export default {
       this.$bus.$on("videoStop", handleVideoStop);
       // 周边视频相应事件
       this.$bus.$on(MapEvents.GROUP_RELATION + "." + MapEvents.WITH_VIDEO, handleClickForMapPeripheralVideo);
-      this.$bus.$on(MapEvents.GROUP_RELATION + "." + MapEvents.WITHOUT_VIDEO, this.callbackAfterClosePeripheralVideo);
+      // this.$bus.$on(MapEvents.GROUP_RELATION + "." + MapEvents.WITHOUT_VIDEO, this.callbackAfterClosePeripheralVideo);
 
       // 响应切换场景
       this.$bus.$on("video-change-scene", changeScene);
@@ -157,7 +157,7 @@ export default {
         this.$bus.$off("videoStop", handleVideoStop);
         // 周边视频相应事件
         this.$bus.$off(MapEvents.GROUP_RELATION + "." + MapEvents.WITH_VIDEO, handleClickForMapPeripheralVideo);
-        this.$bus.$off(MapEvents.GROUP_RELATION + "." + MapEvents.WITHOUT_VIDEO, this.callbackAfterClosePeripheralVideo);
+        // this.$bus.$off(MapEvents.GROUP_RELATION + "." + MapEvents.WITHOUT_VIDEO, this.callbackAfterClosePeripheralVideo);
 
         // 响应切换场景
         this.$bus.$off("video-change-scene", this.changeScene);
@@ -167,49 +167,8 @@ export default {
       const videoConfig = this.getGlobalConfig().videoConfig;
       if (videoConfig) {
         this.groups = Object.freeze(videoConfig.groups || []);
-        this.defaultLayoutConfig.layout = Object.freeze([{
-          "component": "",
-          "h": 8,
-          "i": 1,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 0
-        },
-        {
-          "component": "",
-          "h": 8,
-          "i": 2,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 8
-        },
-        {
-          "component": "",
-          "h": 8,
-          "i": 3,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 16
-        },
-        {
-          "component": "",
-          "h": 8,
-          "i": 4,
-          "moved": false,
-          "type": "mp4",
-          "w": 48,
-          "x": 0,
-          "y": 24
-        }
-        ]);
+        this.defaultLayoutConfig.layout = Object.freeze(videoConfig.layoutConfig || []);
         this.defaultLayoutConfig.playInterval = (videoConfig.playInterval || 60) * 1000;
-        // this.defaultLayoutConfig.playInterval = 20000;
         this.currentLayoutConfig = this.defaultLayoutConfig;
         this.surroundRadius = videoConfig.surroundRadius || 500;
         this.getVideoData();
@@ -230,7 +189,7 @@ export default {
         pageSize: layout.length,
         interval: playInterval
       };
-
+      // console.log(">>>>>play", this.currentPlayOption);
       this.switchVideo(0);
 
       this.handleClickForToggleVideoLayer(true);
@@ -262,11 +221,13 @@ export default {
         return r;
       }, [{ label: "全部视频", value: "全部视频" }]);
       this.selections = sections.map(d => {
+        let num = (this.rawVideos[d.label] || []).length;
         return {
           value: d.label,
-          label: `${d.label} (${thousandCentimeter((this.rawVideos[d.label] || []).length)})`
+          label: `${d.label} (${thousandCentimeter(num)})`,
+          _value: num
         };
-      });
+      }).sort((a, b) => b._value - a._value);
       this.currentMode = this.selections[0].value;
       this.handleSelectForChangeMode();
     },
@@ -274,7 +235,7 @@ export default {
       this.areaLoading = true;
       try {
         let res = await getVideosByArea(data);
-        console.log("周边视频", res);
+        console.log(">>>>>>周边视频", res);
 
         if (this.videoStatus !== "area") {
           this.videoStatus = "area";
@@ -291,11 +252,12 @@ export default {
     },
     handleClickForClosePeripheralVideo() {
       if (this.videoStatus !== "area") return false;
-
+      console.log(">>>>>", this.relationLayInfo);
       if (this.relationLayInfo) {
-        this.$bus.$emit(MapEvents.GROUP_OPERATE + "." + MapEvents.LAYER_CLOSE, this.relationLayInfo);
+        this.callbackAfterClosePeripheralVideo();
+        // this.$bus.$emit(MapEvents.GROUP_OPERATE + "." + MapEvents.LAYER_CLOSE, this.relationLayInfo);
         // 重置地图
-        this.$_mapProxy.fullExtent();
+        // this.$_mapProxy.fullExtent();
         this.relationLayInfo = null;
      }
     },
@@ -350,7 +312,17 @@ export default {
       // 重置点击地图视频的索引
       this.videoIndexForClickMap = -1;
       let { currentPage, totalPage, pageSize } = this.currentPlayOption;
-      const newCurrentPage = this.currentPlayOption.currentPage = totalPage > 0 ? (currentPage + increase) % totalPage : currentPage;
+      let newCurrentPage = currentPage;
+      if (totalPage > 0 && increase !== 0) {
+        newCurrentPage = currentPage + increase;
+        if (newCurrentPage > totalPage) {
+          newCurrentPage = newCurrentPage % totalPage;
+        } else if (newCurrentPage <= 0) {
+          newCurrentPage = totalPage + newCurrentPage;
+        }
+      }
+
+      this.currentPlayOption.currentPage = newCurrentPage;
       this.pageVideos = this.currentVideos.slice((newCurrentPage - 1) * pageSize, newCurrentPage * pageSize);
     }
   },
@@ -360,10 +332,11 @@ export default {
     this.addListenersFromAnotherModules();
   },
   mounted() {
-    console.log("@@@@@@@@@@", this.$attrs);
   },
   beforeDestroy() {
     this.handleClickForToggleAutoSwitch(false);
-    this.mapLayer && this.$_mapProxy.removeLayer(this.mapLayer.getId());
+    if (this.videoLayerStatus) {
+      this.handleClickForToggleVideoLayer(false);
+    }
   }
 };
