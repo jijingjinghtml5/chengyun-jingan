@@ -13,7 +13,8 @@
 </template>
 <script>
 import HeaderMenu from "@/lib/MapHeader/HeaderMenu";
-import { getCaseTownCount, getPeopleStatistic, getNeuronData } from "./api";
+import SHcoordinateUtils from "@/lib/MapProxy/coordUtils/SHcoordinateUtils";
+import { getCaseTownCount, getPeopleStatistic, getNeuronData, getSingleBuildingData } from "./api";
 import { thousandCentimeter, getUrl } from "@/utils/tools";
 import partClassData from "./data/partsClass";
 import pipelineData from "./data/pipelineLength";
@@ -173,12 +174,13 @@ export default {
                     }
                 ],
                 childKey: "children"
+              },
+              {
+                name: "多用途单体建筑",
+                nameKey: "name",
+                children: [],
+                childKey: "children"
               }
-              // {
-              //   name: "商业楼宇",
-              //   nameKey: "name",
-              //   checked: false
-              // },
               // {
               //   name: "休闲购物广场",
               //   nameKey: "name",
@@ -260,6 +262,26 @@ export default {
       case "neuron":
         this.handlerNeuron(data.item);
         break;
+      case "singleBuilding":
+        this.handlerSingleBuilding(data.item);
+        break;
+    }
+  },
+  handlerSingleBuilding(item) {
+    if (item.checked) {
+      let data = this.singleBuildingData.filter(e => {
+        return e.street_name === item.name;
+      });
+      this.singleBuildingLayer.setParameters({
+                "data": {
+                  "content": data,
+                  "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                }
+              }).setPopupConfig({
+            component: "singleBuildingPopup"
+          }).open(); ;
+    } else {
+      this.singleBuildingLayer.close();
     }
   },
   handlerNeuron(item) {
@@ -639,34 +661,102 @@ export default {
         }
       });
      },
-    registerThingsPerceptionLayer() {
-    this.thingsPerceptionLayer = this.$_mapProxy.registerLayer("thingsPerceptionLayer", "神经元图层").setParameters({
-      "name": "thingsPerceptionLayer",
-      "type": "point",
-      "mode": "replace",
-      "data": {
-        "content": [],
-        "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
-      },
-      "legendVisible": false,
-      "popupEnabled": false,
-      "isFiltered": true,
-      "isLocate": false,
-      "renderer": {
-          "type": "simple",
-           symbol: {
-            type: "picture-marker",
-            url: getUrl("/mapIcon/neuron/WellCoverSensor.png"),
-            width: "50px",
-            height: "50px"
-           }
-        }
-      });
+    registerSingleBuildingLayer() {
+    this.singleBuildingLayer = this.$_mapProxy.registerLayer("singleBuildingLayer", "单体建筑图层").setParameters({
+          "name": "singleBuildingLayer",
+          "type": "point",
+          "mode": "replace",
+          "data": {
+            "content": [],
+            "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+          },
+          "legendVisible": false,
+          "popupEnabled": false,
+          "isFiltered": false,
+          "isLocate": false,
+           "labels": [
+              {
+                fields: [
+                  "#.名称"
+                  // '#.count'
+                ],
+                color: [
+                  255,
+                  255,
+                  255,
+                  1
+                ],
+                size: 22,
+                font: {
+                  family: "fangsong",
+                  weight: "normal"
+                }
+              }
+          ],
+          "renderer": {
+              "type": "simple",
+              symbol: {
+                type: "picture-marker",
+                url: getUrl("/mapIcon/singleBuilding.png"),
+                width: "57px",
+                height: "50px"
+              }
+            }
+          });
+        },
+      registerThingsPerceptionLayer() {
+        this.thingsPerceptionLayer = this.$_mapProxy.registerLayer("thingsPerceptionLayer", "神经元图层").setParameters({
+          "name": "thingsPerceptionLayer",
+          "type": "point",
+          "mode": "replace",
+          "data": {
+            "content": [],
+            "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
+          },
+          "legendVisible": false,
+          "popupEnabled": false,
+          "isFiltered": true,
+          "isLocate": false,
+          "renderer": {
+              "type": "simple",
+              symbol: {
+                type: "picture-marker",
+                url: getUrl("/mapIcon/neuron/WellCoverSensor.png"),
+                width: "50px",
+                height: "50px"
+              }
+            }
+          });
+     },
+     createSingleBuildingMenu() {
+       getSingleBuildingData().then(res => {
+         let townSet = new Set();
+         res.raw_data.forEach(e => {
+          let lon = parseFloat(e.longitude);
+          let lat = parseFloat(e.latitude);
+          let coord = SHcoordinateUtils.GCJtoSH([lon, lat]);
+          e.x = coord[0];
+          e.y = coord[1];
+          townSet.add(e.street_name);
+         });
+         this.singleBuildingData = res.raw_data;
+         townSet.forEach(s => {
+           let item = {
+             name: s,
+             nameKey: "name",
+             type: "singleBuilding",
+             checked: false
+           };
+           this.checkItems.area[2].children.push(item);
+         });
+       });
      }
   },
   created() {
+    this.registerSingleBuildingLayer();
     this.registerPointLayer();
     this.registerThingsPerceptionLayer();
+    this.createSingleBuildingMenu();
     partClassData.list[0].subclass.forEach(e => {
       let item = {
         name: e.name,

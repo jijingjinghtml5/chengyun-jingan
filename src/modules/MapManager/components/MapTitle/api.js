@@ -1,4 +1,11 @@
 import request from "@/http/request";
+import requestTesla from "@/http/requestTesla";
+
+export function getSingleBuildingData() {
+  return requestTesla({
+    url: "/dynamicdata/list/?data_type=静安区-运行管理平台-多用途单体建筑"
+  });
+}
 
 // 人员统计
 export function getPeopleStatistic(type) {

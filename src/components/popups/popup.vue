@@ -21,7 +21,8 @@ export default {
     gridPopup: () => import("./page1/gridPopup"),
     juweiPopup: () => import("./page1/juweiPopup"),
     townPopup: () => import("./page1/townPopup"),
-    neuronPopup: () => import("./page1/neuronPopup")
+    neuronPopup: () => import("./page1/neuronPopup"),
+    singleBuildingPopup: () => import("./page1/singleBuildingPopup")
 
   },
   inject: ["getGlobalConfig"],
