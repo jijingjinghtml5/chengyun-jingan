@@ -178,7 +178,14 @@ export default {
               {
                 name: "多用途单体建筑",
                 nameKey: "name",
-                children: [],
+                children: [
+                  {
+                    name: "全部",
+                    nameKey: "name",
+                    checked: false,
+                    type: "singleBuilding"
+                  }
+                ],
                 childKey: "children"
               }
               // {
@@ -269,6 +276,17 @@ export default {
   },
   handlerSingleBuilding(item) {
     if (item.checked) {
+      if (item.name === "全部") {
+              this.singleBuildingLayer.setParameters({
+                "data": {
+                  "content": this.singleBuildingData,
+                  "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+                }
+              }).setPopupConfig({
+            component: "singleBuildingPopup"
+          }).open();
+          return;
+      }
       let data = this.singleBuildingData.filter(e => {
         return e.street_name === item.name;
       });

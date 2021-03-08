@@ -35,11 +35,11 @@
       </div>
       <div class="item">
         <span>联系电话: </span>
-        <span  style="color:#ffffff;">{{info['联系电话']}}</span>
+        <span  style="color:rgb(235, 153, 6);">{{info['联系电话']}}</span>
       </div>
       <div class="item">
         <span>建筑用途: </span>
-        <span  style="color:#ffffff;">{{info['用途']}}</span>
+        <span  style="color:rgb(235, 153, 6);">{{info['用途']}}</span>
       </div>
     </div>
   </div>
