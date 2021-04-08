@@ -131,14 +131,14 @@ export default {
     },
     async getWeatherDataValue() {
       const weatherDatas = await getWeatherData();
-      let weatherData = weatherDatas.cityWeather;
+      let weatherData = weatherDatas.data;
       console.log(">>>>weather", weatherDatas);
-      if (weatherData && weatherData.length > 0) {
+      if (weatherData) {
         this.weather = {
-          temperature: weatherDatas.newData.temperature,
-          humidity: weatherDatas.newData.humidity,
-          precipitation: weatherDatas.newData.precipitation,
-          windSpeed: weatherDatas.newData.windSpeed
+          temperature: weatherData.temperature,
+          humidity: weatherData.humidity,
+          precipitation: weatherData.precipitation,
+          windSpeed: weatherData.windSpeed
           // pm25: weatherData[0].content.pm25,
           // qpi: weatherData[0].content.aqi
         };
