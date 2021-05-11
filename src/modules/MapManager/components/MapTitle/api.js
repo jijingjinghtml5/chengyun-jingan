@@ -38,3 +38,10 @@ export function getNeuronData(type) {
     }
   });
 }
+
+// 沿街商铺餐饮户
+export function getShopList() {
+  return requestTesla({
+    url: "/dynamicdata/list/?data_type=静安区-运行管理平台-沿街商铺餐饮户"
+  });
+}

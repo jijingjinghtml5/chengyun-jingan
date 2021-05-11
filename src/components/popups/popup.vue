@@ -22,8 +22,8 @@ export default {
     juweiPopup: () => import("./page1/juweiPopup"),
     townPopup: () => import("./page1/townPopup"),
     neuronPopup: () => import("./page1/neuronPopup"),
-    singleBuildingPopup: () => import("./page1/singleBuildingPopup")
-
+    singleBuildingPopup: () => import("./page1/singleBuildingPopup"),
+    shopPopup: () => import("./page1/shopPopup")
   },
   inject: ["getGlobalConfig"],
   mixins: [caseDetailMixin],

@@ -14,7 +14,7 @@
 <script>
 import HeaderMenu from "@/lib/MapHeader/HeaderMenu";
 import SHcoordinateUtils from "@/lib/MapProxy/coordUtils/SHcoordinateUtils";
-import { getCaseTownCount, getPeopleStatistic, getNeuronData, getSingleBuildingData } from "./api";
+import { getCaseTownCount, getPeopleStatistic, getNeuronData, getSingleBuildingData, getShopList } from "./api";
 import { thousandCentimeter, getUrl } from "@/utils/tools";
 import partClassData from "./data/partsClass";
 import pipelineData from "./data/pipelineLength";
@@ -187,6 +187,19 @@ export default {
                   }
                 ],
                 childKey: "children"
+              },
+              {
+                name: " 沿街商铺餐饮户",
+                nameKey: "name",
+                children: [
+                  {
+                    name: "全部",
+                    nameKey: "name",
+                    checked: false,
+                    type: "shop"
+                  }
+                ],
+                childKey: "children"
               }
               // {
               //   name: "休闲购物广场",
@@ -243,8 +256,9 @@ export default {
                 checked: false
               }
         ]
-      }
-
+      },
+      shopListData: [],
+      shopLayer: null
     };
   },
   computed: {
@@ -272,6 +286,27 @@ export default {
       case "singleBuilding":
         this.handlerSingleBuilding(data.item);
         break;
+      case "shop":
+        this.handlerShop(data.item);
+        break;
+    }
+  },
+  handlerShop(item) {
+    // todo
+    if (item.checked) {
+      let data = this.shopListData.filter(e => {
+        return item.name === "全部" || e.street_name === item.name;
+      });
+      this.shopLayer.setParameters({
+            "data": {
+              "content": data,
+              "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+            }
+          }).setPopupConfig({
+        component: "shopPopup"
+      }).open(); ;
+    } else {
+      this.shopLayer.close();
     }
   },
   handlerSingleBuilding(item) {
@@ -679,6 +714,49 @@ export default {
         }
       });
      },
+     registerShopLayer() {
+        this.shopLayer = this.$_mapProxy.registerLayer("shopLayer", "沿街商铺餐饮户图层").setParameters({
+          "name": "shopLayer",
+          "type": "point",
+          "mode": "replace",
+          "data": {
+            "content": [],
+            "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+          },
+          "legendVisible": false,
+          "popupEnabled": false,
+          "isFiltered": false,
+          "isLocate": false,
+          // "labels": [
+          //     {
+          //       fields: [
+          //         "#.名称"
+          //         // '#.count'
+          //       ],
+          //       color: [
+          //         255,
+          //         255,
+          //         255,
+          //         1
+          //       ],
+          //       size: 22,
+          //       font: {
+          //         family: "fangsong",
+          //         weight: "normal"
+          //       }
+          //     }
+          // ],
+          "renderer": {
+              "type": "simple",
+              symbol: {
+                type: "picture-marker",
+                url: getUrl("/mapIcon/shop.png"),
+                width: "57px",
+                height: "50px"
+              }
+            }
+          });
+     },
     registerSingleBuildingLayer() {
     this.singleBuildingLayer = this.$_mapProxy.registerLayer("singleBuildingLayer", "单体建筑图层").setParameters({
           "name": "singleBuildingLayer",
@@ -721,7 +799,7 @@ export default {
               }
             }
           });
-        },
+      },
       registerThingsPerceptionLayer() {
         this.thingsPerceptionLayer = this.$_mapProxy.registerLayer("thingsPerceptionLayer", "神经元图层").setParameters({
           "name": "thingsPerceptionLayer",
@@ -768,13 +846,40 @@ export default {
            this.checkItems.area[2].children.push(item);
          });
        });
+     },
+     getShopListData() {
+       getShopList().then(res => {
+         let townSet = new Set();
+         res.raw_data.forEach(e => {
+          let lon = parseFloat(e.longitude);
+          let lat = parseFloat(e.latitude);
+          let coord = SHcoordinateUtils.GCJtoSH([lon, lat]);
+          e.x = coord[0];
+          e.y = coord[1];
+          townSet.add(e.street_name);
+         });
+         this.shopListData = res.raw_data;
+         townSet.forEach(s => {
+           let item = {
+             name: s,
+             nameKey: "name",
+             type: "shop",
+             checked: false
+           };
+           this.checkItems.area[3].children.push(item);
+         });
+       });
      }
   },
   created() {
     this.registerSingleBuildingLayer();
     this.registerPointLayer();
     this.registerThingsPerceptionLayer();
+    this.registerShopLayer();
+
     this.createSingleBuildingMenu();
+    this.getShopListData();
+
     partClassData.list[0].subclass.forEach(e => {
       let item = {
         name: e.name,
@@ -810,7 +915,6 @@ export default {
 
       this.$bus.$on("map-header-item-choose", this.mapHeaderItemChoose);
    }
-
 };
 </script>
 <style lang="scss" scoped>
