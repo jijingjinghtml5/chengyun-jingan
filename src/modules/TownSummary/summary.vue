@@ -46,21 +46,25 @@ import MDialog from "@/components/MDialog";
 import IframeContainer from "@/components/IframeContainer";
 
 import { getSumaryData } from "./api";
+
+import townList from "./streetJson.js";
+
 export default {
   name: "TownSummary",
   inject: ["createFnForCalcRealPx", "getGlobalConfig"],
   components: { AutoScrollWrap, RecycleScroller, MDialog, IframeContainer },
   data() {
-    const townList = (this.getGlobalConfig()["streets"] || []).map(item => {
-      return {
-          id: item.code,
-          town: item.name,
-          url: item.url,
-          score: "-",
-          find: "-",
-          done: "-"
-        };
-    });
+    // const townList = (this.getGlobalConfig()["streets"] || []).map(item => {
+    //   return {
+    //       id: item.code,
+    //       town: item.name,
+    //       url: item.url,
+    //       score: "-",
+    //       find: "-",
+    //       done: "-"
+    //     };
+    // });
+    // console.log(">>>>>>townlist", JSON.stringify(townList));
     return {
       townList: townList,
       activeIndex: -1,
