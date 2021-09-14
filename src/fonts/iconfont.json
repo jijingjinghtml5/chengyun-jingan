@@ -6,6 +6,202 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "16041683",
+      "name": "折叠5",
+      "font_class": "zhedie5",
+      "unicode": "e6f6",
+      "unicode_decimal": 59126
+    },
+    {
+      "icon_id": "16041685",
+      "name": "折叠6",
+      "font_class": "zhedie6",
+      "unicode": "e6f7",
+      "unicode_decimal": 59127
+    },
+    {
+      "icon_id": "7461489",
+      "name": "退出全屏",
+      "font_class": "tuichuquanping",
+      "unicode": "e6f5",
+      "unicode_decimal": 59125
+    },
+    {
+      "icon_id": "6235571",
+      "name": "刷新",
+      "font_class": "duomeitiicon-",
+      "unicode": "e6f3",
+      "unicode_decimal": 59123
+    },
+    {
+      "icon_id": "19657959",
+      "name": "屏幕_全屏",
+      "font_class": "fullScreen",
+      "unicode": "e6f4",
+      "unicode_decimal": 59124
+    },
+    {
+      "icon_id": "21924181",
+      "name": "上升",
+      "font_class": "shangsheng2",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
+    },
+    {
+      "icon_id": "21924182",
+      "name": "下降",
+      "font_class": "xiajiang1",
+      "unicode": "e6f2",
+      "unicode_decimal": 59122
+    },
+    {
+      "icon_id": "3895599",
+      "name": "长方形",
+      "font_class": "cube",
+      "unicode": "e6f0",
+      "unicode_decimal": 59120
+    },
+    {
+      "icon_id": "21284453",
+      "name": "佛教",
+      "font_class": "fojiao",
+      "unicode": "e6a6",
+      "unicode_decimal": 59046
+    },
+    {
+      "icon_id": "21284454",
+      "name": "天主教",
+      "font_class": "tianzhujiao",
+      "unicode": "e6a7",
+      "unicode_decimal": 59047
+    },
+    {
+      "icon_id": "21284455",
+      "name": "基督教",
+      "font_class": "jidujiao",
+      "unicode": "e6ef",
+      "unicode_decimal": 59119
+    },
+    {
+      "icon_id": "19507348",
+      "name": "风险防控备份",
+      "font_class": "fengxianfangkongbeifen",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "19507349",
+      "name": "处置力量备份",
+      "font_class": "chuzhililiangbeifen",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "19507350",
+      "name": "监管备份",
+      "font_class": "jianguanbeifen",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "19507351",
+      "name": "管线显示备份",
+      "font_class": "guanxianxianshibeifen",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "19507352",
+      "name": "队伍备份",
+      "font_class": "duiwubeifen",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "19507353",
+      "name": "气象灾害应急设施数据备份",
+      "font_class": "qixiangzaihaiyingjisheshishujubeifen",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "19507354",
+      "name": "应急d备份",
+      "font_class": "yingjidbeifen",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "19507355",
+      "name": "物资备份",
+      "font_class": "wuzibeifen",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "19507356",
+      "name": "预案备份",
+      "font_class": "yuanbeifen",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "19507357",
+      "name": "工作力量备份",
+      "font_class": "gongzuoliliangbeifen",
+      "unicode": "e6a0",
+      "unicode_decimal": 59040
+    },
+    {
+      "icon_id": "19507358",
+      "name": "网络备份",
+      "font_class": "wangluobeifen",
+      "unicode": "e6a1",
+      "unicode_decimal": 59041
+    },
+    {
+      "icon_id": "19507359",
+      "name": "企业备份",
+      "font_class": "qiyebeifen",
+      "unicode": "e6a2",
+      "unicode_decimal": 59042
+    },
+    {
+      "icon_id": "19507360",
+      "name": "值班备份",
+      "font_class": "zhibanbeifen",
+      "unicode": "e6a4",
+      "unicode_decimal": 59044
+    },
+    {
+      "icon_id": "19507361",
+      "name": "应急避难所_画板 1备份",
+      "font_class": "yingjibinansuo_huaban1beifen",
+      "unicode": "e6a5",
+      "unicode_decimal": 59045
+    },
+    {
+      "icon_id": "1920284",
+      "name": "减",
+      "font_class": "jian",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "16063788",
+      "name": "上升",
+      "font_class": "shangsheng1",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "16063789",
+      "name": "下降",
+      "font_class": "xiajiang",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
       "icon_id": "19119054",
       "name": "处置力量",
       "font_class": "chuzhililiang1",

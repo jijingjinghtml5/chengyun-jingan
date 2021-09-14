@@ -1,5 +1,5 @@
 <template>
-  <div class="videoContainer">
+  <div class="videoContainer" :class="{collapsed: isCollapsed}">
       <!-- <div class="video-title">
         智能巡查{{videoNumber}}
         <span  class="iconfont icon-arrow_right mapControlLableIcon"></span>
@@ -11,7 +11,10 @@
             <qv-player :videoSrc="item.src"></qv-player>
           </div>
       </div> -->
-      <video-manager></video-manager>
+      <div class="collapse" @click="isCollapsed = !isCollapsed">
+        <div :class="`iconfont ${collapsedIcon}`" ></div>
+      </div>
+      <video-manager v-show="!isCollapsed"></video-manager>
   </div>
 </template>
 <script>
@@ -22,6 +25,7 @@ export default {
   name: "videomap",
   data() {
     return {
+      isCollapsed: false,
       videoNumber: "（1/147）",
       videoData: [
         { src: null },
@@ -34,13 +38,9 @@ export default {
     };
   },
   computed: {
-    // btnActives() {
-    //   let data = [];
-    //   this.mapToolsData.forEach(e => {
-    //     data.push(false);
-    //   });
-    //   return data;
-    // }
+    collapsedIcon () {
+      return this.isCollapsed ? 'icon-zhedie6' : 'icon-zhedie5'
+    }
   },
   watch: {
      btnActives: {
@@ -69,6 +69,9 @@ export default {
    background:rgba(84, 88, 169, 0.2);
    // border: 1px solid #0F2E60;
   // padding:0.1rem;
+  &.collapsed{
+    width: 0;
+  }
 }
 .video-item{
   margin: 0.18rem 0rem;
@@ -86,4 +89,19 @@ export default {
   cursor: pointer;
 }
 
+.collapse{
+  position: absolute;
+  top: 5.5rem;
+  left: -0.3rem;
+  height: 1.6rem;
+  width: 0.3rem;
+  background: url('./collapse.png') no-repeat no-repeat;
+  background-size: 100% 100%;
+  cursor:pointer;
+  font-size: 0.3rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
