@@ -11,7 +11,7 @@
             <qv-player :videoSrc="item.src"></qv-player>
           </div>
       </div> -->
-      <div class="collapse" @click="isCollapsed = !isCollapsed">
+      <div class="collapse" @click="collapsedChange">
         <div :class="`iconfont ${collapsedIcon}`" ></div>
       </div>
       <video-manager v-show="!isCollapsed"></video-manager>
@@ -25,7 +25,7 @@ export default {
   name: "videomap",
   data() {
     return {
-      isCollapsed: false,
+      isCollapsed: this.collapsed,
       videoNumber: "（1/147）",
       videoData: [
         { src: null },
@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     collapsedIcon () {
-      return this.isCollapsed ? 'icon-zhedie6' : 'icon-zhedie5'
+      return this.isCollapsed ? "icon-zhedie6" : "icon-zhedie5";
     }
   },
   watch: {
@@ -52,7 +52,10 @@ export default {
      }
   },
   methods: {
-
+    collapsedChange() {
+      this.isCollapsed = !this.isCollapsed;
+      this.$emit("collapsedChange", this.isCollapsed);
+    }
   },
   mounted() {
 

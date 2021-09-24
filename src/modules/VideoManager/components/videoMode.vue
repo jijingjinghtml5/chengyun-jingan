@@ -17,7 +17,7 @@
           :h="item.h"
           :i="item.i"
           :key="index">
-        <component :is="'qv-player'" :videoConfig="videos[index]" :cancelTokenKey="'getVideoRealUrl-HOC-' + index"/>
+        <component :is="'qv-player'" :videoConfig="videos[index]" @reLoading="handleReloading(index,...arguments)" :cancelTokenKey="'getVideoRealUrl-HOC-' + index"/>
         <!-- <qv-player :videoSrc="videos[index]"></qv-player> -->
       </grid-item>
     </grid-layout>
@@ -108,6 +108,9 @@ export default {
         layout: this.config.layout
       };
       // console.log("videoMode config", this.configData);
+    },
+    handleReloading(index, videoSrc) {
+      this.videos.splice(index, 1, { ...this.videos[index] });
     }
   }
 };

@@ -2,8 +2,8 @@
   <div class="MapContainer" id="MapContainer" @click.stop @mousedown.stop>
     <maptitle></maptitle>
     <citymap ref='Map'></citymap>
-    <maptool></maptool>
-    <videomap></videomap>
+    <maptool :class="{collapsed: isCollapsed}"></maptool>
+    <videomap @collapsedChange="handleCollapseChange"></videomap>
         <!---左侧通用弹窗容器-->
     <popup-container :mapData="popupMapData" :componentName="popupComponentName" :popupBool.sync="popupBool" @closePopup='_closePopup'
     :stylePopup='stylePopup' ></popup-container>
@@ -21,7 +21,7 @@ export default {
   data() {
     return {
       // 弹窗
-
+      isCollapsed: false,
       stylePopup: {
          left: "10px",
          top: "300px"
@@ -234,6 +234,9 @@ export default {
         }
       };
       window.bridge.Invoke(dataCmd);
+    },
+    handleCollapseChange(val) {
+      this.isCollapsed = val;
     }
 
   },
@@ -260,6 +263,10 @@ export default {
   // border: 0.02rem solid #4e78a4;
   width: 100%;
   height: 100%;
+
+  .collapsed{
+    right: 0.2rem;
+  }
 }
 
 </style>

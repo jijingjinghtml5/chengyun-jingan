@@ -8,9 +8,7 @@
         <img :src="require('@/assets/videoPlayer/videoPlayer_loading.gif')" />
       </div>
     </div>
-    <div v-if="errorLoading" class="MsgBox" style="background-color:#000;">
-        <img :src="require('@/assets/videoPlayer/error_loading.png')" style="width:100%;height:100%;cursor:pointer;" @click="handleError"/>
-    </div>
+
     <div v-show="!posterShow && videoUrl === ''" class="MsgBox">
       <div class="tip-info">
         <img :src="require('@/assets/videoPlayer/videoPlayer_cam.png')" />
@@ -47,20 +45,17 @@ export default {
       posterShow: false,
       player: null,
       videoUrl: "",
-      code: "",
-      errorLoading: false
+      code: ""
     };
   },
   watch: {
     videoSrc: {
       handler (nv) {
-        console.log(">>>>videoSrc", nv);
         if (nv && nv.code) {
           console.log("player：qv-player; videoUrl：" + nv.url);
           this.posterShow = true;
           this.videoUrl = nv.url;
           this.code = nv.code;
-          this.errorLoading = nv.errorMessage;
           if (nv.url && nv.type !== "rtmp/flv") {
             this.$nextTick(() => {
               this.player = this.$el.getElementsByTagName("video")[0];
@@ -81,9 +76,6 @@ export default {
       if (this.videoSrc && this.videoSrc.type !== "rtmp/flv") this.player.removeEventListener("canplay", this.canplay);
       console.log("canplay");
       this.posterShow = false;
-    },
-    handleError() {
-      this.$emit("reLoading", this.videoSrc);
     }
   },
   beforeDestroy () {

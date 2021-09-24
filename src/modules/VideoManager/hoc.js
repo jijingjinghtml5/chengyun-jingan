@@ -107,11 +107,13 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
           getVideoRealUrl(nvParams, this.cancelTokenKey).then(res => {
             if (res.resultCode === "200") {
               // console.log("请求成功", res.resultData);
-              const apiDataMapping = generateKeyValuePair("cameraId", "videoPath", res.resultData.data.cameraInfos || []);
+              const apiDataMapping = generateKeyValuePair("cameraId", null, res.resultData.data.cameraInfos || []);
               const resultData = initData.map(d => {
+                const _tmp = apiDataMapping[d.code] || {};
                 return {
                   ...d,
-                  url: apiDataMapping[d.code] || d.url
+                  url: _tmp.videoPath || d.url,
+                  errorMessage: _tmp.errorMessage
                 };
               });
               this.result = isObjectFornv ? resultData[0] : resultData;

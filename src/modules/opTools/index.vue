@@ -6,6 +6,10 @@
     <div class="fullscreen">
       <span :class="`iconfont ${fullscreenIcon}`" @click="fullscreen"></span>
     </div>
+    <div class="close">
+      <span :class="`iconfont icon-close`" @click="close"></span>
+      <!-- <a href="javascript:window.opener=null;window.open('','_self');window.close();">关闭</a> -->
+    </div>
   </div>
 </template>
 <script>
@@ -62,6 +66,10 @@ export default {
           document.documentElement.msRequestFullscreen()
         }
       }
+    },
+    close () {
+      // 当前页面通过window.open打开时有效
+      window.close()
     }
 
   }
@@ -70,18 +78,22 @@ export default {
 <style lang="scss" scoped>
 .tools-wrap{
   position: absolute;
-  top: 0.2rem;
-  right: 0.2rem;
+  top: 0.1rem;
+  right: 0.1rem;
   z-index: 100;
 
   display: flex;
-  font-size: 0.6rem;
+  align-items: center;
+  font-size: 0.3rem;
   color: rgba(24, 255, 255, 0.8);
 
-  .refresh, .fullscreen{
+  .refresh, .fullscreen, .close{
     flex: 1;
-    margin-right: 0.2rem;
+    margin-right: 0.1rem;
     cursor: pointer;
+  }
+  .close {
+    font-size: 0.24rem;
   }
 }
 </style>
