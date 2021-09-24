@@ -224,6 +224,8 @@ export default {
     border: 0.01rem solid #1650a4 !important;
     background-color: rgba(22,80,164, 0.6) !important;
     color: #fff !important;
+    max-height: 6rem;
+    overflow-y:auto;
   }
 
   .el-select-dropdown__item.hover, .el-select-dropdown__item:hover {
