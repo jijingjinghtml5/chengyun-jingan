@@ -28,7 +28,7 @@
       <m-tabs-body-item name="yzsd" lazy>
         <chart-pie :chartData="dataset.yzsd_db" :colors="colors" :fontSize="0.24" unit="亿元" labelColor="#D1C9C4">
           <template v-slot:li="{ item }">
-            <span class="legend-label" style="word-break:break-all;white-space:normal;cursor:pointer;"  @click="handleClickYZSD(item)">{{ item[0] }}</span>
+            <span class="legend-label" :class="{clickAble: item[0] ==='南京西路'}" style="word-break:break-all;white-space:normal;"  @click="handleClickYZSD(item)">{{ item[0] }}</span>
             <span class="legend-percent">{{ item[3] }}%</span>
           </template>
         </chart-pie>
@@ -156,12 +156,13 @@
         </m-row>
       </m-tabs-body-item>
     </m-tabs-body>
-
-    <DragContainer :dialogShow.sync="dialogShow" appendDom="#MapContainer" :isAppendDom="true" type="video" :urls="urls"></DragContainer>
+    <MDialog :dialogVisible.sync="dialogShow" appendDom="#MapContainer" :extraCss="extraCss">
+      <video v-if="dialogShow" :src=" prefix + '/videos/nx.mp4'" style="width: 100%;" autoplay loop ></video>
+    </MDialog>
   </wrap-title>
 </template>
 <script>
-import DragContainer from "@/components/DragContainer/index";
+import MDialog from "@/components/MDialog/index";
 import WrapTitle from "@/components/MTitle/WrapTitle";
 import LevelTitle from "@/components/MTitle/LevelTitle";
 import MSelect from "@/components/MSelect";
@@ -178,7 +179,7 @@ import { getData } from "./api";
 export default {
   name: "EconomicGovernance",
   components: {
-    DragContainer,
+    MDialog,
     WrapTitle,
     LevelTitle,
     MSelect,
@@ -198,6 +199,10 @@ export default {
     arr.pop();
     const prefix = arr.join("/");
     return {
+      extraCss: {
+        top: "1.5rem"
+      },
+      prefix: prefix,
       urls: [
         {
           url: prefix + "/videos/nx.mp4"
@@ -281,6 +286,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.clickAble{
+  cursor: pointer;
+}
 .levelt2-select {
   &.m-tabs {
     color: #4E78A4;

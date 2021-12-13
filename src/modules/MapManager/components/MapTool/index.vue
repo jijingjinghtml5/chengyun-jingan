@@ -391,7 +391,7 @@ export default {
 }
 .mapToolsContainer {
   position: absolute;
-  z-index:9999;
+  z-index:999;
   bottom: 0.1rem;
   right: 6.3rem;
 }
