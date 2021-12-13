@@ -28,13 +28,20 @@
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="daily">
-        <m-row gutter="0.1rem">
-          <m-column v-for="item in items" :key="item.name" :span="item.span || 1">
-            <!-- @click.native="handleClickForOverviewItem(item)" -->
-            111
-          </m-column>
-        </m-row>
+      <m-tabs-body-item name="daily" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
+        <div class="daily-wrap">
+          <div class="left">
+            <div class="label">指挥长</div>
+            <div class="value">谢志彬</div>
+          </div>
+          <div class="split"></div>
+          <div class="right">
+            <div class="item" v-for="(item , index) in deps" :key="`dep-${index}`">
+              <div class="label">{{item.label}}</div>
+            <div class="value">{{item.value}}</div>
+            </div>
+          </div>
+        </div>
       </m-tabs-body-item>
       <m-tabs-body-item name="sgy" class="detail">
         <m-row gutter="0.1rem">
@@ -122,6 +129,32 @@ export default {
   inheritAttrs: false,
   data() {
     return {
+      deps: [
+        {
+          label: "督  查",
+          value: "黄媛媛"
+        },
+        {
+          label: "网信办",
+          value: "李晟晖"
+        },
+        {
+          label: "公  安",
+          value: "钱国庆"
+        },
+        {
+          label: "建管委",
+          value: "洪海明"
+        },
+        {
+          label: "应急局",
+          value: "李晟晖"
+        },
+        {
+          label: "地区办",
+          value: "鲍晓丽"
+        }
+      ],
       tabs: Object.freeze([
         { label: "指挥体系", value: "manager" },
         { label: "城市运行", value: "overview" }
@@ -236,14 +269,14 @@ export default {
   align-content: center;
 
   .command-btn{
-    width: 1.07*2rem;
-    height: 0.32*2rem;
+    width: 1.07*4rem;
+    height: 0.32*4rem;
     background: linear-gradient(180deg, rgba(102, 157, 244, 0.4) 0%, rgba(21, 79, 163, 0.4) 100%);
     border-radius: 0.02*2rem;
     border: 1px solid #669DF4;
     text-align: center;
 
-    font-size: 0.24rem;
+    font-size: 0.24*2rem;
     font-weight: 400;
     color: #FFFFFF;
     // line-height: 0.64rem;
@@ -253,9 +286,62 @@ export default {
 
     cursor: pointer;
     >img{
-      width: 0.37rem;
-      height: 0.4rem;
+      width: 0.37*2rem;
+      height: 0.4*2rem;
       object-fit: contain;
+    }
+  }
+}
+.daily-wrap{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  .left{
+    flex: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    .label{
+      font-size: 0.24*2rem;
+      font-weight: 500;
+      color: #FFFFFF;
+    }
+    .value{
+      font-size: 0.24*2rem;
+      font-weight: bold;
+      color: #00F4FF;
+    }
+
+  }
+  .split{
+    width: 0.02rem;
+    height: 1.6rem;
+    background: #4E78A4;
+  }
+  .right{
+    flex: 3;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    .label{
+      font-size: 0.21*2rem;
+      font-weight: 500;
+      color: #FFFFFF;
+    }
+    .value{
+      font-size: 0.21*2rem;
+      font-weight: 500;
+      color: #00F4FF;
+    }
+    .item{
+      width: 33%;
+      // margin-bottom: 0.2*2rem;
+      line-height: 1rem;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
     }
   }
 }
