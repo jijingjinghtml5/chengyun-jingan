@@ -29,7 +29,7 @@
         </m-row>
       </m-tabs-body-item>
       <m-tabs-body-item name="daily" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
-        <div class="daily-wrap">
+        <div class="daily-wrap" @click="dialogVisible=true">
           <div class="left">
             <div class="label">指挥长</div>
             <div class="value">谢志彬</div>
@@ -96,9 +96,13 @@
         </m-row>
       </m-tabs-body-item>
     </m-tabs-body>
+    <MDialog :dialogVisible.sync="dialogVisible" appendDom="#MapContainer" :extraCss="extraCss">
+      <img style="width: 100%;height: 100%; object-fit: contain;border: 1px solid #154FA3;" :src="require('./images/daily-command.png')"/>
+    </MDialog>
   </wrap-title>
 </template>
 <script>
+import MDialog from "@/components/MDialog/index";
 import LevelTitle from "@/components/MTitle/LevelTitle";
 import WrapTitle from "@/components/MTitle/WrapTitle";
 import MTabs from "@/components/MTabs";
@@ -114,6 +118,7 @@ import { getData } from "./api";
 export default {
   name: "OverView",
   components: {
+    MDialog,
     LevelTitle,
     WrapTitle,
     MTabs,
@@ -129,6 +134,13 @@ export default {
   inheritAttrs: false,
   data() {
     return {
+      extraCss: {
+        top: "3.3rem",
+        left: "3.5rem",
+        width: "18rem",
+        height: "15.12rem"
+      },
+      dialogVisible: false,
       deps: [
         {
           label: "督  查",
