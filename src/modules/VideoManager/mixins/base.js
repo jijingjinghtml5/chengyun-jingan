@@ -192,7 +192,7 @@ export default {
       // console.log(">>>>>play", this.currentPlayOption);
       this.switchVideo(0);
 
-      this.handleClickForToggleVideoLayer(true);
+      this.handleClickForToggleVideoLayer(false);
 
       if (this.playStatus) {
         this.handleClickForToggleAutoSwitch(true);

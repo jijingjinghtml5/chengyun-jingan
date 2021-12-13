@@ -36,9 +36,9 @@ export default {
         { "name": "街道边界", "status": false },
         { "name": "网格边界", "status": false },
         { "name": "居委边界", "status": false },
-        { "name": "建筑白模", "status": false },
-        { "name": "建筑精模", "status": true },
-        { "name": "底图切换", "status": true }
+        { "name": "建筑白模", "status": true },
+        { "name": "建筑精模", "status": false },
+        { "name": "底图切换", "status": false }
       ],
       functionDatas: {
         "全图": {
@@ -134,8 +134,8 @@ export default {
     },
     onMapReady() {
       this.initPosition();
-      this.openDetailModelLayer();
-      this.openRemoteScenseLayer();
+      this.openSimpleModelLayer();
+      // this.openRemoteScenseLayer();
     },
     tabMapLayer(name, status) {
        let cmd = {
