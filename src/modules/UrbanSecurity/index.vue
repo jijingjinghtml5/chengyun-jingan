@@ -1,8 +1,20 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-zonghezhili" :txt="title">
-    <span slot="center" v-show="tab !== 'overview'" class="back" @click="handleClickForBack">[返回上一级]</span>
+    <m-tabs slot="level-title" v-model="tab" :tabs="tabs" @change="handleChangeForTabItem"></m-tabs>
+    <span slot="center" v-show="tab !== 'overview' && tab !=='manager'" class="back" @click="handleClickForBack">[返回上一级]</span>
     <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
     <m-tabs-body :tab="tab">
+      <m-tabs-body-item name="manager">
+        <m-row gutter="0.1rem">
+          <m-column v-for="item in items" :key="item.name" :span="item.span || 1">
+            <!-- @click.native="handleClickForOverviewItem(item)" -->
+            <overview-item
+            v-bind="item"
+            :dataset="itemsData[item.name] || dataset[item.prop]"
+            customClass="style2" style="cursor: pointer"></overview-item>
+          </m-column>
+        </m-row>
+      </m-tabs-body-item>
       <m-tabs-body-item name="overview">
         <m-row gutter="0.1rem">
           <m-column v-for="item in items" :key="item.name" :span="item.span || 1">
@@ -100,6 +112,10 @@ export default {
   inheritAttrs: false,
   data() {
     return {
+      tabs: Object.freeze([
+        { label: "指挥体系", value: "manager" },
+        { label: "城市运行", value: "overview" }
+      ]),
       colors: Object.freeze(["#4FCFD5", "#DED7D7"]),
       colors2: Object.freeze(["#30BC9B", "#92B9F7"]),
       items: Object.freeze([
@@ -153,6 +169,9 @@ export default {
     }
   },
   methods: {
+    handleChangeForTabItem() {
+      // todo
+    },
     handleClickForOverviewItem(item) {
       this.tab = item.prop;
       this.activeItem !== item && (this.activeItem = item);

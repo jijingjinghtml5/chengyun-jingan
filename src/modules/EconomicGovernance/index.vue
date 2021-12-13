@@ -28,7 +28,7 @@
       <m-tabs-body-item name="yzsd" lazy>
         <chart-pie :chartData="dataset.yzsd_db" :colors="colors" :fontSize="0.24" unit="亿元" labelColor="#D1C9C4">
           <template v-slot:li="{ item }">
-            <span class="legend-label" style="word-break:break-all;white-space:normal;">{{ item[0] }}</span>
+            <span class="legend-label" style="word-break:break-all;white-space:normal;cursor:pointer;"  @click="handleClickYZSD(item)">{{ item[0] }}</span>
             <span class="legend-percent">{{ item[3] }}%</span>
           </template>
         </chart-pie>
@@ -156,9 +156,12 @@
         </m-row>
       </m-tabs-body-item>
     </m-tabs-body>
+
+    <DragContainer :dialogShow.sync="dialogShow" appendDom="#MapContainer" :isAppendDom="true" type="video" :urls="urls"></DragContainer>
   </wrap-title>
 </template>
 <script>
+import DragContainer from "@/components/DragContainer/index";
 import WrapTitle from "@/components/MTitle/WrapTitle";
 import LevelTitle from "@/components/MTitle/LevelTitle";
 import MSelect from "@/components/MSelect";
@@ -175,6 +178,7 @@ import { getData } from "./api";
 export default {
   name: "EconomicGovernance",
   components: {
+    DragContainer,
     WrapTitle,
     LevelTitle,
     MSelect,
@@ -190,7 +194,16 @@ export default {
   },
   inject: ["createFnForCalcRealPx"],
   data() {
+    const arr = window.location.href.split("/");
+    arr.pop();
+    const prefix = arr.join("/");
     return {
+      urls: [
+        {
+          url: prefix + "/videos/nx.mp4"
+        }
+      ],
+      dialogShow: false,
       colors: Object.freeze(["#30BC9B", "#2E9BCF", "#4FCFD5", "#4E78A4", "#1D7774", "#D1C9C4"]),
       colors2: Object.freeze(["#4FCFD5", "#2E9BCF"]),
       options: Object.freeze([
@@ -254,6 +267,12 @@ export default {
         }
         console.log(this.dataset, "-");
       });
+    },
+    handleClickYZSD(item) {
+      console.log("<<>>>>>>>", item);
+      if (item[0] === "南京西路") {
+        this.dialogShow = true;
+      }
     }
   },
   created() {

@@ -1,3 +1,4 @@
+
 <template>
   <div class="m-tabs" :class="customClass">
     <template v-for="(tab, i) in tabs">
@@ -11,13 +12,23 @@ import TabMixins from "./tab";
 export default {
   name: "MTabs",
   data () {
-    return {};
+    return {
+      timer: null
+    };
   },
   mixins: [TabMixins],
   methods: {
     handleClickForChangeTab (item) {
       this.$emit("change", item.value);
     }
+  },
+  mounted() {
+    // todo
+
+    // setTimeout(()=>{
+    //   const activeIndex = this.tabs.arrayIndex(this.current);
+
+    // }, 5000)
   }
 };
 </script>
