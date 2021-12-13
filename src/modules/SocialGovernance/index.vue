@@ -5,7 +5,7 @@
       <m-tabs class="levelt2-select" v-model="tab" :tabs="tabs"></m-tabs>
     </level-title>
     <m-tabs-body :tab="tab">
-      <m-tabs-body-item name="社会治安">
+      <m-tabs-body-item name="社会治安" @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
           <m-column width="50%">
             <overview-item
@@ -41,7 +41,7 @@
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="社会救助">
+      <m-tabs-body-item name="社会救助" @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
           <m-column width="50%">
             <overview-item
@@ -85,7 +85,7 @@
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="社会管理">
+      <m-tabs-body-item name="社会管理" @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
           <m-column v-for="(item, index) in shglItems" :key="`shgl-${index}`" :width="item.width">
             <overview-item2
@@ -230,6 +230,13 @@ export default {
     };
   },
   methods: {
+    handleMouse(ref, mouse) {
+      if (mouse === "enter") {
+        this.$refs[ref].stopTimer();
+      } else {
+        this.$refs[ref].startTimer();
+      }
+    },
     getData() {
       getData().then(res => {
         // console.log(res, ".....");

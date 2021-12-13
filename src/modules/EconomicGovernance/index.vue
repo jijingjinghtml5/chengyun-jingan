@@ -15,9 +15,10 @@
       </template>
     </chart-pie>
     <level-title :level="2" icon="icon-biaoti">
-      <m-tabs class="levelt2-select" v-model="tab" :tabs="tabs"></m-tabs>
+      <m-tabs class="levelt2-select" ref="jingji" v-model="tab" :tabs="tabs"></m-tabs>
     </level-title>
     <overview-item
+       @mouseenter.native="handleMouse('jingji', 'enter')" @mouseleave.native="handleMouse('jingji', 'leave')"
       style="margin-top: -0.2rem;"
       valueUnit="亿元"
       :value="dataset.statistics[tab]"
@@ -49,10 +50,11 @@
       </m-tabs-body-item>
     </m-tabs-body>
     <level-title :level="2" icon="icon-biaoti">
-      <m-tabs class="levelt2-select" v-model="tab2" :tabs="tabs2"></m-tabs>
+      <m-tabs class="levelt2-select" ref="shehui" v-model="tab2" :tabs="tabs2"></m-tabs>
     </level-title>
     <m-tabs-body class="autoHeight" :tab="tab2">
-      <m-tabs-body-item name="社会消费" lazy>
+      <m-tabs-body-item name="社会消费" lazy @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')"
+>
         <m-row>
           <m-column>
             <overview-item
@@ -83,7 +85,7 @@
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="外商投资" lazy>
+      <m-tabs-body-item name="外商投资" lazy @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
           <m-column>
             <overview-item
@@ -105,7 +107,7 @@
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="招商引资" lazy>
+      <m-tabs-body-item name="招商引资" lazy @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
           <m-column>
             <overview-item
@@ -135,7 +137,7 @@
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="科技创新" lazy>
+      <m-tabs-body-item name="科技创新" lazy @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
           <m-column>
             <overview-item
@@ -251,6 +253,13 @@ export default {
     };
   },
   methods: {
+    handleMouse(ref, mouse) {
+      if (mouse === "enter") {
+        this.$refs[ref].stopTimer();
+      } else {
+        this.$refs[ref].startTimer();
+      }
+    },
     getData() {
       getData().then(res => {
         console.log(res, "12312");

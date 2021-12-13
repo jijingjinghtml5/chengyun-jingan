@@ -1,8 +1,8 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-dihezhongdianquyu">
-    <m-tabs slot="level-title" v-model="firstTab" :tabs="tabs" @change="handleChangeForTabItem"></m-tabs>
+    <m-tabs slot="level-title" v-model="firstTab" ref="mainTab" :tabs="tabs" @change="handleChangeForTabItem"></m-tabs>
     <m-tabs-body :tab="secondTab">
-      <m-tabs-body-item name="today" class="today-overview">
+      <m-tabs-body-item name="today" class="today-overview" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
         <m-row>
           <m-column >
             <weather-item v-bind="todayItems[0]" customClass="style2" :dataset="itemsData['气象预警']"></weather-item>
@@ -106,6 +106,13 @@ export default {
     };
   },
   methods: {
+    handleMouse(ref, mouse) {
+      if (mouse === "enter") {
+        this.$refs[ref].stopTimer();
+      } else {
+        this.$refs[ref].startTimer();
+      }
+    },
     handleClickForOpenLayer(item) {
       this.secondTab = item.prop;
       const layerName = `${item.prop}Layer`;

@@ -15,7 +15,7 @@
   </div>
 </template>
 <script>
-import NumberAnimation from "@/components/NumberAnimation/index2.0.vue";
+import NumberAnimation from "@/components/NumberAnimation/index.vue";
 import Increase from "../Increase";
 export default {
   name: "OverviewItem",

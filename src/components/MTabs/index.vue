@@ -13,22 +13,47 @@ export default {
   name: "MTabs",
   data () {
     return {
-      timer: null
+      resetTimer: null,
+      againInterval: 5000
     };
   },
   mixins: [TabMixins],
   methods: {
     handleClickForChangeTab (item) {
       this.$emit("change", item.value);
+    },
+    getIndexOf() {
+      let activeIndex = -1;
+      this.tabs.map((item, index) => {
+        if (item.value === this.current) {
+          activeIndex = index;
+        }
+      });
+      return activeIndex;
+    },
+    startTimer() {
+      this.resetTimer = setInterval(() => {
+        this.autoChangeTab();
+      }, this.againInterval);
+    },
+    stopTimer () {
+      if (this.resetTimer) {
+        clearInterval(this.resetTimer);
+        this.resetTimer = null;
+      }
+    },
+    autoChangeTab() {
+      let activeIndex = this.getIndexOf();
+      activeIndex++;
+      if (activeIndex === this.tabs.length) {
+        activeIndex = 0;
+      }
+      this.$emit("change", this.tabs[activeIndex].value);
     }
   },
   mounted() {
     // todo
-
-    // setTimeout(()=>{
-    //   const activeIndex = this.tabs.arrayIndex(this.current);
-
-    // }, 5000)
+    this.startTimer();
   }
 };
 </script>

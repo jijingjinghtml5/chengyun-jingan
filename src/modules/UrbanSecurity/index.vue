@@ -1,10 +1,23 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-zonghezhili" :txt="title">
-    <m-tabs slot="level-title" v-model="tab" :tabs="tabs" @change="handleChangeForTabItem"></m-tabs>
+    <m-tabs slot="level-title" v-model="tab" :tabs="tabs" ref="mainTab" @change="handleChangeForTabItem"></m-tabs>
     <span slot="center" v-show="tab !== 'overview' && tab !=='manager'" class="back" @click="handleClickForBack">[返回上一级]</span>
     <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
     <m-tabs-body :tab="tab">
-      <m-tabs-body-item name="manager">
+      <m-tabs-body-item name="manager" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
+        <m-row gutter="0.1rem">
+          <m-column class="command-item" :span=" 1">
+            <div class="command-btn" @click="tab='daily'"><img :src="require('./images/1.png')"/>日常指挥</div>
+          </m-column>
+          <m-column  class="command-item"  :span=" 1">
+            <div class="command-btn"><img :src="require('./images/2.png')"/>应急指挥</div>
+          </m-column>
+          <m-column  class="command-item"  :span=" 1">
+            <div class="command-btn"><img :src="require('./images/3.png')"/>专项指挥</div>
+          </m-column>
+        </m-row>
+      </m-tabs-body-item>
+      <m-tabs-body-item name="overview" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
         <m-row gutter="0.1rem">
           <m-column v-for="item in items" :key="item.name" :span="item.span || 1">
             <!-- @click.native="handleClickForOverviewItem(item)" -->
@@ -15,14 +28,11 @@
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="overview">
+      <m-tabs-body-item name="daily">
         <m-row gutter="0.1rem">
           <m-column v-for="item in items" :key="item.name" :span="item.span || 1">
             <!-- @click.native="handleClickForOverviewItem(item)" -->
-            <overview-item
-            v-bind="item"
-            :dataset="itemsData[item.name] || dataset[item.prop]"
-            customClass="style2" style="cursor: pointer"></overview-item>
+            111
           </m-column>
         </m-row>
       </m-tabs-body-item>
@@ -129,7 +139,7 @@ export default {
         { label: "本周", value: "currentWeek" },
         { label: "本月", value: "currentMonth" }
       ]),
-      tab: "overview",
+      tab: "manager",
       activeItem: null,
       option: "currentWeek",
       dataset: {
@@ -177,7 +187,7 @@ export default {
       this.activeItem !== item && (this.activeItem = item);
     },
     handleClickForBack() {
-      this.tab = "overview";
+      this.tab = "manager";
       this.activeItem = null;
     },
     getData() {
@@ -205,6 +215,13 @@ export default {
         });
         this.itemsData = tmp;
       });
+    },
+    handleMouse(ref, mouse) {
+      if (mouse === "enter") {
+        this.$refs[ref].stopTimer();
+      } else {
+        this.$refs[ref].startTimer();
+      }
     }
   },
   created() {
@@ -213,6 +230,35 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.command-item{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+
+  .command-btn{
+    width: 1.07*2rem;
+    height: 0.32*2rem;
+    background: linear-gradient(180deg, rgba(102, 157, 244, 0.4) 0%, rgba(21, 79, 163, 0.4) 100%);
+    border-radius: 0.02*2rem;
+    border: 1px solid #669DF4;
+    text-align: center;
+
+    font-size: 0.24rem;
+    font-weight: 400;
+    color: #FFFFFF;
+    // line-height: 0.64rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    cursor: pointer;
+    >img{
+      width: 0.37rem;
+      height: 0.4rem;
+      object-fit: contain;
+    }
+  }
+}
 .m-tabs-body__item {
   display: flex;
   flex-direction: column;
