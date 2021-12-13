@@ -2,7 +2,7 @@
   <wrap-title class="gradient-bg" icon="icon-shehuizhili" txt="社会治理">
     <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
     <level-title :level="2" icon="icon-biaoti">
-      <m-tabs class="levelt2-select" v-model="tab" :tabs="tabs"></m-tabs>
+      <m-tabs class="levelt2-select" v-model="tab" ref="shehui" :tabs="tabs"></m-tabs>
     </level-title>
     <m-tabs-body :tab="tab">
       <m-tabs-body-item name="社会治安" @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">

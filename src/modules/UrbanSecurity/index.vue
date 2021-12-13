@@ -10,10 +10,10 @@
             <div class="command-btn" @click="tab='daily'"><img :src="require('./images/1.png')"/>日常指挥</div>
           </m-column>
           <m-column  class="command-item"  :span=" 1">
-            <div class="command-btn"><img :src="require('./images/2.png')"/>应急指挥</div>
+            <div class="command-btn" @click="tab='yingji'"><img :src="require('./images/2.png')"/>应急指挥</div>
           </m-column>
           <m-column  class="command-item"  :span=" 1">
-            <div class="command-btn"><img :src="require('./images/3.png')"/>专项指挥</div>
+            <div class="command-btn" @click="tab='zhuanxiang'"><img :src="require('./images/3.png')"/>专项指挥</div>
           </m-column>
         </m-row>
       </m-tabs-body-item>
@@ -43,6 +43,35 @@
           </div>
         </div>
       </m-tabs-body-item>
+      <m-tabs-body-item name="zhuanxiang" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
+        <div class="zhuanxiang-wrap">
+          <div class="item" v-for="(item, index) in zhuanxiang" :key="`zx-${index}`">
+            {{item.label}}
+          </div>
+        </div>
+      </m-tabs-body-item>
+      <m-tabs-body-item name="yingji" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
+        <div class="yingji">
+          <div class="wrap" v-if="!showYingjiList">
+            <div class="left">
+              <div class="item" @click="handleShowList('区委部门')">区委部门</div>
+              <div class="item" @click="handleShowList('区政府部门')">区府部门</div>
+            </div>
+            <div class="center">
+              <div class="item" @click="handleShowList('区应急局')">区应急局</div>
+            </div>
+            <div class="right">
+              <div class="item" @click="handleShowList('应急管理单元')">应急管理单元</div>
+              <div class="item" @click="handleShowList('区管国企')">区管国企</div>
+              <div class="item" @click="handleShowList('属地部门')">属地部门</div>
+            </div>
+          </div>
+          <div class="list-wrap" v-else>
+            <m-list :headers="headers" :dataset="tableData"></m-list>
+            <div class="goback" @click="showYingjiList=false"></div>
+          </div>
+        </div>
+      </m-tabs-body-item>
       <m-tabs-body-item name="sgy" class="detail">
         <m-row gutter="0.1rem">
           <m-column width="20%">
@@ -51,10 +80,6 @@
           <m-column width="80%">
             <chart-line :chartData="dataset.sgy_chartData" :colors="colors" :smooth="true"></chart-line>
           </m-column>
-          <!-- <m-column width="50%">
-            <level-title :level="2" icon="icon-biaoti" txt="街镇用水量"></level-title>
-            <chart-bar :chartData="dataset.sgy_chartData2" :colors="colors2"></chart-bar>
-          </m-column> -->
         </m-row>
       </m-tabs-body-item>
       <m-tabs-body-item name="dlgy">
@@ -113,12 +138,15 @@ import MTabsBody from "@/components/MTabsBody/MTabsBody";
 import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import ChartLine from "@/components/Charts/Line/ChartLineForCompare";
 import ChartBar from "./ChartBar";
+import MList from "@/components/MList/index";
 import MSelect from "@/components/MSelect";
-import { getData } from "./api";
+import { getData, getListData1, getListData2 } from "./api";
+import { statisticsForKey } from "@/utils/tools";
 export default {
   name: "OverView",
   components: {
     MDialog,
+    MList,
     LevelTitle,
     WrapTitle,
     MTabs,
@@ -167,6 +195,20 @@ export default {
           value: "鲍晓丽"
         }
       ],
+      zhuanxiang: [
+        {
+          label: "文明创建"
+        },
+        {
+          label: "卫生创建"
+        },
+        {
+          label: "重大活动"
+        },
+        {
+          label: "重大节日"
+        }
+      ],
       tabs: Object.freeze([
         { label: "指挥体系", value: "manager" },
         { label: "城市运行", value: "overview" }
@@ -211,10 +253,42 @@ export default {
           ["天目西", 200, 100]
         ]
       },
-      itemsData: {}
+      itemsData: {},
+      headers: [
+        {
+          label: "部门",
+          prop: "部门"
+        },
+        {
+          label: "姓名",
+          prop: "姓名"
+        },
+        {
+          label: "职务",
+          prop: "职务"
+        },
+        {
+          label: "办公电话",
+          prop: "办公电话"
+        },
+        {
+          label: "手机",
+          prop: "手机"
+        }
+      ],
+      list: [],
+      activeDep: null,
+      showYingjiList: false
     };
   },
   computed: {
+    tableData() {
+      if (this.activeDep) {
+        return this.list[this.activeDep] || [];
+      } else {
+        return this.list;
+      }
+    },
     title() {
       let res = "城市运行";
       if (this.activeItem) {
@@ -224,6 +298,10 @@ export default {
     }
   },
   methods: {
+    handleShowList(type) {
+      this.activeDep = type;
+      this.showYingjiList = true;
+    },
     handleChangeForTabItem() {
       // todo
     },
@@ -234,6 +312,7 @@ export default {
     handleClickForBack() {
       this.tab = "manager";
       this.activeItem = null;
+      this.showYingjiList = null;
     },
     getData() {
       getData().then(res => {
@@ -260,6 +339,22 @@ export default {
         });
         this.itemsData = tmp;
       });
+      Promise.all([getListData1(), getListData2()]).then(res => {
+        this.list = statisticsForKey("关联", [...res[0].raw_data, ...res[1].raw_data.map(item => {
+          return {
+            部门: item["单位"],
+            姓名: item["分管领导"],
+            职务: item["分管领导职务"],
+            办公电话: item["分管领导固定电话"],
+            手机: item["分管领导移动电话"]
+          };
+        })].map((item, index) => {
+          return {
+            ...item,
+            id: index
+          };
+        }));
+      });
     },
     handleMouse(ref, mouse) {
       if (mouse === "enter") {
@@ -275,6 +370,114 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.yingji{
+  width: 100%;
+  height: 3rem;
+  position: relative;
+  .wrap{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .left{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 2rem;
+
+      .item{
+        width: 2.84*2rem;
+        height: 0.8rem;
+        background: linear-gradient(138deg, rgba(98, 222, 187, 0.15) 0%, rgba(0, 161, 228, 0.15) 100%);
+        border: 1px solid;
+        border-image: linear-gradient(90deg, rgba(81, 231, 228, 0.21), rgba(0, 195, 172, 0.16)) 1 1;
+
+        font-size: 0.24*2rem;
+        font-weight: 600;
+        color: #FFFFFF;
+        line-height: 0.8rem;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+    .center{
+      .item{
+        width: 3.34*2rem;
+        height: 0.64*2rem;
+        background: linear-gradient(139deg, rgba(30, 178, 255, 0.56) 0%, rgba(0, 206, 255, 0.78) 100%);
+        border-radius: 2px;
+        opacity: 0.58;
+        border: 1px solid;
+        border-image: linear-gradient(137deg, rgba(3, 195, 255, 1), rgba(7, 222, 255, 1)) 1 1;
+
+        font-size: 0.24*2rem;
+        font-weight: 600;
+        color: #FFFFFF;
+        line-height: 0.64*2rem;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+    .right{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      height: 2.5rem;
+      .item{
+        width: 2.84*2rem;
+        height: 0.32*2rem;
+        background: linear-gradient(180deg, rgba(84, 88, 169, 0.2) 0%, rgba(21, 79, 163, 0.4) 100%);
+        border-radius: 0.04rem;
+        border: 1px solid;
+        border-image: linear-gradient(130deg, rgba(150, 128, 200, 0.12), rgba(95, 72, 157, 0.33)) 1 1;
+
+        font-size: 0.42rem;
+        font-weight: 400;
+        color: #FFFFFF;
+        line-height: 0.64rem;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+  }
+  .list-wrap{
+    width: 100%;
+    height: 2.6rem;
+    position: relative;
+    .goback{
+      position: absolute;
+      top: -0.5rem;
+      right: 0.2rem;
+      width: 0.4rem;
+      height: 0.4rem;
+      background: url("./images/goback.png") center center / contain no-repeat;
+      cursor: pointer;
+    }
+  }
+
+}
+.zhuanxiang-wrap{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  .item{
+    width: 2.24*2rem;
+    height: 0.56*2rem;
+    background: linear-gradient(360deg, rgba(0, 48, 124, 0.69) 0%, rgba(21, 79, 163, 0.4) 100%);
+    border-radius: 0.04*2rem;
+    border: 1px solid #2E62B4;
+    text-align: center;
+    line-height: 0.56*2rem;
+
+    font-size: 0.21*2rem;
+    font-weight: 400;
+    color: #FFFFFF;
+  }
+}
 .command-item{
   display: flex;
   justify-content: center;
