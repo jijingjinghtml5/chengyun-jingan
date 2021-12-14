@@ -1,7 +1,7 @@
 <template>
 <div class="container gradient-bg">
     <wrap-title txt="风险预警" :level="1" icon="icon-qujiducha">
-      <m-tabs slot="level-title" v-model="tab" :tabs="tabs" ref="mainTab"></m-tabs>
+      <m-tabs slot="level-title" v-model="tab" :tabs="tabs" ref="mainTab" :autoChange="false"></m-tabs>
       <component :is="tab" style="margin-top:20px;" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')"></component>
     </wrap-title>
 </div>

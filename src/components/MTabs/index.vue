@@ -32,9 +32,11 @@ export default {
       return activeIndex;
     },
     startTimer() {
-      this.resetTimer = setInterval(() => {
-        this.autoChangeTab();
-      }, this.againInterval);
+      if (this.autoChange) {
+        this.resetTimer = setInterval(() => {
+          this.autoChangeTab();
+        }, this.againInterval);
+      }
     },
     stopTimer () {
       if (this.resetTimer) {
@@ -52,7 +54,6 @@ export default {
     }
   },
   mounted() {
-    // todo
     this.startTimer();
   }
 };

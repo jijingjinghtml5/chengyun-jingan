@@ -18,6 +18,10 @@ export default {
     activeStyle: { // 选中样式
       type: String,
       default: ""
+    },
+    autoChange: {
+      type: Boolean,
+      default: true
     }
   },
   computed: {
