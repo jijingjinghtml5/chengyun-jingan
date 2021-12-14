@@ -1,8 +1,8 @@
 <template>
 <div class="container gradient-bg">
     <wrap-title txt="风险预警" :level="1" icon="icon-qujiducha">
-      <m-tabs slot="level-title" v-model="tab" :tabs="tabs"></m-tabs>
-      <component :is="tab" style="margin-top:20px;"></component>
+      <m-tabs slot="level-title" v-model="tab" :tabs="tabs" ref="mainTab"></m-tabs>
+      <component :is="tab" style="margin-top:20px;" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')"></component>
     </wrap-title>
 </div>
 </template>
@@ -27,6 +27,15 @@ export default {
       ]),
       tab: "Summary"
     };
+  },
+  methods: {
+    handleMouse(ref, mouse) {
+      if (mouse === "enter") {
+        this.$refs[ref].stopTimer();
+      } else {
+        this.$refs[ref].startTimer();
+      }
+    }
   }
 };
 </script>
