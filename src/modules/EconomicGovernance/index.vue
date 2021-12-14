@@ -158,8 +158,8 @@
         </m-row>
       </m-tabs-body-item>
     </m-tabs-body>
-    <MDialog :dialogVisible.sync="dialogShow" appendDom="#MapContainer" :extraCss="extraCss">
-      <video v-if="dialogShow" :src=" prefix + '/videos/nx.mp4'" style="width: 100%;" autoplay loop ></video>
+    <MDialog :dialogVisible.sync="dialogShow" appendDom=".layout" :extraCss="extraCss">
+      <video v-if="dialogShow" :src=" prefix + '/videos/nx.mp4'" style="width:100%;height: 100%;object-fit:cover;" autoplay loop ></video>
     </MDialog>
   </wrap-title>
 </template>
@@ -202,7 +202,8 @@ export default {
     const prefix = arr.join("/");
     return {
       extraCss: {
-        top: "1.5rem"
+        // top: "1.5rem"
+        width: "100%"
       },
       prefix: prefix,
       urls: [
