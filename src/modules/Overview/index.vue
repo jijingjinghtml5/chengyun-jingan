@@ -1,6 +1,6 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-dihezhongdianquyu">
-    <m-tabs slot="level-title" v-model="firstTab" ref="mainTab" :tabs="tabs" @change="handleChangeForTabItem"></m-tabs>
+    <m-tabs slot="level-title" v-model="firstTab" ref="mainTab" :tabs="tabs" @change="handleChangeForTabItem" :autoChange="false"></m-tabs>
     <m-tabs-body :tab="secondTab">
       <m-tabs-body-item name="today" class="today-overview" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
         <m-row>

@@ -1,6 +1,6 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-zonghezhili" :txt="title">
-    <m-tabs slot="level-title" v-model="tab" :tabs="tabs" ref="mainTab" @change="handleChangeForTabItem"></m-tabs>
+    <m-tabs slot="level-title" v-model="tab" :tabs="tabs" ref="mainTab" @change="handleChangeForTabItem" :autoChange="false"></m-tabs>
     <span slot="center" v-show="tab !== 'overview' && tab !=='manager'" class="back" @click="handleClickForBack">[返回上一级]</span>
     <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
     <m-tabs-body :tab="tab">
@@ -226,7 +226,7 @@ export default {
         { label: "本周", value: "currentWeek" },
         { label: "本月", value: "currentMonth" }
       ]),
-      tab: "manager",
+      tab: "overview",
       activeItem: null,
       option: "currentWeek",
       dataset: {
