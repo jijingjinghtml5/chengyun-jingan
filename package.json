@@ -21,6 +21,7 @@
     "jmespath": "^0.15.0",
     "normalize.css": "^8.0.1",
     "parse-ms": "^2.1.0",
+    "pdfjs-dist": "2.5.207",
     "proj4": "^2.5.0",
     "register-service-worker": "^1.6.2",
     "v-calendar": "^0.9.7",

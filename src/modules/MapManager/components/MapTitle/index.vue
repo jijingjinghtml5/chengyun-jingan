@@ -1,6 +1,6 @@
 <template>
   <div class="MapTitleContainer">
-    <div class="tilte">上海市静安区城市运行管理平台</div>
+    <div class="tilte" @click="handeClick">上海市静安区城市运行管理平台</div>
     <div class="map-tab">
       <header-menu
         :mapControlItem="mapControlItem"
@@ -265,6 +265,9 @@ export default {
 
   },
   methods: {
+    handeClick() {
+      this.$emit("titleClick");
+    },
   mapHeaderItemChoose(data) {
     console.log(data, "mapHeaderItemChoose--------------");
     this.$_mapProxy.map._closePopup();

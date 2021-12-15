@@ -124,6 +124,18 @@
     <MDialog :dialogVisible.sync="dialogVisible" appendDom="#MapContainer" :extraCss="extraCss">
       <img style="width: 100%;height: 100%; object-fit: contain;border: 1px solid #154FA3;" :src="require('./images/daily-command.png')"/>
     </MDialog>
+    <m-dialog
+      :dialog-visible.sync="visible"
+      append-dom="#MapContainer"
+      :destroy-after-close="true"
+    >
+      <m-pdf
+        v-if="pdfUrl"
+        :src="pdfUrl"
+        mode="ppt"
+      />
+    </m-dialog>
+    <div class="schedule" v-if="tab==='manager'"  @click="handleReportView"><span class="iconfont icon-renyuankaohe"></span></div>
   </wrap-title>
 </template>
 <script>
@@ -139,9 +151,12 @@ import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import ChartLine from "@/components/Charts/Line/ChartLineForCompare";
 import ChartBar from "./ChartBar";
 import MList from "@/components/MList/index";
+import MPdf from "@/components/MPDF";
+
 import MSelect from "@/components/MSelect";
 import { getData, getListData1, getListData2 } from "./api";
 import { statisticsForKey } from "@/utils/tools";
+
 export default {
   name: "OverView",
   components: {
@@ -157,11 +172,17 @@ export default {
     MTabsBodyItem,
     ChartLine,
     ChartBar,
-    MSelect
+    MSelect,
+    MPdf
   },
   inheritAttrs: false,
   data() {
+    const lastIndex = window.location.href.lastIndexOf("/");
+    const prefix = window.location.href.substring(0, lastIndex + 1);
     return {
+      visible: false,
+      prefix: prefix,
+      pdfUrl: "",
       extraCss: {
         top: "3.3rem",
         left: "3.5rem",
@@ -176,7 +197,7 @@ export default {
         },
         {
           label: "网信办",
-          value: "李晟晖"
+          value: "柴春羚"
         },
         {
           label: "公  安",
@@ -184,15 +205,15 @@ export default {
         },
         {
           label: "建管委",
-          value: "洪海明"
+          value: "郁震飞"
         },
         {
           label: "应急局",
-          value: "李晟晖"
+          value: "王姝"
         },
         {
           label: "地区办",
-          value: "鲍晓丽"
+          value: "潘文波"
         }
       ],
       zhuanxiang: [
@@ -298,6 +319,10 @@ export default {
     }
   },
   methods: {
+    handleReportView () {
+      this.visible = true;
+      this.pdfUrl = this.prefix + "/pdf/zhiban.pdf";
+    },
     handleShowList(type) {
       this.activeDep = type;
       this.showYingjiList = true;
@@ -370,6 +395,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.schedule{
+  position: absolute;
+  top: 0.3rem;
+  left: 7rem;
+  font-size: 0.4rem;
+  cursor: pointer;
+  width: 2rem;
+  height: 0.32*2rem;
+  background: linear-gradient(180deg, rgba(102, 157, 244, 0.4) 0%, rgba(21, 79, 163, 0.4) 100%);
+  border-radius: 0.02*2rem;
+  text-align: center;
+  line-height: 0.64rem;
+}
 .yingji{
   width: 100%;
   height: 3rem;

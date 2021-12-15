@@ -1,12 +1,24 @@
 <template>
   <div class="MapContainer" id="MapContainer" @click.stop @mousedown.stop>
-    <maptitle></maptitle>
+    <maptitle @titleClick="handleReportView"></maptitle>
     <citymap ref='Map'></citymap>
     <maptool :class="{collapsed: isCollapsed}"></maptool>
     <videomap @collapsedChange="handleCollapseChange"></videomap>
         <!---左侧通用弹窗容器-->
     <popup-container :mapData="popupMapData" :componentName="popupComponentName" :popupBool.sync="popupBool" @closePopup='_closePopup'
     :stylePopup='stylePopup' ></popup-container>
+
+    <m-dialog
+      :dialog-visible.sync="visible"
+      append-dom="#MapContainer"
+      :destroy-after-close="true"
+    >
+      <m-pdf
+        v-if="pdfUrl"
+        :src="pdfUrl"
+        mode="ppt"
+      />
+    </m-dialog>
   </div>
 </template>
 <script>
@@ -16,10 +28,16 @@ import maptitle from "./components/MapTitle";
 import maptool from "./components/MapTool";
 import videomap from "./components/video";
 import { getCaseTownList } from "./api";
+
+import MPdf from "@/components/MPDF";
+import MDialog from "@/components/MDialog";
+
 export default {
   name: "MapManager",
   data() {
     return {
+      visible: false,
+      pdfUrl: "",
       // 弹窗
       isCollapsed: false,
       stylePopup: {
@@ -37,7 +55,9 @@ export default {
     citymap,
     maptool,
     videomap,
-    popupContainer
+    popupContainer,
+    MDialog,
+    MPdf
 
   },
   computed: {
@@ -237,6 +257,10 @@ export default {
     },
     handleCollapseChange(val) {
       this.isCollapsed = val;
+    },
+    handleReportView () {
+      this.visible = true;
+      this.pdfUrl = this.rootUrl + "/pdf/report.pdf";
     }
 
   },
