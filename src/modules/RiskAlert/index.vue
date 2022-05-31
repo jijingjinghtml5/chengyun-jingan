@@ -63,13 +63,13 @@ export default {
               color: "#6CCB73"
             },
             {
-              label: "新增居家观察",
+              label: "常态化核酸采样点",
               count: 78,
               key: "health_stats_home_add",
               color: "#F96F4F"
             },
             {
-              label: "解除居家观察",
+              label: "已启用采样点",
               count: 78,
               key: "health_stats_home_add",
               color: "#6CCB73"
@@ -107,12 +107,12 @@ export default {
           update_time: "今日8:00",
           metrics: [
             {
-              label: "集中来电",
+              label: "24小时热线",
               count: 78,
               color: "#4FCFD5"
             },
             {
-              label: "安全隐患",
+              label: "舆情监测",
               count: 2,
               color: "#F23470"
             },
