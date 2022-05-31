@@ -63,7 +63,7 @@ export default {
               color: "#6CCB73"
             },
             {
-              label: "常态化核酸采样点",
+              label: "核酸采样点",
               count: 78,
               key: "health_stats_home_add",
               color: "#F96F4F"
