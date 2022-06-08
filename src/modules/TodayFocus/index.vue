@@ -91,8 +91,13 @@ export default {
           };
         });
         this.stats = _d;
+        const staticData = res.items.filter(item => item.id == 46);
+        if (staticData.length) {
+          this.gridData.today = staticData[0].value;
+        } else {
+          this.gridData.today = res.data.today_total;
+        }
         // console.log("stats", res.data.stats, this.stats);
-        this.gridData.today = res.data.today_total;
         this.gridData.yesterday = res.data.yesterday_total;
 
         let tmp = {};

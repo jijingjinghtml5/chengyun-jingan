@@ -80,12 +80,21 @@ export default {
     pubilcItems() {
       const grid = this.dataset.gridData;
       let gridRate = grid.yesterday ? Math.floor(((grid.today - grid.yesterday) / grid.yesterday) * 10000) / 100 : "-";
-
+      let total = 0;
+      this.otherItems.forEach(item => {
+        item.forEach(data => {
+          if (isNaN(Number(data.value || data.count))) {
+            total = total + 0;
+          } else {
+            total = total + Number(data.value || data.count);
+          }
+        });
+      });
       return [
         {
           label: "一网统管",
-          count: grid.today,
-          rate: gridRate,
+          count: total,
+          rate: this.dataset.itemsData["一网通办"] ? this.dataset.itemsData["一网统管"].rate : "-",
           color: gridRate > 0 ? "#4FCFD5" : (gridRate < 0 ? "#E64C3B" : "#2E9BCF")
         },
         {
