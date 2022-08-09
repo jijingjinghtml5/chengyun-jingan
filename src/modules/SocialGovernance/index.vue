@@ -111,7 +111,7 @@
       </m-column>
       <m-column width="50%">
         <overview-item
-          name="12345诉求数（人）"
+          name="12348法律咨询受理量（人）"
           :value="dataset.appeal_12345_number"
           :increase="dataset.appeal_12345_number_increase"
           customClass="style6">
@@ -119,8 +119,7 @@
       </m-column>
       <m-column width="50%">
         <overview-item
-          name="市民满意度"
-          valueUnit="%"
+          name="消费者申投诉案件数"
           :value="dataset.citizen_satisfaction_survey"
           :increase="dataset.citizen_satisfaction_survey_increase"
           customClass="style6">
@@ -128,9 +127,8 @@
       </m-column>
       <m-column width="50%">
         <overview-item
-          name="问题解决率"
+          name="质量举报投诉总件数"
           :value="dataset.problem_solving_rate"
-          valueUnit="%"
           :increase="dataset.problem_solving_rate_increase"
           customClass="style6">
         </overview-item>

@@ -1,7 +1,6 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-jingji" txt="经济治理">
-    <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
-    <level-title :level="2" icon="icon-biaoti" txt="五大产业和房地产业"></level-title>
+    <level-title :level="2" icon="icon-biaoti" txt="重点产业和房地产税收收入"></level-title>
     <overview-item
       style="margin-top: -0.2rem;"
       valueUnit="亿元"
@@ -20,7 +19,9 @@
     <overview-item
        @mouseenter.native="handleMouse('jingji', 'enter')" @mouseleave.native="handleMouse('jingji', 'leave')"
       style="margin-top: -0.2rem;"
+      valueBefore="税收收入"
       valueUnit="亿元"
+      :showIncrease="false"
       :value="dataset.statistics[tab]"
       :increase="dataset.statistics[tab + '_increase']"
       customClass="style7">
@@ -76,7 +77,7 @@
           </m-column>
           <m-column>
             <overview-item
-              name="旅游业接待"
+              name="旅行社接待"
               :value="dataset.statistics.tourism_reception"
               :increase="dataset.statistics.tourism_reception_increase"
               valueUnit="人次"
@@ -221,8 +222,8 @@ export default {
       tabs: Object.freeze([
         { label: "一轴三带", value: "yzsd" },
         { label: "楼宇经济", value: "lyjj" },
-        { label: "总部经济", value: "zbjj" },
-        { label: "园区经济", value: "yqjj" }
+        { label: "工业总产值", value: "zbjj" },
+        { label: "四大功能区", value: "yqjj" }
       ]),
       tabs2: Object.freeze([
         { label: "社会消费", value: "社会消费" },
