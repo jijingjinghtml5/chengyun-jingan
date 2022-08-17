@@ -142,7 +142,7 @@
         <m-row>
           <m-column>
             <overview-item
-              name="专利授权书（件）"
+              name="专利授权数（件）"
               :value="dataset.statistics.patents_granted_number"
               :increase="dataset.statistics.patents_granted_number_increase"
               customClass="style7">
