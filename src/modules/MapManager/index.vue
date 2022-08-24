@@ -58,7 +58,6 @@ export default {
     popupContainer,
     MDialog,
     MPdf
-
   },
   computed: {
   },
