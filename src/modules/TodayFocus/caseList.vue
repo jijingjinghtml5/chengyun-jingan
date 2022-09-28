@@ -28,7 +28,7 @@ import { getUrl } from "@/utils/tools";
 
 // import {formatterDate} from "@"
 
-import { getListData } from "./api";
+import { getListData, getSspListData } from "./api";
 
 export default {
   name: "TodayFocusList",
@@ -56,7 +56,6 @@ export default {
         this.tableData = [];
         this.$bus.$emit("map-close-model", {});
         this.$bus.$emit("map-full-extent", {});
-        // console.log("watch", this.item);
         let filter = "";
         let timestamp = (new Date()).getTime();
         switch (nv) {
@@ -74,6 +73,17 @@ export default {
             break;
 
           default:
+        }
+        if (nv === "随手拍") {
+          getSspListData({
+            filter: "openTS=today%26is_delete=neq.1%26district_eventType.level_1=eq.随手拍",
+            transform: "messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude }",
+            group_by: "",
+            limit: 100000
+          }).then(res => {
+            this.tableData = res.data || [];
+          });
+          return;
         }
         if (filter) {
           this.getListData(filter);
@@ -232,43 +242,44 @@ export default {
     getListData(filter) {
       this.loading = true;
       getListData(filter).then(res => {
-        // console.log(">>>>>>>>", res);
         this.tableData = res.list;
         this.loading = false;
-
-        let img = this.getMapIconImg();
-        this.caseAllLayer.setParameters({
-          "renderer": {
-            type: "simple",
-            label: "案件",
-            symbol: {
-              type: "picture-marker",
-              url: getUrl(img),
-              width: "36px",
-              height: "36px"
-            }
-          },
-          "data": {
-            "content": this.tableData.map(item => {
-              return {
-                id: item.id,
-                lng: item.lng,
-                lat: item.lat
-              };
-            }),
-            "parsegeometry": "function(item){return {x:item.lng,y:item.lat}}"
-          }
-        }).setPopupConfig({
-          component: "case",
-          dataFormat: data => {
-            return {
-              caseId_: data.id
-            };
-          }
-        }).open();
+        this.addPoints();
       }).catch(() => {
         this.loading = false;
       });
+    },
+    addPoints() {
+      let img = this.getMapIconImg();
+      this.caseAllLayer.setParameters({
+        "renderer": {
+          type: "simple",
+          label: "案件",
+          symbol: {
+            type: "picture-marker",
+            url: getUrl(img),
+            width: "36px",
+            height: "36px"
+          }
+        },
+        "data": {
+          "content": this.tableData.map(item => {
+            return {
+              id: item.id,
+              lng: item.lng,
+              lat: item.lat
+            };
+          }),
+          "parsegeometry": "function(item){return {x:item.lng,y:item.lat}}"
+        }
+      }).setPopupConfig({
+        component: "case",
+        dataFormat: data => {
+          return {
+            caseId_: data.id
+          };
+        }
+      }).open();
     },
     registerLayer() {
       this.caseAllLayer = this.$_mapProxy.registerLayer("redAndYellowCaseLayer", "红黄灯案件", this.$_mapProxy.MANUAL_GROUP, {

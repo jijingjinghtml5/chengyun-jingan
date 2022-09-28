@@ -14,3 +14,10 @@ export function getListData(filter) {
     }
   });
 }
+
+export function getSspListData(params) {
+  return request({
+    url: "/v2/data-api/814",
+    params
+  });
+}

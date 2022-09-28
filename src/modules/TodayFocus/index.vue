@@ -97,7 +97,6 @@ export default {
         } else {
           this.gridData.today = res.data.today_total;
         }
-        // console.log("stats", res.data.stats, this.stats);
         this.gridData.yesterday = res.data.yesterday_total;
 
         let tmp = {};

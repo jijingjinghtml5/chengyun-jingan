@@ -15,13 +15,28 @@
           </wrap-title>
         </div>
       </div>
-      <div class="wall-panel">
-        <m-row class="tile-row" gutter="20px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
-            <MColumn span="5" v-for="(item, index) in chunk" :key="`other-${index}`">
-              <tile1 :item="item" class="block clickAble" @click="handleClick(item)"></tile1>
-            </MColumn>
-          </m-row>
-      </div>
+      <swiper :options="swiperOptions">
+        <swiper-slide>
+          <div class="wall-panel">
+            <m-row class="tile-row" gutter="20px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
+              <MColumn span="5" v-for="(item, index) in chunk" :key="`other-${index}`">
+                <tile1 v-if="item.key === '随手拍'" :item="sspData" class="block clickAble" @click="handleClick(sspData)"></tile1>
+                <tile1 v-else :item="item" class="block clickAble" @click="handleClick(item)"></tile1>
+              </MColumn>
+            </m-row>
+          </div>
+        </swiper-slide>
+        <swiper-slide>
+          <div class="wall-panel">
+            <m-row class="tile-row" gutter="20px" v-for="(chunk , i) in secondItems" :key="`second-chunk-${i}`">
+                <MColumn width="20%" :key="`other-${i}`">
+                  <tile1 :item="chunk" class="block clickAble" @click="handleClick(chunk)"></tile1>
+                </MColumn>
+              </m-row>
+          </div>
+        </swiper-slide>
+        <div class="swiper-pagination"  slot="pagination"></div>
+      </swiper>
   </div>
 </template>
 <script>
@@ -33,15 +48,18 @@ import Tile from "@/components/Tile/index2";
 import Tile1 from "@/components/Tile/index1";
 
 import { getDate, generateKeyValuePair } from "@/utils/tools";
+import "swiper/dist/css/swiper.css";
+import { swiper, swiperSlide } from "vue-awesome-swiper";
 
 import Vue from "vue";
 import { Row, Col } from "element-ui";
+import { getSspListData } from "./api.js";
 Vue.use(Row);
 Vue.use(Col);
 
 export default {
   name: "TodayFocusOverview",
-  components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1 },
+  components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1, swiperSlide, swiper },
   props: {
     dataset: {
       type: Object,
@@ -66,7 +84,6 @@ export default {
           ...(this.dataset.stats[item.key] || this.dataset.itemsData[item.key] || {})
         };
       });
-      console.log("xxxxx", this.dataset.itemsData, items);
       const length = items.length;
       if (length < this.chunkSize) {
         return items;
@@ -129,6 +146,19 @@ export default {
   },
   data() {
     return {
+      swiperOptions: {
+        autoHeight: true,
+        pagination: {
+          el: ".swiper-pagination"
+        }
+      },
+      sspData: {
+        label: "随手拍",
+        count: "-",
+        key: "随手拍",
+        rate: "-",
+        unit: "件"
+      },
       legendConfig: {
         icon: "rect",
         itemWidth: 20,
@@ -136,9 +166,17 @@ export default {
         top: 0,
         right: 250
       },
+      secondItems: [
+        {
+          label: "矛盾纠纷",
+          count: "-",
+          key: "矛盾纠纷",
+          rate: "-",
+          unit: "件"
+        }
+      ],
       items: [
         {
-          // icon: "icon-biaoti",
           label: "12345热线",
           count: "-",
           key: "12345热线",
@@ -146,7 +184,6 @@ export default {
           unit: "件"
         },
         {
-          // icon: "icon-biaoti",
           label: "110",
           count: "-",
           key: "110",
@@ -154,7 +191,6 @@ export default {
           unit: "件"
         },
         {
-          // icon: "icon-biaoti",
           label: "119",
           count: "-",
           key: "119",
@@ -162,7 +198,6 @@ export default {
           unit: "件"
         },
         {
-          // icon: "icon-biaoti",
           label: "120",
           count: "-",
           key: "120",
@@ -170,7 +205,6 @@ export default {
           unit: "件"
         },
         {
-          // icon: "icon-biaoti",
           label: "962121",
           count: "-",
           key: "962121",
@@ -178,7 +212,6 @@ export default {
           unit: "件"
         },
         {
-          // icon: "icon-biaoti",
           label: "网格巡查",
           count: "-",
           key: "网格",
@@ -186,7 +219,6 @@ export default {
           unit: "件"
         },
         {
-          // icon: "icon-biaoti",
           label: "市场监管",
           count: "-",
           key: "市场监管",
@@ -194,7 +226,6 @@ export default {
           unit: "件"
         },
         {
-          // icon: "icon-biaoti",
           label: "110非警情",
           count: "-",
           key: "110非警情",
@@ -202,7 +233,6 @@ export default {
           unit: "件"
         },
         {
-          // icon: "icon-biaoti",
           label: "综治",
           count: "-",
           key: "综治",
@@ -210,10 +240,9 @@ export default {
           unit: "件"
         },
         {
-          // icon: "icon-biaoti",
-          label: "矛盾纠纷",
+          label: "随手拍",
           count: "-",
-          key: "矛盾纠纷",
+          key: "随手拍",
           rate: "-",
           unit: "件"
         }
@@ -232,10 +261,32 @@ export default {
       }
       this.$emit("click", component, item);
     }
+  },
+  created() {
+    getSspListData().then(res => {
+      let result = res.data || {};
+      let rate = result.yesterday ? Math.floor(((result.today - result.yesterday) / result.yesterday) * 10000) / 100 : "-";
+      this.sspData = {
+        label: "随手拍",
+        count: result.today || "-",
+        key: "随手拍",
+        rate,
+        unit: "件"
+      };
+    });
   }
 };
 </script>
 
+<style type="text/css">
+.swiper-container-horizontal > .swiper-pagination-bullets {
+  bottom: -0.05rem;
+}
+.swiper-pagination-bullet {
+  width: 0.2rem;
+  height: 0.2rem;
+}
+</style>
 <style lang="scss" scoped>
 .overview{
   width: 100%;
@@ -253,6 +304,7 @@ export default {
     }
   }
   .wall-panel{
+    height: 4.3rem;
     .tile-row{
       padding: 0.25rem 0;
     }
