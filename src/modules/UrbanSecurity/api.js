@@ -17,3 +17,10 @@ export function getListData2() {
     url: "http://10.210.232.56:18080/dynamicdata/list/?data_type=静安区-应急系统-组织架构-区管国企"
   });
 }
+
+export function getHotlineData(params) {
+  return request({
+    url: "/v2/data-api/817",
+    params
+  });
+}

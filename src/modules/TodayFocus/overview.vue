@@ -21,6 +21,7 @@
             <m-row class="tile-row" gutter="20px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
               <MColumn span="5" v-for="(item, index) in chunk" :key="`other-${index}`">
                 <tile1 v-if="item.key === '随手拍'" :item="sspData" class="block clickAble" @click="handleClick(sspData)"></tile1>
+                <tile1 v-else-if="item.key === '12345热线'" :item="hotlineData" class="block clickAble" @click="handleClick(hotlineData)"></tile1>
                 <tile1 v-else :item="item" class="block clickAble" @click="handleClick(item)"></tile1>
               </MColumn>
             </m-row>
@@ -53,7 +54,7 @@ import { swiper, swiperSlide } from "vue-awesome-swiper";
 
 import Vue from "vue";
 import { Row, Col } from "element-ui";
-import { getSspListData } from "./api.js";
+import { getSspListData, getHotlineData } from "./api.js";
 Vue.use(Row);
 Vue.use(Col);
 
@@ -151,6 +152,13 @@ export default {
         pagination: {
           el: ".swiper-pagination"
         }
+      },
+      hotlineData: {
+        label: "12345热线",
+        count: "-",
+        key: "12345热线",
+        rate: "-",
+        unit: "件"
       },
       sspData: {
         label: "随手拍",
@@ -254,7 +262,6 @@ export default {
 
   methods: {
     handleClick(item) {
-      console.log("item,", item);
       let component = "dashboard";
       if (["公共安全案件数", "公共管理案件数", "公共服务案件数"].indexOf(item.label) === -1) {
         component = "list";
@@ -270,6 +277,17 @@ export default {
         label: "随手拍",
         count: result.today || "-",
         key: "随手拍",
+        rate,
+        unit: "件"
+      };
+    });
+    getHotlineData().then(res => {
+      let result = res.data || {};
+      let rate = result.yesterday ? Math.floor(((result.today - result.yesterday) / result.yesterday) * 10000) / 100 : "-";
+      this.sspData = {
+        label: "12345热线",
+        count: result.today || "-",
+        key: "12345热线",
         rate,
         unit: "件"
       };

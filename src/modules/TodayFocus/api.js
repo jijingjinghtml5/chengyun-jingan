@@ -21,3 +21,10 @@ export function getSspListData(params) {
     params
   });
 }
+
+export function getHotlineData(params) {
+  return request({
+    url: "/v2/data-api/817",
+    params
+  });
+}

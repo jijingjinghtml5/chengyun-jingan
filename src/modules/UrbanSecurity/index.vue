@@ -20,7 +20,6 @@
       <m-tabs-body-item name="overview" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
         <m-row gutter="0.1rem">
           <m-column v-for="item in items" :key="item.name" :span="item.span || 1">
-            <!-- @click.native="handleClickForOverviewItem(item)" -->
             <overview-item
             v-bind="item"
             :dataset="itemsData[item.name] || dataset[item.prop]"
@@ -154,7 +153,7 @@ import MList from "@/components/MList/index";
 import MPdf from "@/components/MPDF";
 
 import MSelect from "@/components/MSelect";
-import { getData, getListData1, getListData2 } from "./api";
+import { getData, getListData1, getListData2, getHotlineData } from "./api";
 import { statisticsForKey } from "@/utils/tools";
 
 export default {
@@ -341,7 +340,6 @@ export default {
     },
     getData() {
       getData().then(res => {
-        // console.log(res);
         if (res.api) {
           this.dataset.zngzyj = {
             value: Math.round(res.api.device_online_percent * 100) / 100
@@ -363,6 +361,12 @@ export default {
           tmp[item.name] = item;
         });
         this.itemsData = tmp;
+        console.log(this.itemsData, "itemsData");
+
+        getHotlineData().then(res => {
+          let result = res.data || {};
+          this.itemsData["市民服务热线"].value = result.today || "-";
+        });
       });
       Promise.all([getListData1(), getListData2()]).then(res => {
         this.list = statisticsForKey("关联", [...res[0].raw_data, ...res[1].raw_data.map(item => {

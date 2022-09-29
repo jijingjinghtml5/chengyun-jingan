@@ -28,7 +28,7 @@ import { getUrl } from "@/utils/tools";
 
 // import {formatterDate} from "@"
 
-import { getListData, getSspListData } from "./api";
+import { getListData, getSspListData, getHotlineData } from "./api";
 
 export default {
   name: "TodayFocusList",
@@ -77,6 +77,17 @@ export default {
         if (nv === "随手拍") {
           getSspListData({
             filter: "openTS=today%26is_delete=neq.1%26district_eventType.level_1=eq.随手拍",
+            transform: "messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude }",
+            group_by: "",
+            limit: 100000
+          }).then(res => {
+            this.tableData = res.data || [];
+          });
+          return;
+        }
+        if (nv === "12345热线") {
+          getHotlineData({
+            filter: "openTS=today%26is_delete=neq.1",
             transform: "messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude }",
             group_by: "",
             limit: 100000
