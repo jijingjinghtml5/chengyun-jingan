@@ -28,6 +28,10 @@ export default {
       default: "",
       required: true
     },
+    channelParams: {
+      type: String,
+      default: ""
+    },
     info: {
       type: Object,
       default: null
@@ -58,7 +62,7 @@ export default {
     async getData() {
       if (!this.caseId) return false;
       this.loading = true;
-      let apiRes = await getCaseDetail194(this.caseId);
+      let apiRes = await getCaseDetail194(this.caseId, this.channelParams);
       console.log("案件详情", apiRes);
       this.loading = false;
       if (apiRes.data) {

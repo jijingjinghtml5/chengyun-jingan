@@ -93,6 +93,7 @@ export default {
       for (let i = 0; i < length; i += this.chunkSize) {
         chunks.push(items.splice(0, this.chunkSize));
       }
+      console.log(chunks, "chunks");
       return chunks;
     },
     pubilcItems() {
@@ -284,7 +285,7 @@ export default {
     getHotlineData().then(res => {
       let result = res.data || {};
       let rate = result.yesterday ? Math.floor(((result.today - result.yesterday) / result.yesterday) * 10000) / 100 : "-";
-      this.sspData = {
+      this.hotlineData = {
         label: "12345热线",
         count: result.today || "-",
         key: "12345热线",

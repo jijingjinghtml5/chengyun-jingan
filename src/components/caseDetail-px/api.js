@@ -8,11 +8,12 @@ export function getCaseDetail(id) {
     }
   });
 }
-export function getCaseDetail194(id) {
+export function getCaseDetail194(id, channel) {
   return request({
     url: "/v2/data-api/194",
     params: {
-      uuid: id
+      uuid: id,
+      channel
     }
   });
 }

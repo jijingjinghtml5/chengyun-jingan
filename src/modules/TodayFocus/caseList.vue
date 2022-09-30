@@ -214,8 +214,11 @@ export default {
         this.caseLayer = this.$_mapProxy.pointLocation(row).setPopupConfig({
           component: "case",
           dataFormat: data => {
-            return {
-              caseId_: row.id
+            return this.item.key === "12345热线" ? {
+              caseId_: data.id,
+              channelParams: "sangao"
+            } : {
+              caseId_: data.id
             };
           }
         });
@@ -286,7 +289,10 @@ export default {
       }).setPopupConfig({
         component: "case",
         dataFormat: data => {
-          return {
+          return this.item.key === "12345热线" ? {
+            caseId_: data.id,
+            channelParams: "sangao"
+          } : {
             caseId_: data.id
           };
         }
