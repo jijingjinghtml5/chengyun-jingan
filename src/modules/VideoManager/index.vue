@@ -45,7 +45,7 @@
       <video-mode
       :config="currentLayoutConfig"
       :videos="pageVideos"
-    ></video-mode>
+      ></video-mode>
     </div>
   </div>
 </template>
@@ -70,9 +70,6 @@ export default {
   border: 0.02rem solid #4e78a4;
 }
 .opt-btns-wp {
-  // position: absolute;
-  // top: 0.2rem;
-  // left: 0.2rem;
   display: flex;
   align-items: center;
   z-index: 1;
@@ -83,21 +80,25 @@ export default {
 
     .el-input {
       font-size: 0.28rem !important;
+      position: relative;
     }
 
     .el-input__inner {
       background-color: rgba(22, 80, 164, 0.6) !important;
       color: #fff !important;
-      padding: 0 0.2rem !important;
       height: 0.78rem !important;
       line-height: 0.78rem !important;
       border: 0.02rem solid #1650a4 !important;
-      // width: 3.80rem !important;
     }
 
     .el-select .el-input .el-select__caret {
       color: #fff;
       font-size: 0.28rem !important;
+    }
+
+    .el-input__suffix {
+      position: absolute;
+      top: 0;
     }
 
     .el-input__icon {
@@ -109,7 +110,6 @@ export default {
       padding: 0.12rem 0.20rem !important;
       font-size: 0.48rem !important;
       line-height: 0.48rem;
-      /* border-radius: 0.08rem !important; */
     }
 
     .el-button.text-btn {

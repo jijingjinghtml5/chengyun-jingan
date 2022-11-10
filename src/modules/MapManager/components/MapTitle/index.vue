@@ -67,11 +67,6 @@ export default {
                  type: "people",
                 checked: false
               }
-              // {
-              //   name: "特殊人群",
-              //   nameKey: "name",
-              //   checked: false
-              // }
         ],
         thing: [
           {
@@ -394,7 +389,6 @@ export default {
               this.$message({
               message: "该条件下，暂无案件！",
               type: "warning"
-              // duration: 0
             });
             }
           });

@@ -264,7 +264,6 @@ export default {
     },
     getData() {
       getData().then(res => {
-        console.log(res, "12312");
         Object.keys(res).forEach(key => {
           let regForDB = /\w+_db$/g;
           if (regForDB.test(key)) {
@@ -275,7 +274,6 @@ export default {
                 return [d.name, parseFloat(d.value), d.increase || "-", !d.percent || d.percent === "-" ? "-" : Math.round(d.percent * 10000) / 100];
               }))
             ]);
-            // this.dataset[key] = Object.freeze((res[key] || []))
           }
         });
         if (res.statistics && res.statistics[0]) {

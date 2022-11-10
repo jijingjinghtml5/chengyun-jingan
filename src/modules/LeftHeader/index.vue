@@ -5,19 +5,10 @@
       <p class="clock-date">{{ now | formatterDate2 }}</p>
     </div>
     <ul class="left-header__item condition">
-      <!-- <li class="img">
-        <img src="@/assets/images/weather/sun-rain.png" alt="">
-      </li> -->
       <li>
         <p class="temp">{{ weather.temperature | initVal }}°C</p>
         <p class="report"></p>
       </li>
-      <!-- <li class="img hasBorder">
-        <img src="@/assets/images/weather/1-3.png" alt="">
-      </li>
-      <li class="img hasBorder">
-        <img src="@/assets/images/weather/4-3.png" alt="">
-      </li > -->
     </ul>
     <weather class="left-header__item" :items="weatherItems" :dataset="weather"></weather>
   </div>

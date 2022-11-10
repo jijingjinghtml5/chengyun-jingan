@@ -46,7 +46,7 @@ import UrbanSecurity from "@/modules/UrbanSecurity";
 import UrbanGovernance from "@/modules/UrbanGovernance";
 import SocialGovernance from "@/modules/SocialGovernance";
 import EconomicGovernance from "@/modules/EconomicGovernance";
-import opTools from '@/modules/opTools'
+import opTools from "@/modules/opTools";
 
 import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
@@ -167,7 +167,6 @@ export default {
               component: "MapManager",
               moved: false
             },
-
             {
               x: 0,
               y: 8,

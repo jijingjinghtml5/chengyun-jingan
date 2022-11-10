@@ -2,7 +2,8 @@ import Vue from "vue";
 import App from "./index.vue";
 import "normalize.css";
 import "@/fonts/iconfont.css";
-import ElementUI from "@/components/EleUI";
+import ElementUI from "element-ui";
+import "element-ui/lib/theme-chalk/index.css";
 import "@/style/index.scss";
 
 import "echarts";

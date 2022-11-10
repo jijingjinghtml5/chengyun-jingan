@@ -1,5 +1,5 @@
 <template>
-  <div class="overview-item" :class="customClass">
+  <div class="overview-item" :class="customClass" :title="showTitle">
     <div v-if="icon" class="overview-item__icon">
       <i class="iconfont" :class="icon"></i>
     </div>
@@ -84,6 +84,9 @@ export default {
   computed: {
     vc() {
       return typeof this.valueColor === "function" ? this.valueColor(this.value) : this.valueColor;
+    },
+    showTitle() {
+      return this.name === "交通拥堵指数" ? "大于50表示拥堵" : "";
     }
   }
 };

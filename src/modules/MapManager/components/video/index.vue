@@ -1,16 +1,5 @@
 <template>
   <div class="videoContainer" :class="{collapsed: isCollapsed}">
-      <!-- <div class="video-title">
-        智能巡查{{videoNumber}}
-        <span  class="iconfont icon-arrow_right mapControlLableIcon"></span>
-        <span style="float:right;cursor: pointer;" class="iconfont icon-zidongbofang" ></span>
-
-      </div>
-      <div>
-          <div class="video-item" v-for="(item,index) in videoData" :key="index">
-            <qv-player :videoSrc="item.src"></qv-player>
-          </div>
-      </div> -->
       <div class="collapse" @click="collapsedChange">
         <div :class="`iconfont ${collapsedIcon}`" ></div>
       </div>
