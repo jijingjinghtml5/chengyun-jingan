@@ -28,8 +28,7 @@ export function getCaseTownList (town) {
   return request({
     url,
     params: {
-     // town: town,
-      filter: `openTS=-604800&town.name=eq.${town}`
+      filter: `openTS=-604800&town.name=eq.${town}&polygon=${town}`
     }
   });
 }
