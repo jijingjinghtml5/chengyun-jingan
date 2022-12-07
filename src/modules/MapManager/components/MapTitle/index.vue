@@ -2,945 +2,1018 @@
   <div class="MapTitleContainer">
     <div class="tilte" @click="handeClick">上海市静安区城市运行管理平台</div>
     <div class="map-tab">
-      <header-menu
-        :mapControlItem="mapControlItem"
-        :checkItems="checkItems"
-        :mapControlItemData="mapControlItemData"
-        :formatMethod="formatMethods"
-      ></header-menu>
+      <header-menu :mapControlItem="mapControlItem" :checkItems="checkItems" :mapControlItemData="mapControlItemData"
+        :formatMethod="formatMethods"></header-menu>
     </div>
   </div>
 </template>
 <script>
-import HeaderMenu from "@/lib/MapHeader/HeaderMenu";
-import SHcoordinateUtils from "@/lib/MapProxy/coordUtils/SHcoordinateUtils";
-import { getCaseTownCount, getPeopleStatistic, getNeuronData, getSingleBuildingData, getShopList } from "./api";
-import { thousandCentimeter, getUrl } from "@/utils/tools";
-import partClassData from "./data/partsClass";
-import pipelineData from "./data/pipelineLength";
-import neuronData from "./data/data";
+import HeaderMenu from '@/lib/MapHeader/HeaderMenu'
+import SHcoordinateUtils from '@/lib/MapProxy/coordUtils/SHcoordinateUtils'
+import {
+  getCaseTownCount,
+  getPeopleStatistic,
+  getNeuronData,
+  getSingleBuildingData,
+  getShopList,
+  getEventList,
+  getOrgs
+} from './api'
+import {
+  thousandCentimeter,
+  getUrl
+} from '@/utils/tools'
+import partClassData from './data/partsClass'
+import pipelineData from './data/pipelineLength'
+import neuronData from './data/data'
 
 export default {
-  name: "MapTitle",
+  name: 'MapTitle',
   components: {
     HeaderMenu
 
   },
-  data() {
+  data () {
     return {
-      formatMethods: {
-
-      },
-     mapControlItem: [
-        { name: "人", iconClass: "icon-renqunjuji", attr: "people", isExpand: true, columns: 2, radio: true },
-        { name: "地", iconClass: "icon-bangonglouyu", attr: "area", isExpand: true, columns: 2 },
-        { name: "物", iconClass: "icon-wulianganzhi1", attr: "thing", isExpand: true, columns: 2, radio: true },
-        { name: "事", iconClass: "icon-jinriguanzhu", attr: "event", isExpand: true, radio: true, columns: 2 },
-        { name: "情", iconClass: "icon-wu", attr: "situation", isExpand: true, columns: 2, disable: true },
-        { name: "组织", iconClass: "icon-luchangzhi", attr: "organization", isExpand: true, radio: true, columns: 2, disable: true }
+      formatMethods: {},
+      mapControlItem: [
+        {
+          name: '人',
+          iconClass: 'icon-renqunjuji',
+          attr: 'people',
+          isExpand: true,
+          columns: 2,
+          radio: true
+        },
+        {
+          name: '地',
+          iconClass: 'icon-bangonglouyu',
+          attr: 'area',
+          isExpand: true,
+          columns: 2
+        },
+        {
+          name: '物',
+          iconClass: 'icon-wulianganzhi1',
+          attr: 'thing',
+          isExpand: true,
+          columns: 2,
+          radio: true
+        },
+        {
+          name: '事',
+          iconClass: 'icon-jinriguanzhu',
+          attr: 'event',
+          isExpand: true,
+          radio: true,
+          columns: 2
+        },
+        {
+          name: '情',
+          iconClass: 'icon-wu',
+          attr: 'situation',
+          isExpand: true,
+          columns: 2
+        },
+        {
+          name: '组织',
+          iconClass: 'icon-luchangzhi',
+          attr: 'organization',
+          isExpand: true,
+          radio: true,
+          columns: 2
+        }
       ],
       mapControlItemData: {
-        people: "820",
-        area: "171",
-        thing: "3433",
-        event: "89",
-        situation: "901",
-        organization: "121"
+        people: '820',
+        area: '171',
+        thing: '3433',
+        event: '89',
+        situation: '901',
+        organization: '121'
       },
       checkItems: {
         people: [
-              {
-                name: "户籍人员",
-                nameKey: "name",
-                type: "people",
-                checked: false
-              },
-              {
-                name: "来沪人员",
-                nameKey: "name",
-                 type: "people",
-                checked: false
-              },
-              {
-                name: "境外人员",
-                nameKey: "name",
-                 type: "people",
-                checked: false
-              }
+          {
+            name: '户籍人员',
+            nameKey: 'name',
+            type: 'people',
+            checked: false
+          },
+          {
+            name: '来沪人员',
+            nameKey: 'name',
+            type: 'people',
+            checked: false
+          },
+          {
+            name: '境外人员',
+            nameKey: 'name',
+            type: 'people',
+            checked: false
+          }
         ],
         thing: [
           {
-            name: "城市部件",
-            nameKey: "name",
+            name: '城市部件',
+            nameKey: 'name',
             children: [],
-            childKey: "children"
+            childKey: 'children'
           },
           {
-            name: "地下管线",
-            nameKey: "name",
+            name: '地下管线',
+            nameKey: 'name',
             children: [],
-            childKey: "children"
+            childKey: 'children'
           },
           {
-            name: "神经元传感器",
-            nameKey: "name",
+            name: '神经元传感器',
+            nameKey: 'name',
             // type: "neuron",
             children: [],
-            childKey: "children"
+            childKey: 'children'
           }
         ],
         area: [
-              {
-                name: "公共设施",
-                nameKey: "name",
-                children: [
-                  {
-                    name: "学校",
-                    nameKey: "name",
-                    type: "baseLayer",
-                    checked: false
-                  },
-                  {
-                    name: "医院",
-                    nameKey: "name",
-                    type: "baseLayer",
-                    checked: false
-                  },
-                  {
-                    name: "养老院",
-                    nameKey: "name",
-                    type: "baseLayer",
-                    checked: false
-                  }
-                ],
-                childKey: "children"
-              },
-              {
-                name: "基础设施",
-                nameKey: "name",
-                children: [
-                    {
-                      name: "公共绿地",
-                      nameKey: "name",
-                      type: "baseLayer",
-                      checked: false
-                    },
-                    {
-                      name: "小区绿化",
-                      nameKey: "name",
-                      type: "baseLayer",
-                      checked: false
-                    },
-                    {
-                      name: "行道树",
-                      nameKey: "name",
-                      type: "baseLayer",
-                      checked: false
-                    },
-                    {
-                      name: "花架花钵",
-                      nameKey: "name",
-                      type: "baseLayer",
-                      checked: false
-                    },
-                    {
-                      name: "街头座椅",
-                      nameKey: "name",
-                      type: "baseLayer",
-                      checked: false
-                    },
-                    {
-                      name: "单位绿化",
-                      nameKey: "name",
-                      type: "baseLayer",
-                      checked: false
-                    },
-                    {
-                      name: "雕塑",
-                      nameKey: "name",
-                      type: "baseLayer",
-                      checked: false
-                    },
-                    {
-                      name: "河道绿化",
-                      nameKey: "name",
-                      type: "baseLayer",
-                      checked: false
-                    }
-                ],
-                childKey: "children"
-              },
-              {
-                name: "多用途单体建筑",
-                nameKey: "name",
-                children: [
-                  {
-                    name: "全部",
-                    nameKey: "name",
-                    checked: false,
-                    type: "singleBuilding"
-                  }
-                ],
-                childKey: "children"
-              },
-              {
-                name: " 沿街商铺餐饮户",
-                nameKey: "name",
-                children: [
-                  {
-                    name: "全部",
-                    nameKey: "name",
-                    checked: false,
-                    type: "shop"
-                  }
-                ],
-                childKey: "children"
-              }
-              // {
-              //   name: "休闲购物广场",
-              //   nameKey: "name",
-              //   checked: false
-              // }
+          {
+            name: '公共设施',
+            nameKey: 'name',
+            children: [{
+              name: '学校',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            },
+            {
+              name: '医院',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            },
+            {
+              name: '养老院',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            }
+            ],
+            childKey: 'children'
+          },
+          {
+            name: '基础设施',
+            nameKey: 'name',
+            children: [{
+              name: '公共绿地',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            },
+            {
+              name: '小区绿化',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            },
+            {
+              name: '行道树',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            },
+            {
+              name: '花架花钵',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            },
+            {
+              name: '街头座椅',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            },
+            {
+              name: '单位绿化',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            },
+            {
+              name: '雕塑',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            },
+            {
+              name: '河道绿化',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
+            }
+            ],
+            childKey: 'children'
+          },
+          {
+            name: '多用途单体建筑',
+            nameKey: 'name',
+            children: [{
+              name: '全部',
+              nameKey: 'name',
+              checked: false,
+              type: 'singleBuilding'
+            }],
+            childKey: 'children'
+          },
+          {
+            name: ' 沿街商铺餐饮户',
+            nameKey: 'name',
+            children: [{
+              name: '全部',
+              nameKey: 'name',
+              checked: false,
+              type: 'shop'
+            }],
+            childKey: 'children'
+          }
         ],
         event: [
-              {
-                name: "主动发现",
-                type: "event",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "被动发现",
-                 type: "event",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "自动发现",
-                 type: "event",
-                nameKey: "name",
-                checked: false
-              }
+          {
+            name: '主动发现',
+            type: 'event',
+            nameKey: 'name',
+            checked: false
+          },
+          {
+            name: '被动发现',
+            type: 'event',
+            nameKey: 'name',
+            checked: false
+          },
+          {
+            name: '自动发现',
+            type: 'event',
+            nameKey: 'name',
+            checked: false
+          }
         ],
         situation: [
-              {
-                name: "舆情",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "火情",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "警情",
-                nameKey: "name",
-                checked: false
-              }
+          {
+            name: '火情案件',
+            nameKey: 'name',
+            type: 'situation',
+            checked: false
+          },
+          {
+            name: '警情案件',
+            nameKey: 'name',
+            type: 'situation',
+            checked: false
+          },
+          {
+            name: '灾情案件',
+            nameKey: 'name',
+            type: 'situation',
+            checked: false
+          }
         ],
         organization: [
-              {
-                name: "工商组织",
-                nameKey: "name",
-                checked: false
-              },
-              {
-                name: "公益组织",
-                nameKey: "name",
-                checked: false
-              }
+          {
+            name: '党群组织列表',
+            nameKey: 'name',
+            checked: false,
+            type: 'organization'
+          },
+          {
+            name: '党群人员统计',
+            nameKey: 'name',
+            checked: false,
+            type: 'organization'
+          },
+          {
+            name: '民族宗教信息',
+            nameKey: 'name',
+            checked: false,
+            type: 'organization'
+          }
         ]
       },
       shopListData: [],
+      eventListData: [],
+      organizationData: {
+        '党群组织列表': [],
+        '党群人员统计': [],
+        '民族宗教信息': []
+      },
       shopLayer: null
-    };
-  },
-  computed: {
-
+    }
   },
   methods: {
-    handeClick() {
-      this.$emit("titleClick");
+    handeClick () {
+      this.$emit('titleClick')
     },
-  mapHeaderItemChoose(data) {
-    console.log(data, "mapHeaderItemChoose--------------");
-    this.$_mapProxy.map._closePopup();
-    this.$bus.$emit("map-close-model", {});
-    this.$bus.$emit("map-full-extent", {});
-    switch (data.item.type) {
-      case "event":
-        this.handlerEvent(data.item);
-        break;
-      case "people":
-        this.handlerPeople(data.item);
-        break;
-      case "baseLayer":
-        this.tabLayer(data.item.name, data.item.checked);
-        break;
-      case "neuron":
-        this.handlerNeuron(data.item);
-        break;
-      case "singleBuilding":
-        this.handlerSingleBuilding(data.item);
-        break;
-      case "shop":
-        this.handlerShop(data.item);
-        break;
-    }
-  },
-  handlerShop(item) {
-    // todo
-    if (item.checked) {
-      let data = this.shopListData.filter(e => {
-        return item.name === "全部" || e.street_name === item.name;
-      });
-      this.shopLayer.setParameters({
-            "data": {
-              "content": data,
-              "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
+    mapHeaderItemChoose (data) {
+      console.log(data, 'mapHeaderItemChoose--------------')
+      this.$_mapProxy.map._closePopup()
+      this.$bus.$emit('map-close-model', {})
+      this.$bus.$emit('map-full-extent', {})
+      switch (data.item.type) {
+        case 'organization':
+          if (data.item.checked) {
+            this.$_mapProxy.getMap()._openPopup('DangPopup', {
+              name: data.item.name,
+              list: this.organizationData[data.item.name]
+            })
+          } else {
+            this.$_mapProxy.getMap()._closePopup()
+          }
+          break
+        case 'situation':
+          if (data.item.checked) {
+            let type = ''
+            if (data.item.name === '火情案件') type = '火灾事故'
+            if (data.item.name === '警情案件') type = '事故灾难'
+            if (data.item.name === '灾情案件') type = '生产安全事故灾难'
+            this.$_mapProxy.getMap()._openPopup('EventPopup', {
+              name: data.item.name,
+              list: this.eventListData.filter(item => item.event_type_name === type)
+            })
+          } else {
+            this.$_mapProxy.getMap()._closePopup()
+          }
+          break
+        case 'event':
+          this.handlerEvent(data.item)
+          break
+        case 'people':
+          this.handlerPeople(data.item)
+          break
+        case 'baseLayer':
+          this.tabLayer(data.item.name, data.item.checked)
+          break
+        case 'neuron':
+          this.handlerNeuron(data.item)
+          break
+        case 'singleBuilding':
+          this.handlerSingleBuilding(data.item)
+          break
+        case 'shop':
+          this.handlerShop(data.item)
+          break
+      }
+    },
+    handlerShop (item) {
+      // todo
+      if (item.checked) {
+        let data = this.shopListData.filter(e => {
+          return item.name === '全部' || e.street_name === item.name
+        })
+        this.shopLayer.setParameters({
+          'data': {
+            'content': data,
+            'parsegeometry': 'function(item){return {x:item.x, y:item.y}}'
+          }
+        }).setPopupConfig({
+          component: 'shopPopup'
+        }).open()
+      } else {
+        this.shopLayer.close()
+      }
+    },
+    handlerSingleBuilding (item) {
+      if (item.checked) {
+        if (item.name === '全部') {
+          this.singleBuildingLayer.setParameters({
+            'data': {
+              'content': this.singleBuildingData,
+              'parsegeometry': 'function(item){return {x:item.x, y:item.y}}'
             }
           }).setPopupConfig({
-        component: "shopPopup"
-      }).open(); ;
-    } else {
-      this.shopLayer.close();
-    }
-  },
-  handlerSingleBuilding(item) {
-    if (item.checked) {
-      if (item.name === "全部") {
-              this.singleBuildingLayer.setParameters({
-                "data": {
-                  "content": this.singleBuildingData,
-                  "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
-                }
-              }).setPopupConfig({
-            component: "singleBuildingPopup"
-          }).open();
-          return;
-      }
-      let data = this.singleBuildingData.filter(e => {
-        return e.street_name === item.name;
-      });
-      this.singleBuildingLayer.setParameters({
-                "data": {
-                  "content": data,
-                  "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
-                }
-              }).setPopupConfig({
-            component: "singleBuildingPopup"
-          }).open(); ;
-    } else {
-      this.singleBuildingLayer.close();
-    }
-  },
-  handlerNeuron(item) {
-    if (item.checked) {
-      getNeuronData(item.name).then(res => {
-              this.thingsPerceptionLayer.setParameters({
-                "data": {
-                  "content": res.data,
-                  "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
-                }
-              }).open();
-      });
-    } else {
-        this.thingsPerceptionLayer.close();
-    }
-  },
-  tabLayer(layerName, visible) {
-      let cmd = {
-        "ActionName": "LayerVisible",
-        "Parameters": [
-          {
-            "name": layerName,
-            "visible": visible,
-            popupEnabled: false,
-            legendVisible: false
-          }
-        ]
-      };
-     window.bridge.Invoke(cmd);
-  },
-  handlerPeople(item) {
-    if (item.checked) {
-      getPeopleStatistic(item.name).then(res => {
-      let peopleTownData = [];
-      res.data.forEach((e, i) => {
-        let item = {};
-        item.count = thousandCentimeter(e.count);
-        item.name = e.town;
-        item.typeValue = 4 - Math.ceil((i + 1) / 5);
-        peopleTownData.push(item);
-      });
-      this.addTownPeople(peopleTownData);
-    });
-    } else {
-      this.removeLayer("townPeopleLayer");
-    }
-  },
-  handlerEvent(item) {
-        if (item.checked) {
-          getCaseTownCount("静安区", item.name).then(res => {
-            if (res.data.length > 0) {
-               this.addTownArea(this.classifyCase(res.data), "静安区");
-            } else {
-              this.$message({
-              message: "该条件下，暂无案件！",
-              type: "warning"
-            });
-            }
-          });
-        } else {
-            this.removeLayer("townLayer");
-            this.removeLayer("townCasePointLayer");
-            this.removeLayer("townLocationLayer");
+            component: 'singleBuildingPopup'
+          }).open()
+          return
         }
-     },
-   removeLayer (layerName) {
+        let data = this.singleBuildingData.filter(e => {
+          return e.street_name === item.name
+        })
+        this.singleBuildingLayer.setParameters({
+          'data': {
+            'content': data,
+            'parsegeometry': 'function(item){return {x:item.x, y:item.y}}'
+          }
+        }).setPopupConfig({
+          component: 'singleBuildingPopup'
+        }).open()
+      } else {
+        this.singleBuildingLayer.close()
+      }
+    },
+    handlerNeuron (item) {
+      if (item.checked) {
+        getNeuronData(item.name).then(res => {
+          this.thingsPerceptionLayer.setParameters({
+            'data': {
+              'content': res.data,
+              'parsegeometry': 'function(item){return {x:item.lng, y:item.lat}}'
+            }
+          }).open()
+        })
+      } else {
+        this.thingsPerceptionLayer.close()
+      }
+    },
+    tabLayer (layerName, visible) {
+      let cmd = {
+        'ActionName': 'LayerVisible',
+        'Parameters': [{
+          'name': layerName,
+          'visible': visible,
+          popupEnabled: false,
+          legendVisible: false
+        }]
+      }
+      window.bridge.Invoke(cmd)
+    },
+    handlerPeople (item) {
+      if (item.checked) {
+        getPeopleStatistic(item.name).then(res => {
+          let peopleTownData = []
+          res.data.forEach((e, i) => {
+            let item = {}
+            item.count = thousandCentimeter(e.count)
+            item.name = e.town
+            item.typeValue = 4 - Math.ceil((i + 1) / 5)
+            peopleTownData.push(item)
+          })
+          this.addTownPeople(peopleTownData)
+        })
+      } else {
+        this.removeLayer('townPeopleLayer')
+      }
+    },
+    handlerEvent (item) {
+      if (item.checked) {
+        getCaseTownCount('静安区', item.name).then(res => {
+          if (res.data.length > 0) {
+            this.addTownArea(this.classifyCase(res.data), '静安区')
+          } else {
+            this.$message({
+              message: '该条件下，暂无案件！',
+              type: 'warning'
+            })
+          }
+        })
+      } else {
+        this.removeLayer('townLayer')
+        this.removeLayer('townCasePointLayer')
+        this.removeLayer('townLocationLayer')
+      }
+    },
+    removeLayer (layerName) {
       const commandParams = {
-        ActionName: "doRemoveShowData",
+        ActionName: 'doRemoveShowData',
         Parameters: JSON.stringify([
           layerName
         ])
-      };
-      window.bridge.Invoke(commandParams);
-  },
-  classifyCase (data) {
-      const classifyData = [];
-      data.forEach(d => {
-        const item = {};
-        item.name = d.areaName;
-        const rate = d.value / d.total;
-        if (rate === 0) {
-          item.typeValue = 6;
-        } else if (rate > 0 && rate < 0.6) {
-          item.typeValue = 5;
-        } else if (rate >= 0.6 && rate < 0.7) {
-          item.typeValue = 4;
-        } else if (rate >= 0.7 && rate < 0.8) {
-          item.typeValue = 3;
-        } else if (rate >= 0.8 && rate < 0.9) {
-          item.typeValue = 2;
-        } else {
-          item.typeValue = 1;
-        }
-        classifyData.push(item);
-      });
-      return classifyData;
-    },
-      // 街镇案件分类图
-    addTownArea (data, district, layerName, legendVisible) {
-      let layerNameN = "townLayer";
-      if (layerName) {
-        layerNameN = layerName;
       }
-      let legendVisibleBool = true;
+      window.bridge.Invoke(commandParams)
+    },
+    classifyCase (data) {
+      const classifyData = []
+      data.forEach(d => {
+        const item = {}
+        item.name = d.areaName
+        const rate = d.value / d.total
+        if (rate === 0) {
+          item.typeValue = 6
+        } else if (rate > 0 && rate < 0.6) {
+          item.typeValue = 5
+        } else if (rate >= 0.6 && rate < 0.7) {
+          item.typeValue = 4
+        } else if (rate >= 0.7 && rate < 0.8) {
+          item.typeValue = 3
+        } else if (rate >= 0.8 && rate < 0.9) {
+          item.typeValue = 2
+        } else {
+          item.typeValue = 1
+        }
+        classifyData.push(item)
+      })
+      return classifyData
+    },
+    // 街镇案件分类图
+    addTownArea (data, district, layerName, legendVisible) {
+      let layerNameN = 'townLayer'
+      if (layerName) {
+        layerNameN = layerName
+      }
+      let legendVisibleBool = true
       if (legendVisible) {
-        legendVisibleBool = false;
+        legendVisibleBool = false
       }
       const cmd = {
-        ActionName: "ShowData",
+        ActionName: 'ShowData',
         Parameters: {
           name: layerNameN,
-          type: "layer",
+          type: 'layer',
           legendVisible: legendVisibleBool,
           popupEnabled: false,
           isLocate: true,
           data: {
             content: data,
             layers: {
-              name: "街道乡镇",
+              name: '街道乡镇',
               where: "所属区县='" + district + "'"
             },
-            join: "街道名称=name"
+            join: '街道名称=name'
           },
-          labels: [
+          labels: [{
+            fields: [
+              '#.街道名称'
+              // '#.count'
+            ],
+            color: [
+              255,
+              255,
+              255,
+              1
+            ],
+            size: 20,
+            font: {
+              family: 'fangsong',
+              weight: 'normal'
+            }
+          }],
+          renderer: {
+            type: 'unique-value',
+            field: 'typeValue',
+            uniqueValueInfos: [{
+              value: 1,
+              label: '90%以上',
+              symbol: {
+                type: 'simple-fill',
+                color: [105, 240, 174, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [105, 240, 174, 1],
+                  width: 1
+                }
+              }
+            },
             {
-              fields: [
-                "#.街道名称"
-                // '#.count'
-              ],
-              color: [
-                255,
-                255,
-                255,
-                1
-              ],
-              size: 20,
-              font: {
-                family: "fangsong",
-                weight: "normal"
+              value: 2,
+              label: '80% ~ 90%',
+              symbol: {
+                type: 'simple-fill',
+                color: [132, 255, 255, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [132, 255, 255, 1],
+                  width: 1
+                }
+              }
+            },
+            {
+              value: 3,
+              label: '70% ~ 80%',
+              symbol: {
+                type: 'simple-fill',
+                color: [253, 204, 132, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [253, 204, 132, 1],
+                  width: 1
+                }
+              }
+            },
+            {
+              value: 4,
+              label: '60% ~ 70%',
+              symbol: {
+                type: 'simple-fill',
+                color: [234, 128, 252, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [234, 128, 252, 1],
+                  width: 1
+                }
+              }
+            },
+            {
+              value: 5,
+              label: '60%以下',
+              symbol: {
+                type: 'simple-fill',
+                color: [255, 138, 128, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [255, 138, 128, 1],
+                  width: 1
+                }
+              }
+            },
+            {
+              value: 6,
+              label: '无结案',
+              symbol: {
+                type: 'simple-fill',
+                color: [100, 100, 100, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [100, 100, 100, 1],
+                  width: 1
+                }
               }
             }
-          ],
-          renderer: {
-            type: "unique-value",
-            field: "typeValue",
-            uniqueValueInfos: [
-              {
-                value: 1,
-                label: "90%以上",
-                symbol: {
-                  type: "simple-fill",
-                  color: [105, 240, 174, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [105, 240, 174, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 2,
-                label: "80% ~ 90%",
-                symbol: {
-                  type: "simple-fill",
-                  color: [132, 255, 255, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [132, 255, 255, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 3,
-                label: "70% ~ 80%",
-                symbol: {
-                  type: "simple-fill",
-                  color: [253, 204, 132, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [253, 204, 132, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 4,
-                label: "60% ~ 70%",
-                symbol: {
-                  type: "simple-fill",
-                  color: [234, 128, 252, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [234, 128, 252, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 5,
-                label: "60%以下",
-                symbol: {
-                  type: "simple-fill",
-                  color: [255, 138, 128, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [255, 138, 128, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 6,
-                label: "无结案",
-                symbol: {
-                  type: "simple-fill",
-                  color: [100, 100, 100, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [100, 100, 100, 1],
-                    width: 1
-                  }
-                }
-              }
             ]
           }
         }
-      };
-      window.bridge.Invoke(cmd);
+      }
+      window.bridge.Invoke(cmd)
     },
-      // 街镇案件分类图
+    // 街镇案件分类图
     addTownPeople (data) {
       const cmd = {
-        ActionName: "ShowData",
+        ActionName: 'ShowData',
         Parameters: {
-          name: "townPeopleLayer",
-          type: "layer",
+          name: 'townPeopleLayer',
+          type: 'layer',
           legendVisible: false,
           popupEnabled: false,
           isLocate: true,
           data: {
             content: data,
             layers: {
-              name: "街道乡镇",
+              name: '街道乡镇',
               where: "所属区县='静安区'"
             },
-            join: "街道名称=name"
+            join: '街道名称=name'
           },
-          labels: [
+          labels: [{
+            fields: [
+              '#.街道名称',
+              '#.count'
+            ],
+            color: [
+              255,
+              255,
+              255,
+              1
+            ],
+            size: 20,
+            font: {
+              family: 'fangsong',
+              weight: 'normal'
+            }
+          }],
+          renderer: {
+            type: 'unique-value',
+            field: 'typeValue',
+            uniqueValueInfos: [{
+              value: 1,
+              symbol: {
+                type: 'simple-fill',
+                color: [105, 240, 174, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [105, 240, 174, 1],
+                  width: 1
+                }
+              }
+            },
             {
-              fields: [
-                "#.街道名称",
-                 "#.count"
-              ],
-              color: [
-                255,
-                255,
-                255,
-                1
-              ],
-              size: 20,
-              font: {
-                family: "fangsong",
-                weight: "normal"
+              value: 2,
+              symbol: {
+                type: 'simple-fill',
+                color: [132, 255, 255, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [132, 255, 255, 1],
+                  width: 1
+                }
+              }
+            },
+            {
+              value: 3,
+              symbol: {
+                type: 'simple-fill',
+                color: [253, 204, 132, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [253, 204, 132, 1],
+                  width: 1
+                }
+              }
+            },
+            {
+              value: 4,
+              symbol: {
+                type: 'simple-fill',
+                color: [234, 128, 252, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [234, 128, 252, 1],
+                  width: 1
+                }
+              }
+            },
+            {
+              value: 5,
+              symbol: {
+                type: 'simple-fill',
+                color: [255, 138, 128, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [255, 138, 128, 1],
+                  width: 1
+                }
+              }
+            },
+            {
+              value: 6,
+              symbol: {
+                type: 'simple-fill',
+                color: [100, 100, 100, 0.5],
+                style: 'solid',
+                outline: {
+                  color: [100, 100, 100, 1],
+                  width: 1
+                }
               }
             }
-          ],
-          renderer: {
-            type: "unique-value",
-            field: "typeValue",
-            uniqueValueInfos: [
-              {
-                value: 1,
-                symbol: {
-                  type: "simple-fill",
-                  color: [105, 240, 174, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [105, 240, 174, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 2,
-                symbol: {
-                  type: "simple-fill",
-                  color: [132, 255, 255, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [132, 255, 255, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 3,
-                symbol: {
-                  type: "simple-fill",
-                  color: [253, 204, 132, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [253, 204, 132, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 4,
-                symbol: {
-                  type: "simple-fill",
-                  color: [234, 128, 252, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [234, 128, 252, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 5,
-                symbol: {
-                  type: "simple-fill",
-                  color: [255, 138, 128, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [255, 138, 128, 1],
-                    width: 1
-                  }
-                }
-              },
-              {
-                value: 6,
-                symbol: {
-                  type: "simple-fill",
-                  color: [100, 100, 100, 0.5],
-                  style: "solid",
-                  outline: {
-                    color: [100, 100, 100, 1],
-                    width: 1
-                  }
-                }
-              }
             ]
           }
         }
-      };
-      window.bridge.Invoke(cmd);
+      }
+      window.bridge.Invoke(cmd)
     },
-  registerPointLayer() {
+    registerPointLayer () {
       // 地图撒点图层
-      this.pointLayer = this.$_mapProxy.registerLayer("HeaderPointLayer", "单个撒点图层")
-      .setParameters({
-        "name": "HeaderPointLayer",
-        "type": "point",
-        "mode": "replace",
-        "data": {
-          "content": [],
-          "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
-        },
-        "legendVisible": false,
-        "popupEnabled": false,
-        "isFiltered": true,
-        "isLocate": false,
-        "renderer": {
-          type: "simple",
-          symbol: {
-            type: "simple-marker",
-            size: 20,
-            color: [0, 255, 244],
-            outline: {
-              color: "#ffffff",
-              width: "1px"
+      this.pointLayer = this.$_mapProxy.registerLayer('HeaderPointLayer', '单个撒点图层')
+        .setParameters({
+          'name': 'HeaderPointLayer',
+          'type': 'point',
+          'mode': 'replace',
+          'data': {
+            'content': [],
+            'parsegeometry': 'function(item){return {x:item.lng, y:item.lat}}'
+          },
+          'legendVisible': false,
+          'popupEnabled': false,
+          'isFiltered': true,
+          'isLocate': false,
+          'renderer': {
+            type: 'simple',
+            symbol: {
+              type: 'simple-marker',
+              size: 20,
+              color: [0, 255, 244],
+              outline: {
+                color: '#ffffff',
+                width: '1px'
+              }
             }
           }
+        })
+    },
+    registerShopLayer () {
+      this.shopLayer = this.$_mapProxy.registerLayer('shopLayer', '沿街商铺餐饮户图层').setParameters({
+        'name': 'shopLayer',
+        'type': 'point',
+        'mode': 'replace',
+        'data': {
+          'content': [],
+          'parsegeometry': 'function(item){return {x:item.x, y:item.y}}'
+        },
+        'legendVisible': false,
+        'popupEnabled': false,
+        'isFiltered': false,
+        'isLocate': false,
+        // "labels": [
+        //     {
+        //       fields: [
+        //         "#.名称"
+        //         // '#.count'
+        //       ],
+        //       color: [
+        //         255,
+        //         255,
+        //         255,
+        //         1
+        //       ],
+        //       size: 22,
+        //       font: {
+        //         family: "fangsong",
+        //         weight: "normal"
+        //       }
+        //     }
+        // ],
+        'renderer': {
+          'type': 'simple',
+          symbol: {
+            type: 'picture-marker',
+            url: getUrl('/mapIcon/shop.png'),
+            width: '57px',
+            height: '50px'
+          }
         }
-      });
-     },
-     registerShopLayer() {
-        this.shopLayer = this.$_mapProxy.registerLayer("shopLayer", "沿街商铺餐饮户图层").setParameters({
-          "name": "shopLayer",
-          "type": "point",
-          "mode": "replace",
-          "data": {
-            "content": [],
-            "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
-          },
-          "legendVisible": false,
-          "popupEnabled": false,
-          "isFiltered": false,
-          "isLocate": false,
-          // "labels": [
-          //     {
-          //       fields: [
-          //         "#.名称"
-          //         // '#.count'
-          //       ],
-          //       color: [
-          //         255,
-          //         255,
-          //         255,
-          //         1
-          //       ],
-          //       size: 22,
-          //       font: {
-          //         family: "fangsong",
-          //         weight: "normal"
-          //       }
-          //     }
-          // ],
-          "renderer": {
-              "type": "simple",
-              symbol: {
-                type: "picture-marker",
-                url: getUrl("/mapIcon/shop.png"),
-                width: "57px",
-                height: "50px"
-              }
-            }
-          });
-     },
-    registerSingleBuildingLayer() {
-    this.singleBuildingLayer = this.$_mapProxy.registerLayer("singleBuildingLayer", "单体建筑图层").setParameters({
-          "name": "singleBuildingLayer",
-          "type": "point",
-          "mode": "replace",
-          "data": {
-            "content": [],
-            "parsegeometry": "function(item){return {x:item.x, y:item.y}}"
-          },
-          "legendVisible": false,
-          "popupEnabled": false,
-          "isFiltered": false,
-          "isLocate": false,
-           "labels": [
-              {
-                fields: [
-                  "#.名称"
-                  // '#.count'
-                ],
-                color: [
-                  255,
-                  255,
-                  255,
-                  1
-                ],
-                size: 22,
-                font: {
-                  family: "fangsong",
-                  weight: "normal"
-                }
-              }
+      })
+    },
+    registerSingleBuildingLayer () {
+      this.singleBuildingLayer = this.$_mapProxy.registerLayer('singleBuildingLayer', '单体建筑图层').setParameters({
+        'name': 'singleBuildingLayer',
+        'type': 'point',
+        'mode': 'replace',
+        'data': {
+          'content': [],
+          'parsegeometry': 'function(item){return {x:item.x, y:item.y}}'
+        },
+        'legendVisible': false,
+        'popupEnabled': false,
+        'isFiltered': false,
+        'isLocate': false,
+        'labels': [{
+          fields: [
+            '#.名称'
+            // '#.count'
           ],
-          "renderer": {
-              "type": "simple",
-              symbol: {
-                type: "picture-marker",
-                url: getUrl("/mapIcon/singleBuilding.png"),
-                width: "57px",
-                height: "50px"
-              }
-            }
-          });
-      },
-      registerThingsPerceptionLayer() {
-        this.thingsPerceptionLayer = this.$_mapProxy.registerLayer("thingsPerceptionLayer", "神经元图层").setParameters({
-          "name": "thingsPerceptionLayer",
-          "type": "point",
-          "mode": "replace",
-          "data": {
-            "content": [],
-            "parsegeometry": "function(item){return {x:item.lng, y:item.lat}}"
-          },
-          "legendVisible": false,
-          "popupEnabled": false,
-          "isFiltered": true,
-          "isLocate": false,
-          "renderer": {
-              "type": "simple",
-              symbol: {
-                type: "picture-marker",
-                url: getUrl("/mapIcon/neuron/WellCoverSensor.png"),
-                width: "50px",
-                height: "50px"
-              }
-            }
-          });
-     },
-     createSingleBuildingMenu() {
-       getSingleBuildingData().then(res => {
-         let townSet = new Set();
-         res.raw_data.forEach(e => {
-          let lon = parseFloat(e.longitude);
-          let lat = parseFloat(e.latitude);
-          let coord = SHcoordinateUtils.GCJtoSH([lon, lat]);
-          e.x = coord[0];
-          e.y = coord[1];
-          townSet.add(e.street_name);
-         });
-         this.singleBuildingData = res.raw_data;
-         townSet.forEach(s => {
-           let item = {
-             name: s,
-             nameKey: "name",
-             type: "singleBuilding",
-             checked: false
-           };
-           this.checkItems.area[2].children.push(item);
-         });
-       });
-     },
-     getShopListData() {
-       getShopList().then(res => {
-         let townSet = new Set();
-         res.raw_data.forEach(e => {
-          let lon = parseFloat(e.longitude);
-          let lat = parseFloat(e.latitude);
-          let coord = SHcoordinateUtils.GCJtoSH([lon, lat]);
-          e.x = coord[0];
-          e.y = coord[1];
-          townSet.add(e.street_name);
-         });
-         this.shopListData = res.raw_data;
-         townSet.forEach(s => {
-           let item = {
-             name: s,
-             nameKey: "name",
-             type: "shop",
-             checked: false
-           };
-           this.checkItems.area[3].children.push(item);
-         });
-       });
-     }
+          color: [
+            255,
+            255,
+            255,
+            1
+          ],
+          size: 22,
+          font: {
+            family: 'fangsong',
+            weight: 'normal'
+          }
+        }],
+        'renderer': {
+          'type': 'simple',
+          symbol: {
+            type: 'picture-marker',
+            url: getUrl('/mapIcon/singleBuilding.png'),
+            width: '57px',
+            height: '50px'
+          }
+        }
+      })
+    },
+    registerThingsPerceptionLayer () {
+      this.thingsPerceptionLayer = this.$_mapProxy.registerLayer('thingsPerceptionLayer', '神经元图层').setParameters({
+        'name': 'thingsPerceptionLayer',
+        'type': 'point',
+        'mode': 'replace',
+        'data': {
+          'content': [],
+          'parsegeometry': 'function(item){return {x:item.lng, y:item.lat}}'
+        },
+        'legendVisible': false,
+        'popupEnabled': false,
+        'isFiltered': true,
+        'isLocate': false,
+        'renderer': {
+          'type': 'simple',
+          symbol: {
+            type: 'picture-marker',
+            url: getUrl('/mapIcon/neuron/WellCoverSensor.png'),
+            width: '50px',
+            height: '50px'
+          }
+        }
+      })
+    },
+    createSingleBuildingMenu () {
+      getSingleBuildingData().then(res => {
+        let townSet = new Set()
+        res.raw_data.forEach(e => {
+          let lon = parseFloat(e.longitude)
+          let lat = parseFloat(e.latitude)
+          let coord = SHcoordinateUtils.GCJtoSH([lon, lat])
+          e.x = coord[0]
+          e.y = coord[1]
+          townSet.add(e.street_name)
+        })
+        this.singleBuildingData = res.raw_data
+        townSet.forEach(s => {
+          let item = {
+            name: s,
+            nameKey: 'name',
+            type: 'singleBuilding',
+            checked: false
+          }
+          this.checkItems.area[2].children.push(item)
+        })
+      })
+    },
+    getShopListData () {
+      getShopList().then(res => {
+        let townSet = new Set()
+        res.raw_data.forEach(e => {
+          let lon = parseFloat(e.longitude)
+          let lat = parseFloat(e.latitude)
+          let coord = SHcoordinateUtils.GCJtoSH([lon, lat])
+          e.x = coord[0]
+          e.y = coord[1]
+          townSet.add(e.street_name)
+        })
+        this.shopListData = res.raw_data
+        townSet.forEach(s => {
+          let item = {
+            name: s,
+            nameKey: 'name',
+            type: 'shop',
+            checked: false
+          }
+          this.checkItems.area[3].children.push(item)
+        })
+      })
+    }
   },
-  created() {
-    this.registerSingleBuildingLayer();
-    this.registerPointLayer();
-    this.registerThingsPerceptionLayer();
-    this.registerShopLayer();
+  created () {
+    this.registerSingleBuildingLayer()
+    this.registerPointLayer()
+    this.registerThingsPerceptionLayer()
+    this.registerShopLayer()
 
-    this.createSingleBuildingMenu();
-    this.getShopListData();
-
+    this.createSingleBuildingMenu()
+    this.getShopListData()
+    getEventList().then(res => {
+      this.eventListData = res.data.data_list.results
+    })
+    getOrgs().then(res => {
+      this.organizationData = {
+        '党群组织列表': res.data.filter(item => item.type === 'dqzz'),
+        '党群人员统计': [],
+        '民族宗教信息': res.data.filter(item => item.type === 'mzzj')
+      }
+    })
     partClassData.list[0].subclass.forEach(e => {
       let item = {
         name: e.name,
-        nameKey: "name",
+        nameKey: 'name',
         checked: false,
-        type: "baseLayer"
-      };
-      this.checkItems.thing[0].children.push(item);
-    });
+        type: 'baseLayer'
+      }
+      this.checkItems.thing[0].children.push(item)
+    })
     pipelineData.list[0].subclass.forEach(e => {
       let item = {
         name: e.name,
-        nameKey: "name",
+        nameKey: 'name',
         checked: false,
-        type: "baseLayer"
-      };
-      this.checkItems.thing[1].children.push(item);
-    });
+        type: 'baseLayer'
+      }
+      this.checkItems.thing[1].children.push(item)
+    })
     neuronData.forEach(e => {
-        let item = {
+      let item = {
         name: e.key,
-        nameKey: "name",
+        nameKey: 'name',
         checked: false,
-        type: "neuron"
-      };
-      this.checkItems.thing[2].children.push(item);
-    });
+        type: 'neuron'
+      }
+      this.checkItems.thing[2].children.push(item)
+    })
   },
-  mounted() {
-      this.$bus.$on("map-header-menu-choose", res => {
-        console.log(res, "res-----------------");
-      });
+  mounted () {
+    this.$bus.$on('map-header-menu-choose', res => {
+      console.log(res, 'res-----------------')
+    })
 
-      this.$bus.$on("map-header-item-choose", this.mapHeaderItemChoose);
-   }
-};
+    this.$bus.$on('map-header-item-choose', this.mapHeaderItemChoose)
+  }
+}
 </script>
 <style lang="scss" scoped>
-.MapTitleContainer {
-  user-select: none;
-  position: absolute;
-  background-image:url(./img/MapBG.png);
-  background-size: contain;
-  // background-repeat:no-repeat;
-  width: 100%;
-  height:  3rem;
-}
-.tilte {
-  user-select: none;
-  position: relative;
-  width: 100%;
-  height:  1.5rem;
-  line-height: 1.5rem;
-  text-align: center;
-  font-size: 0.96rem;
-  color: #ffffff;
-  font-weight: bold;
+  .MapTitleContainer {
+    user-select: none;
+    position: absolute;
+    background-image: url(./img/MapBG.png);
+    background-size: contain;
+    // background-repeat:no-repeat;
+    width: 100%;
+    height: 3rem;
+  }
 
-}
-.map-tab{
-  position: relative;
+  .tilte {
+    user-select: none;
+    position: relative;
+    width: 100%;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    text-align: center;
+    font-size: 0.96rem;
+    color: #ffffff;
+    font-weight: bold;
 
-  margin: 0.23rem auto 0 auto;
-  width: 85%;
+  }
 
-}
+  .map-tab {
+    position: relative;
+
+    margin: 0.23rem auto 0 auto;
+    width: 85%;
+
+  }
 </style>

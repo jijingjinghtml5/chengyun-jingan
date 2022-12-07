@@ -1,18 +1,11 @@
 const TerserPlugin = require("terser-webpack-plugin");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
-const version = require("./version");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const scssVariables = require("./src/style/var.js");
 
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
-
-// function generateVersion() {
-//   const date = new Date();
-//   return date.getTime();
-// }
 
 module.exports = {
   publicPath: "./",
@@ -48,6 +41,7 @@ module.exports = {
       .use("url-loader")
       .loader("url-loader")
       .tap(options => Object.assign(options, { limit: 1024 }));
+    config.resolve.alias.set("@res", resolve("../chengyun_components/src"));
   },
   configureWebpack: config => {
     if (process.env.NODE_ENV === "production") {
@@ -60,25 +54,11 @@ module.exports = {
           minRatio: 0.8
         })
       );
-      // config.plugins.push(
-      //   new HtmlWebpackPlugin({
-      //     filename: "version.html",
-      //     template: "./public/version.html",
-      //     inject: false,
-      //     minify: {
-      //       removeComments: false,
-      //       collapseWhitespace: true,
-      //       removeAttributeQuotes: true
-      //     },
-      //     version: version
-      //   })
-      // );
       Object.assign(config.optimization, {
         minimizer: [
           new TerserPlugin({
             terserOptions: {
               compress: {
-                // warnings: false,
                 drop_console: true, // console
                 drop_debugger: false,
                 pure_funcs: ["console.log"] // 移除console

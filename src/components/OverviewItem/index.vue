@@ -1,5 +1,5 @@
 <template>
-  <div class="overview-item" :class="customClass" :title="showTitle">
+  <div class="overview-item" :class="customClass" :title="showTitle" @click="$emit('click', name)">
     <div v-if="icon" class="overview-item__icon">
       <i class="iconfont" :class="icon"></i>
     </div>
@@ -15,10 +15,10 @@
   </div>
 </template>
 <script>
-import NumberAnimation from "@/components/NumberAnimation/index.vue";
-import Increase from "../Increase";
+import NumberAnimation from '@/components/NumberAnimation/index.vue'
+import Increase from '../Increase'
 export default {
-  name: "OverviewItem",
+  name: 'OverviewItem',
   components: { Increase, NumberAnimation },
   props: {
     icon: {
@@ -27,15 +27,15 @@ export default {
     },
     valueBefore: {
       type: String,
-      default: ""
+      default: ''
     },
     name: {
       type: String,
-      default: ""
+      default: ''
     },
     nameUnit: {
       type: String,
-      default: ""
+      default: ''
     },
     value: {
       type: [String, Number],
@@ -43,7 +43,7 @@ export default {
     },
     valueUnit: {
       type: String,
-      default: ""
+      default: ''
     },
     valueColor: {
       type: [String, Function],
@@ -51,7 +51,7 @@ export default {
     },
     valueProp: {
       type: String,
-      default: "value"
+      default: 'value'
     },
     increase: {
       type: [String, Number],
@@ -59,7 +59,7 @@ export default {
     },
     increaseProp: {
       type: String,
-      default: "increase"
+      default: 'increase'
     },
     showIncrease: {
       type: Boolean,
@@ -71,25 +71,25 @@ export default {
     },
     customClass: {
       type: String,
-      default: "style1"
+      default: 'style1'
     },
     dataset: {
       type: Object,
       default: () => {
-        return {};
+        return {}
       }
     }
   },
   inheritAttrs: false,
   computed: {
-    vc() {
-      return typeof this.valueColor === "function" ? this.valueColor(this.value) : this.valueColor;
+    vc () {
+      return typeof this.valueColor === 'function' ? this.valueColor(this.value) : this.valueColor
     },
-    showTitle() {
-      return this.name === "交通拥堵指数" ? "大于50表示拥堵" : "";
+    showTitle () {
+      return this.name === '交通拥堵指数' ? '大于50表示拥堵' : ''
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .overview-item {

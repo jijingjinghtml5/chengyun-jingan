@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const service = axios.create({
-  baseURL: (window.$config && window.$config.apiUrl) || "",
-  timeout: 15000
+  baseURL: (window.$config && window.$config.apiUrlForRj) || "",
+  timeout: 30000
 });
 
 service.interceptors.request.use(
@@ -19,10 +19,7 @@ service.interceptors.response.use(
   res => {
     // 添加一个响应拦截器
     // 在这里对返回的数据进行处理
-    let data = res.data;
-    // if (data.code === 200) {
-
-      return data;
+    return res.data;
   },
   err => {
     // Do something with response error

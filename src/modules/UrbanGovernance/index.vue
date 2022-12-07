@@ -1,6 +1,5 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-chengshizhili" txt="城市治理">
-    <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
     <level-title :level="2" icon="icon-biaoti" txt="城市建设"></level-title>
     <m-row>
       <m-column v-for="(item, index) in jsItems" :key="`js-${index}`" :width="item.width">
@@ -45,77 +44,105 @@
         </m-column>
       </m-row>
     </div>
-    <level-title :level="2" icon="icon-biaoti" txt="城市交通"></level-title>
-    <level-title :level="4" txt="实时拥堵路段">
-      <m-tabs class="road-select" slot="right" v-model="tab" :tabs="tabs"></m-tabs>
+    <level-title :level="2" icon="icon-biaoti">
+      <m-tabs class="levelt2-select" ref="jiaotong" v-model="tab1" :tabs="tabs1" @change="changeTabs"></m-tabs>
     </level-title>
-    <ul class="list in-flex">
-      <li class="list-item" v-for="(item, index) in dataset[tab]" :key="item.primeID">
-        <span class="list-item__id">{{ index + 1 }}</span>
-        <div class="list-item__infor">
-          <p>{{ item.road }}</p>
-          <p>指数：{{ item.score }}</p>
-        </div>
-        <p class="list-item__status" :style="{ backgroundColor: item.color + '66', borderColor: item.color }">
-          <i class="iconfont" :class="item.icon"></i>
-          {{ item.text }}
-        </p>
-      </li>
-    </ul>
+    <m-tabs-body :tab="tab1">
+      <m-tabs-body-item name="城市交通">
+        <level-title :level="4" txt="实时拥堵路段">
+          <m-tabs class="road-select" slot="right" v-model="tab" :tabs="tabs"></m-tabs>
+        </level-title>
+        <ul class="list">
+          <li class="list-item" v-for="(item, index) in dataset[tab]" :key="item.primeID">
+            <span class="list-item__id">{{ index + 1 }}</span>
+            <div class="list-item__infor">
+              <p>{{ item.road }}</p>
+              <p>指数：{{ item.score }}</p>
+            </div>
+            <p class="list-item__status" :style="{ backgroundColor: item.color + '66', borderColor: item.color }">
+              <i class="iconfont" :class="item.icon"></i>
+              {{ item.text }}
+            </p>
+          </li>
+        </ul>
+      </m-tabs-body-item>
+      <m-tabs-body-item name="公共停车场">
+        <ParkLot></ParkLot>
+      </m-tabs-body-item>
+      <m-tabs-body-item name="慢行交通">
+        <Bike></Bike>
+      </m-tabs-body-item>
+      <m-tabs-body-item name="公共交通">
+        <PublicTransport></PublicTransport>
+      </m-tabs-body-item>
+    </m-tabs-body>
   </wrap-title>
 </template>
 <script>
-import WrapTitle from "@/components/MTitle/WrapTitle";
-import LevelTitle from "@/components/MTitle/LevelTitle";
-import MSelect from "@/components/MSelect";
-import MRow from "@/components/Layout/MRow";
-import MColumn from "@/components/Layout/MColumn";
-import OverviewItem from "@/components/OverviewItem";
-import OverviewItem2 from "@/components/OverviewItem/index2";
-import MTabs from "@/components/MTabs";
-import ChartBar from "@/components/Charts/BarY/ChartBarY";
-import { getData } from "./api";
+import WrapTitle from '@/components/MTitle/WrapTitle'
+import LevelTitle from '@/components/MTitle/LevelTitle'
+import MRow from '@/components/Layout/MRow'
+import MColumn from '@/components/Layout/MColumn'
+import OverviewItem2 from '@/components/OverviewItem/index2'
+import MTabs from '@/components/MTabs'
+import ChartBar from '@/components/Charts/BarY/ChartBarY'
+import MTabsBody from '@/components/MTabsBody/MTabsBody'
+import MTabsBodyItem from '@/components/MTabsBody/MTabsBodyItem'
+import ParkLot from './parkLot.vue'
+import PublicTransport from './publicTransport.vue'
+import Bike from './bike.vue'
+import { getData } from './api'
 
 export default {
-  name: "UrbanGovernance",
+  name: 'UrbanGovernance',
   components: {
     WrapTitle,
     LevelTitle,
-    MSelect,
     MRow,
     MColumn,
-    OverviewItem,
     OverviewItem2,
     MTabs,
-    ChartBar
+    ChartBar,
+    MTabsBody,
+    MTabsBodyItem,
+    ParkLot,
+    PublicTransport,
+    Bike
   },
   computed: {
-    chartData() {
+    chartData () {
       let tmpArr = this.dataset.items.filter(item => {
-        return item.tags === "固定资产图表";
+        return item.tags === '固定资产图表'
       }).map(item => {
-        return [item.name, item.value];
-      });
+        return [item.name, item.value]
+      })
 
       return [
-        ["项目", "数值"],
+        ['项目', '数值'],
         ...tmpArr
-      ];
+      ]
     }
   },
-  data() {
+  data () {
     return {
       options: Object.freeze([
-        { label: "今日", value: "today" },
-        { label: "本周", value: "currentWeek" },
-        { label: "本月", value: "currentMonth" }
+        { label: '今日', value: 'today' },
+        { label: '本周', value: 'currentWeek' },
+        { label: '本月', value: 'currentMonth' }
+      ]),
+      tab1: '城市交通',
+      tabs1: Object.freeze([
+        { label: '城市交通', value: '城市交通' },
+        { label: '公共停车场', value: '公共停车场' },
+        { label: '慢行交通', value: '慢行交通' },
+        { label: '公共交通', value: '公共交通' }
       ]),
       tabs: Object.freeze([
-        { label: "快速路", value: "expressway" },
-        { label: "地面道路", value: "groud_road" }
+        { label: '快速路', value: 'expressway' },
+        { label: '地面道路', value: 'groud_road' }
       ]),
-      option: "today",
-      tab: "expressway",
+      option: 'today',
+      tab: 'expressway',
       dataset: {
         expressway: [],
         groud_road: [],
@@ -124,90 +151,117 @@ export default {
       },
       jsItems: [
         {
-          key: "绿地建设",
-          width: "33.3%"
+          key: '绿地建设',
+          width: '33.3%'
         },
         {
-          key: "住宅施工面积",
-          width: "33.3%"
+          key: '住宅施工面积',
+          width: '33.3%'
         },
         {
-          key: "商品房销售面积",
-          width: "33.3%"
+          key: '商品房销售面积',
+          width: '33.3%'
         }
       ],
       fzItems: [
         {
-          key: "AQI优良",
-          width: "50%"
+          key: 'AQI优良',
+          width: '50%'
         },
         {
-          key: "动迁及征收",
-          width: "50%"
+          key: '动迁及征收',
+          width: '50%'
         }
       ],
       itemsData: {},
-      colors: ["#4FCFD5"]
-    };
+      colors: ['#4FCFD5']
+    }
+  },
+  created () {
+    this.$timer.register(this.getData, this)
+  },
+  mounted () {
+    this.$refs.jiaotong.stopTimer()
   },
   methods: {
-    getData() {
+    changeTabs (val) {
+      console.log(val)
+      if (val === '城市交通') {
+        this.$_mapProxy.getMap()._closePopup()
+      }
+      if (val === '公共停车场') {
+        this.$_mapProxy.getMap()._openPopup('ParkLotPopup', {})
+      }
+      if (val === '公共交通') {
+        this.$_mapProxy.getMap()._openPopup('PubliceTransportPopup', {})
+      }
+      if (val === '慢行交通') {
+        this.$_mapProxy.getMap()._openPopup('BikePopup', {})
+      }
+    },
+    getData () {
       getData().then(res => {
         if (res.expressway) {
           this.dataset.expressway = Object.freeze((res.expressway || []).map(d => {
             return {
               ...d,
               ...(this.convertScore(d.score))
-            };
-          }));
+            }
+          }))
         }
         if (res.groud_road) {
           this.dataset.groud_road = Object.freeze((res.groud_road || []).map(d => {
             return {
               ...d,
               ...(this.convertScore(d.score))
-            };
-          }));
+            }
+          }))
         }
         if (res.db && res.db[0]) {
-          this.dataset.statistics = res.db[0];
+          this.dataset.statistics = res.db[0]
         }
-        let tmp = {};
+        let tmp = {}
         this.dataset.items = res.items || [];
         (res.items || []).map(item => {
-          tmp[item.name] = item;
-        });
-        this.itemsData = tmp;
-      });
+          tmp[item.name] = item
+        })
+        this.itemsData = tmp
+      })
     },
-    convertScore(score) {
-      const res = { icon: "", color: "", text: "" };
+    convertScore (score) {
+      const res = { icon: '', color: '', text: '' }
       if (score >= 70) {
-        res.icon = "icon-qing-ditu";
-        res.color = "#F23470";
-        res.text = "堵塞";
+        res.icon = 'icon-qing-ditu'
+        res.color = '#F23470'
+        res.text = '堵塞'
       } else if (score >= 50) {
-        res.icon = "icon-fengxianshixiang";
-        res.color = "#F96F4F";
-        res.text = "拥挤";
+        res.icon = 'icon-fengxianshixiang'
+        res.color = '#F96F4F'
+        res.text = '拥挤'
       } else if (score >= 30) {
-        res.icon = "icon-jiaotongchang";
-        res.color = "#FCBF51";
-        res.text = "较通畅";
+        res.icon = 'icon-jiaotongchang'
+        res.color = '#FCBF51'
+        res.text = '较通畅'
       } else {
-        res.icon = "icon-changtong";
-        res.color = "#1ABC9C";
-        res.text = "通畅";
+        res.icon = 'icon-changtong'
+        res.color = '#1ABC9C'
+        res.text = '通畅'
       }
-      return res;
+      return res
     }
-  },
-  created() {
-    this.$timer.register(this.getData, this);
   }
-};
+}
 </script>
 <style lang="scss" scoped>
+.m-tabs-body {
+  flex: 1;
+  overflow: auto;
+}
+.levelt2-select {
+  &.m-tabs {
+    color: #4E78A4;
+  }
+}
 .road-select {
   &.m-tabs {
     color: #4E78A4;
@@ -251,14 +305,5 @@ export default {
   text-align: center;
   border: 0.02rem solid transparent;
   border-radius: 0.22rem;
-  // &.serious {
-  //   background-color: rgba(#F23470, 0.4);
-  //   border-color: #F23470;
-  // }
-  // &.medium {
-  //   background-color: rgba(#FCBF51, 0.4);
-  //   border-color: #FCBF51;
-  // }
-
 }
 </style>

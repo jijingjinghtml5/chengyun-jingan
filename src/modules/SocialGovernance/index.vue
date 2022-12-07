@@ -1,6 +1,5 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-shehuizhili" txt="社会治理">
-    <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
     <level-title :level="2" icon="icon-biaoti">
       <m-tabs class="levelt2-select" v-model="tab" ref="shehui" :tabs="tabs"></m-tabs>
     </level-title>
@@ -150,7 +149,6 @@ import MTabs from "@/components/MTabs";
 import MTabsBody from "@/components/MTabsBody/MTabsBody";
 import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
 import ChartLine from "@/components/Charts/Line/ChartLine";
-// import { getDate } from "@/utils/tools";
 import { getData, getItemData } from "./api";
 export default {
   name: "SocialGovernance",
@@ -195,12 +193,6 @@ export default {
         chartData: [
           ["民生保障", "肋条肉", "鸡蛋", "草鱼", "青菜"]
         ]
-        // chartData: [
-        //   ["民生保障", "肉禽蛋水产", "蔬菜豆制品", "米面粮油", "水果"],
-        //   ...(getDate("currentMonth").map(d => {
-        //     return [d[0], Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100), Math.floor(Math.random() * 100)];
-        //   }))
-        // ]
       },
       shglItems: [
         {

@@ -16,15 +16,15 @@
 
 <script>
 export default {
-  name: "MColumn",
-  componentName: "MColumn",
+  name: 'MColumn',
+  componentName: 'MColumn',
   data () {
-    return {};
+    return {}
   },
   props: {
     span: {
       type: [String, Number],
-      default: "1"
+      default: '1'
     },
     width: {
       type: [String, Number],
@@ -37,31 +37,31 @@ export default {
   },
   computed: {
     isWidth () {
-      return this.dir === "h" && parseFloat(this.width) > 0;
+      return this.dir === 'h' && parseFloat(this.width) > 0
     },
     isHeight () {
-      return this.dir === "v" && parseFloat(this.height) > 0;
+      return this.dir === 'v' && parseFloat(this.height) > 0
     },
     isFlex () {
-      return !this.isWidth && !this.isHeight;
+      return !this.isWidth && !this.isHeight
     },
     dir () {
-      let parent = this.$parent;
-      while (parent && parent.$options.componentName !== "MRow") {
-        parent = parent.$parent;
+      let parent = this.$parent
+      while (parent && parent.$options.componentName !== 'MRow') {
+        parent = parent.$parent
       }
-      return parent ? parent.direction : "h";
+      return parent ? parent.direction : 'h'
     },
     gutter () {
-      let parent = this.$parent;
-      while (parent && parent.$options.componentName !== "MRow") {
-        parent = parent.$parent;
+      let parent = this.$parent
+      while (parent && parent.$options.componentName !== 'MRow') {
+        parent = parent.$parent
       }
-      return parent ? parent.gutter : 0;
+      return parent ? parent.gutter : 0
     }
   }
 
-};
+}
 </script>
 <style lang="scss" scoped>
 .m-column {

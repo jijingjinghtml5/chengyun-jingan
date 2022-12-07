@@ -12,27 +12,37 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 // 案件
-import caseDetailMixin from "@/components/caseDetail-px/index.js";
+import caseDetailMixin from '@/components/caseDetail-px/index.js'
+import workerPopup from './workerPopup'
+import PointsList from './workerPopup/points.vue'
 
 export default {
   components: {
-    RiskAlertPopup: () => import("./RiskAlertPopup"),
-    BasicPopup: () => import("./page1/BasicPopup"),
-    gridPopup: () => import("./page1/gridPopup"),
-    juweiPopup: () => import("./page1/juweiPopup"),
-    townPopup: () => import("./page1/townPopup"),
-    neuronPopup: () => import("./page1/neuronPopup"),
-    singleBuildingPopup: () => import("./page1/singleBuildingPopup"),
-    shopPopup: () => import("./page1/shopPopup")
+    RiskAlertPopup: () => import('./RiskAlertPopup'),
+    BasicPopup: () => import('./page1/BasicPopup'),
+    gridPopup: () => import('./page1/gridPopup'),
+    juweiPopup: () => import('./page1/juweiPopup'),
+    townPopup: () => import('./page1/townPopup'),
+    neuronPopup: () => import('./page1/neuronPopup'),
+    singleBuildingPopup: () => import('./page1/singleBuildingPopup'),
+    shopPopup: () => import('./page1/shopPopup'),
+    ParkLotPopup: () => import('./page1/ParkLotPopup'),
+    PubliceTransportPopup: () => import('./page1/PubliceTransportPopup'),
+    EventPopup: () => import('./page1/EventPopup'),
+    PowerPopup: () => import('./page1/PowerPopup'),
+    workerPopup,
+    PointsList,
+    DangPopup: () => import('./page1/DangPopup'),
+    BikePopup: () => import('./page1/BikePopup')
   },
-  inject: ["getGlobalConfig"],
+  inject: ['getGlobalConfig'],
   mixins: [caseDetailMixin],
   inheritAttrs: false,
   props: {
     mapData: {
       type: Object,
       default: () => {
-        return {};
+        return {}
       }
     },
     items: {
@@ -47,9 +57,9 @@ export default {
       type: Object,
       default: () => {
         return {
-         left: "0px",
-         top: "0px"
-        };
+          left: '0px',
+          top: '0px'
+        }
       }
     },
     showClose: {
@@ -57,71 +67,69 @@ export default {
       default: true
     }
   },
-  name: "Popup",
-  data() {
+  name: 'Popup',
+  data () {
     return {
       loading: false,
-      loadingMsg: "加载中..."
-    };
+      loadingMsg: '加载中...'
+    }
   },
   computed: {
-    currentComponent() {
+    currentComponent () {
       switch (this.componentName) {
-        case "soldier":
-          const vendorConfig = this.getGlobalConfig().soldierVendor;
-          const vendor = vendorConfig ? vendorConfig["vendor"] : null;
+        case 'soldier':
+          const vendorConfig = this.getGlobalConfig().soldierVendor
+          const vendor = vendorConfig ? vendorConfig['vendor'] : null
           // console.log(vendor, "vendor");
           switch (vendor) {
-            case "shuguo":
-              return "SoldierEquipment";
-            case "qpwg":
-              return "QingpuSoldier";
-            case "hytera":
-              return "Hytera";
-            case "chinaunicom":
-              return "ChinaUnicom";
+            case 'shuguo':
+              return 'SoldierEquipment'
+            case 'qpwg':
+              return 'QingpuSoldier'
+            case 'hytera':
+              return 'Hytera'
+            case 'chinaunicom':
+              return 'ChinaUnicom'
             default:
-              return "DefaultSoldierEquipment";
+              return 'DefaultSoldierEquipment'
           }
-        case "case":
-          return "caseDetail";
+        case 'case':
+          return 'caseDetail'
         default:
-          return this.componentName;
+          return this.componentName
       }
     }
   },
   methods: {
-    closePopup() {
-      this.$emit("close");
+    closePopup () {
+      this.$emit('close')
     },
-    showLoading(msg) {
-      this.loading = true;
+    showLoading (msg) {
+      this.loading = true
       if (msg) {
-        this.loadingMsg = msg;
+        this.loadingMsg = msg
       }
     },
-    hideLoading() {
-      this.loading = false;
-      this.loadingMsg = "加载中...";
+    hideLoading () {
+      this.loading = false
+      this.loadingMsg = '加载中...'
     }
   },
-  mounted() {},
-  beforeDestroy() {
-    if (this.componentName === "case") {
-      this.dragShow_ = false;
+  mounted () {},
+  beforeDestroy () {
+    if (this.componentName === 'case') {
+      this.dragShow_ = false
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .popupWrap {
   position: absolute;
-  background-color: rgba(#0f2e60, 0.6);
-  // border: 1px solid #4e78a4;
+  background-color: rgba(#0f2e60, 1);
   z-index:9999;
   max-height: 1810px;
   overflow-y: auto;
-  // pointer-events: auto;
 }
 .closeBtn {
   position: absolute;

@@ -3,6 +3,7 @@
     <popup
       v-for="(popup, index) in popups"
       :key="`${popup.componentName}_${index}`"
+      :stylePopup="computeStyle(index)"
       v-bind="popup"
       v-on="$listeners"
       @close="handleClickForClosePopup(index, ...arguments)"
@@ -11,14 +12,14 @@
   </div>
 </template>
 <script>
-import Popup from "./popup";
+import Popup from './popup'
 export default {
-  name: "popupContainer",
+  name: 'popupContainer',
   components: { Popup },
-  data() {
+  data () {
     return {
       popups: []
-    };
+    }
   },
   inheritAttrs: false,
   props: {
@@ -30,15 +31,15 @@ export default {
       type: Object,
       default: () => {
         return {
-         left: "10px",
-         top: "200px"
-        };
+          left: '10px',
+          top: '200px'
+        }
       }
     },
     mapData: {
       type: Object,
       default: () => {
-        return {};
+        return {}
       }
     },
     componentName: {
@@ -46,62 +47,70 @@ export default {
       default: null
     }
   },
-  mounted() {},
+  mounted () {
+    this.$bus.$on('addNew', data => {
+      console.log(data, 'addNew')
+      this.handleClickForAddNewPopup(data)
+    })
+  },
   computed: {
-    item() {
+    item () {
       return {
         stylePopup: this.stylePopup,
         componentName: this.componentName,
         mapData: this.mapData
-      };
+      }
     }
   },
   watch: {
     item: {
-      handler() {
+      handler () {
         if (this.componentName) {
-          this.popups = [this.item];
+          this.popups = [this.item]
         }
       }
     },
     popupBool: {
-      handler() {
+      handler () {
         if (!this.popupBool) {
-          this.popups = [];
+          this.popups = []
         }
       }
     }
   },
   methods: {
-    handleClickForAddNewPopup(options = {}) {
-      let findIndex = this.popups.findIndex(popup => options.key && options.key === popup.key);
-      let newPopup = {
-        ...options
-      };
-      if (findIndex === -1) {
-        this.popups.push(newPopup);
-      } else {
-        this.popups.splice(findIndex, 1, newPopup);
+    computeStyle (index) {
+      return {
+        paddingLeft: 20 + index * 300 + 'px',
+        top: '300px'
       }
     },
-    handleClickForClosePopup(index) {
-      this.popups.splice(index);
+    handleClickForAddNewPopup (options = {}) {
+      let findIndex = this.popups.findIndex(popup => options.key && options.key === popup.key)
+      let newPopup = {
+        ...options
+      }
+      if (findIndex === -1) {
+        this.popups.push(newPopup)
+      } else {
+        this.popups.splice(findIndex, 1, newPopup)
+      }
+    },
+    handleClickForClosePopup (index) {
+      this.popups.splice(index)
       if (index === 0) {
-        this.$emit("closePopup");
-        this.$emit("update:popupBool", false);
+        this.$emit('closePopup')
+        this.$emit('update:popupBool', false)
       }
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .popupContainer {
   position: absolute;
   top: 0;
   left: 0;
-  // width: 100%;
-  // height: 100%;
   z-index:9999;
-  // pointer-events: none;
 }
 </style>

@@ -19,8 +19,9 @@
       </m-tabs-body-item>
       <m-tabs-body-item name="overview" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
         <m-row gutter="0.1rem">
-          <m-column v-for="item in items" :key="item.name" :span="item.span || 1">
+          <m-column v-for="item in items" :key="item.name" :span="item.span || 1" @click>
             <overview-item
+            @click="handleClickItem"
             v-bind="item"
             :dataset="itemsData[item.name] || dataset[item.prop]"
             customClass="style2" style="cursor: pointer"></overview-item>
@@ -138,26 +139,26 @@
   </wrap-title>
 </template>
 <script>
-import MDialog from "@/components/MDialog/index";
-import LevelTitle from "@/components/MTitle/LevelTitle";
-import WrapTitle from "@/components/MTitle/WrapTitle";
-import MTabs from "@/components/MTabs";
-import MRow from "@/components/Layout/MRow";
-import MColumn from "@/components/Layout/MColumn";
-import OverviewItem from "@/components/OverviewItem";
-import MTabsBody from "@/components/MTabsBody/MTabsBody";
-import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
-import ChartLine from "@/components/Charts/Line/ChartLineForCompare";
-import ChartBar from "./ChartBar";
-import MList from "@/components/MList/index";
-import MPdf from "@/components/MPDF";
+import MDialog from '@/components/MDialog/index'
+import LevelTitle from '@/components/MTitle/LevelTitle'
+import WrapTitle from '@/components/MTitle/WrapTitle'
+import MTabs from '@/components/MTabs'
+import MRow from '@/components/Layout/MRow'
+import MColumn from '@/components/Layout/MColumn'
+import OverviewItem from '@/components/OverviewItem'
+import MTabsBody from '@/components/MTabsBody/MTabsBody'
+import MTabsBodyItem from '@/components/MTabsBody/MTabsBodyItem'
+import ChartLine from '@/components/Charts/Line/ChartLineForCompare'
+import ChartBar from './ChartBar'
+import MList from '@/components/MList/index'
+import MPdf from '@/components/MPDF'
 
-import MSelect from "@/components/MSelect";
-import { getData, getListData1, getListData2, getHotlineData } from "./api";
-import { statisticsForKey } from "@/utils/tools";
+import MSelect from '@/components/MSelect'
+import { getData, getListData1, getListData2, getHotlineData } from './api'
+import { statisticsForKey } from '@/utils/tools'
 
 export default {
-  name: "OverView",
+  name: 'OverView',
   components: {
     MDialog,
     MList,
@@ -175,228 +176,233 @@ export default {
     MPdf
   },
   inheritAttrs: false,
-  data() {
-    const lastIndex = window.location.href.lastIndexOf("/");
-    const prefix = window.location.href.substring(0, lastIndex + 1);
+  data () {
+    const lastIndex = window.location.href.lastIndexOf('/')
+    const prefix = window.location.href.substring(0, lastIndex + 1)
     return {
       visible: false,
       prefix: prefix,
-      pdfUrl: "",
+      pdfUrl: '',
       extraCss: {
-        top: "3.3rem",
-        left: "3.5rem",
-        width: "18rem",
-        height: "15.12rem"
+        top: '3.3rem',
+        left: '3.5rem',
+        width: '18rem',
+        height: '15.12rem'
       },
       dialogVisible: false,
       deps: [
         {
-          label: "督  查",
-          value: "黄媛媛"
+          label: '督  查',
+          value: '黄媛媛'
         },
         {
-          label: "网信办",
-          value: "柴春羚"
+          label: '网信办',
+          value: '柴春羚'
         },
         {
-          label: "公  安",
-          value: "钱国庆"
+          label: '公  安',
+          value: '钱国庆'
         },
         {
-          label: "建管委",
-          value: "郁震飞"
+          label: '建管委',
+          value: '郁震飞'
         },
         {
-          label: "应急局",
-          value: "王姝"
+          label: '应急局',
+          value: '王姝'
         },
         {
-          label: "地区办",
-          value: "潘文波"
+          label: '地区办',
+          value: '潘文波'
         }
       ],
       zhuanxiang: [
         {
-          label: "文明创建"
+          label: '文明创建'
         },
         {
-          label: "卫生创建"
+          label: '卫生创建'
         },
         {
-          label: "重大活动"
+          label: '重大活动'
         },
         {
-          label: "重大节日"
+          label: '重大节日'
         }
       ],
       tabs: Object.freeze([
-        { label: "指挥体系", value: "manager" },
-        { label: "城市运行", value: "overview" }
+        { label: '指挥体系', value: 'manager' },
+        { label: '城市运行', value: 'overview' }
       ]),
-      colors: Object.freeze(["#4FCFD5", "#DED7D7"]),
-      colors2: Object.freeze(["#30BC9B", "#92B9F7"]),
+      colors: Object.freeze(['#4FCFD5', '#DED7D7']),
+      colors2: Object.freeze(['#30BC9B', '#92B9F7']),
       items: Object.freeze([
-        { icon: "icon-chuzhililiang1", name: "处置力量", nameUnit: "(人)", showIncrease: false, prop: "staff_total" },
-        { icon: "icon-zaigangrenshu", name: "在岗人数", nameUnit: "(人)", showIncrease: false, prop: "staff_online" },
-        { icon: "icon-ganzhi", name: "智能感知预警", showIncrease: false, valueUnit: "%", prop: "zngzyj" },
-        { icon: "icon-wanggeanjian", name: "网格案件数", nameUnit: "(件)", showIncrease: false, prop: "case_count" },
-        { icon: "icon-rexian", span: 1.2, name: "市民服务热线", nameUnit: "(件)", showIncrease: false, prop: "recyclable_waste" }
+        { icon: 'icon-chuzhililiang1', name: '处置力量', nameUnit: '(人)', showIncrease: false, prop: 'staff_total' },
+        { icon: 'icon-zaigangrenshu', name: '在岗人数', nameUnit: '(人)', showIncrease: false, prop: 'staff_online' },
+        { icon: 'icon-ganzhi', name: '智能感知预警', showIncrease: false, valueUnit: '%', prop: 'zngzyj' },
+        { icon: 'icon-wanggeanjian', name: '网格案件数', nameUnit: '(件)', showIncrease: false, prop: 'case_count' },
+        { icon: 'icon-rexian', span: 1.2, name: '市民服务热线', nameUnit: '(件)', showIncrease: false, prop: 'recyclable_waste' }
       ]),
       options: Object.freeze([
-        { label: "本周", value: "currentWeek" },
-        { label: "本月", value: "currentMonth" }
+        { label: '本周', value: 'currentWeek' },
+        { label: '本月', value: 'currentMonth' }
       ]),
-      tab: "overview",
+      tab: 'overview',
       activeItem: null,
-      option: "currentWeek",
+      option: 'currentWeek',
       dataset: {
         zngzyj: {
-          value: "-"
+          value: '-'
         },
         sgy_chartData: [
-          ["水供应趋势", "xxx", "xxx2"],
-          ["11.02", 500, 400],
-          ["11.03", 300, 199],
-          ["11.04", 350, 400],
-          ["11.05", 210, 120],
-          ["11.06", 480, 300],
-          ["11.07", 360, 250],
-          ["11.08", 200, 100]
+          ['水供应趋势', 'xxx', 'xxx2'],
+          ['11.02', 500, 400],
+          ['11.03', 300, 199],
+          ['11.04', 350, 400],
+          ['11.05', 210, 120],
+          ['11.06', 480, 300],
+          ['11.07', 360, 250],
+          ['11.08', 200, 100]
         ],
         sgy_chartData2: [
-          ["街镇用水量", "xxx", "xxx2"],
-          ["南西", 200, 100],
-          ["静安寺", 200, 100],
-          ["共和新", 200, 100],
-          ["大宁路", 200, 100],
-          ["曹家渡", 200, 100],
-          ["天目西", 200, 100]
+          ['街镇用水量', 'xxx', 'xxx2'],
+          ['南西', 200, 100],
+          ['静安寺', 200, 100],
+          ['共和新', 200, 100],
+          ['大宁路', 200, 100],
+          ['曹家渡', 200, 100],
+          ['天目西', 200, 100]
         ]
       },
       itemsData: {},
       headers: [
         {
-          label: "部门",
-          prop: "部门"
+          label: '部门',
+          prop: '部门'
         },
         {
-          label: "姓名",
-          prop: "姓名"
+          label: '姓名',
+          prop: '姓名'
         },
         {
-          label: "职务",
-          prop: "职务"
+          label: '职务',
+          prop: '职务'
         },
         {
-          label: "办公电话",
-          prop: "办公电话"
+          label: '办公电话',
+          prop: '办公电话'
         },
         {
-          label: "手机",
-          prop: "手机"
+          label: '手机',
+          prop: '手机'
         }
       ],
       list: [],
       activeDep: null,
       showYingjiList: false
-    };
+    }
   },
   computed: {
-    tableData() {
+    tableData () {
       if (this.activeDep) {
-        return this.list[this.activeDep] || [];
+        return this.list[this.activeDep] || []
       } else {
-        return this.list;
+        return this.list
       }
     },
-    title() {
-      let res = "城市运行";
+    title () {
+      let res = '城市运行'
       if (this.activeItem) {
-        res += `-${this.activeItem.name}`;
+        res += `-${this.activeItem.name}`
       }
-      return res;
+      return res
     }
   },
   methods: {
+    handleClickItem (item) {
+      if (item === '处置力量') {
+        this.$_mapProxy.getMap()._openPopup('PowerPopup', {})
+      }
+    },
     handleReportView () {
-      this.visible = true;
-      this.pdfUrl = this.prefix + "/pdf/zhiban.pdf";
+      this.visible = true
+      this.pdfUrl = this.prefix + '/pdf/zhiban.pdf'
     },
-    handleShowList(type) {
-      this.activeDep = type;
-      this.showYingjiList = true;
+    handleShowList (type) {
+      this.activeDep = type
+      this.showYingjiList = true
     },
-    handleChangeForTabItem() {
+    handleChangeForTabItem () {
       // todo
     },
-    handleClickForOverviewItem(item) {
-      this.tab = item.prop;
-      this.activeItem !== item && (this.activeItem = item);
+    handleClickForOverviewItem (item) {
+      this.tab = item.prop
+      this.activeItem !== item && (this.activeItem = item)
     },
-    handleClickForBack() {
-      this.tab = "manager";
-      this.activeItem = null;
-      this.showYingjiList = null;
+    handleClickForBack () {
+      this.tab = 'manager'
+      this.activeItem = null
+      this.showYingjiList = null
     },
-    getData() {
+    getData () {
       getData().then(res => {
         if (res.api) {
           this.dataset.zngzyj = {
             value: Math.round(res.api.device_online_percent * 100) / 100
-          };
+          }
         }
         if (res.apiData) {
           this.dataset.staff_total = {
             value: res.apiData.staff_total
-          };
+          }
           this.dataset.case_count = {
             value: res.apiData.case_count
-          };
+          }
           this.dataset.staff_online = {
             value: res.apiData.staff_online
-          };
+          }
         }
         let tmp = {};
         (res.items || []).map(item => {
-          tmp[item.name] = item;
-        });
-        this.itemsData = tmp;
-        console.log(this.itemsData, "itemsData");
+          tmp[item.name] = item
+        })
+        this.itemsData = tmp
+        console.log(this.itemsData, 'itemsData')
 
         getHotlineData().then(res => {
-          let result = res.data || {};
-          this.itemsData["市民服务热线"].value = result.today || "-";
-        });
-      });
+          let result = res.data || {}
+          this.itemsData['市民服务热线'].value = result.today || '-'
+        })
+      })
       Promise.all([getListData1(), getListData2()]).then(res => {
-        this.list = statisticsForKey("关联", [...res[0].raw_data, ...res[1].raw_data.map(item => {
+        this.list = statisticsForKey('关联', [...res[0].raw_data, ...res[1].raw_data.map(item => {
           return {
-            部门: item["单位"],
-            姓名: item["分管领导"],
-            职务: item["分管领导职务"],
-            办公电话: item["分管领导固定电话"],
-            手机: item["分管领导移动电话"]
-          };
+            部门: item['单位'],
+            姓名: item['分管领导'],
+            职务: item['分管领导职务'],
+            办公电话: item['分管领导固定电话'],
+            手机: item['分管领导移动电话']
+          }
         })].map((item, index) => {
           return {
             ...item,
             id: index
-          };
-        }));
-      });
+          }
+        }))
+      })
     },
-    handleMouse(ref, mouse) {
-      if (mouse === "enter") {
-        this.$refs[ref].stopTimer();
+    handleMouse (ref, mouse) {
+      if (mouse === 'enter') {
+        this.$refs[ref].stopTimer()
       } else {
-        this.$refs[ref].startTimer();
+        this.$refs[ref].startTimer()
       }
     }
   },
-  created() {
-    this.$timer.register(this.getData, this);
+  created () {
+    this.$timer.register(this.getData, this)
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .schedule{

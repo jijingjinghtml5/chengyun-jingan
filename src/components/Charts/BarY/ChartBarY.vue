@@ -16,16 +16,16 @@
 </template>
 <script>
 // 右侧显示值
-import { thousandCentimeter } from "../../../utils/tools";
-import ChartBaseMixins from "../mixins/ChartBaseMixins";
-import ChartMixins from "../mixins/ChartCustomMixins";
+import { thousandCentimeter } from '../../../utils/tools'
+import ChartBaseMixins from '../mixins/ChartBaseMixins'
+import ChartMixins from '../mixins/ChartCustomMixins'
 export default {
-  name: "ChartBar",
+  name: 'ChartBar',
   mixins: [ChartBaseMixins, ChartMixins],
   props: {
     gradientDir: {
       type: String,
-      default: "x"
+      default: 'x'
     },
     isStack: {
       type: Boolean,
@@ -42,32 +42,32 @@ export default {
   },
   computed: {
     options () {
-      const dataArr = this.chartData && this.chartData.length > 1 ? this.chartData[0].slice(1) : [];
+      const dataArr = this.chartData && this.chartData.length > 1 ? this.chartData[0].slice(1) : []
 
       const series = dataArr.map((d, i) => {
         return {
-          type: "bar",
+          type: 'bar',
           barMaxWidth: +this.barMaxWidth_,
-          stack: this.isStack ? "stack" : null,
+          stack: this.isStack ? 'stack' : null,
           showBackground: !!this.backgroundColor,
           backgroundStyle: {
             color: this.backgroundColor
           },
           label: {
             show: this.showValue,
-            position: "right",
+            position: 'right',
             fontSize: +this.fontSize_,
-            color: "#fff",
+            color: '#fff',
             formatter: params => {
-              return thousandCentimeter(params.data[1]);
+              return thousandCentimeter(params.data[i + 1])
             }
           },
           itemStyle: {
             color: this.getColor(i)
           },
           z: 1
-        };
-      });
+        }
+      })
       return {
         ...this.baseOptions,
         grid: {
@@ -79,7 +79,7 @@ export default {
         },
         xAxis: {
           ...this.yAxis,
-          max: "dataMax"
+          max: 'dataMax'
         },
         yAxis: {
           ...this.xAxis,
@@ -89,10 +89,10 @@ export default {
           }
         },
         series: series
-      };
+      }
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .v-chart-container {
