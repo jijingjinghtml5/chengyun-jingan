@@ -14,116 +14,85 @@
   </div>
 </template>
 <script>
-import Weather from "./Weather";
-import { formatterDate } from "@/utils/tools";
-import { getWeatherData, getAQI } from "./api";
+import Weather from './Weather'
+import { formatterDate } from '@/utils/tools'
+import { getWeatherData, getAQI } from './api'
 const DayMapping = {
-  0: "周日",
-  1: "周一",
-  2: "周二",
-  3: "周三",
-  4: "周四",
-  5: "周五",
-  6: "周六"
-};
+  0: '周日',
+  1: '周一',
+  2: '周二',
+  3: '周三',
+  4: '周四',
+  5: '周五',
+  6: '周六'
+}
 export default {
-  name: "LeftHeader",
+  name: 'LeftHeader',
   components: { Weather },
-  data() {
+  data () {
     return {
       now: new Date(),
       weatherItems: Object.freeze([
         {
-          icon: "iconfont icon-shidu",
-          label: "湿度",
-          key: "humidity",
-          unit: "%"
+          icon: 'iconfont icon-shidu',
+          label: '湿度',
+          key: 'humidity',
+          unit: '%'
         },
         {
-          icon: "iconfont icon-jiangyu",
-          label: "降雨量",
-          key: "precipitation",
-          unit: "mm"
+          icon: 'iconfont icon-jiangyu',
+          label: '降雨量',
+          key: 'precipitation',
+          unit: 'mm'
         },
         {
-          icon: "iconfont icon-fengli",
-          label: "风速",
-          key: "windSpeed",
-          unit: "m/s"
+          icon: 'iconfont icon-fengli',
+          label: '风速',
+          key: 'windSpeed',
+          unit: 'm/s'
         },
 
         {
-          icon: "iconfont icon-PM",
-          label: "PM2.5",
-          key: "pm25",
-          unit: "μg/m³"
+          icon: 'iconfont icon-PM',
+          label: 'PM2.5',
+          key: 'pm25',
+          unit: 'μg/m³'
         },
         {
-          icon: "iconfont icon-yangchen",
-          label: "AQI",
-          key: "aqi",
-          unit: ""
+          icon: 'iconfont icon-yangchen',
+          label: 'AQI',
+          key: 'aqi',
+          unit: ''
         }
-        // {
-        //   icon: "iconfont icon-shidu1",
-        //   label: "湿度",
-        //   key: "humidity",
-        //   unit: ""
-        // },
-        // {
-        //   icon: "iconfont icon-kongqizhuangkuang",
-        //   label: "空气状况",
-        //   key: "air_condition",
-        //   unit: ""
-        // },
-        // {
-        //   icon: "iconfont icon-kongqidengji",
-        //   label: "空气等级",
-        //   key: "air_level",
-        //   unit: ""
-        // },
-        // {
-        //   icon: "iconfont icon-kongqizhiliang",
-        //   label: "空气AQI",
-        //   key: "aqi",
-        //   unit: ""
-        // },
-        // {
-        //   icon: "iconfont icon-yangchen1",
-        //   label: "扬尘指数",
-        //   key: "yangchen",
-        //   unit: ""
-        // }
       ]),
       weather: {
-        temperature: "-",
-        aqi: "-",
-        pm25: "-",
-        precipitation: "-",
-        windSpeed: "-",
-        humidity: "-"
+        temperature: '-',
+        aqi: '-',
+        pm25: '-',
+        precipitation: '-',
+        windSpeed: '-',
+        humidity: '-'
       }
-    };
+    }
   },
   filters: {
-    formatterDate2(val) {
-      let day = new Date(val).getDay();
-      return formatterDate(val, "yyyy/MM/dd") + " " + DayMapping[day];
+    formatterDate2 (val) {
+      let day = new Date(val).getDay()
+      return formatterDate(val, 'yyyy/MM/dd') + ' ' + DayMapping[day]
     }
   },
   methods: {
-    startClock() {
+    startClock () {
       let timer = setInterval(() => {
-        this.now = new Date();
-      }, 1000);
-      this.$once("hook:beforeDestroy", () => {
-        clearInterval(timer);
-      });
+        this.now = new Date()
+      }, 1000)
+      this.$once('hook:beforeDestroy', () => {
+        clearInterval(timer)
+      })
     },
-    async getWeatherDataValue() {
-      const weatherDatas = await getWeatherData();
-      let weatherData = weatherDatas.data;
-      console.log(">>>>weather", weatherDatas);
+    async getWeatherDataValue () {
+      const weatherDatas = await getWeatherData()
+      let weatherData = weatherDatas.data
       if (weatherData) {
         this.weather = {
           temperature: weatherData.temperature,
@@ -132,29 +101,27 @@ export default {
           windSpeed: weatherData.windSpeed
           // pm25: weatherData[0].content.pm25,
           // qpi: weatherData[0].content.aqi
-        };
+        }
       }
-      const aqiData = await getAQI();
-      // console.log(">>>>aq", aqiData);
+      const aqiData = await getAQI()
       if (aqiData) {
         aqiData.aqi_list.map(item => {
-          if (item.MN === "静安区平均值") {
+          if (item.MN === '静安区平均值') {
             this.weather = {
               ...this.weather,
               pm25: item.PM25,
               aqi: item.AQI
-            };
+            }
           }
-        });
-        // console.log(">>>>w", this.weather);
+        })
       }
     }
   },
-  created() {
-    this.startClock();
-    this.$timer.register(this.getWeatherDataValue, this);
+  created () {
+    this.startClock()
+    this.$timer.register(this.getWeatherDataValue, this)
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .left-header {

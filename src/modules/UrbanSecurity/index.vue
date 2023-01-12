@@ -19,7 +19,7 @@
       </m-tabs-body-item>
       <m-tabs-body-item name="overview" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
         <m-row gutter="0.1rem">
-          <m-column v-for="item in items" :key="item.name" :span="item.span || 1" @click>
+          <m-column v-for="item in items" :key="item.name" :span="item.span || 1">
             <overview-item
             @click="handleClickItem"
             v-bind="item"
@@ -140,7 +140,6 @@
 </template>
 <script>
 import MDialog from '@/components/MDialog/index'
-import LevelTitle from '@/components/MTitle/LevelTitle'
 import WrapTitle from '@/components/MTitle/WrapTitle'
 import MTabs from '@/components/MTabs'
 import MRow from '@/components/Layout/MRow'
@@ -149,11 +148,9 @@ import OverviewItem from '@/components/OverviewItem'
 import MTabsBody from '@/components/MTabsBody/MTabsBody'
 import MTabsBodyItem from '@/components/MTabsBody/MTabsBodyItem'
 import ChartLine from '@/components/Charts/Line/ChartLineForCompare'
-import ChartBar from './ChartBar'
 import MList from '@/components/MList/index'
 import MPdf from '@/components/MPDF'
 
-import MSelect from '@/components/MSelect'
 import { getData, getListData1, getListData2, getHotlineData } from './api'
 import { statisticsForKey } from '@/utils/tools'
 
@@ -162,7 +159,6 @@ export default {
   components: {
     MDialog,
     MList,
-    LevelTitle,
     WrapTitle,
     MTabs,
     MRow,
@@ -171,8 +167,6 @@ export default {
     MTabsBody,
     MTabsBodyItem,
     ChartLine,
-    ChartBar,
-    MSelect,
     MPdf
   },
   inheritAttrs: false,
@@ -241,7 +235,7 @@ export default {
         { icon: 'icon-zaigangrenshu', name: '在岗人数', nameUnit: '(人)', showIncrease: false, prop: 'staff_online' },
         { icon: 'icon-ganzhi', name: '智能感知预警', showIncrease: false, valueUnit: '%', prop: 'zngzyj' },
         { icon: 'icon-wanggeanjian', name: '网格案件数', nameUnit: '(件)', showIncrease: false, prop: 'case_count' },
-        { icon: 'icon-rexian', span: 1.2, name: '市民服务热线', nameUnit: '(件)', showIncrease: false, prop: 'recyclable_waste' }
+        { icon: 'icon-rexian', span: 1.2, name: '12345热线', nameUnit: '(件)', showIncrease: false, prop: 'recyclable_waste' }
       ]),
       options: Object.freeze([
         { label: '本周', value: 'currentWeek' },
@@ -367,11 +361,10 @@ export default {
           tmp[item.name] = item
         })
         this.itemsData = tmp
-        console.log(this.itemsData, 'itemsData')
 
         getHotlineData().then(res => {
           let result = res.data || {}
-          this.itemsData['市民服务热线'].value = result.today || '-'
+          this.itemsData['12345热线'].value = result.today || '-'
         })
       })
       Promise.all([getListData1(), getListData2()]).then(res => {
