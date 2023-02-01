@@ -3,7 +3,7 @@
     <maptitle @titleClick="handleReportView"></maptitle>
     <citymap ref='Map'></citymap>
     <maptool :class="{collapsed: isCollapsed}"></maptool>
-    <videomap @collapsedChange="handleCollapseChange"></videomap>
+    <!-- <videomap @collapsedChange="handleCollapseChange"></videomap> -->
         <!---左侧通用弹窗容器-->
     <popup-container :mapData="popupMapData" :componentName="popupComponentName" :popupBool.sync="popupBool" @closePopup='_closePopup'
     :stylePopup='stylePopup' ></popup-container>
@@ -22,39 +22,39 @@
   </div>
 </template>
 <script>
-import popupContainer from "@/components/popups/popupContainer.vue";
-import citymap from "@/components/citymap";
-import maptitle from "./components/MapTitle";
-import maptool from "./components/MapTool";
-import videomap from "./components/video";
-import { getCaseTownList } from "./api";
+import popupContainer from '@/components/popups/popupContainer.vue'
+import citymap from '@/components/citymap'
+import maptitle from './components/MapTitle'
+import maptool from './components/MapTool'
+// import videomap from './components/video'
+import { getCaseTownList, getHotlineData } from './api'
 
-import MPdf from "@/components/MPDF";
-import MDialog from "@/components/MDialog";
+import MPdf from '@/components/MPDF'
+import MDialog from '@/components/MDialog'
 
 export default {
-  name: "MapManager",
-  data() {
+  name: 'MapManager',
+  data () {
     return {
       visible: false,
-      pdfUrl: "",
+      pdfUrl: '',
       // 弹窗
       isCollapsed: false,
       stylePopup: {
-         left: "10px",
-         top: "300px"
+        left: '10px',
+        top: '300px'
       },
       popupMapData: {},
-      popupComponentName: "",
+      popupComponentName: '',
       popupBool: false
 
-    };
+    }
   },
   components: {
     maptitle,
     citymap,
     maptool,
-    videomap,
+    // videomap,
     popupContainer,
     MDialog,
     MPdf
@@ -62,121 +62,174 @@ export default {
   computed: {
   },
   methods: {
-        // 打开弹窗
-    _openPopup(type, data) {
+    // 打开弹窗
+    _openPopup (type, data) {
       switch (type) {
-        case "video":
-          this.videoShow = true;
-          this.videoData = data;
-          break;
+        case 'video':
+          this.videoShow = true
+          this.videoData = data
+          break
         default:
-          this.popupBool = true;
-          this.popupComponentName = type;
-          this.popupMapData = data;
+          this.popupBool = true
+          this.popupComponentName = type
+          this.popupMapData = data
       }
     },
     // 关闭左侧弹窗
-    _closePopup() {
+    _closePopup () {
     //   console.log('close popup')
-     //  this.addComuteingRoute([], "delete");
-      this.popupBool = false;
+      //  this.addComuteingRoute([], "delete");
+      this.popupBool = false
     },
-        // 街镇案件点
+    // 街镇案件点
     addTownCasePoint (data) {
       const dataCmd = {
-        name: "townCasePointLayer",
-        type: "point",
-        mode: "replace",
+        name: 'townCasePointLayer',
+        type: 'point',
+        mode: 'replace',
         data: {
           content: data,
-          parsegeometry: "function(item){return {x:item.lng, y:item.lat}}"
+          parsegeometry: 'function(item){return {x:item.lng, y:item.lat}}'
         },
         legendVisible: false,
         popupEnabled: false,
         isFiltered: false,
         isLocate: false,
         renderer: {
-          type: "simple",
-          label: "案件点",
+          type: 'simple',
+          label: '案件点',
           symbol: {
-            type: "picture-marker",
-            url: this.rootUrl + "mapIcon/case.png",
-            width: "48px",
-            height: "65px"
+            type: 'picture-marker',
+            url: this.rootUrl + 'mapIcon/case.png',
+            width: '48px',
+            height: '65px'
           }
         }
-      };
+      }
       const commandParams = {
-        ActionName: "ShowData",
+        ActionName: 'ShowData',
         Parameters: JSON.stringify(dataCmd)
-      };
-      window.bridge.Invoke(commandParams);
+      }
+      window.bridge.Invoke(commandParams)
+    },
+    addTownHotlineCasePoint (data) {
+      const dataCmd = {
+        name: 'townHotlineCasePointLayer',
+        type: 'point',
+        mode: 'replace',
+        data: {
+          content: data,
+          parsegeometry: 'function(item){return {x:item.lng, y:item.lat}}'
+        },
+        legendVisible: false,
+        popupEnabled: false,
+        isFiltered: false,
+        isLocate: false,
+        renderer: {
+          type: 'simple',
+          label: '案件点',
+          symbol: {
+            type: 'picture-marker',
+            url: this.rootUrl + 'mapIcon/case.png',
+            width: '48px',
+            height: '65px'
+          }
+        }
+      }
+      const commandParams = {
+        ActionName: 'ShowData',
+        Parameters: JSON.stringify(dataCmd)
+      }
+      window.bridge.Invoke(commandParams)
     },
 
     mapClickHandle (data) {
-      console.log(data, "data-------------");
+      console.log(data, 'data-------------')
+      if (data.hotlineEvent) {
+        getHotlineData({
+          filter: `openTS=-604800%26is_delete=neq.1%26polygon=${data.hotlineEvent[0].name}`,
+          transform: 'messages[*].{id:data.eventID, lng: data.location.longitude, lat: data.location.latitude }',
+          group_by: '',
+          limit: 100000
+        }).then(res => {
+          this.addTownHotlineCasePoint(res.data)
+          this.goToTown(data.hotlineEvent[0].name)
+          setTimeout(() => {
+            this.removeLayer('hotlineEvent')
+          }, 1500)
+        })
+        return
+      }
       if (data.townLayer) {
         getCaseTownList(data.townLayer[0].name).then(res => {
-          this.addTownCasePoint(res.data);
-          this.goToTown(data.townLayer[0].name);
+          this.addTownCasePoint(res.data)
+          this.goToTown(data.townLayer[0].name)
           setTimeout(() => {
-            this.removeLayer("townLayer");
-          }, 1500);
-        });
-        return;
+            this.removeLayer('townLayer')
+          }, 1500)
+        })
+        return
+      }
+      if (data.townHotlineCasePointLayer) {
+        this._openPopup('case', {
+          caseId_: data.townHotlineCasePointLayer[0].id,
+          channelParams: 'sangao',
+          caseDefaultInfo_: data.townHotlineCasePointLayer[0]
+        })
+        return
       }
       if (data.townCasePointLayer) {
-        this._openPopup("case", {
+        this._openPopup('case', {
           caseId_: data.townCasePointLayer[0].id,
           caseDefaultInfo_: data.townCasePointLayer[0]
-        });
-        return;
-       }
-       if (data.townPeopleLayer) {
-        return;
-       }
+        })
+        return
+      }
+      if (data.townPeopleLayer) {
+        return
+      }
 
-       if (data.juweiBoundaryLayer) {
-         this._openPopup("juweiPopup", data.juweiBoundaryLayer[0]);
-         return;
-       }
-       if (data.townBoundaryLayer) {
-         this._openPopup("townPopup", data.townBoundaryLayer[0]);
-         return;
-       }
-       if (data.gridBoundaryLayer) {
-         this._openPopup("gridPopup", data.gridBoundaryLayer[0]);
-         return;
-       }
-       if (data.thingsPerceptionLayer) {
-         this._openPopup("neuronPopup", data.thingsPerceptionLayer[0]);
-         return;
-       }
-       if (data) {
-          let len = Object.keys(data).length;
-          if (len === 1) {
-            return;
-          }
-          this._openPopup("basicPopup", data);
-       }
-      },
-      goToTown (name) {
+      if (data.juweiBoundaryLayer) {
+        this._openPopup('juweiPopup', data.juweiBoundaryLayer[0])
+        return
+      }
+      if (data.townBoundaryLayer) {
+        this._openPopup('townPopup', data.townBoundaryLayer[0])
+        return
+      }
+      if (data.gridBoundaryLayer) {
+        this._openPopup('gridPopup', data.gridBoundaryLayer[0])
+        return
+      }
+      if (data.thingsPerceptionLayer) {
+        this._openPopup('neuronPopup', data.thingsPerceptionLayer[0])
+        return
+      }
+      if (data) {
+        let len = Object.keys(data).length
+        if (len === 1) {
+          return
+        }
+        this._openPopup('basicPopup', data)
+      }
+    },
+    goToTown (name) {
       const cmd = {
-        name: "townLocationLayer",
-        type: "layer",
+        name: 'townLocationLayer',
+        type: 'layer',
         isLocate: true,
         legendVisible: false,
         popupEnabled: false,
         data: {
           layers: {
-            name: "街道乡镇",
+            name: '街道乡镇',
             where: "街道名称='" + name + "'"
           }
         },
         labels: [
           {
             fields: [
-              "#.街道名称"
+              '#.街道名称'
             ],
             color: [
               255,
@@ -186,19 +239,19 @@ export default {
             ],
             size: 36,
             font: {
-              family: "fangsong",
-              weight: "bold"
+              family: 'fangsong',
+              weight: 'bold'
             }
           }
         ],
         renderer: {
-          type: "simple",
+          type: 'simple',
           symbol: {
-            type: "line-3d",
-            label: "街道",
+            type: 'line-3d',
+            label: '街道',
             symbolLayers: [
               {
-                type: "line",
+                type: 'line',
                 size: 5,
                 material: {
                   color: [0, 255, 255, 1]
@@ -207,41 +260,41 @@ export default {
             ]
           }
         }
-      };
+      }
       const commandParams = {
-        ActionName: "ShowData",
+        ActionName: 'ShowData',
         Parameters: JSON.stringify(cmd)
-      };
-      window.bridge.Invoke(commandParams);
+      }
+      window.bridge.Invoke(commandParams)
     },
     removeLayer (layerName) {
       const commandParams = {
-        ActionName: "doRemoveShowData",
+        ActionName: 'doRemoveShowData',
         Parameters: JSON.stringify([
           layerName
         ])
-      };
-      window.bridge.Invoke(commandParams);
-  },
-    onMapReady() {
+      }
+      window.bridge.Invoke(commandParams)
+    },
+    onMapReady () {
       let dataCmd = {
-        ActionName: "ShowData",
+        ActionName: 'ShowData',
         Parameters: {
-          name: "filterLayer",
-          type: "layer",
-          filterMode: "all",
+          name: 'filterLayer',
+          type: 'layer',
+          filterMode: 'all',
           data: {
             layers: {
-              name: "区县边界"
+              name: '区县边界'
             }
           },
           renderer: {
-            type: "simple",
+            type: 'simple',
             symbol: {
-              type: "line-3d",
+              type: 'line-3d',
               symbolLayers: [
                 {
-                  type: "line",
+                  type: 'line',
                   size: 5,
                   material: {
                     color: [0, 0, 0, 0]
@@ -251,34 +304,34 @@ export default {
             }
           }
         }
-      };
-      window.bridge.Invoke(dataCmd);
+      }
+      window.bridge.Invoke(dataCmd)
     },
-    handleCollapseChange(val) {
-      this.isCollapsed = val;
+    handleCollapseChange (val) {
+      this.isCollapsed = val
     },
     handleReportView () {
-      this.visible = true;
-      this.pdfUrl = this.rootUrl + "/pdf/report.pdf";
+      this.visible = true
+      this.pdfUrl = this.rootUrl + '/pdf/report.pdf'
     }
 
   },
-  created() {
-    const urlString = window.location.href;
-    let subIndex = urlString.lastIndexOf(".html");
-    const urlStringSub = urlString.substring(0, subIndex + 1);
-    subIndex = urlStringSub.lastIndexOf("/");
-    this.rootUrl = urlStringSub.substring(0, subIndex + 1);
+  created () {
+    const urlString = window.location.href
+    let subIndex = urlString.lastIndexOf('.html')
+    const urlStringSub = urlString.substring(0, subIndex + 1)
+    subIndex = urlStringSub.lastIndexOf('/')
+    this.rootUrl = urlStringSub.substring(0, subIndex + 1)
   },
-  mounted() {
+  mounted () {
     // 地图点击事件
-    this.$bus.$on("citymap-click", this.mapClickHandle);
+    this.$bus.$on('citymap-click', this.mapClickHandle)
     // 地图加载完毕
-    this.$bus.$on("citymap-ready", this.onMapReady);
+    this.$bus.$on('citymap-ready', this.onMapReady)
     // 注册地图代理组件
-    this.$_mapProxy.setMap(this);
+    this.$_mapProxy.setMap(this)
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .MapContainer {

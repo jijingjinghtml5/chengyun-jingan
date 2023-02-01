@@ -19,6 +19,13 @@ export function getPeopleStatistic (type) {
   })
 }
 
+export function getHotlineData (params) {
+  return request({
+    url: '/v2/data-api/817',
+    params
+  })
+}
+
 // 案件分街镇统计
 export function getCaseTownCount (district, type) {
   const url = '/v2/data-api/406'

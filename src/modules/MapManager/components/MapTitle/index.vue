@@ -17,7 +17,8 @@ import {
   getSingleBuildingData,
   getShopList,
   getEventList,
-  getOrgs
+  getOrgs,
+  getHotlineData
 } from './api'
 import {
   thousandCentimeter,
@@ -452,19 +453,38 @@ export default {
     },
     handlerEvent (item) {
       if (item.checked) {
-        getCaseTownCount('静安区', item.name).then(res => {
-          if (res.data.length > 0) {
-            this.addTownArea(this.classifyCase(res.data), '静安区')
-          } else {
-            this.$message({
-              message: '该条件下，暂无案件！',
-              type: 'warning'
+        if (item.name === '被动发现') {
+          getHotlineData({
+            transform: 'aggResults',
+            filter: 'openTS=-604800&is_delete=neq.1',
+            group_by: 'simple.messageClass(filter.today:openTS=today)(filter.yesterday:openTS=yesterday),town.areaName(filter.value:closeTS=ex.true)'
+          }).then(res => {
+            console.log(res, '被动发现')
+            let result = res.data['town.areaName'].map(item => {
+              return {
+                ...item,
+                total: item.count,
+                areaName: item['town.areaName']
+              }
             })
-          }
-        })
+            this.addTownArea(this.classifyCase(result), '静安区', 'hotlineEvent')
+          })
+        } else {
+          getCaseTownCount('静安区', item.name).then(res => {
+            if (res.data.length > 0) {
+              this.addTownArea(this.classifyCase(res.data), '静安区')
+            } else {
+              this.$message({
+                message: '该条件下，暂无案件！',
+                type: 'warning'
+              })
+            }
+          })
+        }
       } else {
         this.removeLayer('townLayer')
         this.removeLayer('townCasePointLayer')
+        this.removeLayer('townHotlineCasePointLayer')
         this.removeLayer('townLocationLayer')
       }
     },
