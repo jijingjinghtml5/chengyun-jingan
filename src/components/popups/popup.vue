@@ -30,6 +30,7 @@ export default {
     PubliceTransportPopup: () => import('./page1/PubliceTransportPopup'),
     EventPopup: () => import('./page1/EventPopup'),
     PowerPopup: () => import('./page1/PowerPopup'),
+    SubwayPopup: () => import('./page1/SubwayPopup'),
     workerPopup,
     PointsList,
     DangPopup: () => import('./page1/DangPopup'),

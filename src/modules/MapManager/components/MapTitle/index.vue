@@ -18,7 +18,8 @@ import {
   getShopList,
   getEventList,
   getOrgs,
-  getHotlineData
+  getHotlineData,
+  getSubway
 } from './api'
 import {
   thousandCentimeter,
@@ -210,6 +211,12 @@ export default {
               nameKey: 'name',
               type: 'baseLayer',
               checked: false
+            },
+            {
+              name: '地铁站点',
+              nameKey: 'name',
+              type: 'baseLayer',
+              checked: false
             }
             ],
             childKey: 'children'
@@ -305,7 +312,8 @@ export default {
         '党群人员统计': [],
         '民族宗教信息': []
       },
-      shopLayer: null
+      shopLayer: null,
+      subwayLayer: null
     }
   },
   methods: {
@@ -349,7 +357,29 @@ export default {
           this.handlerPeople(data.item)
           break
         case 'baseLayer':
-          this.tabLayer(data.item.name, data.item.checked)
+          if (data.item.name === '地铁站点') {
+            if (data.item.checked) {
+              getSubway().then(res => {
+                this.subwayLayer.setParameters({
+                  'data': {
+                    'content': (res.data.messages || []).map(item => {
+                      return {
+                        ...item,
+                        name: item.data.housingEstate.areaName
+                      }
+                    }),
+                    'parsegeometry': 'function(item){return {rings:item.data.polygons[0].points}}'
+                  }
+                }).setPopupConfig({
+                  component: 'SubwayPopup'
+                }).open()
+              })
+            } else {
+              this.removeLayer('SubwayLayer')
+            }
+          } else {
+            this.tabLayer(data.item.name, data.item.checked)
+          }
           break
         case 'neuron':
           this.handlerNeuron(data.item)
@@ -766,6 +796,49 @@ export default {
       }
       window.bridge.Invoke(cmd)
     },
+    registerSubwayLayer () {
+      let dataCmd = {
+        'name': 'SubwayLayer',
+        'type': 'polygon',
+        'mode': 'replace',
+        'popupEnabled': false,
+        'legendVisible': false,
+        'isLocate': false,
+        'data': {
+          'content': [],
+          'parsegeometry': 'function(item){return {rings:item.data.polygons[0].points}}'
+        },
+        labels: [{
+          fields: [
+            '#.name'
+          ],
+          color: [
+            255,
+            255,
+            255,
+            1
+          ],
+          size: 20,
+          font: {
+            family: 'fangsong',
+            weight: 'normal'
+          }
+        }],
+        'renderer': {
+          'type': 'polygon-3d',
+          'symbolLayers': [
+            {
+              'type': 'fill',
+              'material': {
+                'color': '#c7f0b3'
+              }
+            }
+          ]
+        }
+      }
+      this.subwayLayer = this.$_mapProxy.registerLayer('SubwayLayer', '单个撒点图层')
+        .setParameters(dataCmd)
+    },
     registerPointLayer () {
       // 地图撒点图层
       this.pointLayer = this.$_mapProxy.registerLayer('HeaderPointLayer', '单个撒点图层')
@@ -955,6 +1028,7 @@ export default {
     this.registerPointLayer()
     this.registerThingsPerceptionLayer()
     this.registerShopLayer()
+    this.registerSubwayLayer()
 
     this.createSingleBuildingMenu()
     this.getShopListData()

@@ -69,3 +69,17 @@ export function getOrgs () {
     url: '/erupt-api/life/org'
   })
 }
+
+export function getSubway () {
+  return requestJa({
+    url: '/united-ciimc-api/v1/generic-query',
+    params: {
+      table: 'appoint-area',
+      index_type: 'active',
+      token: '240e13b16eff42aeaec9bda8c5707f84',
+      filter: 'is_delete=neq.1',
+      limit: 1000,
+      geo_type: 'shlocal'
+    }
+  })
+}
