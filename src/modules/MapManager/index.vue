@@ -3,7 +3,7 @@
     <maptitle @titleClick="handleReportView"></maptitle>
     <citymap ref='Map'></citymap>
     <maptool :class="{collapsed: isCollapsed}"></maptool>
-    <!-- <videomap @collapsedChange="handleCollapseChange"></videomap> -->
+    <videomap @collapsedChange="handleCollapseChange"></videomap>
         <!---左侧通用弹窗容器-->
     <popup-container :mapData="popupMapData" :componentName="popupComponentName" :popupBool.sync="popupBool" @closePopup='_closePopup'
     :stylePopup='stylePopup' ></popup-container>
@@ -26,7 +26,7 @@ import popupContainer from '@/components/popups/popupContainer.vue'
 import citymap from '@/components/citymap'
 import maptitle from './components/MapTitle'
 import maptool from './components/MapTool'
-// import videomap from './components/video'
+import videomap from './components/video'
 import { getCaseTownList, getHotlineData } from './api'
 
 import MPdf from '@/components/MPDF'
@@ -54,7 +54,7 @@ export default {
     maptitle,
     citymap,
     maptool,
-    // videomap,
+    videomap,
     popupContainer,
     MDialog,
     MPdf
