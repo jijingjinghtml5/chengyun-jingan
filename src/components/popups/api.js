@@ -60,3 +60,9 @@ export function getBikeStreet () {
     url: '/erupt-api/traffic/streetBikeInfo'
   })
 }
+
+export function getBusDetail (busNo) {
+  return request({
+    url: `/erupt-api/traffic/busList?busNo=${busNo}`
+  })
+}

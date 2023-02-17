@@ -3,7 +3,7 @@
     <popup
       v-for="(popup, index) in popups"
       :key="`${popup.componentName}_${index}`"
-      :stylePopup="computeStyle(index)"
+      :stylePopup="{ ...computeStyle(index), ...popup.stylePopup }"
       v-bind="popup"
       v-on="$listeners"
       @close="handleClickForClosePopup(index, ...arguments)"

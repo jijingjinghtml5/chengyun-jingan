@@ -90,6 +90,18 @@ export default {
             'parsegeometry': 'function(item){return {paths:item.data.path[0].points}}'
           }
         }).open()
+        this.$emit('addNewPopup', {
+          key: 'PubliceTransportDetail',
+          componentName: 'PubliceTransportDetail',
+          showClose: true,
+          mapData: {
+            ...row
+          },
+          stylePopup: {
+            paddingLeft: 0,
+            left: '400px'
+          }
+        })
       } else {
         this.publicLineLayer.close()
       }

@@ -3,19 +3,18 @@
       <div class="collapse" @click="collapsedChange">
         <div :class="`iconfont ${collapsedIcon}`" ></div>
       </div>
-      <video-manager v-show="!isCollapsed"></video-manager>
+      <video-manager v-if="!isCollapsed"></video-manager>
   </div>
 </template>
 <script>
-import qvPlayer from "@/components/Video/qvPlayer";
-import VideoManager from "@/modules/VideoManager";
+import VideoManager from '@/modules/VideoManager'
 export default {
-  components: { qvPlayer, VideoManager },
-  name: "videomap",
-  data() {
+  components: { VideoManager },
+  name: 'videomap',
+  data () {
     return {
       isCollapsed: this.collapsed,
-      videoNumber: "（1/147）",
+      videoNumber: '（1/147）',
       videoData: [
         { src: null },
         { src: null },
@@ -24,32 +23,32 @@ export default {
         { src: null }
       ]
 
-    };
+    }
   },
   computed: {
     collapsedIcon () {
-      return this.isCollapsed ? "icon-zhedie6" : "icon-zhedie5";
+      return this.isCollapsed ? 'icon-zhedie6' : 'icon-zhedie5'
     }
   },
   watch: {
-     btnActives: {
-       handler(val) {
-          // console.log(val, "cL");
-       },
-       deep: true
+    btnActives: {
+      handler (val) {
+        // console.log(val, "cL");
+      },
+      deep: true
 
-     }
-  },
-  methods: {
-    collapsedChange() {
-      this.isCollapsed = !this.isCollapsed;
-      this.$emit("collapsedChange", this.isCollapsed);
     }
   },
-  mounted() {
+  methods: {
+    collapsedChange () {
+      this.isCollapsed = !this.isCollapsed
+      this.$emit('collapsedChange', this.isCollapsed)
+    }
+  },
+  mounted () {
 
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .videoContainer{
