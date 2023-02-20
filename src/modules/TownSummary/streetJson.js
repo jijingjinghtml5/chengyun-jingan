@@ -1,101 +1,101 @@
 const streetList = [{
-	"id": "0613",
-	"town": "静安寺街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=wyMkYXj_lhC0UNHZxfQxmoROXhH2-8KO&token=1rJyrmRxidMAygW6iIv8V8g",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0613',
+  'town': '静安寺街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=wyMkYXj_lhC0UNHZxfQxmoROXhH2-8KO&token=1rJyrmRxidMAygW6iIv8V8g',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0614",
-	"town": "曹家渡街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=D3pccrCwmmpM4_GxnPvoZqmXX6kuMsOs&token=1iRSxCU36_Za2mNly6T2lzw",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0614',
+  'town': '曹家渡街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=D3pccrCwmmpM4_GxnPvoZqmXX6kuMsOs&token=1iRSxCU36_Za2mNly6T2lzw',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0606",
-	"town": "江宁路街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=nF6RFaA39Fa28bvvjbXyNwTsJZd7Bb8N&token=1iIt06sl3ooCnm79fqXjP7Q",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0606',
+  'town': '江宁路街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=nF6RFaA39Fa28bvvjbXyNwTsJZd7Bb8N&token=1iIt06sl3ooCnm79fqXjP7Q',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0611",
-	"town": "石门二路街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=J3YAsHDlqLGaSovW2AqIMjliFQfN05Tt&token=1dstgpg40fEPqLf2Bi3HCWg",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0611',
+  'town': '石门二路街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=J3YAsHDlqLGaSovW2AqIMjliFQfN05Tt&token=1dstgpg40fEPqLf2Bi3HCWg',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0612",
-	"town": "南京西路街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=hbovM0-kcTjlUnaGoIbcmkI_NolsM_59&token=",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0612',
+  'town': '南京西路街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=hbovM0-kcTjlUnaGoIbcmkI_NolsM_59&token=',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0601",
-	"town": "天目西路街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=ap5fIjB_qEFg0wC4raDk2mVhC5h_CiJD&token=1ylZ981C-h1M0lJG9A71ftg",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0601',
+  'town': '天目西路街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=ap5fIjB_qEFg0wC4raDk2mVhC5h_CiJD&token=1ylZ981C-h1M0lJG9A71ftg',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0602",
-	"town": "北站街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=HkG33KWXMb_A9JMvh_Im6flX7tnPjDNI&token=1GnxI5Si0M3djMiBm3OP45A",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0602',
+  'town': '北站街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=HkG33KWXMb_A9JMvh_Im6flX7tnPjDNI&token=1GnxI5Si0M3djMiBm3OP45A',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0607",
-	"town": "宝山路街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=r7mMxG12yW9VaABXz9pIm5rpaCy7WbTQ&token=119Rbkhc_IAP4gI3ty0bk8A",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0607',
+  'town': '宝山路街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=r7mMxG12yW9VaABXz9pIm5rpaCy7WbTQ&token=119Rbkhc_IAP4gI3ty0bk8A',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0616",
-	"town": "芷江西路街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=xxfZazTj-1XJQ07No0QxGxqNzAfzyMKW&token=1LMrZzjf3tbJyIl7yp07iIQ",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0616',
+  'town': '芷江西路街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=xxfZazTj-1XJQ07No0QxGxqNzAfzyMKW&token=1LMrZzjf3tbJyIl7yp07iIQ',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0603",
-	"town": "共和新路街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=SBYry7ChKHRxEGTQoA1oYwc6w36fysU_&token=1U6S_TLYVD5d6mYyKy3EXSg",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0603',
+  'town': '共和新路街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=SBYry7ChKHRxEGTQoA1oYwc6w36fysU_&token=1U6S_TLYVD5d6mYyKy3EXSg',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0604",
-	"town": "大宁路街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=Wt9eJNqDSmHL72YYilOz7wskPzRboaiR&token=1LtkuFcqqmdH_aeZhmNHCSw",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0604',
+  'town': '大宁路街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=Wt9eJNqDSmHL72YYilOz7wskPzRboaiR&token=1LtkuFcqqmdH_aeZhmNHCSw',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0605",
-	"town": "彭浦新村街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=ZW1bWiEXdv70HGwIfksTRXvBV4gV7cOn&token=1QV428PVPePMaBS5pVmNUNA",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0605',
+  'town': '彭浦新村街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=ZW1bWiEXdv70HGwIfksTRXvBV4gV7cOn&token=1QV428PVPePMaBS5pVmNUNA',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0615",
-	"town": "临汾路街道",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=UWMRU0mdcJLTHfTgKVXUiTn6tCM8cjrv&token=",
-	"score": "-",
-	"find": "-",
-	"done": "-"
+  'id': '0615',
+  'town': '临汾路街道',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=UWMRU0mdcJLTHfTgKVXUiTn6tCM8cjrv&token=',
+  'score': '-',
+  'find': '-',
+  'done': '-'
 }, {
-	"id": "0617",
-	"town": "彭浦镇",
-	"url": "http://10.81.71.38/chengyun/custom/jingan-town/town.html?code=VAOwemEy4_h413FR4tKJb2suDB7EMxJq&token=188Ld5SXnwOfQiYKzrD7KEQ",
-	"score": "-",
-	"find": "-",
-	"done": "-"
-}];
+  'id': '0617',
+  'town': '彭浦镇',
+  'url': 'http://10.210.232.238/chengyun/custom/jingan-town/town.html?code=VAOwemEy4_h413FR4tKJb2suDB7EMxJq&token=188Ld5SXnwOfQiYKzrD7KEQ',
+  'score': '-',
+  'find': '-',
+  'done': '-'
+}]
 
-export default streetList;
+export default streetList
