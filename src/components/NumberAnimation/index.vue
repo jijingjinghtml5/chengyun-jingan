@@ -6,23 +6,22 @@
 </template>
 <script>
 // 进入显示区域自动动画 + 定时动画 + 统计动画
-import VueCountTo from "vue-count-to";
-import { ObserveVisibility } from "vue-observe-visibility";
-import timer from "./singleCase";
+import VueCountTo from 'vue-count-to'
+import { ObserveVisibility } from 'vue-observe-visibility'
 
 export default {
-  name: "NumberAnimation",
+  name: 'NumberAnimation',
   components: {
     VueCountTo
   },
   directives: {
-    "observe-visibility": ObserveVisibility
+    'observe-visibility': ObserveVisibility
   },
   props: {
     val: {
       type: [Number, String],
       default: () => {
-        return "-";
+        return '-'
       }
     },
     againInterval: {
@@ -35,7 +34,7 @@ export default {
     },
     tag: {
       type: String,
-      default: "span"
+      default: 'span'
     }
   },
   data () {
@@ -43,56 +42,56 @@ export default {
       isVisible: true,
       startVal: 0,
       resetTimer: null
-    };
+    }
   },
   watch: {
     isVisible: {
       handler (nv) {
         if (nv) {
-          this.aniamtion();
+          this.aniamtion()
         }
       }
     }
   },
   computed: {
     canAnimation () {
-      return !isNaN(+this.val);
+      return !isNaN(+this.val)
     }
   },
   methods: {
     init () {
       // timer.register(this.aniamtion, this, false);
-      this.startTimer();
-      this.$once("hook:beforeDestroy", () => {
-        this.stopTimer();
-      });
+      this.startTimer()
+      this.$once('hook:beforeDestroy', () => {
+        this.stopTimer()
+      })
     },
     startTimer () {
       this.resetTimer = setInterval(() => {
-        console.log(">>>>timer");
-        this.aniamtion();
-      }, this.againInterval);
+        console.log('>>>>timer')
+        this.aniamtion()
+      }, this.againInterval)
     },
     stopTimer () {
       if (this.resetTimer) {
-        clearInterval(this.resetTimer);
-        this.resetTimer = null;
+        clearInterval(this.resetTimer)
+        this.resetTimer = null
       }
     },
     aniamtion () {
       if (this.canAnimation) {
-        const countDom = this.$refs.count;
-        countDom && countDom.start();
+        const countDom = this.$refs.count
+        countDom && countDom.start()
       }
     },
     visibilityChanged (isVisible) {
-      this.isVisible = isVisible;
+      this.isVisible = isVisible
     }
   },
   mounted () {
     this.$nextTick(() => {
-      this.init();
-    });
+      this.init()
+    })
   }
-};
+}
 </script>
