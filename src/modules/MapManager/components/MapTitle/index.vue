@@ -19,7 +19,8 @@ import {
   getEventList,
   getOrgs,
   getHotlineData,
-  getSubway
+  getSubway,
+  getHujiPeople
 } from './api'
 import {
   thousandCentimeter,
@@ -33,7 +34,6 @@ export default {
   name: 'MapTitle',
   components: {
     HeaderMenu
-
   },
   data () {
     return {
@@ -466,17 +466,32 @@ export default {
     },
     handlerPeople (item) {
       if (item.checked) {
-        getPeopleStatistic(item.name).then(res => {
-          let peopleTownData = []
-          res.data.forEach((e, i) => {
-            let item = {}
-            item.count = thousandCentimeter(e.count)
-            item.name = e.town
-            item.typeValue = 4 - Math.ceil((i + 1) / 5)
-            peopleTownData.push(item)
+        if (item.name === '户籍人员') {
+          getHujiPeople().then(res => {
+            console.log(res, 'getHujiPeople')
+            let peopleTownData = []
+            res.data.messages.forEach((e, i) => {
+              let item = {}
+              item.count = thousandCentimeter(e.data.total_count)
+              item.name = e.data.town.areaName
+              item.typeValue = 4 - Math.ceil((i + 1) / 5)
+              peopleTownData.push(item)
+            })
+            this.addTownPeople(peopleTownData)
           })
-          this.addTownPeople(peopleTownData)
-        })
+        } else {
+          getPeopleStatistic(item.name).then(res => {
+            let peopleTownData = []
+            res.data.forEach((e, i) => {
+              let item = {}
+              item.count = thousandCentimeter(e.count)
+              item.name = e.town
+              item.typeValue = 4 - Math.ceil((i + 1) / 5)
+              peopleTownData.push(item)
+            })
+            this.addTownPeople(peopleTownData)
+          })
+        }
       } else {
         this.removeLayer('townPeopleLayer')
       }

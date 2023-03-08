@@ -138,24 +138,22 @@
   </wrap-title>
 </template>
 <script>
-import WrapTitle from "@/components/MTitle/WrapTitle";
-import LevelTitle from "@/components/MTitle/LevelTitle";
-import MSelect from "@/components/MSelect";
-import MRow from "@/components/Layout/MRow";
-import MColumn from "@/components/Layout/MColumn";
-import OverviewItem from "@/components/OverviewItem";
-import OverviewItem2 from "@/components/OverviewItem/index2";
-import MTabs from "@/components/MTabs";
-import MTabsBody from "@/components/MTabsBody/MTabsBody";
-import MTabsBodyItem from "@/components/MTabsBody/MTabsBodyItem";
-import ChartLine from "@/components/Charts/Line/ChartLine";
-import { getData, getItemData } from "./api";
+import WrapTitle from '@/components/MTitle/WrapTitle'
+import LevelTitle from '@/components/MTitle/LevelTitle'
+import MRow from '@/components/Layout/MRow'
+import MColumn from '@/components/Layout/MColumn'
+import OverviewItem from '@/components/OverviewItem'
+import OverviewItem2 from '@/components/OverviewItem/index2'
+import MTabs from '@/components/MTabs'
+import MTabsBody from '@/components/MTabsBody/MTabsBody'
+import MTabsBodyItem from '@/components/MTabsBody/MTabsBodyItem'
+import ChartLine from '@/components/Charts/Line/ChartLine'
+import { getData, getItemData } from './api'
 export default {
-  name: "SocialGovernance",
+  name: 'SocialGovernance',
   components: {
     WrapTitle,
     LevelTitle,
-    MSelect,
     MRow,
     MColumn,
     OverviewItem,
@@ -165,102 +163,101 @@ export default {
     MTabsBodyItem,
     ChartLine
   },
-  inject: ["createFnForCalcRealPx"],
-  data() {
+  inject: ['createFnForCalcRealPx'],
+  data () {
     return {
-      colors: Object.freeze(["#1ABC9C", "#679DF4", "#F96F4F", "#D0021B"]),
+      colors: Object.freeze(['#1ABC9C', '#679DF4', '#F96F4F', '#D0021B']),
       legendConfig: Object.freeze({
         top: 0,
-        left: "center",
-        icon: "line",
+        left: 'center',
+        icon: 'line',
         textStyle: {
-          color: "#D1C9C4",
+          color: '#D1C9C4',
           fontSize: this.createFnForCalcRealPx(0.24)
         }
       }),
       options: Object.freeze([
-        { label: "本周", value: "currentWeek" },
-        { label: "本月", value: "currentMonth" }
+        { label: '本周', value: 'currentWeek' },
+        { label: '本月', value: 'currentMonth' }
       ]),
       tabs: Object.freeze([
-        { label: "社会治安", value: "社会治安" },
-        { label: "社会救助", value: "社会救助" },
-        { label: "社会管理", value: "社会管理" }
+        { label: '社会治安', value: '社会治安' },
+        { label: '社会救助', value: '社会救助' },
+        { label: '社会管理', value: '社会管理' }
       ]),
-      option: "currentWeek",
-      tab: "社会治安",
+      option: 'currentWeek',
+      tab: '社会治安',
       dataset: {
         chartData: [
-          ["民生保障", "肋条肉", "鸡蛋", "草鱼", "青菜"]
+          ['民生保障', '肋条肉', '鸡蛋', '草鱼', '青菜']
         ]
       },
       shglItems: [
         {
-          key: "食品安全监督检查",
-          width: "50%"
+          key: '食品安全监督检查',
+          width: '50%'
         },
         {
-          key: "生产安全事故",
-          width: "50%"
+          key: '生产安全事故',
+          width: '50%'
         },
         {
-          key: "劳动仲裁",
-          width: "30%"
+          key: '劳动仲裁',
+          width: '30%'
         },
         {
-          key: "消费者投诉办结率",
-          width: "35%"
+          key: '消费者投诉办结率',
+          width: '35%'
         },
         {
-          key: "质量投诉处理率",
-          width: "35%"
+          key: '质量投诉处理率',
+          width: '35%'
         }
       ],
       itemsData: {} // 社会管理数据
-    };
+    }
   },
   methods: {
-    handleMouse(ref, mouse) {
-      if (mouse === "enter") {
-        this.$refs[ref].stopTimer();
+    handleMouse (ref, mouse) {
+      if (mouse === 'enter') {
+        this.$refs[ref].stopTimer()
       } else {
-        this.$refs[ref].startTimer();
+        this.$refs[ref].startTimer()
       }
     },
-    getData() {
+    getData () {
       getData().then(res => {
-        // console.log(res, ".....");
         if (res.statistics_db && res.statistics_db[0]) {
           this.dataset = {
             ...this.dataset,
             ...res.statistics_db[0]
-          };
+          }
         }
         if (res.chart_db) {
-          let dims = this.dataset.chartData.slice(0, 1);
+          let dims = this.dataset.chartData.slice(0, 1)
           this.dataset.chartData = [
             ...dims,
             ...(res.chart_db.map(d => {
-              return [d.time, parseFloat(d.meat_poultry_eggs_aquatic), parseFloat(d.vegetable_bean), parseFloat(d.rice_flour_grain_oil), parseFloat(d.fruits)];
+              return [d.time, parseFloat(d.meat_poultry_eggs_aquatic), parseFloat(d.vegetable_bean), parseFloat(d.rice_flour_grain_oil), parseFloat(d.fruits)]
             }))
-          ];
+          ]
         }
-      });
+      })
 
       getItemData().then(res => {
         // console.log(">>>>>>>", res);
         let tmp = {};
         (res.shgl || []).map(item => {
-          tmp[item.name] = item;
-        });
-        this.itemsData = tmp;
-      });
+          tmp[item.name] = item
+        })
+        this.itemsData = tmp
+      })
     }
   },
-  created() {
-    this.$timer.register(this.getData, this);
+  created () {
+    this.$timer.register(this.getData, this)
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .m-tabs-body {

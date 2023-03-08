@@ -9,6 +9,17 @@ export function getSingleBuildingData () {
   })
 }
 
+// 户籍人口
+export function getHujiPeople () {
+  return request({
+    url: '/v2/data-api/849',
+    params: {
+      limit: 1000,
+      transform: '{messages:messages,agg:aggResults."simple.messageClass"[0]}'
+    }
+  })
+}
+
 // 人员统计
 export function getPeopleStatistic (type) {
   return request({
