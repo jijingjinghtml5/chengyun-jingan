@@ -83,11 +83,11 @@ export default {
         }
         if (nv === '12345热线') {
           getHotlineData({
-            filter: 'openTS=today%26is_delete=neq.1',
-            transform: 'messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude }',
+            transform: 'messages[*].{id:data.eventID, eventName: args.description, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.statusName, lng: data.coordx, lat: data.coordy }',
             group_by: '',
-            limit: 100000
+            limit: 1000
           }).then(res => {
+            console.log(res, '12345')
             this.tableData = res.data || []
           })
           return

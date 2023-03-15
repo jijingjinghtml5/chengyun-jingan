@@ -1,36 +1,29 @@
 <template>
   <div class="case-detail">
-      <!-- <div class="close" @click="handleClose">
-        <i class="iconfont icon-arrow_right"></i>
-        <i class="iconfont icon-arrow_left"></i>
-      </div> -->
       <component v-if="caseId" :is="channelComponent" :res="detail" :defaultInfo="info" @open="open"></component>
   </div>
 </template>
 <script>
-// name streetName address eventType2 eventType3 description eventTime
-// import Paidan from "./paidan";
-// getCaseDetail
-import Sangao from "./sangao";
-import { getCaseDetail194 } from "./api";
+import Sangao from './sangao'
+import { getCaseDetail194, getHotLineCaseDetail } from './api'
 export default {
-  name: "CaseDetail",
-  data() {
+  name: 'CaseDetail',
+  data () {
     return {
       loading: true,
       detail: null,
-      channel: ""
-    };
+      channel: ''
+    }
   },
   props: {
     caseId: {
       type: [String, Number],
-      default: "",
+      default: '',
       required: true
     },
     channelParams: {
       type: String,
-      default: ""
+      default: ''
     },
     info: {
       type: Object,
@@ -38,49 +31,54 @@ export default {
     }
   },
   components: {
-    // Paidan,
     Sangao
   },
   computed: {
-    channelComponent() {
-      let res = "Sangao";
+    channelComponent () {
+      let res = 'Sangao'
       switch (this.channel) {
-        case "sangao": res = "Sangao"; break;
-        case "paidan": res = "Sangao"; break;
+        case 'sangao': res = 'Sangao'; break
+        case 'paidan': res = 'Sangao'; break
       }
-      return res;
+      return res
     }
   },
   watch: {
     caseId: {
-      handler() {
-        this.getData();
+      handler () {
+        this.getData()
       }
     }
   },
   methods: {
-    async getData() {
-      if (!this.caseId) return false;
-      this.loading = true;
-      let apiRes = await getCaseDetail194(this.caseId, this.channelParams);
-      console.log("案件详情", apiRes);
-      this.loading = false;
+    async getData () {
+      if (!this.caseId) return false
+      this.loading = true
+      let apiRes
+      // if (this.channelParams === '12345热线') {
+      //   apiRes = await getHotLineCaseDetail(this.caseId)
+      // } else {
+
+      // }
+      apiRes = await getCaseDetail194(this.caseId, this.channelParams)
+      console.log('案件详情', apiRes)
+      this.loading = false
       if (apiRes.data) {
-        this.channel = apiRes.data.channel || "";
-        this.detail = apiRes.data.data || null;
+        this.channel = apiRes.data.channel || ''
+        this.detail = apiRes.data.data || null
       }
     },
-    open(type, url) {
-      this.$emit("open", type, url);
+    open (type, url) {
+      this.$emit('open', type, url)
     },
-    handleClose() {
-      this.$emit("close");
+    handleClose () {
+      this.$emit('close')
     }
   },
-  created() {
-    this.getData();
+  created () {
+    this.getData()
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .text-hidden {

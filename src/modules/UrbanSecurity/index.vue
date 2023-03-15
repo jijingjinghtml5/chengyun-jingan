@@ -2,7 +2,6 @@
   <wrap-title class="gradient-bg" icon="icon-zonghezhili" :txt="title">
     <m-tabs slot="level-title" v-model="tab" :tabs="tabs" ref="mainTab" @change="handleChangeForTabItem" :autoChange="false"></m-tabs>
     <span slot="center" v-show="tab !== 'overview' && tab !=='manager'" class="back" @click="handleClickForBack">[返回上一级]</span>
-    <!-- <m-select class="style1" slot="right" v-model="option" :options="options"></m-select> -->
     <m-tabs-body :tab="tab">
       <m-tabs-body-item name="manager" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
         <m-row gutter="0.1rem">
