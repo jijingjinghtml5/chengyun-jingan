@@ -35,7 +35,8 @@ export default {
     workerPopup,
     PointsList,
     DangPopup: () => import('./page1/DangPopup'),
-    BikePopup: () => import('./page1/BikePopup')
+    BikePopup: () => import('./page1/BikePopup'),
+    unitPopup: () => import('./page1/unitPopup')
   },
   inject: ['getGlobalConfig'],
   mixins: [caseDetailMixin],

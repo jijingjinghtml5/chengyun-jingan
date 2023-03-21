@@ -20,7 +20,8 @@ import {
   getOrgs,
   getHotlineData,
   getSubway,
-  getHujiPeople
+  getHujiPeople,
+  getYwym
 } from './api'
 import {
   thousandCentimeter,
@@ -131,8 +132,32 @@ export default {
           {
             name: '神经元传感器',
             nameKey: 'name',
-            // type: "neuron",
             children: [],
+            childKey: 'children'
+          },
+          {
+            name: '静安码',
+            nameKey: 'name',
+            children: [
+              {
+                name: '一物一码',
+                nameKey: 'name',
+                type: 'ywym',
+                checked: false
+              },
+              {
+                name: '彭浦码',
+                nameKey: 'name',
+                type: 'ywym',
+                checked: false
+              },
+              {
+                name: '曹家渡码',
+                nameKey: 'name',
+                type: 'ywym',
+                checked: false
+              }
+            ],
             childKey: 'children'
           }
         ],
@@ -390,6 +415,36 @@ export default {
         case 'shop':
           this.handlerShop(data.item)
           break
+        case 'ywym':
+          this.handleYwym(data.item)
+          break
+      }
+    },
+    handleYwym (item) {
+      if (item.checked) {
+        if (item.name === '一物一码') {
+          getYwym().then(res => {
+            this.pointLayer.setParameters({
+              'data': {
+                'content': (res.data.messages || []),
+                'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
+              }
+            }).setPopupConfig({
+              component: 'unitPopup'
+            }).open()
+          })
+          return
+        }
+        this.pointLayer.setParameters({
+          'data': {
+            'content': [],
+            'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
+          }
+        }).setPopupConfig({
+          component: 'unitPopup'
+        }).open()
+      } else {
+        this.pointLayer.close()
       }
     },
     handlerShop (item) {
@@ -896,25 +951,6 @@ export default {
         'popupEnabled': false,
         'isFiltered': false,
         'isLocate': false,
-        // "labels": [
-        //     {
-        //       fields: [
-        //         "#.名称"
-        //         // '#.count'
-        //       ],
-        //       color: [
-        //         255,
-        //         255,
-        //         255,
-        //         1
-        //       ],
-        //       size: 22,
-        //       font: {
-        //         family: "fangsong",
-        //         weight: "normal"
-        //       }
-        //     }
-        // ],
         'renderer': {
           'type': 'simple',
           symbol: {

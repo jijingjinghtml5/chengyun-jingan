@@ -3,6 +3,12 @@ import requestTesla from '@/http/requestTesla'
 import requestrj from '@/http/requestRj'
 import requestJa from '@/http/requestJa'
 
+export function getYwym () {
+  return request({
+    url: '/v2/data-api/852'
+  })
+}
+
 export function getSingleBuildingData () {
   return requestTesla({
     url: '/dynamicdata/list/?data_type=静安区-运行管理平台-多用途单体建筑'
