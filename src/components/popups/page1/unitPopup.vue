@@ -7,6 +7,18 @@
         <span>{{ info.data.type }}</span>
       </div>
       <div class="item">
+        <span>是否绑定感知器: </span>
+        <span>{{ info.data.bind_iot === '0' ? '否' : '是' }}</span>
+      </div>
+      <div class="item">
+        <span>是否绑码: </span>
+        <span>{{ info.data.has_bind === '0' ? '否' : '是' }}</span>
+      </div>
+      <div class="item">
+        <span>部件状态: </span>
+        <span>{{ info.data.state === '1' ? '正常' : '异常' }}</span>
+      </div>
+      <div class="item">
         <span>所属街道: </span>
         <span>{{ info.data.town.areaName }}</span>
       </div>
@@ -15,7 +27,7 @@
         <span>{{ info.data.housingEstate.areaName }}</span>
       </div>
       <div class="item">
-        <span>所属部门: </span>
+        <span>管理部门: </span>
         <span>{{ info.data.department }}</span>
       </div>
     </div>
