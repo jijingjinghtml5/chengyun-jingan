@@ -35,6 +35,7 @@ export function getHotlineData (params) {
       group_by: 'simple.messageClass(filter.today:openTS=today&percreateTime=ex.true)(filter.yesterday:openTS=yesterday&percreateTime=ex.true)',
       transform: 'aggResults."simple.messageClass"[0]',
       limit: 0,
+      filter: 'openTS=today%26percreateTime=ex.true',
       ...params
     }
   })
