@@ -1,5 +1,5 @@
 import request from '@/http/request'
-import requestJa from '@/http/requestJa'
+// import requestJa from '@/http/requestJa'
 import requestTesla from '@/http/requestTesla'
 
 export function getDeviceRate () {
@@ -25,18 +25,25 @@ export function getListData2 () {
   })
 }
 
+// export function getHotlineData (params) {
+//   return requestJa({
+//     url: '/united-ciimc-api/v1/generic-query',
+//     params: {
+//       token: 'pd2e13b16eff42aeaec9bda8c570e2pd',
+//       table: 'hotline-event-message',
+//       index_type: 'active',
+//       district: '静安区',
+//       sort_by: 'data.openTS|desc',
+//       group_by: 'simple.messageClass(filter.today:openTS=today&percreateTime=ex.true)(filter.yesterday:openTS=yesterday&percreateTime=ex.true)',
+//       transform: 'aggResults."simple.messageClass"[0]',
+//       limit: 0
+//     }
+//   })
+// }
+
 export function getHotlineData (params) {
-  return requestJa({
-    url: '/united-ciimc-api/v1/generic-query',
-    params: {
-      token: 'pd2e13b16eff42aeaec9bda8c570e2pd',
-      table: 'hotline-event-message',
-      index_type: 'active',
-      district: '静安区',
-      sort_by: 'data.openTS|desc',
-      group_by: 'simple.messageClass(filter.today:openTS=today&percreateTime=ex.true)(filter.yesterday:openTS=yesterday&percreateTime=ex.true)',
-      transform: 'aggResults."simple.messageClass"[0]',
-      limit: 0
-    }
+  return request({
+    url: '/v2/data-api/817',
+    params
   })
 }
