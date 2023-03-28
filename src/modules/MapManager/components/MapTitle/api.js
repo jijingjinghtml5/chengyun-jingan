@@ -3,9 +3,10 @@ import requestTesla from '@/http/requestTesla'
 import requestrj from '@/http/requestRj'
 import requestJa from '@/http/requestJa'
 
-export function getYwym () {
+export function getYwym (params) {
   return request({
-    url: '/v2/data-api/852'
+    url: '/v2/data-api/852',
+    params
   })
 }
 

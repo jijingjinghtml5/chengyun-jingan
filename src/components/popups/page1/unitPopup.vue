@@ -30,6 +30,7 @@
         <span>管理部门: </span>
         <span>{{ info.data.department }}</span>
       </div>
+      <img :src="`http://10.89.1.161/api-v3/inner/events/getFile/f/${info.args.images}`" alt="">
     </div>
   </div>
 </template>
@@ -54,7 +55,7 @@ export default {
 <style lang="scss" scoped>
 .panel{
   width: 6.4rem;
-  height: 10rem;
+  height: 12rem;
   padding: 0.4rem;
 
   font-size: 16*2px;
@@ -82,6 +83,9 @@ export default {
     font-family:MicrosoftYaHei;
     color: #ffffff;
     padding: 20px 0;
+  }
+  img {
+    width: 100%;
   }
 }
 </style>
