@@ -18,24 +18,17 @@
           :i="item.i"
           :key="index">
         <component :is="'qv-player'" :videoConfig="videos[index]" @reLoading="handleReloading(index,...arguments)" :cancelTokenKey="'getVideoRealUrl-HOC-' + index"/>
-        <!-- <qv-player :videoSrc="videos[index]"></qv-player> -->
       </grid-item>
     </grid-layout>
   </div>
 </template>
 <script>
-// import videoPlayer from "@/components/Video/videoPlayer";
 import qvPlayer from "@/components/Video/qvPlayer";
 import VueGridLayout from "vue-grid-layout";
 import { transferAndSendForVideo } from "../hoc.js";
 
-// import videojs from "video.js";
-// import "video.js/dist/video-js.min.css";
-// videojs.options.flash.swf = "swf/video-js.swf";
-// require("videojs-flash");
 
 const qv = transferAndSendForVideo(qvPlayer);
-// const vp = transferAndSendForVideo(videoPlayer);
 // 单个策略组的播放
 export default {
   name: "VideoMode",
@@ -44,11 +37,7 @@ export default {
     gridLayout: VueGridLayout.GridLayout,
     gridItem: VueGridLayout.GridItem,
     qvPlayer: qv
-    // videoPlayer: vp
   },
-  // provide: {
-  //   videojs: videojs
-  // },
   props: {
     config: {
       type: Object,

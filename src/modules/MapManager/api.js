@@ -1,5 +1,12 @@
 import request from '@/http/request'
 
+export function getBarData (params) {
+  return request({
+    url: '/v2/data-api/524',
+    params
+  })
+}
+
 export function getHotlineData (params) {
   return request({
     url: '/v2/data-api/817',

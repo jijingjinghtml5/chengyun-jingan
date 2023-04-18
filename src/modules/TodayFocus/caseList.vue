@@ -82,15 +82,8 @@ export default {
           return
         }
         if (nv === '12345热线') {
-          // getHotlineData({
-          //   transform: 'messages[*].{id:data.eventID, eventName: args.description, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.statusName, lng: data.coordx, lat: data.coordy }',
-          //   group_by: '',
-          //   limit: 1000
-          // }).then(res => {
-          //   this.tableData = res.data || []
-          // })
           getHotlineData({
-            filter: 'openTS=today%26percreateTime=ex.true',
+            filter: 'openTS=today',
             transform: 'messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude }',
             group_by: '',
             limit: 100000

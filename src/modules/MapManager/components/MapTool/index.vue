@@ -10,6 +10,7 @@
   </div>
 </template>
 <script>
+import { getBarData } from '../../api.js'
 export default {
   components: {},
   props: {
@@ -94,23 +95,20 @@ export default {
       }
     };
   },
-  computed: {
-    // btnActives() {
-    //   let data = [];
-    //   this.mapToolsData.forEach(e => {
-    //     data.push(false);
-    //   });
-    //   return data;
-    // }
-  },
   watch: {
      btnActives: {
        handler(val) {
-          // console.log(val, "cL");
        },
        deep: true
 
      }
+  },
+  created() {
+    getBarData().then(res => {
+      this.functionDatas['街道边界'].number = res.street
+      this.functionDatas['网格边界'].number = res.grid
+      this.functionDatas['居委边界'].number = res.juwei
+    })
   },
   methods: {
     // 按钮执行函数 ------------start
@@ -135,7 +133,6 @@ export default {
     onMapReady() {
       this.initPosition();
       this.openSimpleModelLayer();
-      // this.openRemoteScenseLayer();
     },
     tabMapLayer(name, status) {
        let cmd = {
