@@ -1,5 +1,10 @@
 import request from '@/http/request'
-import requestJa from '@/http/requestJa'
+
+export function getDuchaDuban () {
+  return request({
+    url: '/v2/data-api/857'
+  })
+}
 
 export function getData () {
   return request({
@@ -26,6 +31,20 @@ export function getSspListData (params) {
 export function getHotlineData (params) {
   return request({
     url: '/v2/data-api/817',
+    params
+  })
+}
+
+export function getDuchaData (params) {
+  return request({
+    url: '/v2/data-api/855',
+    params
+  })
+}
+
+export function getDubanData (params) {
+  return request({
+    url: '/v2/data-api/856',
     params
   })
 }

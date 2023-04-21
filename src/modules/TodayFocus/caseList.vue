@@ -25,7 +25,7 @@ import MList from '@/components/MList/index.vue'
 import { CaseSteps } from '@/mapping'
 import { getUrl } from '@/utils/tools'
 
-import { getListData, getSspListData, getHotlineData } from './api'
+import { getListData, getSspListData, getHotlineData, getDuchaData, getDubanData } from './api'
 
 export default {
   name: 'TodayFocusList',
@@ -69,6 +69,28 @@ export default {
             break
 
           default:
+        }
+        if (nv === '重点案件') {
+          getDuchaData({
+            filter: 'args.chs_eventSourceType=eq.区级督查%26area_district.areaName=eq.静安区%26openTS=today%26args.chs_superviseStreetName=ex.true%26args.invalid_result=neq.1',
+            transform: 'messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: args.chs_superviseReportStreetName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude }',
+            group_by: '',
+            limit: 100000
+          }).then(res => {
+            this.tableData = res.data || []
+          })
+          return
+        }
+        if (nv === '热点案件') {
+          getDubanData({
+            filter: 'area_district.areaName=eq.静安区%26openTS=today%26((town=ex.true%26args.chs_timestamp_321=ex.true)|(args.chs_superviseStreetName=ex.true%26args.chs_superviseNotFound=ex.true%26args.chs_timestamp_321=ex.false))',
+            transform: 'messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude }',
+            group_by: '',
+            limit: 100000
+          }).then(res => {
+            this.tableData = res.data || []
+          })
+          return
         }
         if (nv === '随手拍') {
           getSspListData({

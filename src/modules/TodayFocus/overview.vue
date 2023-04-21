@@ -10,8 +10,18 @@
         </div>
         <div class="chart">
           <wrap-title :level="2" txt="案件趋势" icon="icon-biaoti">
-            <line-chart :showLegend="true" :legendConfig="legendConfig" :chartData="chartData" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
-            </line-chart>
+            <m-tabs slot="level-title" v-model="tab" :tabs="tabs" :autoChange="false"></m-tabs>
+            <template v-if="tab === 'case'">
+              <line-chart :showLegend="true" :legendConfig="legendConfig" :chartData="chartData" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
+              </line-chart>
+            </template>
+            <template v-else>
+              <div class="times-tab">
+                <p v-for="item in times" :class="{ active: current === item.value }" @click="handleClickTime(item)" :key="item.value">{{ item.name }}</p>
+              </div>
+              <line-chart :showLegend="true" :legendConfig="newlegendConfig" :chartData="newchartData" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
+              </line-chart>
+            </template>
           </wrap-title>
         </div>
       </div>
@@ -29,11 +39,11 @@
         </swiper-slide>
         <swiper-slide>
           <div class="wall-panel">
-            <m-row class="tile-row" gutter="20px" v-for="(chunk , i) in secondItems" :key="`second-chunk-${i}`">
-                <MColumn width="20%" :key="`other-${i}`">
-                  <tile1 :item="chunk" class="block clickAble" @click="handleClick(chunk)"></tile1>
-                </MColumn>
-              </m-row>
+            <m-row class="tile-row" gutter="20px">
+              <MColumn width="20%" v-for="(chunk, index) in secondItems" :key="`other-${index}`">
+                <tile1 :item="chunk" class="block clickAble" @click="handleClick(chunk)"></tile1>
+              </MColumn>
+            </m-row>
           </div>
         </swiper-slide>
         <div class="swiper-pagination"  slot="pagination"></div>
@@ -47,6 +57,7 @@ import MColumn from '@/components/Layout/MColumn'
 import LineChart from '@/components/Charts/Line/ChartLine'
 import Tile from '@/components/Tile/index2'
 import Tile1 from '@/components/Tile/index1'
+import MTabs from "@/components/MTabs";
 
 import { getDate, generateKeyValuePair } from '@/utils/tools'
 import 'swiper/dist/css/swiper.css'
@@ -54,13 +65,14 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 import Vue from 'vue'
 import { Row, Col } from 'element-ui'
-import { getSspListData, getHotlineData } from './api.js'
+import { getSspListData, getHotlineData, getDuchaDuban, getDuchaData, getDubanData } from './api.js'
+import dayjs from 'dayjs'
 Vue.use(Row)
 Vue.use(Col)
 
 export default {
   name: 'TodayFocusOverview',
-  components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1, swiperSlide, swiper },
+  components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1, swiperSlide, swiper, MTabs },
   props: {
     dataset: {
       type: Object,
@@ -144,10 +156,36 @@ export default {
           ]
         })
       ]
-    }
+    },
   },
   data () {
     return {
+      newchartData: [],
+      tab: 'case',
+      tabs: Object.freeze([
+        { label: "案件趋势", value: "case" },
+        { label: "特定案件分析", value: "special" }
+      ]),
+      times: [
+        { name: '日', value: 'day' },
+        { name: '周', value: 'week' },
+        { name: '月', value: 'month' }
+      ],
+      current: 'month',
+      timeObj: {
+        day: {
+          start: dayjs().startOf('day').unix(),
+          end: dayjs().unix()
+        },
+        week: {
+          start: dayjs().subtract(7, 'day').unix(),
+          end: dayjs().unix()
+        },
+        month: {
+          start: dayjs().subtract(30, 'day').unix(),
+          end: dayjs().unix()
+        }
+      },
       swiperOptions: {
         autoHeight: true,
         pagination: {
@@ -175,11 +213,30 @@ export default {
         top: 0,
         right: 250
       },
+      newlegendConfig: {
+        icon: 'rect',
+        itemWidth: 20,
+        itemHeight: 6,
+      },
       secondItems: [
         {
           label: '矛盾纠纷',
           count: '-',
           key: '矛盾纠纷',
+          rate: '-',
+          unit: '件'
+        },
+        {
+          label: '重点案件',
+          count: '-',
+          key: '重点案件',
+          rate: '-',
+          unit: '件'
+        },
+        {
+          label: '热点案件',
+          count: '-',
+          key: '热点案件',
           rate: '-',
           unit: '件'
         }
@@ -260,9 +317,46 @@ export default {
       colors: ['#1ABC9C', '#679DF4', '#F96F4F', '#BE6CCC', '#D0021B']
     }
   },
-
   methods: {
+    handleClickTime(item) {
+      this.current = item.value
+      this.getSpecialTrend()
+    },
+    getSpecialTrend() {
+      let type = this.current === 'day' ? 'hour' : 'day'
+      let range = this.timeObj[this.current]
+      getDuchaData({
+        filter: `args.chs_eventSourceType=eq.区级督查%26area_district.areaName=eq.静安区%26openTS=${range.start}~${range.end}%26args.chs_superviseStreetName=ex.true%26args.invalid_result=neq.1`,
+        group_by: `openTS.${type}[50~6${range.start}~7${range.end}]`,
+        transform: `aggResults."openTS.${type}"`,
+      }).then(res => {
+        console.log(res, 'getDuchaData')
+        let duchaData = res.data || []
+        getDubanData({
+          filter: `area_district.areaName=eq.静安区%26openTS=${range.start}~${range.end}%26((town=ex.true%26args.chs_timestamp_321=ex.true)|(args.chs_superviseStreetName=ex.true%26args.chs_superviseNotFound=ex.true%26args.chs_timestamp_321=ex.false))`,
+          transform: `aggResults."openTS.${type}"`,
+          group_by: `openTS.${type}[50~6${range.start}~7${range.end}]`,
+        }).then(response => {
+          console.log(response, 'getDubanData')
+          let dubanData = response.data || []
+          this.newchartData = [
+            ['时间', '重点案件', '热点案件'],
+            ...dubanData.map((item, index) => {
+              return [item.time_fm.slice(5), duchaData[index].count, item.count]
+            })
+          ]
+        })
+      })
+    },
     getData () {
+      this.getSpecialTrend()
+      getDuchaDuban().then(res => {
+        let result = res.data || {}
+        this.secondItems[1].count = result.dc_today
+        this.secondItems[1].rate = result.dc_yesterday ? Math.floor(((result.dc_today - result.dc_yesterday) / result.dc_yesterday) * 10000) / 100 : '-'
+        this.secondItems[2].count = result.db_today
+        this.secondItems[2].rate = result.db_yesterday ? Math.floor(((result.db_today - result.db_yesterday) / result.db_yesterday) * 10000) / 100 : '-'
+      })
       getSspListData().then(res => {
         let result = res.data || {}
         let rate = result.yesterday ? Math.floor(((result.today - result.yesterday) / result.yesterday) * 10000) / 100 : '-'
@@ -323,6 +417,25 @@ export default {
     .chart{
       padding: 0.1rem 0;
       height: 4rem;
+      position: relative;
+      .times-tab {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        top: 0.2rem;
+        right: 0.1rem;
+        color: #92B9F7;
+        & > p {
+          font-size: 0.36rem;
+          cursor: pointer;
+          & + p {
+            margin-left: 0.2rem;
+          }
+          &.active {
+            color: #FFFFFF;
+          }
+        }
+      }
     }
   }
   .wall-panel{
