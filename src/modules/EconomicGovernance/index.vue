@@ -1,5 +1,6 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-jingji" txt="经济治理">
+    <p class="shopText" @click="$bus.$emit('showShopFestival')">”五.五购物节”</p>
     <level-title :level="2" icon="icon-biaoti" txt="重点产业和房地产税收收入"></level-title>
     <overview-item
       style="margin-top: -0.2rem;"
@@ -295,6 +296,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.shopText {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.2rem;
+  font-size: 0.4rem;
+  font-weight: bold;
+  color: #4FCFD5;
+  cursor: pointer;
+}
 .clickAble{
   cursor: pointer;
 }

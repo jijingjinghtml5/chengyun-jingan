@@ -54,7 +54,6 @@ export default {
   watch: {
     videoSrc: {
       handler (nv) {
-        console.log(">>>>videoSrc", nv);
         if (nv && nv.code) {
           console.log("player：qv-player; videoUrl：" + nv.url);
           this.posterShow = true;

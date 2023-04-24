@@ -8,7 +8,6 @@
     </div>
     <div class="close">
       <span :class="`iconfont icon-close`" @click="close"></span>
-      <!-- <a href="javascript:window.opener=null;window.open('','_self');window.close();">关闭</a> -->
     </div>
   </div>
 </template>

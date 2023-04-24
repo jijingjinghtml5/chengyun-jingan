@@ -34,7 +34,7 @@
     </grid-layout>
   </div>
   <op-tools></op-tools>
-
+  <ShopFestival v-if="showShopFestival"></ShopFestival>
 </div>
 
 </template>
@@ -46,6 +46,7 @@ import UrbanSecurity from "@/modules/UrbanSecurity";
 import UrbanGovernance from "@/modules/UrbanGovernance";
 import SocialGovernance from "@/modules/SocialGovernance";
 import EconomicGovernance from "@/modules/EconomicGovernance";
+import ShopFestival from "@/modules/ShopFestival/index.vue";
 import opTools from "@/modules/opTools";
 
 import { getLayoutConfig } from "@/http/api/index";
@@ -56,6 +57,7 @@ export default {
   name: "Layout",
   data() {
     return {
+      showShopFestival: false,
       designWidth: (window.$config && window.$config.designWidth) || 7680,
       config: null,
       htmlFontSize: null,
@@ -84,6 +86,7 @@ export default {
     SocialGovernance,
     EconomicGovernance,
     opTools,
+    ShopFestival,
     test: () => import("@/modules/test")
   },
   provide() {
@@ -265,6 +268,12 @@ export default {
   created() {
     checkSupportCssProperties(["webkitTextFillColor"]);
     this.getLayoutConfig();
+    this.$bus.$on('showShopFestival', () => {
+      this.showShopFestival = true
+    })
+    this.$bus.$on('closeFestival', () => {
+      this.showShopFestival = false
+    })
   }
 };
 </script>

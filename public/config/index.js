@@ -5,6 +5,7 @@ window.$config = {
   apiUrl: 'http://10.81.71.38', // 市平台
   apiUrlForJa: 'http://10.210.232.238',
   imageRootURL: 'http://10.81.71.38/chengyun/videos/chengyun_3_0/',
+  apiDocs: 'http://10.210.232.242:18021/internal-api/gateway/screen-api/generic-query',
   // 测试
   videoDelay: 500,
   noAuthPage: './403.html',
