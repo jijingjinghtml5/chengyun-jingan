@@ -3,6 +3,12 @@ import request from "@/http/request.js";
 import requestJa from "@/http/requestJa.js";
 import videoService from "@/http/requestVideoService.js";
 
+export function getSensitive() {
+  return requestJa({
+    url: "/erupt-api/yuqing/emotionCount"
+  });
+}
+
 export function getVideoRealUrl(data, cancelTokenKey) {
   return videoService({
     url: "/vms/device-camera-fence/getCameraVideoPathList", // todo
@@ -13,6 +19,19 @@ export function getVideoRealUrl(data, cancelTokenKey) {
       "token": "a47e2ecc6a4543138389128787b9b978"
     },
     cancelTokenKey: cancelTokenKey || "getVideoRealUrl"
+  });
+}
+
+export function getSubwayInfo(params) {
+  return requestJa({
+    url: "/erupt-api/traffic/metroFlow?day=7",
+    params
+  });
+}
+
+export function getTodayMetroFlow() {
+  return requestJa({
+    url: "/erupt-api/traffic/todayMetroFlow?day=1",
   });
 }
 

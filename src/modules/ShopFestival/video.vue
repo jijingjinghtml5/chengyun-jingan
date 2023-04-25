@@ -128,8 +128,11 @@ export default {
     top: 0.2rem;
   }
   .video-item {
-    width: 6.5rem;
+    flex: 1;
     height: 5rem;
+    & + .video-item {
+      margin-left: 0.2rem;
+    }
   }
 }
 </style>

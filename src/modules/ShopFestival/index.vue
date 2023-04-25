@@ -17,7 +17,7 @@
           </el-select>
         </div>
         <p class="title">商圈信息</p>
-        <p class="chart-title">近7日客流</p>
+        <p class="chart-title">近7日地铁站客流</p>
         <div style="height: 80%;">
           <bar-chart
             :showLegend="true"
@@ -30,7 +30,7 @@
           </bar-chart>
         </div>
       </div>
-      <div class="right">
+      <div class="right" style="width: 14rem;">
         <p class="title">活动信息</p>
         <CustomTable tableType="活动信息" :tableData="activities"></CustomTable>
       </div>
@@ -57,6 +57,10 @@
             <p>剩余车位数</p>
             <p class="value">{{ residueCars }}<span>个</span></p>
           </div>
+          <div class="total-wrap-item" :style="{ color: parkText.color }">
+            <img :src="require(`./${parkText.text}.png`)" alt="">
+            <p style="font-weight: bold;">实时：停车位{{ parkText.text }}</p>
+          </div>
         </div>
         <div style="height: 4.2rem;">
           <line-chart :chartData="carChart" :colors="colors">
@@ -69,7 +73,12 @@
           <CustomTable tableType="投诉信息" :tableData="caseList"></CustomTable>
         </div>
         <div class="right_right">
-          <p class="title">商圈舆情</p>
+          <p class="title" @mouseover="showTooltip = true" @mouseout="showTooltip = false">商圈舆情 <img width="36" src="./tooltip.png" ></p>
+          <div class="tooltip" v-if="showTooltip">
+            <p>正面：是能够对传播涉及到的主体形成正向的、积极的影响的舆情；</p>
+            <p>负面：是那些对于涉及的主体从不同角度会形成负面影响的舆情；</p>
+            <p>中性：对于涉及的主体一般是中性的描述，无论从哪一方面都既不会造成正面的影响，也不会造成负面的影响。</p>
+          </div>
           <div style="height: 80%;">
             <PieChart :chartData="pieChartData" :colors="colors"></PieChart>
           </div>
@@ -83,29 +92,18 @@
           <CustomTable tableType="周边路况" :tableData="roadInfo"></CustomTable>
         </div>
         <div class="left_right">
-          <p class="title">累计交易金额(万元)</p>
-          <div class="money-wrap" style="background-color: #072D73;">
-            <p>交易总金额</p>
-            <p class="value" style="color: #0E72FC;">{{ money.accumulate | thousandCentimeter }}</p>
+          <div class="left_right_top">
+            <p class="title">地铁客流</p>
+            <CustomTable style="height: 2.7rem;" tableType="地铁客流" :tableData="subwayList"></CustomTable>
           </div>
-          <div class="wrap">
-            <div class="money-wrap" style="background-color: #173373;">
-              <p>南京西路商圈</p>
-              <p class="value" style="color: #ADC4EB;">{{ money.nanjing_west | thousandCentimeter }}</p>
-            </div>
-            <div class="money-wrap" style="background-color: #11366B;">
-              <p>苏河湾商圈</p>
-              <p class="value" style="color: #57BB8C;">{{ money.suhewan | thousandCentimeter }}</p>
-            </div>
-          </div>
-          <div class="wrap">
-            <div class="money-wrap" style="background-color: #1A3668;">
-              <p>大宁商圈</p>
-              <p class="value" style="color: #F77E4B;">{{ money.daning | thousandCentimeter }}</p>
-            </div>
-            <div class="money-wrap" style="background-color: #0A3176;">
-              <p>静安寺商圈</p>
-              <p class="value" style="color: #2798E2;">{{ money.jingansi | thousandCentimeter }}</p>
+          <div class="left_right_bottom">
+            <p class="title">营商信息</p>
+            <div class="money-wrap" style="background-color: #072D73;">
+              <p>累计交易金额</p>
+              <p class="value" style="color: #0E72FC;">
+                {{ money.accumulate | thousandCentimeter }}
+              </p>
+              <p>万元</p>
             </div>
           </div>
         </div>
@@ -124,7 +122,7 @@ import LineChart from './ChartLine.vue'
 import PieChart from './ChartPie.vue'
 import CustomTable from './CustomTable.vue'
 import CustomVideo from './video.vue'
-import { getCount, getCase, getRoadInfo, getPark } from './api.js'
+import { getCount, getCase, getRoadInfo, getPark, getSubwayInfo, getTodayMetroFlow, getSensitive } from './api.js'
 import dayjs from 'dayjs'
 export default {
   name: 'ShopFestival',
@@ -143,15 +141,44 @@ export default {
       this.getParkChart()
     }
   },
+  computed: {
+    parkText() {
+      let rate = Math.round(this.residueCars / this.totalCars * 100)
+      return {
+        text: rate > 90 ? '充足' : (rate > 70 ? '适中' : '紧张'),
+        color: rate > 90 ? 'rgb(108, 203, 115)' : (rate > 70 ? 'rgb(249, 111, 79)' : 'rgb(242, 52, 112)')
+      }
+    }
+  },
   data() {
     return {
-      selectshop: '久光百货',
+      showTooltip: false,
+      selectshop: '延长路',
       selectPark: '兴业太古汇',
       activities: [],
       caseList: [],
       roadInfo: [],
+      subwayList: [],
       totalCars: 0,
       residueCars: 0,
+      subways: [
+        '延长路',
+        '昌平路',
+        '自然博物馆',
+        '武宁路',
+        '西藏北路',
+        '中兴路',
+        '曲阜路',
+        '南京西路',
+        '静安寺',
+        '宝山路',
+        '中山北路',
+        '汶水路',
+        '上海马戏城',
+        '彭浦新村',
+        '上海火车站',
+        '汉中路'
+      ],
       options: [
         '兴业太古汇',
         '久光百货',
@@ -179,35 +206,19 @@ export default {
         suhewan: 0,
         nanjing_west: 0,
         accumulate: 0
-      },
-      points: [
-        '121.4586,31.23069',
-        '121.441,31.22612',
-        '121.4525,31.23021',
-        '121.4494,31.22928',
-        '121.4511,31.23004',
-        '121.4673,31.24641',
-        '121.4476,31.2777',
-        '121.4212,31.28178',
-        '121.4433,31.2254',
-        '121.4417,31.2276',
-        '121.4452,31.22605'
-      ]
+      }
     }
   },
   created() {
     this.getShopChart()
     this.getParkChart()
+    getTodayMetroFlow().then(res => {
+      this.subwayList = res.data || []
+    })
     getRoadInfo().then(res => {
       this.roadInfo = res.data || []
     })
-    let filter = this.points.reduce((acc, item) => {
-      acc.push(`distance=${item},500m`)
-      return acc
-    }, []).join('|')
-    getCase({
-      filter: `(${filter})%26is_delete=neq.1%26openTS=-604800`
-    }).then(res => {
+    getCase().then(res => {
       this.caseList = (res.data || []).map(item => {
         return {
           ...item,
@@ -233,32 +244,26 @@ export default {
         accumulate: result.accumulate
       }
     })
-    getCount({
-      table: 'business_opinion',
-      response_type: 'map'
-    }).then(res => {
+    getSensitive().then(res => {
       let result = res.data || {}
       this.pieChartData = [
         ['类型', '数量'],
-        ['正面', Number(result.front)],
-        ['中性', Number(result.neutral)],
-        ['负面', Number(result.negative)],
+        ...res.data.map(item => {
+          return [item.name, item.count]
+        })
       ]
     })
   },
   methods: {
     getShopChart() {
-      getCount({
-        table: 'passenger_flow',
-        query_name: "business_district",
-        query_value: this.selectshop,
-        query_operation: "eq"
+      getSubwayInfo({
+        name: this.selectshop,
       }).then(res => {
         let result = res.data || []
         this.newchartData = [
-          ['时间', '客流'],
+          ['时间', '进站客流', '出站客流'],
           ...result.map(item => {
-            return [item.data, item.number]
+            return [item.dateTime, item.fintIn, item.fintOut]
           })
         ]
       })
@@ -360,7 +365,7 @@ export default {
             align-items: center;
             padding: 0.2rem 0;
             & + .total-wrap-item {
-              margin-left: 20%;
+              margin-left: 10%;
             }
             & > p {
               font-size: 0.32rem;
@@ -384,6 +389,19 @@ export default {
         align-items: center;
         justify-content: space-between;
         background-color: transparent;
+        &_right {
+          position: relative;
+          .tooltip {
+            position: absolute;
+            left: 2.5rem;
+            top: 0.15rem;
+            width: 4rem;
+            padding: 0.1rem;
+            line-height: 0.4rem;
+            z-index: 2;
+            background-color: #062468;
+          }
+        }
         & > div {
           padding: 0.15rem;
           background-color: #062468;
@@ -403,20 +421,19 @@ export default {
         justify-content: space-between;
         background-color: transparent;
         &_right {
-          .wrap {
-            margin-top: 0.3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            & > div {
-              flex: 1;
+          background: none;
+          & > div {
+            background-color: #062468;
+            padding: 0.15rem;
+            & + div {
+              margin-top: 0.2rem;
             }
           }
           .money-wrap {
-            & + .money-wrap {
-              margin-left: 0.3rem;
-            }
             padding: 0.15rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             & > p {
               font-size: 0.3rem;
             }
@@ -425,12 +442,15 @@ export default {
               text-align: center;
               padding: 0.15rem 0;
               font-weight: bold;
+              margin: 0 0.1rem 0 0.3rem;
             }
           }
         }
-        & > div {
-          padding: 0.15rem;
+        &_left {
           background-color: #062468;
+          padding: 0.15rem;
+        }
+        & > div {
           height: 100%;
           flex: 1;
           & + div {

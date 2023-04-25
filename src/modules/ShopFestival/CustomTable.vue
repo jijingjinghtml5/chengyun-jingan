@@ -55,6 +55,11 @@ export default {
         <div class="cell">指数</div>
         <div class="cell">状态</div>
       </template>
+      <template v-else-if="tableType === '地铁客流'">
+        <div class="cell">地铁名称</div>
+        <div class="cell">今日累计进站客流</div>
+        <div class="cell">今日累计出站客流</div>
+      </template>
     </div>
     <div class="grid-list-body">
       <div class="no-data" v-if="!tableData || !tableData.length">暂无数据</div>
@@ -68,7 +73,7 @@ export default {
         >
           <template v-if="tableType === '活动信息'">
             <div class="cell">{{ row.mall_name || '-' }}</div>
-            <div class="cell">{{ row.activities_name || '-' }}</div>
+            <div class="cell" :title="row.activities_name">{{ row.activities_name || '-' }}</div>
             <div class="cell">{{ row.activity_time || '-' }}</div>
           </template>
           <template v-else-if="tableType === '投诉信息'">
@@ -82,6 +87,11 @@ export default {
             <div class="cell">{{ row.name || '-' }}</div>
             <div class="cell">{{ row.currentIndex || '-' }}</div>
             <div class="cell">{{ row.remark || '-' }}</div>
+          </template>
+          <template v-else-if="tableType === '地铁客流'">
+            <div class="cell">{{ row.name }}</div>
+            <div class="cell">{{ row.fintIn || '-' }}</div>
+            <div class="cell">{{ row.fintOut || '-' }}</div>
           </template>
         </div>
       </div>
