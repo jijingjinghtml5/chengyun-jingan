@@ -19,8 +19,17 @@
               <div class="times-tab">
                 <p v-for="item in times" :class="{ active: current === item.value }" @click="handleClickTime(item)" :key="item.value">{{ item.name }}</p>
               </div>
-              <line-chart :showLegend="true" :legendConfig="newlegendConfig" :chartData="newchartData" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
-              </line-chart>
+              <bar-chart
+                :showLegend="true"
+                :chartData="newchartData"
+                :legendConfig="newlegendConfig"
+                :colors="colors"
+                :barMaxWidth="1"
+                :pageLen="5"
+                :showYLabel="true"
+                unit="%"
+              >
+              </bar-chart>
             </template>
           </wrap-title>
         </div>
@@ -55,6 +64,7 @@ import WrapTitle from '@/components/MTitle/WrapTitle'
 import MRow from '@/components/Layout/MRow'
 import MColumn from '@/components/Layout/MColumn'
 import LineChart from '@/components/Charts/Line/ChartLine'
+import BarChart from '@/components/Charts/Bar/ChartBar'
 import Tile from '@/components/Tile/index2'
 import Tile1 from '@/components/Tile/index1'
 import MTabs from "@/components/MTabs";
@@ -65,14 +75,14 @@ import { swiper, swiperSlide } from 'vue-awesome-swiper'
 
 import Vue from 'vue'
 import { Row, Col } from 'element-ui'
-import { getSspListData, getHotlineData, getDuchaDuban, getDuchaData, getDubanData } from './api.js'
+import { getSspListData, getHotlineData, getDuchaDuban, getDuchaData, getDubanData, getDubanTrend, getDuChaTrend } from './api.js'
 import dayjs from 'dayjs'
 Vue.use(Row)
 Vue.use(Col)
 
 export default {
   name: 'TodayFocusOverview',
-  components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1, swiperSlide, swiper, MTabs },
+  components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1, swiperSlide, swiper, MTabs, BarChart },
   props: {
     dataset: {
       type: Object,
@@ -325,24 +335,19 @@ export default {
     getSpecialTrend() {
       let type = this.current === 'day' ? 'hour' : 'day'
       let range = this.timeObj[this.current]
-      getDuchaData({
-        filter: `args.chs_eventSourceType=eq.区级督查%26area_district.areaName=eq.静安区%26openTS=${range.start}~${range.end}%26args.chs_superviseStreetName=ex.true%26args.invalid_result=neq.1`,
-        group_by: `openTS.${type}[50~6${range.start}~7${range.end}]`,
-        transform: `aggResults."openTS.${type}"`,
+      getDubanTrend({
+        filter: `openTS=${range.start}~${range.end}`
       }).then(res => {
-        console.log(res, 'getDuchaData')
-        let duchaData = res.data || []
-        getDubanData({
-          filter: `area_district.areaName=eq.静安区%26openTS=${range.start}~${range.end}%26((town=ex.true%26args.chs_timestamp_321=ex.true)|(args.chs_superviseStreetName=ex.true%26args.chs_superviseNotFound=ex.true%26args.chs_timestamp_321=ex.false))`,
-          transform: `aggResults."openTS.${type}"`,
-          group_by: `openTS.${type}[50~6${range.start}~7${range.end}]`,
+        let result = res.messages || []
+        getDuChaTrend({
+          filter: `openTS=${range.start}~${range.end}`
         }).then(response => {
-          console.log(response, 'getDubanData')
-          let dubanData = response.data || []
+          let duchaList = response.data.messages.info || []
           this.newchartData = [
-            ['时间', '重点案件', '热点案件'],
-            ...dubanData.map((item, index) => {
-              return [item.time_fm.slice(5), duchaData[index].count, item.count]
+            ['时间', '发现率', '解决率', '结案率'],
+            ...result.map((item, index) => {
+              let ducha = duchaList.filter(data => data.chs_superviseStreetName === item.town)[0]
+              return [item.town, ducha.first_discover_rate * 100, item.solve_rate, item.fnish_rate]
             })
           ]
         })

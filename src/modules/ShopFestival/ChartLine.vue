@@ -38,13 +38,13 @@ export default {
     options () {
       return {
         color: this.colors,
-        tooltip: {
-          trigger: 'axis',
-          textStyle: {
-            fontSize: 25,
-            lineHeight: 50
-          },
-        },
+        // tooltip: {
+        //   trigger: 'axis',
+        //   textStyle: {
+        //     fontSize: 25,
+        //     lineHeight: 50
+        //   },
+        // },
         legend: {
           itemHeight: 10,
           itemWidth: 30,
@@ -101,7 +101,14 @@ export default {
             name: '剩余车位',
             type: 'line',
             smooth: true,
-            symbol: 'none',
+            label: {
+              show: true,
+              position: 'top',
+              fontSize: 30,
+              lineHeight: 50,
+              fontWeight: 'bold'
+            },
+            symbolSize: 10,
             areaStyle: {
               color: {
                 type: "linear",

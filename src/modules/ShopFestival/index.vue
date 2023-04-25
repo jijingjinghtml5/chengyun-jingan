@@ -17,14 +17,15 @@
           </el-select>
         </div>
         <p class="title">商圈信息</p>
-        <p class="chart-title">近7日地铁站客流</p>
+        <p class="chart-title">今日客流</p>
         <div style="height: 80%;">
           <bar-chart
             :showLegend="true"
             :chartData="newchartData"
-            :colors="colors"
+            :colors="colors1"
             :barMaxWidth="1"
             :showYLabel="true"
+            :pageLen="20"
             unit="人次"
           >
           </bar-chart>
@@ -55,11 +56,11 @@
           </div>
           <div class="total-wrap-item">
             <p>剩余车位数</p>
-            <p class="value">{{ residueCars }}<span>个</span></p>
+            <p class="value">{{ residueCars }}<span>个</span>（{{ parkText.rate }}%）</p>
           </div>
           <div class="total-wrap-item" :style="{ color: parkText.color }">
             <img :src="require(`./${parkText.text}.png`)" alt="">
-            <p style="font-weight: bold;">实时：停车位{{ parkText.text }}</p>
+            <p>实时：停车位{{ parkText.text }}</p>
           </div>
         </div>
         <div style="height: 4.2rem;">
@@ -122,7 +123,7 @@ import LineChart from './ChartLine.vue'
 import PieChart from './ChartPie.vue'
 import CustomTable from './CustomTable.vue'
 import CustomVideo from './video.vue'
-import { getCount, getCase, getRoadInfo, getPark, getSubwayInfo, getTodayMetroFlow, getSensitive } from './api.js'
+import { getCount, getCase, getRoadInfo, getPark, getTodayMetroFlow } from './api.js'
 import dayjs from 'dayjs'
 export default {
   name: 'ShopFestival',
@@ -145,15 +146,16 @@ export default {
     parkText() {
       let rate = Math.round(this.residueCars / this.totalCars * 100)
       return {
-        text: rate > 90 ? '充足' : (rate > 70 ? '适中' : '紧张'),
-        color: rate > 90 ? 'rgb(108, 203, 115)' : (rate > 70 ? 'rgb(249, 111, 79)' : 'rgb(242, 52, 112)')
+        text: rate > 50 ? '充足' : (rate > 20 ? '适中' : '紧张'),
+        color: rate > 50 ? 'green' : (rate > 20 ? 'yellow' : 'red'),
+        rate
       }
     }
   },
   data() {
     return {
       showTooltip: false,
-      selectshop: '延长路',
+      selectshop: '兴业太古汇',
       selectPark: '兴业太古汇',
       activities: [],
       caseList: [],
@@ -192,6 +194,7 @@ export default {
         '芮欧百货',
         '静安嘉里中心'
       ],
+      colors1: ['#F96F4F', '#1ABC9C'],
       colors: ['#1ABC9C', '#679DF4', '#F96F4F', '#BE6CCC', '#D0021B'],
       newchartData: [],
       carChart: [
@@ -210,13 +213,15 @@ export default {
     }
   },
   created() {
+    this.$timer.register(() => {
+      getRoadInfo().then(res => {
+        this.roadInfo = res.data || []
+      })
+    }, this)
     this.getShopChart()
     this.getParkChart()
     getTodayMetroFlow().then(res => {
       this.subwayList = res.data || []
-    })
-    getRoadInfo().then(res => {
-      this.roadInfo = res.data || []
     })
     getCase().then(res => {
       this.caseList = (res.data || []).map(item => {
@@ -244,26 +249,34 @@ export default {
         accumulate: result.accumulate
       }
     })
-    getSensitive().then(res => {
+    getCount({
+      table: 'business_opinion',
+      response_type: 'map'
+    }).then(res => {
+      console.log(res, 'business_opinion')
       let result = res.data || {}
       this.pieChartData = [
         ['类型', '数量'],
-        ...res.data.map(item => {
-          return [item.name, item.count]
-        })
+        ['正面', Number(result.front)],
+        ['中性', Number(result.neutral)],
+        ['负面', Number(result.negative)],
       ]
     })
   },
   methods: {
     getShopChart() {
-      getSubwayInfo({
-        name: this.selectshop,
+      getCount({
+        table: 'passenger_flow',
+        query_name: "data_time,data_time,business_district",
+        query_value:dayjs().startOf('day').format('YYYY-MM-DD HH:mm:ss') + ',' + dayjs().format('YYYY-MM-DD HH:mm:ss') + ',' + this.selectshop,
+        query_operation: "gte,lte,eq",
+        query_match_type: "and"
       }).then(res => {
         let result = res.data || []
         this.newchartData = [
-          ['时间', '进站客流', '出站客流'],
+          ['时间', '客流'],
           ...result.map(item => {
-            return [item.dateTime, item.fintIn, item.fintOut]
+            return [item.data_time.split(' ')[1].slice(0, 5), Number(item.number)]
           })
         ]
       })

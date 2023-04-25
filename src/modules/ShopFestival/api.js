@@ -3,12 +3,6 @@ import request from "@/http/request.js";
 import requestJa from "@/http/requestJa.js";
 import videoService from "@/http/requestVideoService.js";
 
-export function getSensitive() {
-  return requestJa({
-    url: "/erupt-api/yuqing/emotionCount"
-  });
-}
-
 export function getVideoRealUrl(data, cancelTokenKey) {
   return videoService({
     url: "/vms/device-camera-fence/getCameraVideoPathList", // todo

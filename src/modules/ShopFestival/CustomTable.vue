@@ -1,6 +1,10 @@
 <script>
+import NumberAnimation from '@/components/NumberAnimation/index.vue'
 export default {
   name: 'CustomTable',
+  components: {
+    NumberAnimation
+  },
   data() {
     return {
       activeIndex: -1
@@ -18,6 +22,25 @@ export default {
       }
     },
   },
+  // watch: {
+  //   tableData(newVal) {
+  //     if (this.tableType === '活动信息') {
+  //       console.log(newVal, '活动信息')
+  //       this.$nextTick(() => {
+  //         console.log(this.$refs.slide1[0].scrollWidth, '活动信息')
+  //         let width = this.$refs.slide1[0].scrollWidth
+  //         let x = 0
+  //         let currentInterval = setInterval(() => {
+  //           x += 50
+  //           if (width - x < 450) {
+  //             clearInterval(currentInterval)
+  //           }
+  //           this.$refs.slide1[0].style.transform = `translateX(-${x}px)`
+  //         }, 500)
+  //       })
+  //     }
+  //   }
+  // },
   methods: {
     caseClick(row, index) {
       if (this.activeIndex !== index) {
@@ -51,7 +74,7 @@ export default {
       </template>
       <template v-else-if="tableType === '周边路况'">
         <div class="cell">序号</div>
-        <div class="cell">道路</div>
+        <div class="cell">区域名称</div>
         <div class="cell">指数</div>
         <div class="cell">状态</div>
       </template>
@@ -73,7 +96,10 @@ export default {
         >
           <template v-if="tableType === '活动信息'">
             <div class="cell">{{ row.mall_name || '-' }}</div>
-            <div class="cell" :title="row.activities_name">{{ row.activities_name || '-' }}</div>
+            <div class="cell" :title="row.activities_name">
+              <!-- <p :ref="`slide${index}`" style="scroll-behavior: smooth">{{ row.activities_name || '-' }}</p> -->
+              {{ row.activities_name || '-' }}
+            </div>
             <div class="cell">{{ row.activity_time || '-' }}</div>
           </template>
           <template v-else-if="tableType === '投诉信息'">
@@ -85,7 +111,9 @@ export default {
           <template v-else-if="tableType === '周边路况'">
             <div class="cell">{{ (index + 1) || '-' }}</div>
             <div class="cell">{{ row.name || '-' }}</div>
-            <div class="cell">{{ row.currentIndex || '-' }}</div>
+            <div class="cell">
+              <NumberAnimation :val ="row.currentIndex"></NumberAnimation>
+            </div>
             <div class="cell">{{ row.remark || '-' }}</div>
           </template>
           <template v-else-if="tableType === '地铁客流'">

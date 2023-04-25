@@ -28,7 +28,6 @@ export default {
         return {
           type: "bar",
           barMaxWidth: +this.barMaxWidth_,
-          barGap: 0,
           itemStyle: {
             color: this.getColor(i)
           },
