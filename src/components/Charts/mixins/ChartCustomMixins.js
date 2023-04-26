@@ -30,6 +30,10 @@ export default {
     isSmooth: {
       type: Boolean,
       default: true
+    },
+    customTooltip: {
+      type: Object,
+      default: () => {}
     }
   },
   computed: {
@@ -64,7 +68,8 @@ export default {
             fontSize: +this.fontSize_,
             lineHeight: +this.fontSize_ * 1.15
           },
-          extraCssText: "text-align: left"
+          extraCssText: "text-align: left",
+          ...this.customTooltip
         },
         xAxis: this.xAxis,
         yAxis: this.yAxis,

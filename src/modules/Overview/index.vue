@@ -39,7 +39,7 @@ import OverviewItem from '@/components/OverviewItem/index'
 import WeatherItem from './weather'
 import MTabsBody from '@/components/MTabsBody/MTabsBody'
 import MTabsBodyItem from '@/components/MTabsBody/MTabsBodyItem'
-import { getData } from './api'
+import { getData, getCount } from './api'
 export default {
   name: 'OverView',
   components: {
@@ -157,6 +157,12 @@ export default {
       })
     },
     getData () {
+      getCount().then(res => {
+        let { source } = res
+        this.dataset.yqrds = {
+          value: source.num
+        }
+      })
       getData().then(res => {
         if (res.api) {
           this.dataset.jtydzs = {
@@ -169,6 +175,9 @@ export default {
         if (res.items) {
           let tmp = {};
           (res.items || []).map(item => {
+            if (item.name === '舆情热点数') {
+              return
+            }
             tmp[item.name] = item
           })
           this.itemsData = tmp
@@ -176,7 +185,6 @@ export default {
         if (res.db && res.db[0]) {
           this.dataset.qxzs = { value: res.db[0].qxzs }
           this.dataset.hxzs = { value: res.db[0].hxzs }
-          this.dataset.yqrds = { value: res.db[0].yqrds }
           this.dataset.zdhd = { value: res.db[0].zdhd }
         }
 

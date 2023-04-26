@@ -1,43 +1,39 @@
 <template>
   <div  class="panel">
-    <div class="category">部件详情</div>
+    <div class="category">部件码信息</div>
     <div class="basic-info">
       <div class="item">
         <span>部件类型: </span>
         <span>{{ info.data.type }}</span>
       </div>
       <div class="item">
-        <span>是否绑定感知器: </span>
-        <span>{{ info.data.bind_iot === '0' ? '否' : '是' }}</span>
+        <span>所属区域: </span>
+        <span>{{ info.data.town.areaName }}</span>
       </div>
       <div class="item">
-        <span>是否绑码: </span>
-        <span>{{ info.data.has_bind === '0' ? '否' : '是' }}</span>
+        <span>部件位置: </span>
+        <span>{{ info.data.address }}</span>
       </div>
       <div class="item">
         <span>部件状态: </span>
         <span>{{ info.data.state === '1' ? '正常' : '异常' }}</span>
       </div>
       <div class="item">
-        <span>所属街道: </span>
-        <span>{{ info.data.town.areaName }}</span>
+        <span>绑码时间: </span>
+        <span>{{ info.data.bindTS | formatTime }}</span>
       </div>
-      <div class="item">
-        <span>所属小区: </span>
-        <span>{{ info.data.housingEstate.areaName }}</span>
-      </div>
-      <div class="item">
-        <span>管理部门: </span>
-        <span>{{ info.data.department }}</span>
-      </div>
-      <img :src="`http://10.89.1.161/api-v3/inner/events/getFile/f/${info.args.images}`" alt="">
+    </div>
+    <div class="code-wrap">
+      <p>部件码</p>
+      <div id="qrcode"></div>
+      <p>编号：{{ info.args.qrcode }}</p>
     </div>
   </div>
 </template>
 <script>
-
+import dayjs from 'dayjs'
 export default {
-  name: 'shopPopup',
+  name: 'unitPopup',
   inject: ['getGlobalConfig'],
   props: {
     info: {
@@ -47,45 +43,59 @@ export default {
       }
     }
   },
+  filters: {
+    formatTime(value) {
+      return dayjs(value * 1000).format('YYYY-MM-DD HH:mm:ss');
+    }
+  },
   created () {
     console.log(this.info)
-  }
+  },
+  mounted() {
+    new window.QRCode(document.getElementById('qrcode'), {
+      text: this.info.args.qrcode,
+      width: 400,
+      height: 400,
+      correctLevel: 0
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>
 .panel{
   width: 6.4rem;
   height: 12rem;
-  padding: 0.4rem;
-
-  font-size: 16*2px;
+  padding: 0.4rem 0.2rem;
+  font-size: 0.32rem;
   color:rgba(146, 185, 247, 1);
   .item{
-    padding: 10px 0;
+    padding: 0.2rem 0;
     & > span:last-child {
       color: #FFFFFF;
     }
   }
-  .split-line{
-    width: 100%;
-    height: 2px;
-    border-bottom: 2px solid rgba(78,120,164,1);
-    margin: 20px 0;
-  }
   .category{
     width: 100%;
-    font-size:22*2px;
+    font-size: 0.44rem;
+    margin-bottom: 0.2rem;
     font-family:MicrosoftYaHei;
     color:rgba(146,185,247,1);
   }
-  .name{
-    font-size: 26*2px;
-    font-family:MicrosoftYaHei;
-    color: #ffffff;
-    padding: 20px 0;
-  }
-  img {
-    width: 100%;
+  .code-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.15rem;
+    background-image: linear-gradient(266deg, #07397A 2%, #0a2876f2 72%);
+    & > p {
+      font-size: 0.36rem;
+      color: #FFFFFF;
+      line-height: 1rem;
+    }
+    img {
+      width: 100%;
+    }
   }
 }
 </style>

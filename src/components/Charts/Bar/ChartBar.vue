@@ -27,7 +27,7 @@ export default {
       const series = dataArr.map((d, i) => {
         return {
           type: "bar",
-          barMaxWidth: +this.barMaxWidth_,
+          barWidth: +this.barMaxWidth_,
           itemStyle: {
             color: this.getColor(i)
           },

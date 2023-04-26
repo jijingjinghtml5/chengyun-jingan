@@ -24,10 +24,11 @@
                 :chartData="newchartData"
                 :legendConfig="newlegendConfig"
                 :colors="colors"
-                :barMaxWidth="1"
-                :pageLen="5"
+                :barMaxWidth="0.2"
+                :pageLen="6"
                 :showYLabel="true"
                 unit="%"
+                :customTooltip="customTooltip"
               >
               </bar-chart>
             </template>
@@ -324,7 +325,17 @@ export default {
         }
       ],
       chunkSize: 5,
-      colors: ['#1ABC9C', '#679DF4', '#F96F4F', '#BE6CCC', '#D0021B']
+      colors: ['#1ABC9C', '#679DF4', '#F96F4F', '#BE6CCC', '#D0021B'],
+      customTooltip: {
+        formatter: function (params) {
+          return `<div>
+            <p>${params[0].axisValueLabel}</p>
+            <p style="padding: 5px 0;"><span style="display: inline-block; border-radius: 50%; background-color: #1ABC9C;width: 20px;height: 20px"></span> ${params[0].seriesName}: ${params[0].value[1]}%</p>
+            <p style="padding: 5px 0;"><span style="display: inline-block; border-radius: 50%; background-color: #679DF4;width: 20px;height: 20px"></span> ${params[1].seriesName}: ${params[0].value[2]}%</p>
+            <p style="padding: 5px 0;"><span style="display: inline-block; border-radius: 50%; background-color: #F96F4F;width: 20px;height: 20px"></span> ${params[2].seriesName}: ${params[0].value[3]}%</p>
+          </div>`
+        }
+      }
     }
   },
   methods: {

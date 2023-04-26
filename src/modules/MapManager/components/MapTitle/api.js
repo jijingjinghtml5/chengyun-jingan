@@ -3,10 +3,17 @@ import requestTesla from '@/http/requestTesla'
 import requestrj from '@/http/requestRj'
 import requestJa from '@/http/requestJa'
 
-export function getYwym (params) {
-  return request({
-    url: '/v2/data-api/852',
-    params
+export function getYwym () {
+  return requestJa({
+    url: '/united-ciimc-api/v1/generic-query',
+    params: {
+      token: 'pd2e13b16eff42aeaec9bda8c570e2pd',
+      table: 'unit',
+      limit: 10000,
+      index_type: 'active',
+      district: '静安区',
+      filter: 'args.event_type3=eq.共享充电座椅%26args.qrcode=ex.true%26status=eq.1'
+    }
   })
 }
 

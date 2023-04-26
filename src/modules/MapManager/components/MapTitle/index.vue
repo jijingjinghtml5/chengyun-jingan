@@ -423,30 +423,32 @@ export default {
     async handleYwym (item) {
       if (item.checked) {
         if (item.name === '一物一码') {
-          let offset = 0
-          let result = await getYwym({ limit: 1000, offset })
-          console.log(result, 'getYwym')
-          // getYwym({
-          //   limit: 1000,
-          //   offset
-          // }).then(res => {
-          //   this.pointLayer.setParameters({
-          //     'mode': 'add',
-          //     'data': {
-          //       'content': (res.data.messages || []),
-          //       'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
-          //     }
-          //   }).setPopupConfig({
-          //     component: 'unitPopup'
-          //   }).open()
-          // })
+          getYwym().then(res => {
+            this.pointLayer.setParameters({
+              'data': {
+                'content': (res.data.messages || []),
+                'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
+              },
+              'renderer': {
+                'type': 'simple',
+                symbol: {
+                  type: 'picture-marker',
+                  url: getUrl('/mapIcon/unit.png'),
+                  width: '40px',
+                  height: '58px'
+                }
+              }
+            }).setPopupConfig({
+              component: 'unitPopup'
+            }).open()
+          })
           return
         }
         this.pointLayer.setParameters({
           'data': {
             'content': [],
             'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
-          }
+          },
         }).setPopupConfig({
           component: 'unitPopup'
         }).open()
