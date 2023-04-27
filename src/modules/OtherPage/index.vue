@@ -115,6 +115,10 @@
       }
     },
     created() {
+      this.$bus.$on('showShopFestival', () => {
+        this.dialogVisible = true;
+        this.iframeSrc = 'http://10.210.232.238/chengyun/custom/jingan-shop-festival/index.html';
+      })
       let urlString = window.location.href;
       let subIndex = urlString.lastIndexOf("html");
       let urlStringSub = urlString.substring(0, subIndex + 1);

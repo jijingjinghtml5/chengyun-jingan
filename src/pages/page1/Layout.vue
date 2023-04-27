@@ -268,12 +268,6 @@ export default {
   created() {
     checkSupportCssProperties(["webkitTextFillColor"]);
     this.getLayoutConfig();
-    this.$bus.$on('showShopFestival', () => {
-      this.showShopFestival = true
-    })
-    this.$bus.$on('closeFestival', () => {
-      this.showShopFestival = false
-    })
   }
 };
 </script>

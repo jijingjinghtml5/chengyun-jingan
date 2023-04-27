@@ -22,25 +22,6 @@ export default {
       }
     },
   },
-  // watch: {
-  //   tableData(newVal) {
-  //     if (this.tableType === '活动信息') {
-  //       console.log(newVal, '活动信息')
-  //       this.$nextTick(() => {
-  //         console.log(this.$refs.slide1[0].scrollWidth, '活动信息')
-  //         let width = this.$refs.slide1[0].scrollWidth
-  //         let x = 0
-  //         let currentInterval = setInterval(() => {
-  //           x += 50
-  //           if (width - x < 450) {
-  //             clearInterval(currentInterval)
-  //           }
-  //           this.$refs.slide1[0].style.transform = `translateX(-${x}px)`
-  //         }, 500)
-  //       })
-  //     }
-  //   }
-  // },
   methods: {
     caseClick(row, index) {
       if (this.activeIndex !== index) {
@@ -97,7 +78,6 @@ export default {
           <template v-if="tableType === '活动信息'">
             <div class="cell">{{ row.mall_name || '-' }}</div>
             <div class="cell" :title="row.activities_name">
-              <!-- <p :ref="`slide${index}`" style="scroll-behavior: smooth">{{ row.activities_name || '-' }}</p> -->
               {{ row.activities_name || '-' }}
             </div>
             <div class="cell">{{ row.activity_time || '-' }}</div>

@@ -158,9 +158,9 @@ export default {
     },
     getData () {
       getCount().then(res => {
-        let { source } = res
+        let { tag } = res
         this.dataset.yqrds = {
-          value: source.num
+          value: tag.num
         }
       })
       getData().then(res => {

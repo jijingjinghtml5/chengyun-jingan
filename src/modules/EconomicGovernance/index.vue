@@ -1,6 +1,6 @@
 <template>
   <wrap-title class="gradient-bg" icon="icon-jingji" txt="经济治理">
-    <p class="shopText" @click="$bus.$emit('showShopFestival')">”五.五购物节”</p>
+    <p class="shopText" @click="openNewTab">”五.五购物节”</p>
     <level-title :level="2" icon="icon-biaoti" txt="重点产业和房地产税收收入"></level-title>
     <overview-item
       style="margin-top: -0.2rem;"
@@ -256,6 +256,9 @@ export default {
     };
   },
   methods: {
+    openNewTab() {
+      this.$bus.$emit('showShopFestival')
+    },
     handleMouse(ref, mouse) {
       if (mouse === "enter") {
         this.$refs[ref].stopTimer();
