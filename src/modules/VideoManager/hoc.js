@@ -13,7 +13,8 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
     data() {
       return {
         id: id++,
-        result: null
+        result: null,
+        timer: null
       };
     },
     inheritAttrs: false,
@@ -41,6 +42,14 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
     watch: {
       videoConfig: {
         handler(nv, ov) {
+          // if (this.timer) {
+          //   clearInterval(this.timer)
+          // } else {
+          //   this.timer = setInterval(() => {
+          //     console.log('重新请求')
+          //     this.handleVideoForTransferAndSendData(nv, ov);
+          //   }, 60000);
+          // }
           this.handleVideoForTransferAndSendData(nv, ov);
         },
         immediate: true
@@ -48,7 +57,6 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
     },
     methods: {
       handleVideoForTransferAndSendData(nv) {
-        // console.log(">>>>>>>video", nv);
         let ov = this.result;
         this.result = null;
         const isObjectFornv = Object.prototype.toString.call(nv) === "[object Object]";
@@ -73,7 +81,6 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
                 streetCode: d.town
               };
             }))
-            // .then(res => { console.log("callback", res); })
             .catch(error => { console.log("api: sendAfterCloseVideo, status: error.", error); });
           }
         }
@@ -89,7 +96,6 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
             };
           });
           this.result = isObjectFornv ? initData[0] : initData;
-
           // 添加用户信息
           let userInfo = window.sessionStorage.getItem("_userInfo");
           userInfo = userInfo ? JSON.parse(userInfo) : null;
@@ -103,10 +109,8 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
               userId: userId
             };
           });
-          // console.log("----", nvParams);
           getVideoRealUrl(nvParams, this.cancelTokenKey).then(res => {
             if (res.resultCode === "200") {
-              // console.log("请求成功", res.resultData);
               const apiDataMapping = generateKeyValuePair("cameraId", null, res.resultData.data.cameraInfos || []);
               const resultData = initData.map(d => {
                 const _tmp = apiDataMapping[d.code] || {};
@@ -125,6 +129,7 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
       }
     },
     beforeDestroy() {
+      // clearInterval(this.timer)
       const result = (Object.prototype.toString.call(this.result) === "[object Object]" ? [this.result] : this.result).filter(d => !!d.url);
       if (result && result.length > 0) {
         sendAfterCloseVideo(result.map(d => {
@@ -134,7 +139,6 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
             streetCode: d.town || d.district
           };
         }))
-        // .then(res => { console.log("callback", res); })
         .catch(error => { console.log("api: sendAfterCloseVideo, status: error.", error); });
       }
     }

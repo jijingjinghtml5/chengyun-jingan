@@ -74,14 +74,6 @@ export default {
   methods: {
     caculateConfig() {
       if (!this.config) return false;
-      // // 测试
-      // this.config.layout = [
-      //   { x: 0, y: 0, w: 48, h: 10, i: 0, moved: false },
-      //   { x: 0, y: 10, w: 24, h: 10, i: 1, moved: false },
-      //   { x: 24, y: 10, w: 24, h: 10, i: 2, moved: false },
-      //   { x: 0, y: 20, w: 48, h: 10, i: 3, moved: false }
-      // ];
-
       const layout = this.config.layout;
       const height = this.$refs["videoContainer"].clientHeight;
       const maxH = layout.reduce((r, d) => {
@@ -96,7 +88,6 @@ export default {
         rowHeight: Math.max(0, (height - (maxH + 1) * this.config.marginVertical) / maxH),
         layout: this.config.layout
       };
-      // console.log("videoMode config", this.configData);
     },
     handleReloading(index, videoSrc) {
       this.videos.splice(index, 1, { ...this.videos[index] });
