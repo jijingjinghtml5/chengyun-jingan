@@ -186,11 +186,11 @@ export default {
       deps: [
         {
           label: '督  查',
-          value: '黄媛媛'
+          value: '张纬臣'
         },
         {
           label: '网信办',
-          value: '柴春羚'
+          value: '李晟晖'
         },
         {
           label: '公  安',
@@ -198,7 +198,7 @@ export default {
         },
         {
           label: '建管委',
-          value: '郁震飞'
+          value: '朱琳俪'
         },
         {
           label: '应急局',
