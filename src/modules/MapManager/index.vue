@@ -77,8 +77,6 @@ export default {
     },
     // 关闭左侧弹窗
     _closePopup () {
-    //   console.log('close popup')
-      //  this.addComuteingRoute([], "delete");
       this.popupBool = false
     },
     // 街镇案件点
