@@ -21,7 +21,8 @@ import {
   getHotlineData,
   getSubway,
   getHujiPeople,
-  getYwym
+  getYwym,
+  getPeopleCount
 } from './api'
 import {
   thousandCentimeter,
@@ -530,32 +531,26 @@ export default {
     },
     handlerPeople (item) {
       if (item.checked) {
-        if (item.name === '户籍人员') {
-          getHujiPeople().then(res => {
-            console.log(res, 'getHujiPeople')
-            let peopleTownData = []
-            res.data.messages.forEach((e, i) => {
-              let item = {}
-              item.count = thousandCentimeter(e.data.total_count)
-              item.name = e.data.town.areaName
-              item.typeValue = 4 - Math.ceil((i + 1) / 5)
-              peopleTownData.push(item)
-            })
-            this.addTownPeople(peopleTownData)
-          })
-        } else {
-          getPeopleStatistic(item.name).then(res => {
-            let peopleTownData = []
-            res.data.forEach((e, i) => {
-              let item = {}
-              item.count = thousandCentimeter(e.count)
-              item.name = e.town
-              item.typeValue = 4 - Math.ceil((i + 1) / 5)
-              peopleTownData.push(item)
-            })
-            this.addTownPeople(peopleTownData)
-          })
+        let field = 'actual_popu'
+        if (item.name === '来沪人员') {
+          field = 'nonlocal_popu'
         }
+        if (item.name === '境外人员') {
+          field = 'overseas_popu'
+        }
+        getPeopleCount().then(res => {
+          let peopleTownData = []
+          res.data.forEach((e, i) => {
+            if (e.area !== '静安区') {
+              let obj = {}
+              obj.count = thousandCentimeter(e[field])
+              obj.name = e.area
+              obj.typeValue = 4 - Math.ceil((i + 1) / 5)
+              peopleTownData.push(obj)
+            }
+          })
+          this.addTownPeople(peopleTownData)
+        })
       } else {
         this.removeLayer('townPeopleLayer')
       }

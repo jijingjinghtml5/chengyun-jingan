@@ -2,6 +2,15 @@ import request from '@/http/request'
 import requestTesla from '@/http/requestTesla'
 import requestrj from '@/http/requestRj'
 import requestJa from '@/http/requestJa'
+import requestApi from "@/http/requestApi.js"
+
+export function getPeopleCount () {
+  return requestApi({
+    params: {
+     table: 'jingan_popu' 
+    }
+  })
+}
 
 export function getYwym () {
   return requestJa({
