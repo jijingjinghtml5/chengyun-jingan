@@ -103,6 +103,10 @@
         }
       },
       imgClick(item) {
+        if (item.url === 'http://10.212.3.162') {
+          window.open('http://10.212.3.162')
+          return
+        }
         this.dialogVisible = true;
         this.iframeSrc = item.url;
       },
