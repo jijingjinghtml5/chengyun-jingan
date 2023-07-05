@@ -61,7 +61,7 @@ export default {
           iconClass: 'icon-wulianganzhi1',
           attr: 'thing',
           isExpand: true,
-          columns: 2,
+          columns: 3,
           radio: true
         },
         {
@@ -144,7 +144,121 @@ export default {
                 name: '一物一码',
                 nameKey: 'name',
                 type: 'ywym',
-                checked: false
+                childKey: 'children',
+                children: [
+                  {
+                    name: '上水井盖',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-01-01',
+                    checked: false
+                  },
+                  {
+                    name: '污水井盖',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-02-01',
+                    checked: false
+                  },
+                  {
+                    name: '雨水井盖',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-03-01',
+                    checked: false
+                  },
+                  {
+                    name: '电力井盖',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-05-01',
+                    checked: false
+                  },
+                  {
+                    name: '网络井盖',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-09-02',
+                    checked: false
+                  },
+                  {
+                    name: '燃气井盖',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-11-01',
+                    checked: false
+                  },
+                  {
+                    name: '信息交接箱',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-15-01',
+                    checked: false
+                  },
+                  {
+                    name: '电力设施（设备）',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-16-01',
+                    checked: false
+                  },
+                  {
+                    name: '路灯',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-18-01',
+                    checked: false
+                  },
+                  {
+                    name: '消火栓',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-19-01',
+                    checked: false
+                  },
+                  {
+                    name: '健身设施',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-25-01',
+                    checked: false
+                  },
+                  {
+                    name: '宣传栏（亭）',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-44-02',
+                    checked: false
+                  },
+                  {
+                    name: '电梯',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-51-01',
+                    checked: false
+                  },
+                  {
+                    name: '水泵房',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B01-52-01',
+                    checked: false
+                  },
+                  {
+                    name: '共享座椅',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B07-01-01',
+                    checked: false
+                  },
+                  {
+                    name: '共享充电座椅',
+                    nameKey: 'name',
+                    type: 'ywym',
+                    code: 'B07-02-01',
+                    checked: false
+                  }
+                ]
               },
               {
                 name: '彭浦码',
@@ -423,8 +537,8 @@ export default {
     },
     async handleYwym (item) {
       if (item.checked) {
-        if (item.name === '一物一码') {
-          getYwym().then(res => {
+        if (item.name) {
+          getYwym(item.name).then(res => {
             this.pointLayer.setParameters({
               'data': {
                 'content': (res.data.messages || []),
@@ -449,7 +563,7 @@ export default {
           'data': {
             'content': [],
             'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
-          },
+          }
         }).setPopupConfig({
           component: 'unitPopup'
         }).open()

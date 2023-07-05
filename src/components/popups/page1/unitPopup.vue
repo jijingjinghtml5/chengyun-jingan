@@ -22,11 +22,15 @@
         <span>绑码时间: </span>
         <span>{{ info.data.bindTS | formatTime }}</span>
       </div>
+      <div class="item">
+        <span>部件编码: </span>
+        <span>{{ info.data.code }}</span>
+      </div>
     </div>
     <div class="code-wrap">
       <p>部件码</p>
       <div id="qrcode"></div>
-      <p>编号：{{ info.args.qrcode }}</p>
+      <p>码编号：{{ info.args.qrcode }}</p>
     </div>
   </div>
 </template>

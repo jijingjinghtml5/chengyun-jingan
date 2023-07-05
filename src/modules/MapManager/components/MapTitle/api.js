@@ -12,7 +12,7 @@ export function getPeopleCount () {
   })
 }
 
-export function getYwym () {
+export function getYwym (name) {
   return requestJa({
     url: '/united-ciimc-api/v1/generic-query',
     params: {
@@ -21,7 +21,7 @@ export function getYwym () {
       limit: 10000,
       index_type: 'active',
       district: '静安区',
-      filter: 'args.event_type3=eq.共享充电座椅%26args.qrcode=ex.true%26status=eq.1'
+      filter: `args.event_type3=in.,${name}%26has_bind=eq.1%26args.qrcode=ex.true%26status=eq.1`
     }
   })
 }
