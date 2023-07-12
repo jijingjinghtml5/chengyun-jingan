@@ -141,7 +141,7 @@ export default {
             nameKey: 'name',
             children: [
               {
-                name: '一物一码',
+                name: '部件码',
                 nameKey: 'name',
                 type: 'ywym',
                 childKey: 'children',
