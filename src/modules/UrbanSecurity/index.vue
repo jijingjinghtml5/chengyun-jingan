@@ -150,7 +150,7 @@ import ChartLine from '@/components/Charts/Line/ChartLineForCompare'
 import MList from '@/components/MList/index'
 import MPdf from '@/components/MPDF'
 
-import { getData, getListData1, getListData2, getHotlineData, getDeviceRate } from './api'
+import { getData, getData2, getListData1, getListData2, getHotlineData, getDeviceRate } from './api'
 import { statisticsForKey } from '@/utils/tools'
 
 export default {
@@ -348,17 +348,17 @@ export default {
             value: result > 95 ? result : (95 + Math.random() + 1).toFixed(2)
           }
         }
-        if (res.apiData) {
-          this.dataset.staff_total = {
-            value: res.apiData.staff_total
-          }
-          this.dataset.case_count = {
-            value: res.apiData.case_count
-          }
-          this.dataset.staff_online = {
-            value: res.apiData.staff_online
-          }
-        }
+        // if (res.apiData) {
+        //   this.dataset.staff_total = {
+        //     value: res.apiData.staff_total
+        //   }
+        //   this.dataset.case_count = {
+        //     value: res.apiData.case_count
+        //   }
+        //   this.dataset.staff_online = {
+        //     value: res.apiData.staff_online
+        //   }
+        // }
         let tmp = {};
         (res.items || []).map(item => {
           tmp[item.name] = item
@@ -369,6 +369,18 @@ export default {
           let result = res.data || {}
           this.itemsData['12345热线'].value = result.today || '-'
         })
+      })
+
+      getData2().then(res => {
+        this.dataset.staff_total = {
+          value: res.staff_total
+        }
+        this.dataset.case_count = {
+          value: res.case_count
+        }
+        this.dataset.staff_online = {
+          value: res.staff_online
+        }
       })
       Promise.all([getListData1(), getListData2()]).then(res => {
         this.list = statisticsForKey('关联', [...res[0].raw_data, ...res[1].raw_data.map(item => {

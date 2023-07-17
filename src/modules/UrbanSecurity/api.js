@@ -13,6 +13,23 @@ export function getData () {
     url: '/v2/data-api/430'
   })
 }
+
+// export function getData2 () {
+//   return request({
+//     url: 'http://10.210.232.241:18088/district-platform-api/v7/city-running?district=静安区'
+//   })
+// }
+
+export function getData2 (params) {
+  return request({
+    url: 'http://10.210.232.238/dmp2/district-platform-api/v7/city-running',
+    params: {
+      district: '静安区',
+      token: 'dp3e13b16eff2aeaec9bda8cc70e3dp',
+      ...params
+    }
+  })
+}
 // 应急指挥列表
 export function getListData1 () {
   return requestTesla({
