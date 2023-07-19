@@ -13,10 +13,47 @@ export function getData () {
   })
 }
 
+export function getData2 (params) {
+  return request({
+    url: 'http://10.210.232.238/dmp2/district-platform-api/v7/today-attention',
+    params: {
+      district: '静安区',
+      token: 'dp3e13b16eff2aeaec9bda8cc70e3dp',
+      ...params
+    }
+  })
+}
+export function getDataItems (params) {
+  return request({
+    url: 'http://10.210.232.237/internal-api/gateway/manager-client-api/jrgz',
+    params: {
+      // district: '静安区',
+      token: 'dp3e13b16eff2aeaec9bda8cc70e3dp',
+      ...params
+    }
+  })
+}
+// export function getListData (filter) {
+//   return request({
+//     url: '/v2/data-api/427',
+//     params: {
+//       filter: filter
+//     }
+//   })
+// }
+
 export function getListData (filter) {
   return request({
-    url: '/v2/data-api/427',
+    url: 'http://10.210.232.238/dmp2/united-ciimc-api/v1/generic-query',
     params: {
+      table: 'area-event',
+      limit: 10000,
+      index_type: 'active',
+      district: '静安区',
+      transform: 'messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude, chs_superviseDone: args.chs_superviseDone, chs_timestamp_305: args.chs_timestamp_305 }',
+      token: 'dp3e13b16eff2aeaec9bda8cc70e3dp',
+      geo_type: 'shlocal',
+      source: 'data.eventID,args.eventName,data.address,data.town,data.openTS,data.exevt_status,data.location,args.chs_superviseDone,args.chs_timestamp_305',
       filter: filter
     }
   })

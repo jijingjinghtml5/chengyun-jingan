@@ -45,7 +45,7 @@ import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import MDialog from "@/components/MDialog";
 import IframeContainer from "@/components/IframeContainer";
 
-import { getSumaryData } from "./api";
+import { getSumaryData, getSumaryData2 } from "./api";
 
 import townList from "./streetJson.js";
 
@@ -89,23 +89,49 @@ export default {
       this.iframeSrc = item.url;
     },
     getData() {
-      getSumaryData().then(res => {
+      
+      getSumaryData2().then(res => {
         console.log("res", res);
         let _d = {};
-        (res.data || []).map(item => {
+        (res || []).map(item => {
           _d[item.town] = item;
         });
-        this.dataset = this.townList.map(item => {
-          let townData = _d[item.town] || {};
-          return {
-            ...item,
-            score: townData.score,
-            find: townData.open_count,
-            done: townData.close_count
-          };
-        });
-                      // console.log(">>>>", _d, this.dataset);
+        getSumaryData().then(res => {
+          console.log("res", res.data);
+          let _d_copy = {};
+          (res.data || []).map(item => {
+            _d_copy[item.town] = item;
+          });
+          console.log("_d", _d);
+          this.dataset = this.townList.map(item => {
+            let townData = _d_copy[item.town] || {};
+            return {
+              ...item,
+              score: townData.score,
+              find: _d[item.town].open_count,
+              done: _d[item.town].close_count
+            };
+          });
+        })
       });
+      // getSumaryData2().then(res => {
+      //   console.log("res", res);
+      //   let _d = {};
+      //   (res || []).map(item => {
+      //     _d[item.town] = item;
+      //   });
+      //   console.log("_d", _d);
+      //   this.dataset = this.townList.map(item => {
+      //     let townData = _d[item.town] || {};
+      //     return {
+      //       ...item,
+      //       score: townData.score,
+      //       find: townData.open_count,
+      //       done: townData.close_count
+      //     };
+      //   });
+      //                 // console.log(">>>>", _d, this.dataset);
+      // });
     }
   }
 };

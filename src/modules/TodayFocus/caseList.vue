@@ -288,7 +288,7 @@ export default {
     getListData (filter) {
       this.loading = true
       getListData(filter).then(res => {
-        this.tableData = (res.list || []).map(item => {
+        this.tableData = (res || []).map(item => {
           return {
             ...item,
             chs_superviseDone: item.chs_superviseDone ? '是' : '否',

@@ -136,7 +136,7 @@ export default {
         {
           label: '一网统管',
           count: total,
-          rate: this.dataset.itemsData['一网通办'] ? this.dataset.itemsData['一网统管'].rate : '-',
+          rate: this.dataset.itemsData['一网通办'] && this.dataset.itemsData['一网统管'] ? this.dataset.itemsData['一网统管'].rate : '-',
           color: gridRate > 0 ? '#4FCFD5' : (gridRate < 0 ? '#E64C3B' : '#2E9BCF')
         },
         {

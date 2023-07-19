@@ -10,7 +10,7 @@
 import MTabs from "@/components/MTabs";
 import ChartbarY from "@/components/Charts/BarY/ChartBarYForValuePosition";
 import { reCallAndNeedCallApi } from "@/utils/tools";
-import { getChartData } from "./api";
+import { getChartData, getChartData2 } from "./api";
 export default {
   name: "operationStatus",
   components: {
@@ -92,7 +92,7 @@ export default {
       }
     },
     afterCalloApi(data, key) {
-      // console.log(">>>>", data, key);
+      console.log(">>>>", data, key);
       if (!data) return;
       this.dataset[key] = [
         ["街镇", "数量"],
@@ -105,7 +105,7 @@ export default {
   created() {
     this.callApi1 = reCallAndNeedCallApi(this, 10 * 60 * 1000, {
       grid: {
-        api: getChartData,
+        api: getChartData2,
         params: [1],
         cb: this.afterCalloApi
       },
@@ -115,7 +115,7 @@ export default {
       //   cb: this.afterCalloApi
       // },
       "110": {
-        api: getChartData,
+        api: getChartData2,
         params: [3],
         cb: this.afterCalloApi
       }
@@ -124,17 +124,17 @@ export default {
 
     this.callApi2 = reCallAndNeedCallApi(this, 10 * 60 * 1000, {
       homeQuarantine: {
-        api: getChartData,
+        api: getChartData2,
         params: [4],
         cb: this.afterCalloApi
       },
       "1+3+N": {
-        api: getChartData,
+        api: getChartData2,
         params: [5],
         cb: this.afterCalloApi
       },
       "151": {
-        api: getChartData,
+        api: getChartData2,
         params: [6],
         cb: this.afterCalloApi
       }

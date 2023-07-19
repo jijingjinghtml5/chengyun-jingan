@@ -29,7 +29,7 @@ import Overview from "./overview.vue";
 import CaseDashboard from "./caseDashboard.vue";
 import caseList from "./caseList.vue";
 
-import { getData } from "./api";
+import { getData, getData2, getDataItems } from "./api";
 export default {
   name: "TodayFocus",
   components: { WrapTitle, MTitle, Overview, CaseDashboard, caseList },
@@ -73,17 +73,49 @@ export default {
   },
   methods: {
     getData() {
-      getData().then(res => {
-        if (!res.data) return;
-        this.yellow = res.data.yellow_alarm_count || "-";
-        this.red = res.data.red_alarm_count || "-";
+      // getData().then(res => {
+      //   if (!res.data) return;
+      //   // this.yellow = res.data.yellow_alarm_count || "-";
+      //   // this.red = res.data.red_alarm_count || "-";
+      //   // let _dd = {};
+      //   // (res.data.trend || []).map(item => {
+      //   //   _dd[item.event_source] = item.data;
+      //   // });
+      //   // this.trendData = _dd;
+      //   // let _d = {};
+      //   // (res.data.stats || []).map(item => {
+      //   //   let rate = item.yesterday ? Math.floor((item.today - item.yesterday) / item.yesterday * 10000) / 100 : "-";
+      //   //   _d[item.event_source] = {
+      //   //     count: item.today,
+      //   //     rate: rate
+      //   //   };
+      //   // });
+      //   // this.stats = _d;
+      //   const staticData = res.items.filter(item => item.id == 46);
+      //   if (staticData.length) {
+      //     this.gridData.today = staticData[0].value;
+      //   } else {
+      //     this.gridData.today = res.data.today_total;
+      //   }
+      //   this.gridData.yesterday = res.data.yesterday_total;
+
+      //   let tmp = {};
+      //   (res.items || []).map(item => {
+      //     tmp[item.name] = item;
+      //   });
+      //   this.itemsData = tmp;
+      // });
+      getData2().then(res => {
+        if (!res) return;
+        this.yellow = res.yellow_alarm_count || "-";
+        this.red = res.red_alarm_count || "-";
         let _dd = {};
-        (res.data.trend || []).map(item => {
+        (res.trend || []).map(item => {
           _dd[item.event_source] = item.data;
         });
         this.trendData = _dd;
         let _d = {};
-        (res.data.stats || []).map(item => {
+        (res.stats || []).map(item => {
           let rate = item.yesterday ? Math.floor((item.today - item.yesterday) / item.yesterday * 10000) / 100 : "-";
           _d[item.event_source] = {
             count: item.today,
@@ -91,20 +123,22 @@ export default {
           };
         });
         this.stats = _d;
-        const staticData = res.items.filter(item => item.id == 46);
-        if (staticData.length) {
-          this.gridData.today = staticData[0].value;
-        } else {
-          this.gridData.today = res.data.today_total;
-        }
-        this.gridData.yesterday = res.data.yesterday_total;
+        getDataItems().then(items=>{
+          const staticData = items.filter(item => item.id == 46);
+          if (staticData.length) {
+            this.gridData.today = staticData[0].value;
+          } else {
+            this.gridData.today = res.today_total;
+          }
+          this.gridData.yesterday = res.yesterday_total;
 
-        let tmp = {};
-        (res.items || []).map(item => {
-          tmp[item.name] = item;
-        });
-        this.itemsData = tmp;
-      });
+          let tmp = {};
+          (items || []).map(item => {
+            tmp[item.name] = item;
+          });
+          this.itemsData = tmp;
+        })
+      })
     },
     handleClick(type, item) {
       this.current = type;
