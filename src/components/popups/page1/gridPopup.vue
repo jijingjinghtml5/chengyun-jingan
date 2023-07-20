@@ -3,18 +3,25 @@
     <div class="category">网格</div>
     <div class="name">{{info["网格编码"]||""}}</div>
     <div class="basic-info">
-      <div class="item">
+      <!-- <div class="item">
         建设中.......
-      </div>
+      </div> -->
       <!-- <div class="item">
         <img style="width:560px;316px;" :src="detail['image'] || require('@/assets/images/default.png')" />
       </div> -->
+      <template v-if="list.length">
+        <div class="item" v-for="item in list" :key="item.id">{{ item.department }}</div>
+      </template>
+      <template v-else>
+        <div class="no-data">暂无数据</div>
+      </template>
     </div>
 
   </div>
 </template>
 <script>
 // import juwei_detail from "../data/xiaoqu_detail"
+import { getGridDepartment } from '../api.js'
 
 export default {
   name: "gridPopup",
@@ -30,47 +37,50 @@ export default {
   data() {
     return {
       detail: {
-          // "id": 1, //id
-          // "name": "香山公寓", //名称
-          // "address": "愚园路168号", //位置
-          // "building_number": 147, //楼栋数
-          // "management_company": "上海宏仑管理有限公司", //物业公司
-          // "contact_person": "张三", //物业联系人
-          // "contact_number": "13621678765", //物业联系方式
-          // "paimo_condition": { //排摸情况
-          //     "entrance_number": 1,  //出入口数
-          //     "from_zhongdian_today": 1,//今日重点地区来沪人数
-          //     "from_zhongdian_total": 2,//重点地区来沪人员总数
-          //     "from_guanzhu_today": 1, //今日重点关注地区来沪人数
-          //     "from_guanzhu_total": 2,//重点关注地区来沪人员总数
-          //     "from_other_today": 1,//今日其它地区来沪人数
-          //     "from_other_total": 2 //其它地区来沪人员总数
-          // },
-          // "all_building": [
-          //     {
-          //         "building_no": "1号楼", //楼号
-          //         "disinfection_situation": "xxx", //消毒情况
-          //         "tenants_number": 2, //出租户
-          //         "residents_number": 20, //居民数
-          //         "from_zhongdian_total": 2,//重点地区来沪人员总数
-          //         "from_guanzhu_total": 2,//重点关注地区来沪人员总数
-          //         "from_other_total": 2 //其它地区来沪人员总数
-          //     }
-          // ]
-      }
-
+        // "id": 1, //id
+        // "name": "香山公寓", //名称
+        // "address": "愚园路168号", //位置
+        // "building_number": 147, //楼栋数
+        // "management_company": "上海宏仑管理有限公司", //物业公司
+        // "contact_person": "张三", //物业联系人
+        // "contact_number": "13621678765", //物业联系方式
+        // "paimo_condition": { //排摸情况
+        //     "entrance_number": 1,  //出入口数
+        //     "from_zhongdian_today": 1,//今日重点地区来沪人数
+        //     "from_zhongdian_total": 2,//重点地区来沪人员总数
+        //     "from_guanzhu_today": 1, //今日重点关注地区来沪人数
+        //     "from_guanzhu_total": 2,//重点关注地区来沪人员总数
+        //     "from_other_today": 1,//今日其它地区来沪人数
+        //     "from_other_total": 2 //其它地区来沪人员总数
+        // },
+        // "all_building": [
+        //     {
+        //         "building_no": "1号楼", //楼号
+        //         "disinfection_situation": "xxx", //消毒情况
+        //         "tenants_number": 2, //出租户
+        //         "residents_number": 20, //居民数
+        //         "from_zhongdian_total": 2,//重点地区来沪人员总数
+        //         "from_guanzhu_total": 2,//重点关注地区来沪人员总数
+        //         "from_other_total": 2 //其它地区来沪人员总数
+        //     }
+        // ]
+      },
+      list: []
     };
   },
   watch: {
     info: {
       handler(nv) {
+        this.getData();
       },
       deep: true
     }
   },
   methods: {
     getData() {
-
+      getGridDepartment({ code: this.info["网格编码"] }).then((res) => {
+        this.list = res || []
+      })
     }
   },
   mounted() {
@@ -86,10 +96,23 @@ export default {
   border: 1px solid #4E78A4;
   font-size: 16*2px;
   color:rgba(146, 185, 247, 1);
-  .item {
-          font-size: 36px;
+  .basic-info {
+    height: 13.5rem;
+    overflow-y: auto;
+  }
+  .no-data {
+    font-size: 0.36rem;
     text-align: center;
-    padding: 10px 0;
+    padding: 0.15rem 0;
+  }
+  .item {
+    font-size: 0.36rem;
+    text-align: left;
+    padding: 0.15rem 0;
+    // margin: 0 0.1rem;
+    background-image: linear-gradient(to right , rgba(#0071FF, 0.15), rgba(#0071FF, 0));
+    margin-bottom: 0.2rem;
+    text-indent: 0.15rem;
   }
   .split-line{
     width: 100%;

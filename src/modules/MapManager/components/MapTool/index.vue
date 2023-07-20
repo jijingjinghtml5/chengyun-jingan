@@ -2,7 +2,11 @@
   <div class="mapToolsContainer" >
      <div v-for="(item,index) in mapToolsData" :key="index"  style="position:relative" >
          <div class="btnLable" v-show="labelActives[index]">{{btnActives[index]?functionDatas[item.name].closeLable:functionDatas[item.name].openLable}}</div>
-         <div :class="{btnClass:true, btnClassActive:btnActives[index]}" @click="btnClick(item,index)" @mouseover="btnMouseOver(index)" @mouseout="btnMouseOut(index)">
+         <div v-if="functionDatas[item.name].img !== undefined" class="btnClass btnClassImg" @click="btnClick(item,index)" @mouseover="btnMouseOver(index)" @mouseout="btnMouseOut(index)">
+          <img v-if="btnActives[index]" :src="functionDatas[item.name].img_fill" />
+          <img v-else :src="functionDatas[item.name].img" />
+         </div>
+         <div v-else :class="{btnClass:true, btnClassActive:btnActives[index]}" @click="btnClick(item,index)" @mouseover="btnMouseOver(index)" @mouseout="btnMouseOut(index)">
            <span v-if="functionDatas[item.name].number !== undefined" class="btn-number">{{functionDatas[item.name].number}}</span>
            <span v-if="functionDatas[item.name].number === undefined" class="iconfont  mapControlIcon"  :class="functionDatas[item.name].iconClass" ></span>
          </div>
@@ -33,6 +37,7 @@ export default {
       btnActives: [],
       mapToolsData: [
         // { "name": "全图", "status": false, "single": true },
+        { "name": "搜索", "status": false },
         { "name": "全图", "status": false },
         { "name": "街道边界", "status": false },
         { "name": "网格边界", "status": false },
@@ -42,6 +47,14 @@ export default {
         { "name": "底图切换", "status": false }
       ],
       functionDatas: {
+        "搜索": {
+          img: require('@/assets/images/search.png'),
+          img_fill: require('@/assets/images/search_fill.png'),
+          openFunction: "openSearchPopup",
+          closeFunction: "closeSearchPopup",
+          openLable: "打开搜索场景",
+          closeLable: "关闭搜索场景"
+        },
         "全图": {
           number: 1,
           openFunction: "fullExtent",
@@ -192,6 +205,12 @@ export default {
     closeSimpleModelLayer() {
       this.tabModelLayer("建筑白模", false);
     },
+    openSearchPopup() {
+      this.$bus.$emit('showSearch', true)
+    },
+    closeSearchPopup() {
+      this.$bus.$emit('showSearch', false)
+    },
     openStreetLayer() {
       this.useMapStatus();
       this.openBoundary("townBoundaryLayer", "街道乡镇");
@@ -255,20 +274,20 @@ export default {
        this.removeLayer("gridBoundaryLayer");
     },
     useMapStatus() {
-         if (this.btnActives[4]) {
-           this.btnActives[4] = !this.btnActives[4];
+         if (this.btnActives[5]) {
+           this.btnActives[5] = !this.btnActives[5];
            this.closeSimpleModelLayer();
          }
-          if (this.btnActives[5]) {
-           this.btnActives[5] = !this.btnActives[5];
+          if (this.btnActives[6]) {
+           this.btnActives[6] = !this.btnActives[6];
            this.closeDetailModelLayer();
          }
-        if (this.btnActives[6]) {
-           this.btnActives[6] = !this.btnActives[6];
+        if (this.btnActives[7]) {
+           this.btnActives[7] = !this.btnActives[7];
            this.closeRemoteScenseLayer();
          }
-         if (!this.btnActives[0]) {
-           this.btnActives[0] = !this.btnActives[0];
+         if (!this.btnActives[1]) {
+           this.btnActives[1] = !this.btnActives[1];
          }
          this.fullExtent();
     },
@@ -296,7 +315,6 @@ export default {
       }
       this.btnActives[index] = !this.btnActives[index];
       this.btnActives = [...this.btnActives];
-
       if (this.btnActives[index]) {
           this[this.functionDatas[item.name]["openFunction"]]();
       } else {
@@ -380,6 +398,19 @@ export default {
   margin-bottom: 8px;
   color:#92B9F7;
   cursor: pointer;
+  &.btnClassImg {
+    background-color: transparent;
+    border: 0;
+    &:hover {
+      border: 0;
+      background-color: transparent;
+    }
+  }
+  img {
+    display: block;
+    width: 60px;
+    height: 60px;
+  }
 }
 .btnClass:hover{
   background-color: rgba(#0f2e60, 1);

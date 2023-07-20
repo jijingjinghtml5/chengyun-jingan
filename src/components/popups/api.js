@@ -66,3 +66,17 @@ export function getBusDetail (busNo) {
     url: `/erupt-api/traffic/busList?busNo=${busNo}`
   })
 }
+
+export function getGridDepartment (data) {
+  return request({
+    url: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query',
+    params: {
+      table: 'net_department',
+      response_type: 'list',
+      query_name: 'netnumber',
+      query_value: data.code,
+      query_operation: 'eq',
+      query_match_type: 'and'
+    }
+  })
+}
