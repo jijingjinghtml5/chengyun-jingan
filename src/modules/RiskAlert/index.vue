@@ -14,7 +14,7 @@ import WrapTitle from '@/components/MTitle/WrapTitle'
 
 import ListItem from './ListItem.vue'
 
-import { getData } from './api'
+import { getData, getCurrYdRoad, getMetroFlow } from './api'
 
 export default {
   name: 'RiskAlert',
@@ -74,13 +74,18 @@ export default {
           update_time: '今日8:00',
           metrics: [
             {
-              label: '道路拥堵',
+              label: '道路拥堵(条)',
               count: 78,
               key: 'crowd_road_count',
               color: '#4FCFD5'
             },
             {
-              label: '地铁大客流',
+              label: '地铁大客流进',
+              count: 80,
+              color: '#F23470'
+            },
+            {
+              label: '地铁大客流出',
               count: 80,
               color: '#F23470'
             },
@@ -140,7 +145,20 @@ export default {
           tmp[item.name] = item
         })
         this.itemsData = tmp
-        // console.log(">>>>", this.itemsData);
+        getCurrYdRoad().then(res => {
+          this.dataset['crowd_road_count'] = res.length
+        })
+        getMetroFlow().then(res => {
+          console.log(res, 1111111111111111111)
+          let tmp = JSON.parse(JSON.stringify(this.itemsData))
+          tmp['地铁大客流进'] = {
+            value: res.fintIn
+          }
+          tmp['地铁大客流出'] = {
+            value: res.fintOut
+          }
+          this.itemsData = tmp
+        })
       })
     },
     showDetail (item) {
