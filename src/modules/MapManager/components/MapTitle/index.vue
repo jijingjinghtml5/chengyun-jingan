@@ -22,6 +22,7 @@ import {
   getSubway,
   getHujiPeople,
   getYwym,
+  getJinganCode,
   getPeopleCount
 } from './api'
 import {
@@ -263,13 +264,17 @@ export default {
               {
                 name: '彭浦码',
                 nameKey: 'name',
-                type: 'ywym',
+                type: 'jingan-code',
+                street: '彭浦新村街道',
+                typeName: '商户码、小区码、楼组码',
                 checked: false
               },
               {
                 name: '曹家渡码',
                 nameKey: 'name',
-                type: 'ywym',
+                type: 'jingan-code',
+                street: '曹家渡街道',
+                typeName: '门责码',
                 checked: false
               }
             ],
@@ -533,6 +538,45 @@ export default {
         case 'ywym':
           this.handleYwym(data.item)
           break
+        case 'jingan-code':
+          this.handleJinganCode(data.item)
+          break
+      }
+    },
+    async handleJinganCode (item) {
+      if (item.checked) {
+        if (item.street) {
+          getJinganCode(item.street).then(res => {
+            this.pointLayer.setParameters({
+              'data': {
+                'content': (res.data.messages || []),
+                'parsegeometry': 'function(item){return {x:item.data.location.longitude, y:item.data.location.latitude}}'
+              },
+              'renderer': {
+                'type': 'simple',
+                symbol: {
+                  type: 'picture-marker',
+                  url: getUrl('/mapIcon/unit.png'),
+                  width: '40px',
+                  height: '58px'
+                }
+              }
+            }).setPopupConfig({
+              component: 'unitPopup'
+            }).open()
+          })
+          return
+        }
+        this.pointLayer.setParameters({
+          'data': {
+            'content': [],
+            'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
+          }
+        }).setPopupConfig({
+          component: 'unitPopup'
+        }).open()
+      } else {
+        this.pointLayer.close()
       }
     },
     async handleYwym (item) {

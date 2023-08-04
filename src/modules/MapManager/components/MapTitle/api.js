@@ -26,6 +26,21 @@ export function getYwym (name) {
   })
 }
 
+export function getJinganCode (name) {
+  return requestJa({
+    url: '/united-ciimc-api/v1/generic-query',
+    params: {
+      token: 'pd2e13b16eff42aeaec9bda8c570e2pd',
+      table: 'jingan-code',
+      limit: 10000,
+      index_type: 'active',
+      sort_by: 'data.bind_time|desc',
+      geo_type: 'shlocal',
+      filter: `args.street=eq.${name}`
+    }
+  })
+}
+
 export function getSingleBuildingData () {
   return requestTesla({
     url: '/dynamicdata/list/?data_type=静安区-运行管理平台-多用途单体建筑'
