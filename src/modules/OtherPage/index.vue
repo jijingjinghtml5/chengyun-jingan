@@ -136,6 +136,10 @@
           window.open('http://10.212.3.162')
           return
         }
+        if (item.url === 'http://124.70.11.35/portal/jingan/#/HomePage') {
+          window.open('http://124.70.11.35/portal/jingan/#/HomePage')
+          return
+        }
         this.dialogVisible = true;
         this.iframeSrc = item.url;
       },
