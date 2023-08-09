@@ -27,16 +27,27 @@ export function getYwym (name) {
 }
 
 export function getJinganCode (name) {
-  return requestJa({
-    url: '/united-ciimc-api/v1/generic-query',
+  // return requestJa({
+  //   url: '/united-ciimc-api/v1/generic-query',
+  //   params: {
+  //     token: 'pd2e13b16eff42aeaec9bda8c570e2pd',
+  //     table: 'jingan-code',
+  //     limit: 10000,
+  //     index_type: 'active',
+  //     sort_by: 'data.bind_time|desc',
+  //     geo_type: 'shlocal',
+  //     filter: `args.street=eq.${name}`
+  //   }
+  // })
+  return request({
+    url: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query',
     params: {
-      token: 'pd2e13b16eff42aeaec9bda8c570e2pd',
-      table: 'jingan-code',
-      limit: 10000,
-      index_type: 'active',
-      sort_by: 'data.bind_time|desc',
-      geo_type: 'shlocal',
-      filter: `args.street=eq.${name}`
+      table: 'jingan_code',
+      response_type: 'list',
+      query_name: 'street',
+      query_value: name,
+      query_operation: 'eq',
+      query_match_type: 'and'
     }
   })
 }

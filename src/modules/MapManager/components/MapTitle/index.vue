@@ -547,10 +547,18 @@ export default {
       if (item.checked) {
         if (item.street) {
           getJinganCode(item.street).then(res => {
+            res = res.map(item => {
+              let coord = SHcoordinateUtils.WGStoSH([item.longitude, item.latitude])
+              return {
+                ...item,
+                x: coord[0],
+                y: coord[1]
+              }
+            })
             this.pointLayer.setParameters({
               'data': {
-                'content': (res.data.messages || []),
-                'parsegeometry': 'function(item){return {x:item.data.location.longitude, y:item.data.location.latitude}}'
+                'content': (res || []),
+                'parsegeometry': 'function(item){return {x:item.x, y:item.y}}'
               },
               'renderer': {
                 'type': 'simple',
@@ -562,7 +570,7 @@ export default {
                 }
               }
             }).setPopupConfig({
-              component: 'unitPopup'
+              component: 'JaCodePopup'
             }).open()
           })
           return
@@ -573,7 +581,7 @@ export default {
             'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
           }
         }).setPopupConfig({
-          component: 'unitPopup'
+          component: 'JaCodePopup'
         }).open()
       } else {
         this.pointLayer.close()

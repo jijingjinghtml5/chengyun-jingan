@@ -36,7 +36,9 @@ export default {
     PointsList,
     DangPopup: () => import('./page1/DangPopup'),
     BikePopup: () => import('./page1/BikePopup'),
-    unitPopup: () => import('./page1/unitPopup')
+    unitPopup: () => import('./page1/unitPopup'),
+    JaCodePopup: () => import('./page1/JaCodePopup'),
+    caseDetailPopup: () => import('./page1/caseDetailPopup')
   },
   inject: ['getGlobalConfig'],
   mixins: [caseDetailMixin],

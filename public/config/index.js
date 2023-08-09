@@ -4,7 +4,7 @@ window.$config = {
   apiUrlForRj: 'http://12.113.232.56', // 静安区区级网络
   apiUrl: 'http://10.81.71.38', // 市平台
   apiUrlForJa: 'http://10.210.232.238',
-  imageRootURL: 'http://10.81.71.38/chengyun/videos/chengyun_3_0/',
+  imageRootURL: 'http://10.210.232.238/chengyun/videos/chengyun-3-0/',
   apiDocs: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query',
   // 测试
   videoDelay: 500,
