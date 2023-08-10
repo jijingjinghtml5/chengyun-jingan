@@ -69,6 +69,11 @@ export default {
       return dayjs(value * 1000).format("YYYY-MM-DD HH:mm:ss");
     },
   },
+  watch: {
+    'info.code'() {
+      this.getList()
+    }
+  },
   methods: {
     clickTr(row) {
       // this.$emit('addNewPopup', 'caseDetailPopup')
@@ -91,7 +96,7 @@ export default {
           table: "jingan_code_case",
           response_type: "list",
           query_name: "code,status",
-          query_value: "CJD000289" + ",作废",
+          query_value: this.info.code + ",作废",
           query_operation: "eq,neq",
           query_match_type: "and",
           order_by: "report_time desc",
