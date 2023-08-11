@@ -10,6 +10,7 @@
       <li class="overview-item__extra" v-for="item in extraItems || []" :key="item.key" :style="{ color: item.color }">
         {{ item.label }}：{{dataset[item.prop] | initVal | thousandCentimeter}}{{ item.unit }}
       </li>
+      <img v-if="name == '交通拥堵指数'" class="img" src="./img.png" alt="">
       <slot></slot>
     </ul>
   </div>
@@ -109,6 +110,20 @@ export default {
     // background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+}
+.overview-item__content {
+  position: relative;
+  .img {
+    display: none;
+  }
+  &:hover {
+    .img {
+      display: block;
+      position: absolute;
+      top: 80px;
+      left: 100px;
+    }
   }
 }
 .increase {

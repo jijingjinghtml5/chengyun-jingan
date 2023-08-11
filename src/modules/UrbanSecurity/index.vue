@@ -231,7 +231,7 @@ export default {
       colors2: Object.freeze(['#30BC9B', '#92B9F7']),
       items: Object.freeze([
         { icon: 'icon-chuzhililiang1', name: '处置力量', nameUnit: '(人)', showIncrease: false, prop: 'staff_total' },
-        { icon: 'icon-zaigangrenshu', name: '在岗人数', nameUnit: '(人)', showIncrease: false, prop: 'staff_online' },
+        // { icon: 'icon-zaigangrenshu', name: '在岗人数', nameUnit: '(人)', showIncrease: false, prop: 'staff_online' },
         { icon: 'icon-ganzhi', name: '智能感知预警', showIncrease: false, valueUnit: '%', prop: 'zngzyj' },
         { icon: 'icon-wanggeanjian', name: '网格案件数', nameUnit: '(件)', showIncrease: false, prop: 'case_count' },
         { icon: 'icon-rexian', span: 1.2, name: '12345热线', nameUnit: '(件)', showIncrease: false, prop: 'recyclable_waste' }
