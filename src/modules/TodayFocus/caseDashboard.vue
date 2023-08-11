@@ -17,6 +17,7 @@
 </template>
 <script>
 import WrapTitle from "@/components/MTitle/WrapTitle";
+import MTabs from "@/components/MTabs";
 import MTitle from "@/components/MTitle/LevelTitle";
 import ChartLine from "@/components/Charts/Line/ChartLineForCompare.vue";
 import CaseStep from "@/components/CaseStep/index.vue";
@@ -24,7 +25,7 @@ import { getDate } from "@/utils/tools";
 import ChartBar from "../../components/Charts/Bar/ChartBar4.vue";
 export default {
   name: "TodayCaseDashboard",
-  components: { WrapTitle, MTitle, ChartLine, CaseStep, ChartBar },
+  components: { WrapTitle, MTitle, ChartLine, CaseStep, ChartBar, MTabs },
   props: {
     item: {
       type: Object,

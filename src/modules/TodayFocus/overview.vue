@@ -11,7 +11,19 @@
         <div class="chart">
           <wrap-title :level="2" txt="案件趋势" icon="icon-biaoti">
             <m-tabs slot="level-title" v-model="tab" :tabs="tabs" :autoChange="false"></m-tabs>
-            <template v-if="tab === 'case'">
+            <template v-if="tab === 'jingan-code'">
+              <m-row gutter="10px">
+                <m-column>
+                  <NumStatics></NumStatics>
+                </m-column>
+                <m-column>
+                  <CodeStatics></CodeStatics>
+                </m-column>
+              </m-row>
+              <!-- <line-chart :showLegend="true" :legendConfig="legendConfig" :chartData="chartData" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
+              </line-chart> -->
+            </template>
+            <template v-else-if="tab === 'case'">
               <line-chart :showLegend="true" :legendConfig="legendConfig" :chartData="chartData" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
               </line-chart>
             </template>
@@ -35,7 +47,8 @@
           </wrap-title>
         </div>
       </div>
-      <swiper :options="swiperOptions">
+      <CaseStatics v-if="tab == 'jingan-code'"></CaseStatics>
+      <swiper v-if="tab != 'jingan-code'" :options="swiperOptions">
         <swiper-slide>
           <div class="wall-panel">
             <m-row class="tile-row" gutter="20px" v-for="(chunk , i) in otherItems" :key="`other-chunk-${i}`">
@@ -69,7 +82,9 @@ import BarChart from '@/components/Charts/Bar/ChartBar'
 import Tile from '@/components/Tile/index2'
 import Tile1 from '@/components/Tile/index1'
 import MTabs from "@/components/MTabs";
-
+import NumStatics from "./numStatics";
+import CodeStatics from "./codeStatics";
+import CaseStatics from "./caseStatics";
 import { getDate, generateKeyValuePair } from '@/utils/tools'
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -83,7 +98,7 @@ Vue.use(Col)
 
 export default {
   name: 'TodayFocusOverview',
-  components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1, swiperSlide, swiper, MTabs, BarChart },
+  components: { WrapTitle, MRow, MColumn, LineChart, Tile, Tile1, swiperSlide, swiper, MTabs, BarChart, NumStatics, CodeStatics, CaseStatics },
   props: {
     dataset: {
       type: Object,
@@ -175,7 +190,8 @@ export default {
       tab: 'case',
       tabs: Object.freeze([
         { label: "案件趋势", value: "case" },
-        { label: "特定案件分析", value: "special" }
+        { label: "特定案件分析", value: "special" },
+        { label: "静安码", value: "jingan-code" }
       ]),
       times: [
         { name: '日', value: 'day' },

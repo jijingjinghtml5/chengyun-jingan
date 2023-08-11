@@ -110,3 +110,64 @@ export function getDuChaTrend (params) {
     }
   })
 }
+
+export function getCodeNum (params) {
+  return request({
+    url: 'http://10.210.232.238/united-ciimc-api/v1/generic-query',
+    params: {
+      index_type: 'active',
+      table: 'unit',
+      token: 'pd2e13b16eff42aeaec9bda8c570e2pd',
+      district: '静安区',
+      filter: 'has_bind=eq.1%26status=eq.1',
+      group_by: 'unit_type',
+      limit: 0,
+      transform: 'aggResults."unit_type"'
+    }
+  })
+}
+
+export function getStreetCodeNum (params) {
+  return request({
+    url: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query-agg',
+    params: {
+      response_type: 'list',
+      field_or_agg: 'street,count(street) as count',
+      group_by: 'street',
+      table: 'jingan_code'
+    }
+  })
+}
+
+export function getDistrictCase (params) {
+  return request({
+    url: 'http://10.210.232.238/dmp2/united-ciimc-api/v1/generic-query',
+    params: {
+      index_type: 'active',
+      table: 'area-event',
+      token: 'pd2e13b16eff42aeaec9bda8c570e2pd',
+      district: '静安区',
+      filter: 'args.chs_eventSourceType=eq.静安码%26openTS=1691510400~1691596799',
+      group_by: 'openTS.hour[50~61691510400~71691596799],closeTS.hour[50~61691510400~71691596799](filter.close:closeTS=1691510400~1691596799),simple.messageClass(filter.close:closeTS=1691510400~1691596799)',
+      limit: 0,
+      transform: 'aggResults'
+    }
+  })
+}
+
+export function getStreetCase (params) {
+  return request({
+    url: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query-agg',
+    params: {
+      index_type: 'active',
+      table: 'jingan_code_case',
+      token: 'pd2e13b16eff42aeaec9bda8c570e2pd',
+      district: '静安区',
+      filter: 'args.chs_eventSourceType=eq.静安码%26openTS=1691510400~1691596799',
+      group_by: 'openTS.hour[50~61691510400~71691596799],closeTS.hour[50~61691510400~71691596799](filter.close:closeTS=1691510400~1691596799),simple.messageClass(filter.close:closeTS=1691510400~1691596799)',
+      limit: 0,
+      transform: 'aggResults'
+    }
+  })
+}
+
