@@ -355,11 +355,11 @@ export default {
     }
   },
   methods: {
-    handleClickTime(item) {
+    handleClickTime (item) {
       this.current = item.value
       this.getSpecialTrend()
     },
-    getSpecialTrend() {
+    getSpecialTrend () {
       let type = this.current === 'day' ? 'hour' : 'day'
       let range = this.timeObj[this.current]
       getDubanTrend({

@@ -29,11 +29,13 @@
   </wrap-title>
 </template>
 <script>
-import LineChart from '@/components/Charts/Line/ChartLine'
-import WrapTitle from '@/components/MTitle/WrapTitle'
+import LineChart from "@/components/Charts/Line/ChartLine";
+import WrapTitle from "@/components/MTitle/WrapTitle";
+import dayjs from "dayjs";
+import { getCodeStatics } from "./api";
 
 export default {
-  name: 'NumStatics',
+  name: "NumStatics",
   components: {
     WrapTitle,
     LineChart,
@@ -42,32 +44,75 @@ export default {
   watch: {},
   data() {
     return {
-      current: 'day',
+      current: "day",
       times: [
-        { name: '日', value: 'day' },
-        { name: '周', value: 'week' },
-        { name: '月', value: 'month' },
+        { name: "日", value: "day" },
+        { name: "周", value: "week" },
+        { name: "月", value: "month" },
       ],
       legendConfig: {
-        icon: 'rect',
+        icon: "rect",
         itemWidth: 20,
         itemHeight: 6,
         top: 0,
         right: 250,
       },
       chartData: [],
-      colors: ['#1ABC9C', '#679DF4', '#F96F4F', '#BE6CCC', '#D0021B'],
-    }
+      colors: ["#1ABC9C", "#679DF4", "#F96F4F", "#BE6CCC", "#D0021B"]
+    };
   },
   created() {},
-  methods: {},
-  beforeDestroy() {},
+  methods: {
+    handleClickTime (item) {
+      this.current = item.value
+      this.getStatics()
+    },
+    async getStatics () {
+      let params = {}
+      if (this.current == "day") {
+        params["start"] = dayjs()
+          .startOf("day")
+          .unix();
+        params["end"] = dayjs()
+          .endOf("day")
+          .unix();
+        params["type"] = "hour";
+      } else if (this.current == "week") {
+        params["start"] = dayjs()
+          .startOf("week")
+          .unix();
+        params["end"] = dayjs()
+          .endOf("week")
+          .unix();
+        params["type"] = "day";
+      } else if (this.current == "month") {
+        params["start"] = dayjs()
+          .startOf("month")
+          .unix();
+        params["end"] = dayjs()
+          .endOf("month")
+          .unix();
+        params["type"] = "day";
+      }
+      const res = await getCodeStatics(params);
+
+      this.chartData = [
+        ["时间", "业务扫码", "市民扫码"],
+        ...res.map((item) => {
+          return [item.dat, item.yewu, item.shimin];
+        })
+      ]
+    }
+  },
+  mounted () {
+    this.getStatics()
+  }
 }
 </script>
 <style lang="scss" scoped>
 .dashboard {
   padding: 0.1rem 0;
-  height: 4rem;
+  height: 3.5rem;
   position: relative;
   .times-tab {
     position: absolute;
