@@ -44,7 +44,7 @@ export default {
   watch: {},
   data() {
     return {
-      current: "day",
+      current: "month",
       times: [
         { name: "日", value: "day" },
         { name: "周", value: "week" },

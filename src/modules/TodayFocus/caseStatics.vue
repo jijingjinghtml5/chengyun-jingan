@@ -74,7 +74,7 @@ export default {
         // { label: "案件列表", value: "case" }
       ]),
       tab: "statics",
-      current: "day",
+      current: "month",
       legendConfig: {
         icon: "rect",
         itemWidth: 20,
@@ -204,7 +204,7 @@ export default {
           })
           console.log(time, "time");
           this.closeData = [
-            ["时间", "区级码(静安码)", "街镇码(静安码)", "街镇码(彭浦新村码)"],
+            ["时间", "区级码(静安码)", "街镇码(曹家渡码)", "街镇码(彭浦新村码)"],
             ...time.map((item) => {
               return [
                 this.current == "day" ? item.split(" ")[1] : item,
@@ -216,7 +216,7 @@ export default {
           ];
 
           this.openData = [
-            ["时间", "区级码(静安码)", "街镇码(静安码)", "街镇码(彭浦新村码)"],
+            ["时间", "区级码(静安码)", "街镇码(曹家渡码)", "街镇码(彭浦新村码)"],
             ...time.map((item) => {
               return [
                 this.current == "day" ? item.split(" ")[1] : item.split("-")[2],
