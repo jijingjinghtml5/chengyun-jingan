@@ -151,7 +151,7 @@ export function getDistrictCase(params) {
       token: "pd2e13b16eff42aeaec9bda8c570e2pd",
       district: "静安区",
       filter: `args.chs_eventSourceType=eq.静安码%26openTS=${params.start}~${params.end}`,
-      group_by: `openTS.${params.type}[50~${params.start}~${params.end}],closeTS.${params.type}[50~${params.start}~${params.end}](filter.close:closeTS=${params.start}~${params.end}),simple.messageClass(filter.close:closeTS=${params.start}~${params.end})`,
+      group_by: `openTS.${params.type}[50~6${params.start}~7${params.end}],closeTS.${params.type}[50~${params.start}~${params.end}](filter.close:closeTS=${params.start}~${params.end}),simple.messageClass(filter.close:closeTS=${params.start}~${params.end})`,
       limit: 0,
       transform: "aggResults",
     },

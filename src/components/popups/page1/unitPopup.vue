@@ -8,7 +8,7 @@
       </div>
       <div class="item">
         <span>所属区域: </span>
-        <span>{{ info.data.town.areaName }}</span>
+        <span>{{ info.data.area_district && info.data.area_district.areaName }}{{ info.data.town && info.data.town.areaName }}</span>
       </div>
       <div class="item">
         <span>部件位置: </span>
@@ -53,7 +53,7 @@ export default {
     }
   },
   created () {
-    console.log(this.info)
+    console.log(JSON.stringify(this.info))
   },
   mounted() {
     new window.QRCode(document.getElementById('qrcode'), {
