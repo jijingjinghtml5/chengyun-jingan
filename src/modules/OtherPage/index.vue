@@ -140,6 +140,11 @@
           window.open('http://124.70.11.35/portal/jingan/#/HomePage')
           return
         }
+
+        if (item.url === 'http://10.210.232.118:8082/nxznNew/#/screen?token=9ba8e772467b11ecbd290894ef994f5b') {
+          window.open('http://124.70.11.35/portal/jingan/#/HomePage')
+          return
+        }
         this.dialogVisible = true;
         this.iframeSrc = item.url;
       },
