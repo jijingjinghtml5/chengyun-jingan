@@ -57,7 +57,7 @@ export default {
   },
   mounted() {
     new window.QRCode(document.getElementById('qrcode'), {
-      text: this.info.args.qrcode,
+      text: `https://jacode.iotsh.com.cn:18081/ja/code/index.html?code=${this.info.args.qrcode}`,
       width: 400,
       height: 400,
       correctLevel: 0
