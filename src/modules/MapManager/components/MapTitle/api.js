@@ -143,3 +143,18 @@ export function getSubway () {
     }
   })
 }
+
+export function getCodeNum () {
+  return requestJa({
+    url: '/united-ciimc-api/v1/generic-query',
+    params: {
+      table: 'unit',
+      index_type: 'active',
+      token: 'dp3e13b16efff2aeaec9bda8cc70e3dp',
+      filter: 'status=eq.1%26state=eq.1%26has_bind=eq.1%26unit_type=eq.1',
+      group_by: 'type',
+      limit: 0,
+      transform: `{"total":numHits,"agg":aggResults."type"}`
+    }
+  })
+}

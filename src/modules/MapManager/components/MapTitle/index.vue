@@ -23,7 +23,8 @@ import {
   getHujiPeople,
   getYwym,
   getJinganCode,
-  getPeopleCount
+  getPeopleCount,
+  getCodeNum
 } from './api'
 import {
   thousandCentimeter,
@@ -40,7 +41,12 @@ export default {
   },
   data () {
     return {
-      formatMethods: {},
+      codeList: [],
+      formatMethods: {
+        'thing': (item) => {
+          return item.total || ''
+        }
+      },
       mapControlItem: [
         {
           name: '人',
@@ -97,7 +103,30 @@ export default {
         situation: '901',
         organization: '121'
       },
-      checkItems: {
+      shopListData: [],
+      eventListData: [],
+      organizationData: {
+        '党群组织列表': [],
+        '党群人员统计': [],
+        '民族宗教信息': []
+      },
+      shopLayer: null,
+      subwayLayer: null
+    }
+  },
+  computed: {
+    checkItems () {
+      const codeList = this.codeList.map(item => {
+        return {
+          name: item.type,
+          nameKey: 'name',
+          type: 'ywym',
+          code: item.type,
+          checked: false,
+          total: item.total
+        }
+      })
+      return {
         people: [
           {
             name: '户籍人员',
@@ -147,118 +176,7 @@ export default {
                 type: 'ywym',
                 childKey: 'children',
                 children: [
-                  {
-                    name: '上水井盖',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-01-01',
-                    checked: false
-                  },
-                  {
-                    name: '污水井盖',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-02-01',
-                    checked: false
-                  },
-                  {
-                    name: '雨水井盖',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-03-01',
-                    checked: false
-                  },
-                  {
-                    name: '电力井盖',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-05-01',
-                    checked: false
-                  },
-                  {
-                    name: '网络井盖',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-09-02',
-                    checked: false
-                  },
-                  {
-                    name: '燃气井盖',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-11-01',
-                    checked: false
-                  },
-                  {
-                    name: '信息交接箱',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-15-01',
-                    checked: false
-                  },
-                  {
-                    name: '电力设施（设备）',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-16-01',
-                    checked: false
-                  },
-                  {
-                    name: '路灯',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-18-01',
-                    checked: false
-                  },
-                  {
-                    name: '消火栓',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-19-01',
-                    checked: false
-                  },
-                  {
-                    name: '健身设施',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-25-01',
-                    checked: false
-                  },
-                  {
-                    name: '宣传栏（亭）',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-44-02',
-                    checked: false
-                  },
-                  {
-                    name: '电梯',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-51-01',
-                    checked: false
-                  },
-                  {
-                    name: '水泵房',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B01-52-01',
-                    checked: false
-                  },
-                  {
-                    name: '共享座椅',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B07-01-01',
-                    checked: false
-                  },
-                  {
-                    name: '共享充电座椅',
-                    nameKey: 'name',
-                    type: 'ywym',
-                    code: 'B07-02-01',
-                    checked: false
-                  }
+                  ...codeList
                 ]
               },
               {
@@ -449,17 +367,8 @@ export default {
             type: 'organization'
           }
         ]
-      },
-      shopListData: [],
-      eventListData: [],
-      organizationData: {
-        '党群组织列表': [],
-        '党群人员统计': [],
-        '民族宗教信息': []
-      },
-      shopLayer: null,
-      subwayLayer: null
-    }
+      }
+    } 
   },
   methods: {
     handeClick () {
@@ -590,7 +499,11 @@ export default {
     async handleYwym (item) {
       if (item.checked) {
         if (item.name) {
-          getYwym(item.name).then(res => {
+          let name = item.name
+          if (item.name == '消火栓(专业)') {
+            name = '消火栓"("专业")",消火栓'
+          }
+          getYwym(name).then(res => {
             this.pointLayer.setParameters({
               'data': {
                 'content': (res.data.messages || []),
@@ -1253,6 +1166,27 @@ export default {
 
     this.createSingleBuildingMenu()
     this.getShopListData()
+    getCodeNum().then(res => {
+      const list = (res.data && res.data.agg) || []
+      const obj = {}
+      list.map(item => {
+        obj[item.type] = item.count
+      })
+      if (obj['消火栓(专业)']) {
+        obj['消火栓(专业)'] = (obj['消火栓(专业)'] || 0) + (obj['消火栓'] || 0)
+      }
+      delete obj['消火栓']
+      const newArr = []
+      for (let i in obj) {
+        if (i != '消火栓') {
+          newArr.push({
+            type: i,
+            total: obj[i]
+          })
+        }
+      }
+      this.codeList = newArr
+    })
     getEventList().then(res => {
       this.eventListData = res.data.data_list.results
     })
