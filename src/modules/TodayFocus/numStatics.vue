@@ -54,10 +54,10 @@ export default {
     })
     getStreetCodeNum().then((res) => {
       res.map((item) => {
-        if (item.street == '曹家渡街道') {
+        if (item.street == '彭浦新村街道') {
           this.ppNum = item.count
         }
-        if (item.street == '彭浦新村街道') {
+        if (item.street == '曹家渡街道') {
           this.cjdNum = item.count
         }
       })

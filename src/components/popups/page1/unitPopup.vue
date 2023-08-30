@@ -47,16 +47,39 @@ export default {
       }
     }
   },
+  data () {
+    return {
+      qrcode: null
+    }
+  },
+  watch: {
+    info: {
+      immediate: true,
+      deep: true,
+      handler (val) {
+        if (this.qrcode) {
+          this.qrcode.clear()
+        }
+        // this.qrcode = new window.QRCode(document.getElementById('qrcode'), {
+        //   text: ,
+        //   width: 400,
+        //   height: 400,
+        //   correctLevel: 0
+        // })
+        this.qrcode.makeCode(`https://jacode.iotsh.com.cn:18081/ja/code/index.html?code=${val.args.qrcode}`)
+      }
+    }
+  },
   filters: {
-    formatTime(value) {
+    formatTime (value) {
       return dayjs(value * 1000).format('YYYY-MM-DD HH:mm:ss');
     }
   },
   created () {
     console.log(JSON.stringify(this.info))
   },
-  mounted() {
-    new window.QRCode(document.getElementById('qrcode'), {
+  mounted () {
+    this.qrcode = new window.QRCode(document.getElementById('qrcode'), {
       text: `https://jacode.iotsh.com.cn:18081/ja/code/index.html?code=${this.info.args.qrcode}`,
       width: 400,
       height: 400,
