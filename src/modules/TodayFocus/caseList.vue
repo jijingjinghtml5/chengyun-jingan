@@ -319,7 +319,8 @@ export default {
             return {
               id: item.id,
               lng: item.lng,
-              lat: item.lat
+              lat: item.lat,
+              uuid: item.uuid
             }
           }),
           'parsegeometry': 'function(item){return {x:item.lng,y:item.lat}}'

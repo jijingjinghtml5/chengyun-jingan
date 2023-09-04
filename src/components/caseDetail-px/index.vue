@@ -60,7 +60,7 @@ export default {
       // } else {
 
       // }
-      apiRes = await getCaseDetail194(this.caseId, this.channelParams)
+      apiRes = await getCaseDetail194(this.info.uuid || this.caseId, this.channelParams)
       console.log('案件详情', apiRes)
       this.loading = false
       if (apiRes.data) {

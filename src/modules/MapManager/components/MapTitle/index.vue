@@ -111,7 +111,12 @@ export default {
         '民族宗教信息': []
       },
       shopLayer: null,
-      subwayLayer: null
+      subwayLayer: null,
+      thing0: [],
+      thing1: [],
+      thing2: []
+      // area0: [],
+      // area1: []
     }
   },
   computed: {
@@ -151,19 +156,19 @@ export default {
           {
             name: '城市部件',
             nameKey: 'name',
-            children: [],
+            children: [...this.thing0],
             childKey: 'children'
           },
           {
             name: '地下管线',
             nameKey: 'name',
-            children: [],
+            children: [...this.thing1],
             childKey: 'children'
           },
           {
             name: '神经元传感器',
             nameKey: 'name',
-            children: [],
+            children: [...this.thing2],
             childKey: 'children'
           },
           {
@@ -395,7 +400,7 @@ export default {
             let type = ''
             if (data.item.name === '火情案件') type = '火灾事故'
             if (data.item.name === '警情案件') type = '事故灾难'
-            if (data.item.name === '灾情案件') type = '生产安全事故灾难'
+            if (data.item.name === '灾情案件') type = '道路交通事故'
             this.$_mapProxy.getMap()._openPopup('EventPopup', {
               name: data.item.name,
               list: this.eventListData.filter(item => item.event_type_name === type)
@@ -1197,6 +1202,9 @@ export default {
         '民族宗教信息': res.data.filter(item => item.type === 'mzzj')
       }
     })
+    let thing0 = []
+    let thing1 = []
+    let thing2 = []
     partClassData.list[0].subclass.forEach(e => {
       let item = {
         name: e.name,
@@ -1204,8 +1212,10 @@ export default {
         checked: false,
         type: 'baseLayer'
       }
-      this.checkItems.thing[0].children.push(item)
+      thing0.push(item)
+      // this.checkItems.thing[0].children.push(item)
     })
+    this.thing0 = [...thing0]
     pipelineData.list[0].subclass.forEach(e => {
       let item = {
         name: e.name,
@@ -1213,8 +1223,10 @@ export default {
         checked: false,
         type: 'baseLayer'
       }
-      this.checkItems.thing[1].children.push(item)
+      thing1.push(item)
+      // this.checkItems.thing[1].children.push(item)
     })
+    this.thing1 = thing1
     neuronData.forEach(e => {
       let item = {
         name: e.key,
@@ -1222,8 +1234,11 @@ export default {
         checked: false,
         type: 'neuron'
       }
-      this.checkItems.thing[2].children.push(item)
+      this.neuronData = neuronData
+      thing2.push(item)
+      // this.checkItems.thing[2].children.push(item)
     })
+    this.thing2 = [...thing2]
   },
   mounted () {
     this.$bus.$on('map-header-menu-choose', res => {
