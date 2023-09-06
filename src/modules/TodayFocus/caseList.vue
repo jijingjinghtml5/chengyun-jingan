@@ -106,7 +106,7 @@ export default {
         if (nv === '12345热线') {
           getHotlineData({
             filter: 'openTS=today',
-            transform: 'messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude }',
+            transform: 'messages[*].{id:data.eventID, eventName: args.eventName, address: data.address,  town: data.town.areaName, openTS: data.openTS, status: data.exevt_status, lng: data.location.longitude, lat: data.location.latitude, uuid: data.uuid }',
             group_by: '',
             limit: 100000
           }).then(res => {

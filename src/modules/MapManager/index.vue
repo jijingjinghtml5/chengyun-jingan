@@ -146,7 +146,7 @@ export default {
       if (data.hotlineEvent) {
         getHotlineData({
           filter: `openTS=-604800%26is_delete=neq.1%26polygon=${data.hotlineEvent[0].name}`,
-          transform: 'messages[*].{id:data.eventID, lng: data.location.longitude, lat: data.location.latitude }',
+          transform: 'messages[*].{id:data.eventID, lng: data.location.longitude, lat: data.location.latitude, uuid: data.uuid }',
           group_by: '',
           limit: 100000
         }).then(res => {
