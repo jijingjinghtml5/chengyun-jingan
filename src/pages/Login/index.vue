@@ -149,13 +149,27 @@ export default {
         };
       });
     },
+    getDomainFromUrl(url) {
+      if (url == "") {
+        url = window.location.href;
+      }
+      const regex = /^https?:\/\/([^\/]+)/i;
+      const match = url.match(regex);
+      return match[1];
+    },
     afterLogin() {
       // 登陆成功 设置信息 跳转页面
       const redirectUrl = this.params.redirect_url;
       window.sessionStorage.setItem("token", this.token);
       const time = Date.parse(new Date()) + 86400 * 1000;
       window.sessionStorage.setItem("_t", time);
-      window.location.href = redirectUrl;
+      console.log(this.getDomainFromUrl(redirectUrl), 1111)
+      console.log(this.getDomainFromUrl(window.location.href), 2222)
+      if (this.getDomainFromUrl(redirectUrl) == this.getDomainFromUrl(window.location.href)) {
+        window.location.href = redirectUrl;
+      } else {
+        window.location.href = redirectUrl + '&token=' + this.token
+      }
     },
     async eventHandle(event) {
       if (typeof event.data === "string") {

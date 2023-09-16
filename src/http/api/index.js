@@ -55,6 +55,15 @@ export function login_new(data) {
   });
 }
 
+export function logout(params) {
+  return request3({
+    url: "http://10.210.232.237/ja-eye/common/site/logout",
+    headers: {
+      authorization: params.token  
+    }
+  });
+}
+
 export function check_login(params) {
   return request3({
     url: "http://10.210.232.237/ja-eye/common/site/login-by-token",
