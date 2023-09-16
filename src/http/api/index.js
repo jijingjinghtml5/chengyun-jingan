@@ -1,4 +1,5 @@
 import request from "@/http/request";
+import request3 from "@/http/request3";
 import videoService from "@/http/requestVideoService";
 
 // 获取配置
@@ -10,7 +11,7 @@ export function getLayoutConfig(token, _params) {
   params = { ...params, ..._params };
   return request({
     url: window.$config.layoutConfigUrl || "/v2/screen-manage/config",
-    params
+    params,
   });
 }
 
@@ -21,8 +22,8 @@ export function getVideoRealUrl(data) {
     method: "post",
     data: data,
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   });
 }
 
@@ -31,7 +32,7 @@ export function getVideosByArea(data) {
   return request({
     url: "/v2/screen-manage/videos",
     params: data,
-    method: "get"
+    method: "get",
   });
 }
 /**
@@ -42,7 +43,24 @@ export function login(data) {
   return request({
     url: "/v2/screen/login",
     data: data,
-    method: "post"
+    method: "post",
+  });
+}
+
+export function login_new(data) {
+  return request3({
+    url: "http://10.210.232.237/ja-eye/common/site/login",
+    data: data,
+    method: "post",
+  });
+}
+
+export function check_login(params) {
+  return request3({
+    url: "http://10.210.232.237/ja-eye/common/site/login-by-token",
+    headers: {
+      authorization: params.token  
+    }
   });
 }
 /**
@@ -53,7 +71,7 @@ export function scanCheck(data) {
   return request({
     url: "/v2/screen/login-check",
     data: data,
-    method: "post"
+    method: "post",
   });
 }
 
@@ -61,6 +79,6 @@ export function scanCheck(data) {
 export function ipCheck() {
   return request({
     url: "/v2/screen/ip-check",
-    method: "get"
+    method: "get",
   });
 }
