@@ -1,5 +1,6 @@
 import axios from "axios";
-
+import dayjs from "dayjs";
+import sha256 from 'js-sha256';
 function getUniqueId() {
   var date = new Date();
   var ss = date.getSeconds();
@@ -16,7 +17,12 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
+    const timestamp = dayjs().unix()
     config["params"]["random"] = getUniqueId();
+    config.headers = Object.assign({}, config.headers, {
+      'Cy-Token': sha256(timestamp.toString()),
+      'X-Timestamp': timestamp
+    })
     return config;
   },
   err => {

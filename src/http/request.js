@@ -1,30 +1,34 @@
 import axios from "axios";
 import { getCode } from "@/utils/code";
 import { eventProxy } from "@/lib/websocket/eventProxy";
-
+import sha256 from 'js-sha256';
+import dayjs from "dayjs";
 const service = axios.create({
   baseURL: (window.$config && window.$config.apiUrl) || "",
-  timeout: 30000
+  timeout: 30000,
 });
 
 service.interceptors.request.use(
-  config => {
-     config.headers = Object.assign({}, config.headers, {
-      Authorization: window.sessionStorage.getItem("token")
-     });
+  (config) => {
+    const timestamp = dayjs().unix()
+    config.headers = Object.assign({}, config.headers, {
+      Authorization: window.sessionStorage.getItem("token"),
+      'Cy-Token': sha256(timestamp.toString()),
+      'X-Timestamp': timestamp
+    });
     if (!config.noCode && getCode()) {
       config["params"] = { ...config["params"], code: getCode() };
     }
     return config;
   },
-  err => {
+  (err) => {
     // Do something with request error
     return Promise.reject(err);
   }
 );
 
 service.interceptors.response.use(
-  res => {
+  (res) => {
     // 添加一个响应拦截器
     // 在这里对返回的数据进行处理
     let data = res.data;
@@ -43,7 +47,7 @@ service.interceptors.response.use(
       return Promise.reject(error);
     }
   },
-  err => {
+  (err) => {
     // Do something with response error
     return Promise.reject(err);
   }
