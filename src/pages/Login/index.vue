@@ -167,8 +167,10 @@ export default {
       console.log(this.getDomainFromUrl(window.location.href), 2222)
       if (this.getDomainFromUrl(redirectUrl) == this.getDomainFromUrl(window.location.href)) {
         window.location.href = redirectUrl;
-      } else {
+      } else if (redirectUrl.indexOf('?') > -1) {
         window.location.href = redirectUrl + '&token=' + this.token
+      } else {
+        window.location.href = redirectUrl + '?token=' + this.token
       }
     },
     async eventHandle(event) {

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getCode } from "@/utils/code";
 import { eventProxy } from "@/lib/websocket/eventProxy";
-import sha256 from 'js-sha256';
+import sha256 from "js-sha256";
 import dayjs from "dayjs";
 const service = axios.create({
   baseURL: (window.$config && window.$config.apiUrl) || "",
@@ -10,14 +10,17 @@ const service = axios.create({
 
 service.interceptors.request.use(
   (config) => {
-    const timestamp = dayjs().unix()
+    const timestamp = dayjs().unix();
     config.headers = Object.assign({}, config.headers, {
       Authorization: window.sessionStorage.getItem("token"),
-      'Cy-Token': sha256(timestamp.toString()),
-      'X-Timestamp': timestamp
     });
     if (!config.noCode && getCode()) {
-      config["params"] = { ...config["params"], code: getCode() };
+      config["params"] = {
+        ...config["params"],
+        code: getCode(),
+        "cy-token": sha256(timestamp.toString()),
+        "x-timestamp": timestamp,
+      };
     }
     return config;
   },

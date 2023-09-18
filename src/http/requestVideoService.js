@@ -12,10 +12,11 @@ cancelPrevAxiosApi(service);
 service.interceptors.request.use(
   config => {
     const timestamp = dayjs().unix()
-    config.headers = Object.assign({}, config.headers, {
-      'Cy-Token': sha256(timestamp.toString()),
-      'X-Timestamp': timestamp
-    })
+    config["params"] = {
+      ...config["params"],
+      "cy-token": sha256(timestamp.toString()),
+      "x-timestamp": timestamp,
+    };
     return config;
   },
   err => {
