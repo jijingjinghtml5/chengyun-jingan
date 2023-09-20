@@ -145,8 +145,12 @@
           window.open('http://10.210.232.118:8082/nxznNew/#/screen?token=9ba8e772467b11ecbd290894ef994f5b')
           return
         }
+        if(item.url === 'https://10.212.3.223:9443') {
+          window.open(`https://10.212.3.223:9443?token=${window.sessionStorage.getItem('token')}`)
+          return
+        }
         this.dialogVisible = true;
-        this.iframeSrc = item.url;
+        this.iframeSrc = item.url.indexOf('?') > -1 ? `${item.url}&token=${window.sessionStorage.getItem('token')}` : `${item.url}?token=${window.sessionStorage.getItem('token')}`;
       },
       changeTab(item) {
         if (this.currentTab === item.value) {

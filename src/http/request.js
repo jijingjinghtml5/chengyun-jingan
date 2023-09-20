@@ -17,11 +17,14 @@ service.interceptors.request.use(
     if (!config.noCode && getCode()) {
       config["params"] = {
         ...config["params"],
-        code: getCode(),
-        "cy-token": sha256(timestamp.toString()),
-        "x-timestamp": timestamp,
+        code: getCode()
       };
     }
+    config["params"] = {
+      ...config["params"],
+      "cy-token": sha256(timestamp.toString()),
+      "x-timestamp": timestamp,
+    };
     return config;
   },
   (err) => {
