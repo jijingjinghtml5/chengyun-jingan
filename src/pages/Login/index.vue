@@ -105,6 +105,23 @@ export default {
     },
   },
   methods: {
+    randomCoding(len) {
+      let str = "";
+      let code;
+      let arr = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+      for (let i = 0; i < len; i++) {
+        code = arr[Math.floor(Math.random() * arr.length)];
+        str += code;
+      }
+
+      return str;
+    },
+    encryptPassword(password) {
+      let encrypt;
+      encrypt = this.randomCoding(3);
+      encrypt += btoa(password);
+      return encrypt;
+    },
     // 第一步验证 验证账号密码 登陆
     async login() {
       const code = this.params.code || "";
@@ -113,7 +130,7 @@ export default {
       if (valid) {
         this.loading = true;
         try {
-          const res = await login_new({ ...this.loginForm, project: "screen" });
+          const res = await login_new({ ...this.loginForm, project: "screen", password: this.encryptPassword(this.loginForm.password), encrypt: 1 });
           if (res.code == 200) {
             this.token = res.response.data.token;
             this.access_token = res.response.data.token;
