@@ -182,9 +182,14 @@ export default {
       window.sessionStorage.setItem("_t", time);
       console.log(this.getDomainFromUrl(redirectUrl), 1111)
       console.log(this.getDomainFromUrl(window.location.href), 2222)
-      if (this.getDomainFromUrl(redirectUrl) == this.getDomainFromUrl(window.location.href)) {
-        window.location.href = redirectUrl;
-      } else if (redirectUrl.indexOf('?') > -1) {
+      // if (this.getDomainFromUrl(redirectUrl) == this.getDomainFromUrl(window.location.href)) {
+      //   window.location.href = redirectUrl;
+      // } else if (redirectUrl.indexOf('?') > -1) {
+      //   window.location.href = redirectUrl + '&token=' + this.token
+      // } else {
+      //   window.location.href = redirectUrl + '?token=' + this.token
+      // }
+      if (redirectUrl.indexOf('?') > -1) {
         window.location.href = redirectUrl + '&token=' + this.token
       } else {
         window.location.href = redirectUrl + '?token=' + this.token
