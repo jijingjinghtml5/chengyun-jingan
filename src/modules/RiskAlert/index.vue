@@ -14,7 +14,7 @@ import WrapTitle from '@/components/MTitle/WrapTitle'
 
 import ListItem from './ListItem.vue'
 
-import { getData, getCurrYdRoad, getMetroFlow } from './api'
+import { getData, getCurrYdRoad, getMetroFlow, getHotlineData } from './api'
 
 export default {
   name: 'RiskAlert',
@@ -30,39 +30,39 @@ export default {
       items: [
         {
           icon: 'icon-yiqingfangkong',
-          title: '疫情防控',
+          title: '热线<br/>预警预判',
           color: '#D0021B',
           update_time: '今日8:00',
           slot: 'yq',
           metrics: [
             {
-              label: '当前管控',
+              label: '一人多诉',
               count: 1,
               key: 'health_stats_total',
               color: '#F23470'
             },
             {
-              label: '新增集隔',
+              label: '多人一诉',
               count: 2,
               key: 'health_stats_isolation_add',
               color: '#F96F4F'
             },
             {
-              label: '解除集隔',
+              label: '群发',
               count: 2,
               key: 'health_stats_isolation_remove',
               color: '#6CCB73'
             },
             {
-              label: '核酸采样点',
+              label: '多发',
               count: 78,
               key: 'health_stats_home_add',
               color: '#F96F4F'
             },
             {
-              label: '已启用采样点',
+              label: '突发',
               count: 78,
-              key: 'health_stats_home_add',
+              key: 'health_stats_home_tu',
               color: '#6CCB73'
             }
           ]
@@ -102,11 +102,11 @@ export default {
           color: '#F23470',
           update_time: '今日8:00',
           metrics: [
-            {
-              label: '24小时热线',
-              count: 78,
-              color: '#4FCFD5'
-            },
+            // {
+            //   label: '24小时热线',
+            //   count: 78,
+            //   color: '#4FCFD5'
+            // },
             {
               label: '舆情监测',
               count: 2,
@@ -129,35 +129,51 @@ export default {
   },
   methods: {
     getData () {
-      getData().then(res => {
-        if (res.data) {
-          this.dataset = res.data
-          this.dataset.health_stats_total = 0
-          this.dataset.health_stats_isolation_add = res.data.public_health_stats.isolation_observe_stats.today_add
-          this.dataset.health_stats_isolation_remove = res.data.public_health_stats.isolation_observe_stats.today_remove
-          this.dataset.health_stats_home_add = res.data.public_health_stats.home_observe_stats.today_add
-          this.dataset.health_stats_home_remove = res.data.public_health_stats.home_observe_stats.today_remove
-        }
+      getHotlineData().then(hotline => {
+        console.log(hotline, 2222222222222222222)
+        getData().then(res => {
+          if (res.data) {
+            this.dataset = res.data
+            // this.dataset.health_stats_total = 0
+            // this.dataset.health_stats_isolation_add = res.data.public_health_stats.isolation_observe_stats.today_add
+            // this.dataset.health_stats_isolation_remove = res.data.public_health_stats.isolation_observe_stats.today_remove
+            // this.dataset.health_stats_home_add = res.data.public_health_stats.home_observe_stats.today_add
+            // this.dataset.health_stats_home_remove = res.data.public_health_stats.home_observe_stats.today_remove
+            hotline.map(item => {
+              if (item.zhibiao == '一人多诉') {
+                this.dataset.health_stats_total = item.number
+              } else if (item.zhibiao == '多人一诉') {
+                this.dataset.health_stats_isolation_add = item.number
+              } else if (item.zhibiao == '群发') {
+                this.dataset.health_stats_isolation_remove = item.number
+              } else if (item.zhibiao == '多发') {
+                this.dataset.health_stats_home_add = item.number
+              } else if (item.zhibiao == '突发') {
+                this.dataset.health_stats_home_tu = item.number
+              }
+            })
+          }
 
-        let tmp = {}
-        this.dataset.items = res.items || [];
-        (res.items || []).map(item => {
-          tmp[item.name] = item
-        })
-        this.itemsData = tmp
-        getCurrYdRoad().then(res => {
-          this.dataset['crowd_road_count'] = res.length
-        })
-        getMetroFlow().then(res => {
-          console.log(res, 1111111111111111111)
-          let tmp = JSON.parse(JSON.stringify(this.itemsData))
-          tmp['地铁大客流进'] = {
-            value: res.fintIn
-          }
-          tmp['地铁大客流出'] = {
-            value: res.fintOut
-          }
+          let tmp = {}
+          this.dataset.items = res.items || [];
+          (res.items || []).map(item => {
+            tmp[item.name] = item
+          })
           this.itemsData = tmp
+          getCurrYdRoad().then(res => {
+            this.dataset['crowd_road_count'] = res.length
+          })
+          getMetroFlow().then(res => {
+            console.log(res, 1111111111111111111)
+            let tmp = JSON.parse(JSON.stringify(this.itemsData))
+            tmp['地铁大客流进'] = {
+              value: res.fintIn
+            }
+            tmp['地铁大客流出'] = {
+              value: res.fintOut
+            }
+            this.itemsData = tmp
+          })
         })
       })
     },

@@ -17,3 +17,12 @@ export function getMetroFlow() {
     url: "http://10.210.232.238/erupt-api/traffic/metroFlow?name=&day=1&lastOne=1"
   });
 }
+
+export function getHotlineData(params) {
+  return request({
+    url: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query',
+    params: {
+      table: 'fxft'
+    }
+  })
+}

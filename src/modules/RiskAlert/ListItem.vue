@@ -1,10 +1,11 @@
 <template>
   <el-row :gutter="20" class="item">
     <el-col :span="2" class="icon">
-      <span class="iconfont" :class="item.icon" :style="`color:${item.color}`"></span>
+      <span v-if="item.icon == 'icon-yiqingfangkong'" class="img dianhua"></span>
+      <span v-else class="iconfont" :class="item.icon" :style="`color:${item.color}`"></span>
     </el-col>
     <el-col :span="4" class="title">
-      <div class="level1">{{item.title}}</div>
+      <div class="level1" v-html="item.title"></div>
       <!-- <div class="level2">更新时间:{{item.update_time}}</div> -->
     </el-col>
     <el-col :span="18" class="metrics">
@@ -83,6 +84,15 @@ export default {
     .icon{
       font-size: 72px;
       text-align: center;
+      .img {
+        width: 72px;
+        height: 72px;
+        display: block;
+        &.dianhua {
+          background: url('./dianhua.png') no-repeat center center;
+          background-size: cover;
+        }
+      }
     }
     .metrics{
       display: flex;
