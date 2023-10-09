@@ -20,9 +20,10 @@ export function getMetroFlow() {
 
 export function getHotlineData(params) {
   return request({
-    url: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query',
-    params: {
-      table: 'fxft'
-    }
+    url: 'http://10.210.232.237/internal-api/gateway/hotline-alarm/hotline-alarm-stats'
+    // url: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query',
+    // params: {
+    //   table: 'fxft'
+    // }
   })
 }

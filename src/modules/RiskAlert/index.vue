@@ -139,19 +139,24 @@ export default {
             // this.dataset.health_stats_isolation_remove = res.data.public_health_stats.isolation_observe_stats.today_remove
             // this.dataset.health_stats_home_add = res.data.public_health_stats.home_observe_stats.today_add
             // this.dataset.health_stats_home_remove = res.data.public_health_stats.home_observe_stats.today_remove
-            hotline.map(item => {
-              if (item.zhibiao == '一人多诉') {
-                this.dataset.health_stats_total = item.number
-              } else if (item.zhibiao == '多人一诉') {
-                this.dataset.health_stats_isolation_add = item.number
-              } else if (item.zhibiao == '群发') {
-                this.dataset.health_stats_isolation_remove = item.number
-              } else if (item.zhibiao == '多发') {
-                this.dataset.health_stats_home_add = item.number
-              } else if (item.zhibiao == '突发') {
-                this.dataset.health_stats_home_tu = item.number
-              }
-            })
+            this.dataset.health_stats_total = hotline.duofa
+            this.dataset.health_stats_isolation_add = hotline.qunfa
+            this.dataset.health_stats_isolation_remove = hotline.qunfa
+            this.dataset.health_stats_home_add = hotline.duofa
+            this.dataset.health_stats_home_tu = hotline.tufa
+            // hotline.map(item => {
+            //   if (item.zhibiao == '一人多诉') {
+            //     this.dataset.health_stats_total = item.number
+            //   } else if (item.zhibiao == '多人一诉') {
+            //     this.dataset.health_stats_isolation_add = item.number
+            //   } else if (item.zhibiao == '群发') {
+            //     this.dataset.health_stats_isolation_remove = item.number
+            //   } else if (item.zhibiao == '多发') {
+            //     this.dataset.health_stats_home_add = item.number
+            //   } else if (item.zhibiao == '突发') {
+            //     this.dataset.health_stats_home_tu = item.number
+            //   }
+            // })
           }
 
           let tmp = {}
