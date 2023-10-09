@@ -132,9 +132,14 @@
         }
       },
       imgClick(item) {
-        if (item.url === 'http://10.212.3.162') {
-          window.open('http://10.212.3.162')
-          return
+        if (item.url === "https://10.212.3.162") {
+          window.open("https://10.212.3.162");
+          return;
+        }
+
+        if (item.url === "https://10.210.232.243:8081/jingan/login") {
+          window.open("https://10.210.232.243:8081/jingan/login");
+          return;
         }
         if (item.url === 'http://124.70.11.35/portal/jingan/#/HomePage') {
           window.open('http://124.70.11.35/portal/jingan/#/HomePage')
