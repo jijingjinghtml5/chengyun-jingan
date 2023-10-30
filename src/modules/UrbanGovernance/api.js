@@ -8,6 +8,18 @@ export function getData () {
   })
 }
 
+export function getRoadData () {
+  return request({
+    url: '/erupt-api/traffic/ydRoad'
+  })
+}
+
+export function getTrafficData () {
+  return request({
+    url: '/erupt-api/traffic/ydph'
+  })
+}
+
 export function getParkLot () {
   return requestJa({
     url: '/erupt-api/traffic/getRoadIndex'

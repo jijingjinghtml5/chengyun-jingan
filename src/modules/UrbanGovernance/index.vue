@@ -49,10 +49,9 @@
     </level-title>
     <m-tabs-body :tab="tab1">
       <m-tabs-body-item name="城市交通">
-        <level-title :level="4" txt="实时拥堵路段">
-          <m-tabs class="road-select" slot="right" v-model="tab" :tabs="tabs"></m-tabs>
+        <level-title :level="4" txt="拥堵排行">
         </level-title>
-        <ul class="list">
+        <!-- <ul class="list">
           <li class="list-item" v-for="(item, index) in dataset[tab]" :key="item.primeID">
             <span class="list-item__id">{{ index + 1 }}</span>
             <div class="list-item__infor">
@@ -64,7 +63,11 @@
               {{ item.text }}
             </p>
           </li>
-        </ul>
+        </ul> -->
+        <m-list
+          :headers="headers"
+          :dataset="tableData"
+        />
       </m-tabs-body-item>
       <m-tabs-body-item name="公共停车场">
         <ParkLot></ParkLot>
@@ -88,10 +91,11 @@ import MTabs from '@/components/MTabs'
 import ChartBar from '@/components/Charts/BarY/ChartBarY'
 import MTabsBody from '@/components/MTabsBody/MTabsBody'
 import MTabsBodyItem from '@/components/MTabsBody/MTabsBodyItem'
+import MList from '@/components/MList/index.vue'
 import ParkLot from './parkLot.vue'
 import PublicTransport from './publicTransport.vue'
 import Bike from './bike.vue'
-import { getData } from './api'
+import { getData, getTrafficData } from './api'
 
 export default {
   name: 'UrbanGovernance',
@@ -107,7 +111,8 @@ export default {
     MTabsBodyItem,
     ParkLot,
     PublicTransport,
-    Bike
+    Bike,
+    MList
   },
   computed: {
     chartData () {
@@ -174,7 +179,42 @@ export default {
         }
       ],
       itemsData: {},
-      colors: ['#4FCFD5']
+      colors: ['#4FCFD5'],
+      headers: [
+        {
+          label: '排名',
+          prop: 'id',
+          width: '13%',
+          align: 'center'
+        },
+        {
+          label: '区域名称',
+          prop: 'name',
+          width: '26%',
+          align: 'center'
+        },
+        {
+          label: '当前指数',
+          prop: 'curIndex',
+          width: '24%',
+          align: 'center'
+        },
+        {
+          label: '参考指数',
+          prop: 'refIndex',
+          width: '25%',
+          color: 'rgb(57, 148, 227)',
+          align: 'center'
+        },
+        {
+          label: '极值',
+          width: '12%',
+          prop: 'maxIndex',
+          color: 'rgb(254, 22, 25)',
+          align: 'center'
+        }
+      ],
+      tableData: []
     }
   },
   created () {
@@ -199,34 +239,22 @@ export default {
         this.$_mapProxy.getMap()._openPopup('BikePopup', {})
       }
     },
-    getData () {
-      getData().then(res => {
-        if (res.expressway) {
-          this.dataset.expressway = Object.freeze((res.expressway || []).map(d => {
-            return {
-              ...d,
-              ...(this.convertScore(d.score))
-            }
-          }))
-        }
-        if (res.groud_road) {
-          this.dataset.groud_road = Object.freeze((res.groud_road || []).map(d => {
-            return {
-              ...d,
-              ...(this.convertScore(d.score))
-            }
-          }))
-        }
-        if (res.db && res.db[0]) {
-          this.dataset.statistics = res.db[0]
-        }
-        let tmp = {}
-        this.dataset.items = res.items || [];
-        (res.items || []).map(item => {
-          tmp[item.name] = item
-        })
-        this.itemsData = tmp
+    async getData () {
+      const [res, trafficRes] = await Promise.all([getData(), getTrafficData()])
+      if (res.db && res.db[0]) {
+        this.dataset.statistics = res.db[0]
+      }
+      let tmp = {}
+      this.dataset.items = res.items || [];
+      (res.items || []).map(item => {
+        tmp[item.name] = item
       })
+      this.itemsData = tmp
+
+      this.tableData = trafficRes.map((item, index) => ({
+        ...item,
+        id: index + 1
+      }))
     },
     convertScore (score) {
       const res = { icon: '', color: '', text: '' }

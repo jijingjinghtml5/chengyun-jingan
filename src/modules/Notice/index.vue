@@ -1,19 +1,25 @@
 <template>
   <div class="container">
     <span class="iconfont icon-shijianbobao"></span>
-    <span style="margin-left:10px;">事件播报：</span>
-    <span class="content">{{txt}}</span>
+    <marquee behavior="scroll" direction="left" loop="-1" class="content">
+      {{marquee}}
+    </marquee>
   </div>
 </template>
 <script>
 export default {
-  name: "Notice",
-  data() {
+  name: 'Notice',
+  data () {
     return {
-      txt: ""
-    };
+      txt: '涉秘场所，请勿拍摄，谢谢配合。'
+    }
+  },
+  computed: {
+    marquee () {
+      return this.txt.repeat(4)
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .container{
@@ -23,6 +29,8 @@ export default {
   line-height: 80px;
   height: 140px;
   border-bottom: 0.02rem solid #0F2E60;
+  display: flex;
+  align-content: center;
   .iconfont{
     color: #0071FF;
     .supportWebkitTextFillColor &{
@@ -36,6 +44,7 @@ export default {
   .content{
     margin-left: 40px;
     margin-right: 30px;
+    color: rgb(191, 53, 70);
   }
 }
 </style>>

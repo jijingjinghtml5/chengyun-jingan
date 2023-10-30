@@ -107,7 +107,15 @@
             <div v-else-if="column.type === 'slot'" >
               <slot :name="column.slot" v-bind:row="item"></slot>
             </div>
-            <div v-else class="cell">{{ item.hasOwnProperty(column.prop) ? item[column.prop] : "-" }}</div>
+            <div
+              v-else
+              class="cell"
+              :style="{
+                color: column.color,
+              }"
+            >
+              {{ item.hasOwnProperty(column.prop) ? item[column.prop] : "-" }}
+            </div>
           </div>
         </div>
       </RecycleScroller>

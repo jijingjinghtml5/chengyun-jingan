@@ -156,46 +156,42 @@ export default {
           })
       })
     },
-    getData () {
-      getCount().then(res => {
-        let { tag } = res
-        this.dataset.yqrds = {
-          value: tag.num
+    async getData () {
+      const [{ tag }, res] = await Promise.all([getCount(), getData()])
+      this.dataset.yqrds = {
+        value: tag.num
+      }
+      if (res.api) {
+        this.dataset.jtydzs = {
+          value: Math.round((res.api.traffic_index || 0) * 100) / 100
         }
-      })
-      getData().then(res => {
-        if (res.api) {
-          this.dataset.jtydzs = {
-            value: Math.round(res.api.traffic_index * 100) / 100
+        this.dataset.zngzyj = {
+          value: Math.round(res.api.device_online_percent * 100) / 100
+        }
+      }
+      if (res.items) {
+        let tmp = {};
+        (res.items || []).map(item => {
+          if (item.name === '舆情热点数') {
+            return
           }
-          this.dataset.zngzyj = {
-            value: Math.round(res.api.device_online_percent * 100) / 100
-          }
-        }
-        if (res.items) {
-          let tmp = {};
-          (res.items || []).map(item => {
-            if (item.name === '舆情热点数') {
-              return
-            }
-            tmp[item.name] = item
-          })
-          this.itemsData = tmp
-        }
-        if (res.db && res.db[0]) {
-          this.dataset.qxzs = { value: res.db[0].qxzs }
-          this.dataset.hxzs = { value: res.db[0].hxzs }
-          this.dataset.zdhd = { value: res.db[0].zdhd }
-        }
+          tmp[item.name] = item
+        })
+        this.itemsData = tmp
+      }
+      if (res.db && res.db[0]) {
+        this.dataset.qxzs = { value: res.db[0].qxzs }
+        this.dataset.hxzs = { value: res.db[0].hxzs }
+        this.dataset.zdhd = { value: res.db[0].zdhd }
+      }
 
-        if (res.district && res.district[0]) {
-          this.dataset.syrk.value = res.district[0].syrk
-          this.dataset.syfr.value = res.district[0].syfr
-          this.dataset.gdp.value = res.district[0].gdp
-          this.dataset.qyzcz.value = res.district[0].qyzcz
-          this.dataset.sszsr.value = res.district[0].sszsr
-        }
-      })
+      if (res.district && res.district[0]) {
+        this.dataset.syrk.value = res.district[0].syrk
+        this.dataset.syfr.value = res.district[0].syfr
+        this.dataset.gdp.value = res.district[0].gdp
+        this.dataset.qyzcz.value = res.district[0].qyzcz
+        this.dataset.sszsr.value = res.district[0].sszsr
+      }
     }
   },
   created () {

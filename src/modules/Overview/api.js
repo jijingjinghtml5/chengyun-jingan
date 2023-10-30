@@ -1,24 +1,24 @@
-import request from "@/http/request";
+import request from '@/http/request'
 
-export function getCount() {
+export function getCount () {
   return request({
-    url: "/erupt-api/yuqing/overview"
-  });
+    url: '/erupt-api/yuqing/overview'
+  })
 }
 
-export function getData() {
+export function getData () {
   return request({
-    url: "/v2/data-api/426"
-  });
+    url: '/v2/data-api/426'
+  })
 }
 /**
  * 气象预警
  */
-export function getWeatherAlarm() {
+export function getWeatherAlarm () {
   return request({
-    url: "/v2/data-api/445",
+    url: '/v2/data-api/445',
     params: {
-      filter: "simple.messageType=eq.WeatherPredictionWarning&area_district.areaName=eq.静安区&relieveTime=ex.false"
+      filter: 'simple.messageType=eq.WeatherPredictionWarning&area_district.areaName=eq.静安区&relieveTime=ex.false'
     }
-  });
+  })
 }

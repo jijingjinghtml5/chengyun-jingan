@@ -2,7 +2,7 @@ window.$config = {
   apiUrlForTesla: 'https://changningfy.iotsh.com.cn',
   disposeUrl: 'http://10.81.71.38/chengyun/custom/chengyun_emergency/dispose.html',
   apiUrlForRj: 'http://10.210.232.56', // 静安区区级网络
-  apiUrl: 'http://10.81.71.38', // 市平台
+  apiUrl: 'http:///10.210.232.238', // 市平台
   apiUrlForJa: 'http://10.210.232.238',
   imageRootURL: 'http://10.210.232.238/chengyun/videos/chengyun-3-0/',
   apiDocs: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query',
