@@ -26,6 +26,21 @@ export function getYwym (name) {
   })
 }
 
+export function getPublicDevice (name) {
+  return requestJa({
+    url: '/dmp2/united-ciimc-api/v1/generic-query',
+    params: {
+      token: 'dp3e13b16efff2aeaec9bda8cc70e3dp',
+      table: 'arcgis',
+      limit: 10000,
+      index_type: 'active',
+      district: '静安区',
+      geo_type: 'shlocal',
+      need_polygon: 1,
+      filter: `simple.messageType=eq.${name}`
+    }
+  })
+}
 export function getJinganCode (name) {
   // return requestJa({
   //   url: '/united-ciimc-api/v1/generic-query',

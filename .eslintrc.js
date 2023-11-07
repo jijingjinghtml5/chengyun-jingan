@@ -15,10 +15,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-prototype-builtins': "off",
     'camelcase': "off",
-    'eqeqeq': "off",
-    'vue/no-unused-components': 'off',
-    'semi': {
-       "omitLastInOneLineClassBody": true,
-    },
+    'eqeqeq': "off"
   }
 }

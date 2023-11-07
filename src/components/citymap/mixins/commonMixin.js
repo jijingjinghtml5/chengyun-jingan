@@ -48,7 +48,10 @@ export default {
     // 清除定位闪烁
     clearPosition() {
       let commandParams = {
-        ActionName: "ClearPostion"
+        ActionName: "ClearPostion",
+        "Parameters": {
+          "position": true
+        }
       };
       if (this.mapReadyBool) {
         this.bridge.Invoke(commandParams);

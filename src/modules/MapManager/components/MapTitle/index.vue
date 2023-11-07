@@ -24,6 +24,7 @@ import {
   getYwym,
   getJinganCode,
   getPeopleCount,
+  getPublicDevice,
   getCodeNum
 } from './api'
 import {
@@ -61,6 +62,7 @@ export default {
           iconClass: 'icon-bangonglouyu',
           attr: 'area',
           isExpand: true,
+          radio: true,
           columns: 2
         },
         {
@@ -211,19 +213,19 @@ export default {
             children: [{
               name: '学校',
               nameKey: 'name',
-              type: 'baseLayer',
+              type: 'publicLayer',
               checked: false
             },
             {
               name: '医院',
               nameKey: 'name',
-              type: 'baseLayer',
+              type: 'publicLayer',
               checked: false
             },
             {
               name: '养老院',
               nameKey: 'name',
-              type: 'baseLayer',
+              type: 'publicLayer',
               checked: false
             }
             ],
@@ -414,6 +416,9 @@ export default {
           break
         case 'people':
           this.handlerPeople(data.item)
+          break
+        case 'publicLayer':
+          this.handlerPublic(data.item)
           break
         case 'baseLayer':
           if (data.item.name === '地铁站点') {
@@ -612,6 +617,42 @@ export default {
         }]
       }
       window.bridge.Invoke(cmd)
+    },
+    handlerPublic (item) {
+      if (item.checked) {
+        if (item.name) {
+          let name = item.name
+          getPublicDevice(name).then(res => {
+            this.publicDeviceLayer.setParameters({
+              'data': {
+                'content': (res.data.messages || []),
+                'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
+              },
+              'renderer': {
+                type: 'simple',
+                symbol: {
+                  type: 'simple-marker',
+                  size: 20,
+                  color: [0, 255, 244],
+                  outline: {
+                    color: '#ffffff',
+                    width: '1px'
+                  }
+                }
+              }
+            }).open()
+          })
+          return
+        }
+        this.publicDeviceLayer.setParameters({
+          'data': {
+            'content': [],
+            'parsegeometry': 'function(item){return {x:item.data.coordx, y:item.data.coordy}}'
+          }
+        }).open()
+      } else {
+        this.publicDeviceLayer.close()
+      }
     },
     handlerPeople (item) {
       if (item.checked) {
@@ -1026,6 +1067,34 @@ export default {
           }
         })
     },
+    registerPublicLayer () {
+      this.publicDeviceLayer = this.$_mapProxy.registerLayer('publicDeviceLayer', '学校')
+        .setParameters({
+          'name': 'publicDeviceLayer',
+          'type': 'point',
+          'mode': 'replace',
+          'data': {
+            'content': [],
+            'parsegeometry': 'function(item){return {x:item.lng, y:item.lat}}'
+          },
+          'legendVisible': false,
+          'popupEnabled': false,
+          'isFiltered': true,
+          'isLocate': false,
+          'renderer': {
+            type: 'simple',
+            symbol: {
+              type: 'simple-marker',
+              size: 20,
+              color: [0, 255, 244],
+              outline: {
+                color: '#ffffff',
+                width: '1px'
+              }
+            }
+          }
+        })
+    },
     registerShopLayer () {
       this.shopLayer = this.$_mapProxy.registerLayer('shopLayer', '沿街商铺餐饮户图层').setParameters({
         'name': 'shopLayer',
@@ -1165,6 +1234,7 @@ export default {
   created () {
     this.registerSingleBuildingLayer()
     this.registerPointLayer()
+    this.registerPublicLayer()
     this.registerThingsPerceptionLayer()
     this.registerShopLayer()
     this.registerSubwayLayer()

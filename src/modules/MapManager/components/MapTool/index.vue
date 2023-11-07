@@ -42,7 +42,7 @@ export default {
         { "name": "街道边界", "status": false },
         { "name": "网格边界", "status": false },
         { "name": "居委边界", "status": false },
-        { "name": "建筑白模", "status": true },
+        { "name": "建筑白模", "status": false },
         { "name": "建筑精模", "status": false },
         { "name": "底图切换", "status": false }
       ],
@@ -120,7 +120,7 @@ export default {
     getBarData().then(res => {
       this.functionDatas['街道边界'].number = res.street
       this.functionDatas['网格边界'].number = res.grid
-      this.functionDatas['居委边界'].number = res.juwei
+      // this.functionDatas['居委边界'].number = res.juwei
     })
   },
   methods: {
@@ -144,8 +144,8 @@ export default {
         window.bridge.Invoke(position);
     },
     onMapReady() {
-      this.initPosition();
-      this.openSimpleModelLayer();
+      // this.initPosition();
+      // this.openSimpleModelLayer();
     },
     tabMapLayer(name, status) {
        let cmd = {
@@ -268,7 +268,7 @@ export default {
     },
     openGridLayer() {
       this.useMapStatus();
-      this.openBoundary("gridBoundaryLayer", "责任网格1");
+      this.openBoundary("gridBoundaryLayer", "责任网格");
     },
     closeGridLayer() {
        this.removeLayer("gridBoundaryLayer");

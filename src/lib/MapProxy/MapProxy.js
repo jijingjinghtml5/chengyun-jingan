@@ -238,7 +238,7 @@ class MapProxy {
             y: shLat,
             z: 0
           },
-          zoom: 12,
+          zoom: 20,
           heading: 0,
           tilt: 0,
           hasImg: true
@@ -250,7 +250,10 @@ class MapProxy {
      */
     clearPosition() {
       this.callBridge({
-        ActionName: "ClearPostion"
+        ActionName: "Clear",
+        "Parameters": {
+          "position": true
+        }
       }, "clearPosition");
     }
     // 回到全图
