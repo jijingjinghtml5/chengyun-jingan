@@ -715,6 +715,7 @@ export default {
         this.removeLayer('townCasePointLayer')
         this.removeLayer('townHotlineCasePointLayer')
         this.removeLayer('townLocationLayer')
+        this.removeLayer('hotlineEvent')
       }
     },
     removeLayer (layerName) {

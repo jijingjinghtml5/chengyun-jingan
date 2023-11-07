@@ -57,6 +57,7 @@ export function getListData(filter) {
       source:
         "data.eventID,args.eventName,data.address,data.town,data.openTS,data.exevt_status,data.location,args.chs_superviseDone,args.chs_timestamp_305",
       filter: filter,
+      need_polygon: 1
     },
   });
 }
@@ -154,6 +155,7 @@ export function getDistrictCase(params) {
       group_by: `openTS.${params.type}[50~6${params.start}~7${params.end}],closeTS.${params.type}[50~${params.start}~${params.end}](filter.close:closeTS=${params.start}~${params.end}),simple.messageClass(filter.close:closeTS=${params.start}~${params.end})`,
       limit: 0,
       transform: "aggResults",
+      need_polygon: 1
     },
   });
 }
