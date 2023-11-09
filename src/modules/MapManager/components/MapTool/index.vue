@@ -137,7 +137,7 @@ export default {
             "heading": 19,
             "tilt": 63,
             "hasImg": false,
-            "zoom": 10,
+            "zoom": 20,
             "isRotation360": false
           }
         };
