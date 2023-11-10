@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="referrer" content="no-referrer" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
     <script src="./liveplayer-lib.min.js"></script>
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
-  <body  style="background: #0a1b21">
+  <body style="background: #0a1b21">
     <noscript>
-      <strong>We're sorry but chengyun-town doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+      <strong
+        >We're sorry but chengyun-town doesn't work properly without JavaScript
+        enabled. Please enable it to continue.</strong
+      >
     </noscript>
     <div id="app"></div>
-    <script src="./js/CityGis.Bridge.js"></script>
+    <script src="http://10.212.3.225:18104/gridmap/CityGis.Bridge.js"></script>
     <script src="./js/msc.js"></script>
     <script src="./config/index.js"></script>
     <script src="./js/qrcode.min.js"></script>
