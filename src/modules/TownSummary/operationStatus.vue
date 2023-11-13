@@ -10,7 +10,7 @@
 import MTabs from "@/components/MTabs";
 import ChartbarY from "@/components/Charts/BarY/ChartBarYForValuePosition";
 import { reCallAndNeedCallApi } from "@/utils/tools";
-import { getChartData, getChartData2 } from "./api";
+import { getChartData, getChartData2, getChartDataHotline } from "./api";
 export default {
   name: "operationStatus",
   components: {
@@ -51,6 +51,7 @@ export default {
           // ["彭浦镇", 887]
         ],
         "110": [],
+        "hotline": [],
         homeQuarantine: [
           ["居家隔离工单", "数量"]
           // ["南京西路", 2098],
@@ -100,7 +101,17 @@ export default {
           return [item.town.replace("街道", ""), item.count];
         })
       ];
-    }
+    },
+    afterCalloApi2(data, key) {
+      console.log(">>>>2", data, key);
+      if (!data) return;
+      this.dataset[key] = [
+        ["街镇", "数量"],
+        ...(data || []).map(item => {
+          return [item['town.areaName'], item.count];
+        })
+      ];
+    },
   },
   created() {
     this.callApi1 = reCallAndNeedCallApi(this, 10 * 60 * 1000, {
@@ -109,11 +120,11 @@ export default {
         params: [1],
         cb: this.afterCalloApi
       },
-      // hotline: {
-      //   api: getChartData,
-      //   params: [2],
-      //   cb: this.afterCalloApi
-      // },
+      hotline: {
+        api: getChartDataHotline,
+        params: [2],
+        cb: this.afterCalloApi2
+      },
       "110": {
         api: getChartData,
         params: [3],

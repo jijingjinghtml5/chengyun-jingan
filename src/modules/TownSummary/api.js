@@ -42,3 +42,20 @@ export function getChartData2 (params) {
     }
   })
 }
+
+export function getChartDataHotline (params) {
+  return request({
+    url: '/dmp2/united-ciimc-api/v1/generic-query',
+    params: {
+      district: '静安区',
+      token: 'dp3e13b16eff2aeaec9bda8cc70e3dp',
+      table: 'hotline-area-event',
+      index_type: 'active',
+      filter: 'channel=eq.sangao',
+      openTS: 'today',
+      group_by: 'town.areaName',
+      limit: 0,
+      transform: 'aggResults."town.areaName"'
+    }
+  })
+}
