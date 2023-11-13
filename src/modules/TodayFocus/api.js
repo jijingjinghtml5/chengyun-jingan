@@ -92,7 +92,7 @@ export function getDubanData(params) {
 
 export function getDubanTrend(params) {
   return request({
-    url: "/district-platform-api/report/supervise-handle-ststs-v2",
+    url: "/dmp2/district-platform-api/report/supervise-handle-ststs-v2",
     params: {
       mark: 3,
       district: "静安区",
@@ -104,7 +104,7 @@ export function getDubanTrend(params) {
 
 export function getDuChaTrend(params) {
   return request2({
-    url: "/district-platform-api/report/supervise-stats",
+    url: "/dmp2/district-platform-api/report/supervise-stats",
     params: {
       code: 0,
       district: "静安区",

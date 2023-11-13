@@ -105,7 +105,7 @@ export default {
   created() {
     this.callApi1 = reCallAndNeedCallApi(this, 10 * 60 * 1000, {
       grid: {
-        api: getChartData2,
+        api: getChartData,
         params: [1],
         cb: this.afterCalloApi
       },
@@ -115,7 +115,7 @@ export default {
       //   cb: this.afterCalloApi
       // },
       "110": {
-        api: getChartData2,
+        api: getChartData,
         params: [3],
         cb: this.afterCalloApi
       }
@@ -124,17 +124,17 @@ export default {
 
     this.callApi2 = reCallAndNeedCallApi(this, 10 * 60 * 1000, {
       homeQuarantine: {
-        api: getChartData2,
+        api: getChartData,
         params: [4],
         cb: this.afterCalloApi
       },
       "1+3+N": {
-        api: getChartData2,
+        api: getChartData,
         params: [5],
         cb: this.afterCalloApi
       },
       "151": {
-        api: getChartData2,
+        api: getChartData,
         params: [6],
         cb: this.afterCalloApi
       }
