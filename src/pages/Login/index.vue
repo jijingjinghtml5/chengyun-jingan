@@ -51,6 +51,7 @@
 </template>
 <script>
 import { login, scanCheck, login_new } from "@/http/api";
+import config from '@/config/index'
 import { setCode } from "@/utils/code";
 import { getParams } from "@/utils/";
 import { Message } from "element-ui";
@@ -60,9 +61,9 @@ export default {
   data() {
     const state = getParams()["code"];
     let iframeUrl = "";
-    if (window.$config.WwLogin) {
+    if (config.WwLogin) {
       const { host, appid, agentid, redirectUri } =
-        window.$config["WwLogin"] || {};
+        config["WwLogin"] || {};
       iframeUrl =
         host +
         "/wwopen/sso/qrConnect?appid=" +
@@ -88,7 +89,7 @@ export default {
         password: "",
       },
 
-      withQr: !!window.$config.WwLogin,
+      withQr: !!config.WwLogin,
       qrcodeUrl: iframeUrl,
       preLogin: true,
       token: null,

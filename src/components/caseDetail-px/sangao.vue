@@ -114,11 +114,13 @@ import ScrollBar from "@/components/ScrollBar-px";
 import { formatterDate } from "@/utils/";
 import { statisticsForKey } from "@/utils/tools";
 import { CaseSteps } from "@/mapping";
+import config from '@/config/index'
+
 export default {
   name: "Content",
   data() {
     return {
-      prefixUrl: window.$config.caseResourceUrl,
+      prefixUrl: config.caseResourceUrl,
       orderby: "time",
       process: Object.freeze(CaseSteps)
     };

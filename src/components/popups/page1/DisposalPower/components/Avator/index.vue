@@ -3,11 +3,13 @@
 </template>
 <script>
 // import { getTouxiang } from "../../api";
+import config from '@/config/index'
+
 export default {
   name: "LazyImg",
   data() {
     return {
-      rootUrl: window.$config.apiUrl,
+      rootUrl: config.apiUrl,
       imgUrl: ""
     };
   },

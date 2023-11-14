@@ -35,8 +35,9 @@
   </div>
 </template>
 <script>
-  import MDialog from "@/components/MDialog";
-  import IframeContainer from "@/components/IframeContainer";
+import MDialog from "@/components/MDialog";
+import config from '@/config/index'
+import IframeContainer from "@/components/IframeContainer";
   import {
     getUrls
   } from "./api";
@@ -183,7 +184,7 @@
         if (res.list) {
           res.list.forEach(e => {
             let item = {
-              img: window.$config.imageRootURL + e.image,
+              img: config.imageRootURL + e.image,
               name: e.name,
               url: e.url,
               id: e.id

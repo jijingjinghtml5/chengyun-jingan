@@ -2,8 +2,9 @@ import axios from "axios";
 import { cancelPrevAxiosApi } from "@/utils/cancelApi";
 import dayjs from "dayjs";
 import sha256 from 'js-sha256';
+import config from '@/config/index'
 const service = axios.create({
-  baseURL: (window.$config && window.$config.videoService) || "",
+  baseURL: (config && config.videoService) || "",
   timeout: 30000
 });
 

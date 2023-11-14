@@ -1,8 +1,10 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import sha256 from 'js-sha256';
+import config from '@/config/index'
+
 const service = axios.create({
-  baseURL: (window.$config && window.$config.apiUrl) || "",
+  baseURL: (config && config.apiUrl) || "",
   timeout: 15000
 });
 

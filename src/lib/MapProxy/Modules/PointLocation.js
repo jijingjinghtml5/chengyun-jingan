@@ -8,6 +8,7 @@
 import { getUrl } from "@/utils/tools";
 import MapEvents from "../MapOperateEvent";
 
+import config from '@/config/index'
 import { getAroundPeople } from "../api";
 import SHcoordinateUtil from "../coordUtils/SHcoordinateUtils.js";
 import ZampCoordsUtils from "../coordUtils/ZampCoordsUtils.js";
@@ -119,7 +120,7 @@ import ZampCoordsUtils from "../coordUtils/ZampCoordsUtils.js";
       */
     withAroundPeople(lng, lat, crs, groupId) {
       const [wgsLng, wgsLat] = this._getWGS(lng, lat, crs);
-      let distanceParam = wgsLng + "," + wgsLat + "," + window.$config.aroundPeopleDistance;
+      let distanceParam = wgsLng + "," + wgsLat + "," + config.aroundPeopleDistance;
       getAroundPeople(distanceParam).then(data => {
         this.aroundPeopleLayer.setGroupId(groupId)
         .setParameters({

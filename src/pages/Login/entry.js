@@ -5,6 +5,7 @@ import "normalize.css";
 import "element-ui/lib/theme-chalk/index.css";
 import "@/style/index.scss";
 import "@/fonts/iconfont.css";
+import config from '@/config/index'
 
 // import router from "./router";
 import bus from "@/lib/websocket/eventProxy";
@@ -25,13 +26,12 @@ import tracking from "@/lib/tracking/trackingHttp";
 
 Vue.config.productionTip = false;
 Vue.use(ElementUI);
-Vue.use(bus, (window.$config && window.$config.wsUrl) || "");
-// , (window.$config && window.$config.wsUrl) || ""
+Vue.use(bus, (config && config.wsUrl) || "");
 Vue.use(filters);
-Vue.use(trackingWs, (window.$config && window.$config.trackingWs) || "");
-Vue.use(tracking, (window.$config && window.$config.tracking) || "");
+Vue.use(trackingWs, (config && config.trackingWs) || "");
+Vue.use(tracking, (config && config.tracking) || "");
 
-Vue.prototype.$reCallTime = window.$config.reCallTime || 10 * 60 * 1000;
+Vue.prototype.$reCallTime = config.reCallTime || 10 * 60 * 1000;
 new Vue({
   // router,
   render: h => h(App)

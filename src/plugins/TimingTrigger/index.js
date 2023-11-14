@@ -1,6 +1,7 @@
+import config from '@/config/index'
 export function TimingTrigger (interval) {
   this.fns = [];
-  this.interval = interval || window.$config.apiInterval || 5 * 60 * 1000;
+  this.interval = interval || config.apiInterval || 5 * 60 * 1000;
   setInterval(() => {
     this.fns.forEach(fn => {
       fn();

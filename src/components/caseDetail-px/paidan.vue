@@ -213,11 +213,12 @@
 <script>
 import ScrollBar from "@/components/ScrollBar-px";
 import { formatterDate } from "@/utils/";
+import config from '@/config/index'
 export default {
   name: "Content",
   data() {
     return {
-      prefixUrl: window.$config.caseResourceUrl,
+      prefixUrl: config.caseResourceUrl,
       orderby: "desc"
     };
   },

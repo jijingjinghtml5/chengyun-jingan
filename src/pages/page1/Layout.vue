@@ -53,12 +53,13 @@ import { getLayoutConfig } from "@/http/api/index";
 import { setCode } from "@/utils/code";
 import { getParams } from "@/utils/";
 import { checkSupportCssProperties } from "@/utils/dom";
+import config from '@/config/index'
 export default {
   name: "Layout",
   data() {
     return {
       showShopFestival: false,
-      designWidth: (window.$config && window.$config.designWidth) || 7680,
+      designWidth: (config && config.designWidth) || 7680,
       config: null,
       htmlFontSize: null,
       data: {},
@@ -124,7 +125,7 @@ export default {
       let code = this.urlParams["code"] || "";
       let token = this.urlParams["token"] || "";
       if (!code && !token) {
-        window.location.href = window.$config.noAuthPage;
+        window.location.href = config.noAuthPage;
         return;
       }
       setCode(code);

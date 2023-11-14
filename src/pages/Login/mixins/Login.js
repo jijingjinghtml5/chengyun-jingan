@@ -1,5 +1,6 @@
 import { getParams } from "../../../utils";
 import { ipCheck, check_login } from "@/http/api";
+import config from '@/config/index'
 export default {
   data() {
     return {
@@ -20,10 +21,10 @@ export default {
     //       const time = Date.parse(new Date()) + 100 * 86400 * 1000;
     //       window.sessionStorage.setItem("_t", time);
     //     } else {
-    //       window.location.href = window.$config.loginUrl + (window.$config.loginUrl.indexOf("?") === -1 ? "?" : "&") + "code=" + this.params.code + "&redirect_url=" + this.url;
+    //       window.location.href = config.loginUrl + (config.loginUrl.indexOf("?") === -1 ? "?" : "&") + "code=" + this.params.code + "&redirect_url=" + this.url;
     //     }
     //   }).catch(() => {
-    //     window.location.href = window.$config.loginUrl + (window.$config.loginUrl.indexOf("?") === -1 ? "?" : "&") + "code=" + this.params.code + "&redirect_url=" + this.url;
+    //     window.location.href = config.loginUrl + (config.loginUrl.indexOf("?") === -1 ? "?" : "&") + "code=" + this.params.code + "&redirect_url=" + this.url;
     //   });
     // } else {
     //   this.isLogin = true;
@@ -48,11 +49,11 @@ export default {
           const time = Date.parse(new Date()) + 100 * 86400 * 1000;
           window.sessionStorage.setItem("_t", time);
         } else {
-          window.location.href = window.$config.loginUrl + (window.$config.loginUrl.indexOf("?") === -1 ? "?" : "&") + "code=" + this.params.code + "&redirect_url=" + this.url;
+          window.location.href = config.loginUrl + (config.loginUrl.indexOf("?") === -1 ? "?" : "&") + "code=" + this.params.code + "&redirect_url=" + this.url;
         }
       })
       .catch(() => {
-        window.location.href = window.$config.loginUrl + (window.$config.loginUrl.indexOf("?") === -1 ? "?" : "&") + "code=" + this.params.code + "&redirect_url=" + this.url;
+        window.location.href = config.loginUrl + (config.loginUrl.indexOf("?") === -1 ? "?" : "&") + "code=" + this.params.code + "&redirect_url=" + this.url;
       });
   },
 };

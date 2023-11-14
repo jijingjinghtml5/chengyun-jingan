@@ -43,6 +43,7 @@ import { getVideosByArea, getVideoRealUrl } from "./api";
 import MapEvents from "@/lib/MapProxy/MapOperateEvent";
 import { getUrl } from "@/utils/tools";
 import axios from "axios";
+import config from '@/config/index'
 // const CancelToken = axios.CancelToken;
 export default {
   name: "videos",
@@ -338,7 +339,7 @@ export default {
       videos = videos.map((d, e) => {
         return {
           type: d.type,
-          url: d.isHost ? window.$config.video_url + d.url : d.url,
+          url: d.isHost ? config.video_url + d.url : d.url,
           lng: d.lng,
           lat: d.lat,
           address: d.address,
@@ -357,7 +358,7 @@ export default {
     transVideoUri(videos) {
       this.videos = videos;
       // console.log("video trans >>>>>", window.$config);
-      if (!window.$config["videoService"]) {
+      if (!config["videoService"]) {
         this.videos = videos;
         return;
       }
@@ -487,7 +488,7 @@ export default {
             if (item.url && item.url !== "nodata" && item.url !== "http://nodata") {
               videos.push({
                 type: item.type,
-                url: item.isHost ? window.$config.video_url + item.url : item.url,
+                url: item.isHost ? config.video_url + item.url : item.url,
                 lng: item.lng,
                 lat: item.lat,
                 address: item.address,

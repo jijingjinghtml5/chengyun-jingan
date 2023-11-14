@@ -1,6 +1,7 @@
 import request from "@/http/request";
 import request3 from "@/http/request3";
 import videoService from "@/http/requestVideoService";
+import config from '@/config/index'
 
 // 获取配置
 export function getLayoutConfig(token, _params) {
@@ -10,7 +11,7 @@ export function getLayoutConfig(token, _params) {
   }
   params = { ...params, ..._params };
   return request({
-    url: window.$config.layoutConfigUrl || "/v2/screen-manage/config",
+    url: config.layoutConfigUrl || "/v2/screen-manage/config",
     params,
   });
 }

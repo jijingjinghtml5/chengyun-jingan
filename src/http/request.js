@@ -3,8 +3,10 @@ import { getCode } from "@/utils/code";
 import { eventProxy } from "@/lib/websocket/eventProxy";
 import sha256 from "js-sha256";
 import dayjs from "dayjs";
+import config from '@/config/index'
+
 const service = axios.create({
-  baseURL: (window.$config && window.$config.apiUrl) || "",
+  baseURL: (config && config.apiUrl) || "",
   timeout: 30000,
 });
 
@@ -44,7 +46,7 @@ service.interceptors.response.use(
       eventProxy.$emit("changeToken", null);
       return Promise.reject(new Error("token验证失败"));
     } else if (data.code && data.code === 403) {
-      window.location.href = window.$config.noAuthPage;
+      window.location.href = config.noAuthPage;
       return Promise.reject(data.data);
     } else if (data.data) {
       return data.data;

@@ -26,8 +26,10 @@
   </div>
 </template>
 <script>
-  import MIframe from "@/components/MIframe";
-  import { getParams } from "@/utils/";
+import MIframe from "@/components/MIframe";
+import { getParams } from "@/utils/";
+import config from '@/config/index'
+
   export default {
     name: "EventPopup",
     components: {
@@ -47,8 +49,8 @@
     data() {
       return {
         code: getParams()["code"],
-        apiurl: window.$config.apiUrlForRj,
-        disposeUrl: window.$config.disposeUrl,
+        apiurl: config.apiUrlForRj,
+        disposeUrl: config.disposeUrl,
         currentIndex: ""
       };
     },

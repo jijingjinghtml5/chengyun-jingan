@@ -14,6 +14,8 @@
 /* eslint-disable camelcase */
 import commonMixin from "./mixins/commonMixin.js";
 import { getUrl } from "@/utils/tools";
+import config from '@/config/index'
+
 export default {
   name: "citymap",
   mixins: [commonMixin],
@@ -55,7 +57,7 @@ export default {
         group: this.citymapGroupID,
         token: mapConfig.screenConfig.token || "noToken"
       };
-      mapConfig.screenConfig.mapUrl = mapConfig.screenConfig.mapUrl || window.$config.mapComponentUrl;
+      mapConfig.screenConfig.mapUrl = mapConfig.screenConfig.mapUrl || config.mapComponentUrl;
       const mapURLSub = getUrl("/", mapConfig.screenConfig.mapUrl);
       let mapURL = this.mergeMapURL(mapURLSub + "WidgetPages/WidgetGIS.html", cityMapParams);
       let cityMapMeunParams = {// 初始化地图菜单参数
@@ -119,8 +121,8 @@ export default {
       let that = this;
       // eslint-disable-next-line no-undef
       window.socketBridge = new CityGis.MapSocket({
-              host: window.$config.mapSocketHost,
-              port: window.$config.mapSocketPort,
+              host: config.mapSocketHost,
+              port: config.mapSocketPort,
               clientId: "testmap",
               group: that.citymapGroupID,
               onMessage: (msg) => {
@@ -142,8 +144,8 @@ export default {
           // eslint-disable-next-line no-undef
           this.socketClient = new msc.Client(
             {
-              host: window.$config.mapSocketHost,
-              port: window.$config.mapSocketPort
+              host: config.mapSocketHost,
+              port: config.mapSocketPort
             },
             this.citymapClientID
           );

@@ -12,13 +12,14 @@ import VueChart from "vue-echarts";
 import bus from "@/lib/websocket/eventProxy";
 import filters from "@/lib/GlobalFilters";
 import "@/lib/OverWrite";
+import config from '@/config/index'
 
 // map Proxy
 import MapProxy from "@/lib/MapProxy/MapProxy";
 import TimingTrigger from "@/plugins/TimingTrigger";
 
 Vue.config.productionTip = false;
-Vue.use(bus, (window.$config && window.$config.wsUrl) || "");
+Vue.use(bus, (config && config.wsUrl) || "");
 
 Vue.component("VChart", VueChart);
 Vue.use(ElementUI);
@@ -27,7 +28,7 @@ Vue.use(filters);
 Vue.use(MapProxy);
 Vue.use(TimingTrigger);
 
-Vue.prototype.$reCallTime = window.$config.reCallTime || 10 * 60 * 1000;
+Vue.prototype.$reCallTime = config.reCallTime || 10 * 60 * 1000;
 new Vue({
   render: h => h(App)
 }).$mount("#app");
