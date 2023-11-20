@@ -119,7 +119,7 @@ export default {
               color: '#4FCFD5'
             },
             {
-              label: '火车站滞留旅客',
+              label: '大客流预警',
               count: 0,
               color: '#F23470'
             }
@@ -186,7 +186,7 @@ export default {
           })
           getLowCodeData('train_station_passenger').then(res => {
             const { data = [] } = res || {}
-            this.itemsData['火车站滞留旅客'] = {
+            this.itemsData['大客流预警'] = {
               value: (data[0] && data[0].number) || 0
             }
           })

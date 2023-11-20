@@ -134,7 +134,7 @@
         mode="ppt"
       />
     </m-dialog>
-    <div class="schedule" v-if="tab==='manager'"  @click="handleReportView"><span class="iconfont icon-renyuankaohe"></span></div>
+    <!-- <div class="schedule" v-if="tab==='manager'"  @click="handleReportView"><span class="iconfont icon-renyuankaohe"></span></div> -->
   </wrap-title>
 </template>
 <script>
