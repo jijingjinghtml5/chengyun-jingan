@@ -38,7 +38,8 @@ export default {
     BikePopup: () => import('./page1/BikePopup'),
     unitPopup: () => import('./page1/unitPopup'),
     JaCodePopup: () => import('./page1/JaCodePopup'),
-    caseDetailPopup: () => import('./page1/caseDetailPopup')
+    caseDetailPopup: () => import('./page1/caseDetailPopup'),
+    gonggongBuildPopup: () => import('./page1/gonggongBuildPopup')
   },
   inject: ['getGlobalConfig'],
   mixins: [caseDetailMixin],

@@ -37,7 +37,7 @@ export function getPublicDevice (name) {
       district: '静安区',
       geo_type: 'shlocal',
       need_polygon: 1,
-      filter: `simple.messageType=eq.${name}`
+      filter: `simple.messageType=eq.${name === '医院' ? '医院1' : name}`
     }
   })
 }

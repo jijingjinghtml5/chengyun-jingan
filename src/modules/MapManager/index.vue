@@ -203,6 +203,12 @@ export default {
         this._openPopup('neuronPopup', data.thingsPerceptionLayer[0])
         return
       }
+      console.log(data.publicDeviceLayer[0].messageType)
+      if (data.publicDeviceLayer && data.publicDeviceLayer[0] && data.publicDeviceLayer[0].messageType &&
+      ['学校', '医院', '医院1', '养老院'].includes(data.publicDeviceLayer[0].messageType)) {
+        this._openPopup('gonggongBuildPopup', data.publicDeviceLayer[0])
+        return
+      }
       if (data) {
         let len = Object.keys(data).length
         if (len === 1) {

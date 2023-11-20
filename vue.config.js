@@ -8,6 +8,7 @@ function resolve(dir) {
 }
 
 module.exports = {
+  lintOnSave: false,
   publicPath: "./",
   pages: {
     page1: {
@@ -42,6 +43,7 @@ module.exports = {
       .loader("url-loader")
       .tap(options => Object.assign(options, { limit: 1024 }));
     config.resolve.alias.set("@res", resolve("../chengyun_components/src"));
+    config.resolve.alias.set('@resconfig', resolve('./src/config'));
   },
   configureWebpack: config => {
     if (process.env.NODE_ENV === "production") {

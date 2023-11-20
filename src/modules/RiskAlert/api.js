@@ -1,4 +1,14 @@
 import request from "@/http/request";
+import requestApi from "@/http/requestApi.js"
+
+export function getLowCodeData (table) {
+  return requestApi({
+    params: {
+     table
+    }
+  })
+}
+
 
 export function getData() {
   return request({

@@ -14,7 +14,7 @@ import WrapTitle from '@/components/MTitle/WrapTitle'
 
 import ListItem from './ListItem.vue'
 
-import { getData, getCurrYdRoad, getMetroFlow, getHotlineData } from './api'
+import { getLowCodeData, getData, getCurrYdRoad, getMetroFlow, getHotlineData } from './api'
 
 export default {
   name: 'RiskAlert',
@@ -117,6 +117,11 @@ export default {
               count: 78,
               key: 'iot_count',
               color: '#4FCFD5'
+            },
+            {
+              label: '火车站滞留旅客',
+              count: 0,
+              color: '#F23470'
             }
           ]
         }
@@ -179,7 +184,14 @@ export default {
             }
             this.itemsData = tmp
           })
+          getLowCodeData('train_station_passenger').then(res => {
+            const { data = [] } = res || {}
+            this.itemsData['火车站滞留旅客'] = {
+              value: (data[0] && data[0].number) || 0
+            }
+          })
         })
+        
       })
     },
     showDetail (item) {
