@@ -1,7 +1,8 @@
 <template>
   <div class="MapContainer" id="MapContainer" @click.stop @mousedown.stop>
     <maptitle @titleClick="handleReportView"></maptitle>
-    <citymap ref='Map'></citymap>
+    <openLayerMap v-show="showSatelliteBaseMap"></openLayerMap>
+    <citymap ref='Map' v-show="!showSatelliteBaseMap"></citymap>
     <maptool :class="{collapsed: isCollapsed}"></maptool>
     <videomap @collapsedChange="handleCollapseChange"></videomap>
         <!---左侧通用弹窗容器-->
@@ -31,6 +32,7 @@ import { getCaseTownList, getHotlineData } from './api'
 
 import MPdf from '@/components/MPDF'
 import MDialog from '@/components/MDialog'
+import openLayerMap from '@/components/openLayer'
 
 export default {
   name: 'MapManager',
@@ -46,8 +48,8 @@ export default {
       },
       popupMapData: {},
       popupComponentName: '',
-      popupBool: false
-
+      popupBool: false,
+      showSatelliteBaseMap: false
     }
   },
   components: {
@@ -57,7 +59,8 @@ export default {
     videomap,
     popupContainer,
     MDialog,
-    MPdf
+    MPdf,
+    openLayerMap
   },
   computed: {
   },
@@ -317,8 +320,10 @@ export default {
     handleReportView () {
       this.visible = true
       this.pdfUrl = this.rootUrl + '/pdf/report.pdf'
+    },
+    clickSatelliteBaseMap() {
+      this.showSatelliteBaseMap = !this.showSatelliteBaseMap
     }
-
   },
   created () {
     const urlString = window.location.href
@@ -334,6 +339,8 @@ export default {
     this.$bus.$on('citymap-ready', this.onMapReady)
     // 注册地图代理组件
     this.$_mapProxy.setMap(this)
+    // 查看卫星底图
+    this.$bus.$on('click-satellite-basemap', this.clickSatelliteBaseMap)
   }
 }
 </script>

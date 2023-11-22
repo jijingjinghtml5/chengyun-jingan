@@ -176,22 +176,24 @@ export default {
       window.bridge.Invoke(cmd);
     },
     openRemoteScenseLayer() {
-       let cmd = {
+      this.$bus.$emit('click-satellite-basemap')
+       /* let cmd = {
                 "ActionName": "ChangeMapTheme",
                 "Parameters": {
                   "mapthemeid": "scyxbasemap"
                 }
               };
-      window.bridge.Invoke(cmd);
+      window.bridge.Invoke(cmd); */
     },
     closeRemoteScenseLayer() {
-      let cmd = {
+      this.$bus.$emit('click-satellite-basemap')
+      /* let cmd = {
                 "ActionName": "ChangeMapTheme",
                 "Parameters": {
                   "mapthemeid": "basetheme"
                 }
               };
-      window.bridge.Invoke(cmd);
+      window.bridge.Invoke(cmd); */
     },
     openDetailModelLayer() {
       this.tabModelLayer("建筑精模", true);
