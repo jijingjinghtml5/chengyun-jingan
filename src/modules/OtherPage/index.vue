@@ -133,6 +133,10 @@ import IframeContainer from "@/components/IframeContainer";
         }
       },
       imgClick(item) {
+        if (item.url === 'http://10.210.238.35:8078') {
+          window.open("http://10.210.238.35:8078/")
+          return;
+        }
         if (item.url === "https://10.212.3.162") {
           window.open("https://10.212.3.162");
           return;
