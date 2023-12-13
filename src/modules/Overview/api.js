@@ -18,7 +18,7 @@ export function getWeatherAlarm () {
   return request({
     url: '/v2/data-api/445',
     params: {
-      filter: 'simple.messageType=eq.WeatherPredictionWarning&area_district.areaName=eq.静安区&relieveTime=ex.false'
+      filter: 'simple.messageType=eq.WeatherPredictionWarning&area_district.areaName=eq.静安区&relieveTime=ex.false&publishTime=today'
     }
   })
 }
