@@ -1,5 +1,6 @@
 import request from "@/http/request";
 import videoService from "@/http/requestVideoService";
+import request3 from "@/http/request3";
 
 // 查询事件周边视频
 export function getVideosByArea(data) {
@@ -42,5 +43,11 @@ export function sendAfterCloseVideo(data) {
 export function getVideoList() {
   return request({
     url: "/v2/video/screen_list"
+  });
+}
+
+export function getZyVideo() {
+  return request3({
+    url: "http://161.189.83.146:8080/erupt-api/live/qingshi/list?tag=%E5%BC%A0%E5%9B%AD"
   });
 }

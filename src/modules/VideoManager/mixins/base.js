@@ -1,5 +1,5 @@
 import MapEvents from "@/lib/MapProxy/MapOperateEvent";
-import { getVideoList, getVideosByArea } from "../api";
+import { getVideoList, getZyVideo, getVideosByArea } from "../api";
 import { getUrl, thousandCentimeter } from "@/utils/tools";
 export default {
   inject: ["getGlobalConfig", "createFnForCalcRealPx"],
@@ -31,6 +31,7 @@ export default {
       surroundRadius: 500,
       currentLayoutConfig: null,
       rawVideos: {},
+      zyVideos: [],
       videosByArea: [],
       currentVideos: [],
       pageVideos: [],
@@ -176,6 +177,12 @@ export default {
     },
     initConfig(settings = null) {
       this.currentVideos = this.videoStatus === "normal" ? this.currentRawVideos : this.videosByArea;
+      
+      if (this.currentMode == '张园') {
+        this.currentVideos = this.zyVideos
+      }
+
+      console.log(this.currentVideos, 'this.currentVideos')
       const { layout, playInterval } = this.currentLayoutConfig;
       // console.log("initConfig", this.rawVideos, this.currentMode, this.rawVideos[this.currentMode]);
       // const { layout, playInterval } = this.currentLayoutConfig = settings ? {
@@ -211,6 +218,18 @@ export default {
       }).catch(() => {
         this.loading = false;
       });
+      getZyVideo().then(res => {
+        console.log(res, 'ZyVideo')
+        this.loading = false;
+        this.zyVideos = res.data.map(item => {
+          return {
+            tagType: 'zy',
+            ...item,
+            code: item.deviceId,
+            url: item.hls
+          }
+        })
+      })
     },
     updateSelections() {
       const sections = this.groups.reduce((r, d) => {

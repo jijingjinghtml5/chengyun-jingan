@@ -19,6 +19,9 @@
             :key="item.label"
             :value="item.value">
           </el-option>
+          <el-option :label="`张园 (${zyVideos.length})`"
+            key="张园"
+            value="张园"></el-option>
         </el-select>
         <div
           v-else-if="videoStatus === 'area'"

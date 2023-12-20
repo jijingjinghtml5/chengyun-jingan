@@ -50,6 +50,12 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
           //     this.handleVideoForTransferAndSendData(nv, ov);
           //   }, 60000);
           // }
+          const isObjectFornv = Object.prototype.toString.call(nv) === "[object Object]";
+          if (isObjectFornv && nv.tagType == 'zy') {
+            this.result = nv
+            console.log(this.result)
+            return
+          }
           this.handleVideoForTransferAndSendData(nv, ov);
         },
         immediate: true
@@ -107,8 +113,8 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
               streetCode: d.town || d.district,
               streamType: d.type,
               userId: userId
-            };
-          });
+            }
+          })
           getVideoRealUrl(nvParams, this.cancelTokenKey).then(res => {
             if (res.resultCode === "200") {
               const apiDataMapping = generateKeyValuePair("cameraId", null, res.resultData.data.cameraInfos || []);
@@ -121,6 +127,7 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
                 };
               });
               this.result = isObjectFornv ? resultData[0] : resultData;
+              console.log(this.result, 'this.resultthis.result')
             }
           }).catch(err => {
             console.log("转义失败", err);
