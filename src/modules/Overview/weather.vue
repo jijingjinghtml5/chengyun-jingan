@@ -11,7 +11,7 @@
               <img :src="image" class="weather-alarm"/>
             </swiper-slide>
         </swiper>
-        <div v-else>无</div>
+        <div v-else>{{qxzs || '无'}}</div>
       </li>
       <slot></slot>
     </ul>
@@ -57,6 +57,10 @@ export default {
       default: () => {
         return {};
       }
+    },
+    qxzs: {
+      type: String,
+      default: ""
     }
   },
   data() {
@@ -88,10 +92,9 @@ export default {
   methods: {
     getData() {
       getWeatherAlarm().then(res => {
-        // console.log(">>>>", res);
         if (res.data) {
           let tmp = [];
-          res.data.messages.map(item => {
+          res.data.data.messages.map(item => {
             let type = item.args.WeatherPredictionWarning_category;
             let level = item.args.WeatherPredictionWarning_grade;
             let img = this.getWeatherImage(level, type);

@@ -5,7 +5,7 @@
       <m-tabs-body-item name="today" class="today-overview" @mouseenter.native="handleMouse('mainTab', 'enter')" @mouseleave.native="handleMouse('mainTab', 'leave')">
         <m-row>
           <m-column >
-            <weather-item v-bind="todayItems[0]" customClass="style2" :dataset="itemsData['气象预警']"></weather-item>
+            <weather-item v-bind="todayItems[0]" customClass="style2" :dataset="itemsData['气象预警']" :qxzs="dataset.qxzs && dataset.qxzs.value || '-'"></weather-item>
           </m-column>
           <m-column  v-for="item in todayItems.filter((item,index)=>{return index>0})" :key="item.name">
             <overview-item v-bind="item" customClass="style2" :dataset="itemsData[item.name] || dataset[item.prop]"></overview-item>
@@ -25,6 +25,7 @@
         </m-row>
       </m-tabs-body-item>
       <m-tabs-body-item v-for="item in todayItems" :key="item.prop" :name="item.prop" class="today-overview">
+        {{item}}
         <overview-item v-bind="item" customClass="style2" :dataset="dataset.prop" @click.native="handleClickForCloseLayer(item)"></overview-item>
       </m-tabs-body-item>
     </m-tabs-body>
