@@ -95,13 +95,15 @@ export default {
         if (res.data) {
           let tmp = [];
           res.data.data.messages.map(item => {
-            let type = item.args.WeatherPredictionWarning_category;
-            let level = item.args.WeatherPredictionWarning_grade;
-            let img = this.getWeatherImage(level, type);
-            if (img) {
-            tmp.push(
-              require("@/assets/images/weather/" + img + ".png")
-            );
+            if (item.args.WeatherPredictionWarning_state && item.args.WeatherPredictionWarning_state === '发布') {
+              let type = item.args.WeatherPredictionWarning_category;
+              let level = item.args.WeatherPredictionWarning_grade;
+              let img = this.getWeatherImage(level, type);
+              if (img) {
+                tmp.push(
+                  require("@/assets/images/weather/" + img + ".png")
+                );
+              }
             }
           });
           this.images = tmp;
