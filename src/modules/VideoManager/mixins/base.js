@@ -1,5 +1,5 @@
 import MapEvents from "@/lib/MapProxy/MapOperateEvent";
-import { getVideoList, getZyVideo, getVideosByArea } from "../api";
+import { getVideoList, getZyVideoList, getVideosByArea } from "../api";
 import { getUrl, thousandCentimeter } from "@/utils/tools";
 export default {
   inject: ["getGlobalConfig", "createFnForCalcRealPx"],
@@ -218,18 +218,70 @@ export default {
       }).catch(() => {
         this.loading = false;
       });
-      getZyVideo().then(res => {
-        console.log(res, 'ZyVideo')
-        this.loading = false;
-        this.zyVideos = res.data.map(item => {
-          return {
-            tagType: 'zy',
-            ...item,
-            code: item.deviceId,
-            url: item.hls
-          }
-        })
-      })
+      const zyList = [
+        {
+            "id": "1_34020000001310000009",
+            "name": "C359 西门出入口",
+            "deviceId": "1_34020000001310000009",
+            "deviceCode": "34020000001310000009"
+        },
+        {
+            "id": "1_34020000001310000008",
+            "name": "C358 西门主通道02",
+            "deviceId": "1_34020000001310000008",
+            "deviceCode": "34020000001310000008"
+        },
+        {
+            "id": "1_34020000001310000007",
+            "name": "C349 室外16#东侧(R)",
+            "deviceId": "1_34020000001310000007",
+            "deviceCode": "34020000001310000007"
+        },
+        {
+            "id": "1_34020000001310000006",
+            "name": "C348 室外17#东侧(R)",
+            "deviceId": "1_34020000001310000006",
+            "deviceCode": "34020000001310000006"
+        },
+        {
+            "id": "1_34020000001310000005",
+            "name": "C334 室外12#-13#中间广场4(R)",
+            "deviceId": "1_34020000001310000005",
+            "deviceCode": "34020000001310000005"
+        },
+        {
+            "id": "1_34020000001310000004",
+            "name": "C333 室外12#-13#中间广场3(R)",
+            "deviceId": "1_34020000001310000004",
+            "deviceCode": "34020000001310000004"
+        },
+        {
+            "id": "1_34020000001310000003",
+            "name": "C322 室外11#东侧2(R)",
+            "deviceId": "1_34020000001310000003",
+            "deviceCode": "34020000001310000003"
+        },
+        {
+            "id": "1_34020000001310000002",
+            "name": "C320 室外11#东侧1(R)",
+            "deviceId": "1_34020000001310000002",
+            "deviceCode": "34020000001310000002"
+        },
+        {
+            "id": "1_34020000001310000001",
+            "name": "C356 西门主通道01",
+            "deviceId": "1_34020000001310000001",
+            "deviceCode": "34020000001310000001"
+        }
+    ]
+    this.zyVideos = zyList.map(item => {
+      return {
+        tagType: 'zy',
+        ...item,
+        code: item.deviceCode,
+        // url: item.hls
+      }
+    })
     },
     updateSelections() {
       const sections = this.groups.reduce((r, d) => {
