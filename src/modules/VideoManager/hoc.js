@@ -148,7 +148,7 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
                     // const _tmp = apiDataMapping[d.code] || {};
                     return {
                       ...d,
-                      url: res.data.send_uri,
+                      url: res.data.send_uri.replace('10.89.15.222', '10.212.3.225'),
                       tgt_session_id: res.data.tgt_session_id,
                       errorMessage: ''
                     };

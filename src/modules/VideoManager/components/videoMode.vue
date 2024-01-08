@@ -27,7 +27,6 @@ import qvPlayer from "@/components/Video/qvPlayer";
 import VueGridLayout from "vue-grid-layout";
 import { transferAndSendForVideo } from "../hoc.js";
 
-
 const qv = transferAndSendForVideo(qvPlayer);
 // 单个策略组的播放
 export default {
