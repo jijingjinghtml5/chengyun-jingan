@@ -135,7 +135,8 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
           if (nvParams[0] && nvParams[0].tagType == 'zy') {
             getZyVideoRealUrl({
               camera_id: nvParams[0].cameraId,
-              protocol: 'http-flv'
+              protocol: 'http-flv',
+              stream_num: 1
             }, this.cancelTokenKey)
               .then((res) => {
                 if (res.code == "0") {
