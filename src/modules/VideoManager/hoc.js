@@ -86,23 +86,24 @@ export function transferAndSendForVideo(component, prop = "videoSrc") {
               sendAfterCloseZyVideo({
                 tgt_session_id: norepeat[0].tgt_session_id
               })
-              return
+            }else{
+              sendAfterCloseVideo(
+                norepeat
+                  .filter((d) => !!d.url)
+                  .map((d) => {
+                    return {
+                      cameraId: d.code,
+                      districtCode: d.district,
+                      streetCode: d.town,
+                    };
+                  })
+              ).catch((error) => {
+                console.log("api: sendAfterCloseVideo, status: error.", error);
+              });
             }
-            sendAfterCloseVideo(
-              norepeat
-                .filter((d) => !!d.url)
-                .map((d) => {
-                  return {
-                    cameraId: d.code,
-                    districtCode: d.district,
-                    streetCode: d.town,
-                  };
-                })
-            ).catch((error) => {
-              console.log("api: sendAfterCloseVideo, status: error.", error);
-            });
           }
         }
+        console.log(nv, 'nvnvnvnvnvnvnvnvnv')
         if (nv && nv.length) {
           const repeatMapping = generateKeyValuePair("code", "url", repeat);
           let initData = nv.map((d) => {
