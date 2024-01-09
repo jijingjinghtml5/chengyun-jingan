@@ -17,7 +17,7 @@
           :h="item.h"
           :i="item.i"
           :key="index">
-        <component :is="'qv-player'" :videoConfig="videos[index]" @reLoading="handleReloading(index,...arguments)" :cancelTokenKey="'getVideoRealUrl-HOC-' + index"/>
+        <component :is="'qv-player'" :videoConfig="videos[index]" :index="index" :tagType="videos[index] && videos[index].tagType" @reLoading="handleReloading(index,...arguments)" :cancelTokenKey="'getVideoRealUrl-HOC-' + index"/>
       </grid-item>
     </grid-layout>
   </div>

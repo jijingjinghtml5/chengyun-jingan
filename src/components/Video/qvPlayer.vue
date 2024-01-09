@@ -1,7 +1,14 @@
 <template>
   <div class="video">
-    <LivePlayer class="livePlayer" ref="livePlayer" :videoUrl="videoUrl" :autoplay="true" :loop="true"
+    <template v-if="tagType == 'zy'">
+      <VdPlayer :videoUrl="videoUrl" :index="index"/>
+    </template>
+    <template v-else>
+      <LivePlayer class="livePlayer" ref="livePlayer" :videoUrl="videoUrl" :autoplay="true" :loop="true"
         :live="live" :muted="true" @play="canplay" :controls="true" :video-title="code"/>
+    </template>
+    <!-- <LivePlayer class="livePlayer" ref="livePlayer" :videoUrl="videoUrl" :autoplay="true" :loop="true"
+        :live="live" :muted="true" @play="canplay" :controls="true" :video-title="code"/> -->
 
     <div v-if="posterShow" class="MsgBox" style="background-color:#000;">
       <div class="tip-info">
@@ -22,9 +29,9 @@
 
 <script>
 import LivePlayer from "@liveqing/liveplayer";
-
+import VdPlayer from "./vdPlayer.vue";
 export default {
-  components: { LivePlayer },
+  components: { LivePlayer, VdPlayer },
   props: {
     videoSrc: {
       type: Object,
@@ -38,6 +45,14 @@ export default {
     live: {
       type: Boolean,
       default: true
+    },
+    index: {
+      type: Number,
+      default: 0
+    },
+    tagType: {
+      type: String,
+      default: ''
     }
   },
   data () {
