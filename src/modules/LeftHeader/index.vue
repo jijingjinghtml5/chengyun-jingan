@@ -98,12 +98,14 @@ export default {
           temperature: weatherData.temperature,
           humidity: weatherData.humidity,
           precipitation: weatherData.precipitation,
-          windSpeed: weatherData.windSpeed
+          windSpeed: weatherData.windSpeed,
+          pm25: weatherData.PM25 || weatherData.pm25,
+          aqi: weatherData.AQI || weatherData.aqi
           // pm25: weatherData[0].content.pm25,
           // qpi: weatherData[0].content.aqi
         }
       }
-      const aqiData = await getAQI()
+      /* const aqiData = await getAQI()
       if (aqiData) {
         aqiData.aqi_list.map(item => {
           if (item.MN === '静安区平均值') {
@@ -114,7 +116,7 @@ export default {
             }
           }
         })
-      }
+      } */
     }
   },
   created () {
