@@ -12,6 +12,7 @@
         :options="options"
         autoresize
         auto-resize
+        @click="chartEvents"
       />
       <ul v-if="valuePosition === 'right'" class="v-chart-column__value" :style="sideStyle">
         <li v-for="(item, index) in source" :key="index">
@@ -31,6 +32,8 @@
 import { thousandCentimeter } from "../../../utils/tools";
 import ChartBaseMixins from "../mixins/ChartBaseMixins";
 import ChartMixins from "../mixins/ChartCustomMixins";
+import requestJa from '@/http/requestJa'
+import SHcoordinateUtils from '@/lib/MapProxy/coordUtils/SHcoordinateUtils'
 export default {
   name: "ChartBarForValuePosition",
   mixins: [ChartBaseMixins, ChartMixins],
@@ -50,6 +53,44 @@ export default {
     valuePosition: {
       type: String,
       default: "right"
+    },
+    sourceType: {
+      type: String,
+      default: ''
+    }
+  },
+  methods: {
+    chartEvents(e) {
+      e = e || {}
+      if (this.sourceType && (this.sourceType === 'grid' || this.sourceType === 'hotline')) {
+        let street = e.name || e.value
+        requestJa({
+          url: '/dmp2/united-ciimc-api/v1/generic-query',
+          params: {
+            index_type: 'active',
+            token: 'dp3e13b16efff2aeaec9bda8cc70e3dp',
+            table: this.sourceType === 'grid' ? 'area-event' : 'hotline-area-event',
+            limit: 10000,
+            source: 'data.location,data.uuid,args.chs_code',
+            transform: 'messages[].{uuid:data.uuid,code:args.chs_code,location:data.location}',
+            district: '静安区',
+            town: this.sourceType === 'grid' ? `${street}街道` : street,
+            filter: 'openTS=today'
+          }
+        }).then(res => {
+          let list = (res && res.data || []).map(item => {
+            let coord = SHcoordinateUtils.WGStoSH([Number(item.location.longitude), Number(item.location.latitude)])
+            return {
+              sourceType: this.sourceType,
+              code: item.code,
+              uuid: item.uuid,
+              lng: coord[0],
+              lat: coord[1] 
+            }
+          })
+          this.$bus.$emit('show-street-case-point', list || [])
+        })
+      }
     }
   },
   computed: {
@@ -88,7 +129,8 @@ export default {
         },
         xAxis: {
           ...this.yAxis,
-          max: "dataMax"
+          max: "dataMax",
+          triggerEvent: true
         },
         yAxis: {
           type: "category",
@@ -105,7 +147,8 @@ export default {
           inverse: true,
           axisLine: {
             show: false
-          }
+          },
+          triggerEvent: true
         },
         series: series
       };

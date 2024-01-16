@@ -1,7 +1,7 @@
 <template>
   <div class="module">
     <m-tabs v-model="tab" :tabs="tabs" ref="tab1"></m-tabs>
-    <chartbar-y :chartData="dataset[tab] || []" :isGradient="true" :colors="colors" labelColor="#fff"  @mouseenter.native="handleMouse('tab1', 'enter')" @mouseleave.native="handleMouse('tab1', 'leave')"></chartbar-y>
+    <chartbar-y :sourceType="tab" :chartData="dataset[tab] || []" :isGradient="true" :colors="colors" labelColor="#fff"  @mouseenter.native="handleMouse('tab1', 'enter')" @mouseleave.native="handleMouse('tab1', 'leave')"></chartbar-y>
     <m-tabs v-model="tab2" :tabs="tabs2" ref="tab2"></m-tabs>
     <chartbar-y :chartData="dataset[tab2] || []" :isGradient="true" :colors="colors" labelColor="#fff"  @mouseenter.native="handleMouse('tab2', 'enter')" @mouseleave.native="handleMouse('tab2', 'leave')"></chartbar-y>
   </div>

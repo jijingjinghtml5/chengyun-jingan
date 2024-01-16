@@ -144,6 +144,10 @@ export default {
       window.bridge.Invoke(commandParams)
     },
 
+    showStreetCasePoint(data) {
+      this.addTownHotlineCasePoint(data)
+    },
+
     mapClickHandle (data) {
       console.log(data, 'data-------------')
       if (data.hotlineEvent) {
@@ -172,11 +176,20 @@ export default {
         return
       }
       if (data.townHotlineCasePointLayer) {
-        this._openPopup('case', {
-          caseId_: data.townHotlineCasePointLayer[0].id,
-          channelParams: 'sangao',
-          caseDefaultInfo_: data.townHotlineCasePointLayer[0]
-        })
+        if (data.townHotlineCasePointLayer[0].sourceType) {
+          this._openPopup('case', {
+            caseId_: data.townHotlineCasePointLayer[0].uuid,
+            sourceType: data.townHotlineCasePointLayer[0].sourceType,
+            channelParams: data.townHotlineCasePointLayer[0].sourceType === 'grid' ? 'paidan' : 'sangao',
+            caseDefaultInfo_: data.townHotlineCasePointLayer[0]
+          })
+        } else {
+          this._openPopup('case', {
+            caseId_: data.townHotlineCasePointLayer[0].id,
+            channelParams: 'sangao',
+            caseDefaultInfo_: data.townHotlineCasePointLayer[0]
+          })
+        }
         return
       }
       if (data.townCasePointLayer) {
@@ -341,6 +354,8 @@ export default {
     this.$_mapProxy.setMap(this)
     // 查看卫星底图
     this.$bus.$on('click-satellite-basemap', this.clickSatelliteBaseMap)
+    // 监听运行动态
+    this.$bus.$on('show-street-case-point', this.showStreetCasePoint)
   }
 }
 </script>

@@ -5,7 +5,7 @@
 </template>
 <script>
 import Sangao from './sangao'
-import { getCaseDetail194, getHotLineCaseDetail } from './api'
+import { getCaseDetail194, getHotLineCaseDetail, getYunxingdongtaiCase } from './api'
 export default {
   name: 'CaseDetail',
   data () {
@@ -28,6 +28,10 @@ export default {
     info: {
       type: Object,
       default: null
+    },
+    sourceType: {
+      type: String,
+      default: ''
     }
   },
   components: {
@@ -60,13 +64,21 @@ export default {
       // } else {
 
       // }
-      apiRes = await getCaseDetail194((this.info && this.info.uuid) || this.caseId, this.channelParams)
-      console.log('案件详情', apiRes)
-      this.loading = false
-      if (apiRes.data) {
-        this.channel = apiRes.data.channel || ''
-        this.detail = apiRes.data.data || null
+      if (this.sourceType) {
+        apiRes = await getYunxingdongtaiCase(this.caseId, this.channelParams)
+        if (apiRes.data) {
+          this.channel = apiRes.data.channel || ''
+          this.detail = apiRes.data || null
+        }
+      } else {
+        apiRes = await getCaseDetail194((this.info && this.info.uuid) || this.caseId, this.channelParams)
+        if (apiRes.data) {
+          this.channel = apiRes.data.channel || ''
+          this.detail = apiRes.data.data || null
+        }
       }
+      this.loading = false
+      console.log('案件详情', apiRes)
     },
     open (type, url) {
       this.$emit('open', type, url)

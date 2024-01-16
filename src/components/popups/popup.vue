@@ -1,6 +1,6 @@
 <template>
   <div class="popupWrap" :style='stylePopup'>
-    <case-detail v-if="componentName === 'case'" :channelParams="mapData.channelParams" :caseId="mapData.caseId_" :info="mapData.caseDefaultInfo_" @open="openDragContainer_" @close="handleCaseDetailClose_"></case-detail>
+    <case-detail v-if="componentName === 'case'" :channelParams="mapData.channelParams" :sourceType="mapData.sourceType" :caseId="mapData.caseId_" :info="mapData.caseDefaultInfo_" @open="openDragContainer_" @close="handleCaseDetailClose_"></case-detail>
     <component v-else v-bind:is="currentComponent" :info="mapData" :data="mapData" :items="items" v-bind="$attrs" v-on="$listeners" @show-loading="showLoading" @hide-loading="hideLoading"></component>
     <drag-container  appendDom="#MapContainer" :dialogShow.sync="dragShow_" :type="dragType_" :urls="dragUrl_" :initial-index="initialIndex_"></drag-container>
     <div v-show="showClose" class = "closeBtn" @click="closePopup">×</div>

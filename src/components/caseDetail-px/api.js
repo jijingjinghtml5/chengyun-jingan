@@ -31,3 +31,13 @@ export function getHotLineCaseDetail (id) {
     }
   })
 }
+
+export function getYunxingdongtaiCase (id, channel) {
+  return requestJa({
+    url: 'dmp2/district-platform-api/v5/event-detail',
+    params: {
+      uuid: id,
+      channel
+    }
+  })
+}
