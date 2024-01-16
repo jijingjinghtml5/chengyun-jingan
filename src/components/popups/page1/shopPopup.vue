@@ -1,35 +1,71 @@
 <template>
   <div  class="panel">
     <div class="category">沿街商铺餐饮户</div>
-    <div class="name">{{info["餐饮户名称（店铺名称）"]}}</div>
+    <div class="name">{{info["enterprise_name"]}}</div>
     <div class="basic-info">
       <div class="item">
-        <span>街镇园区: </span>
-        <span style="color:#ffffff;">{{info["街镇园区"]||""}}</span>
+        <span>所属街镇: </span>
+        <span style="color:#ffffff;">{{info["street"]||""}}</span>
       </div>
       <div class="item">
-        <span>统一社会信用代码: </span>
-        <span style="color:#ffffff;">{{info["统一社会信用代码"]||""}}</span>
+        <span>所属居民区: </span>
+        <span style="color:#ffffff;">{{info["committee"]||""}}</span>
       </div>
       <div class="item">
+        <span>统一信用代码: </span>
+        <span style="color:#ffffff;">{{info["code"]||""}}</span>
+      </div>
+      <div class="item">
+        <span>所属部门: </span>
+        <span style="color:#ffffff;">{{info["sys_org_code"]||""}}</span>
+      </div>
+      <!-- <div class="item">
         <img style="width:560px;316px;" :src="info['图片地址'] || require('@/assets/images/default.png')" />
-      </div>
+      </div> -->
     </div>
     <div class="split-line"></div>
     <div class="paicha">
       <div class="item">
-        <span>联系人：</span>
-        <span  style="color:#ffffff;">{{info['联系人']}}</span>
+        <span>责任人姓名：</span>
+        <span  style="color:#ffffff;">{{info['name']}}</span>
       </div>
       <div class="item">
-        <span>联系电话: </span>
-        <span  style="color:rgb(235, 153, 6);">{{info['移动电话']}}</span>
+        <span>责任人手机号码: </span>
+        <span  style="color:rgb(235, 153, 6);">{{info['photo']}}</span>
       </div>
       <div class="item">
-        <span>地址: </span>
-        <span  style="color:#ffffff;">{{info['地址']}}</span>
+        <span>责任人身份证: </span>
+        <span  style="color:rgb(235, 153, 6);">{{info['id_code']}}</span>
       </div>
       <div class="item">
+        <span>实际经营地址: </span>
+        <span  style="color:#ffffff;">{{info['address']}}</span>
+      </div>
+      <div class="item">
+        <span>行业: </span>
+        <span  style="color:#ffffff;">{{info['industry']}}</span>
+      </div>
+      <div class="item">
+        <span>其他行业备注: </span>
+        <span  style="color:#ffffff;">{{info['other_industry_notes']}}</span>
+      </div>
+      <div class="item">
+        <span>经营范围: </span>
+        <span  style="color:#ffffff;">{{info['business_scope']}}</span>
+      </div>
+      <div class="item">
+        <span>许可证名称: </span>
+        <span  style="color:#ffffff;">{{info['permit']}}</span>
+      </div>
+      <div class="item">
+        <span>房东: </span>
+        <span  style="color:#ffffff;">{{info['landlord']}}</span>
+      </div>
+      <div class="item">
+        <span>租赁期限: </span>
+        <span  style="color:#ffffff;">{{info['lease_term']}}</span>
+      </div>
+      <!-- <div class="item">
         <span>是否取得食品经营许可证: </span>
         <span  style="color:#ffffff;">{{info['是否取得食品经营许可证']}}</span>
       </div>
@@ -60,7 +96,7 @@
       <div class="item">
         <span>废弃油脂收运单位: </span>
         <span  style="color:#ffffff;">{{info['废弃油脂收运单位']}}</span>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

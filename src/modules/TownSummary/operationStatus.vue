@@ -26,12 +26,10 @@ export default {
         { label: "110非警情", value: "110" }
       ]),
       tabs2: Object.freeze([
-        { label: "1+3+N在岗数", value: "1+3+N" },
-        { label: "居家隔离工单", value: "homeQuarantine" },
         { label: "151智能感知事件", value: "151" }
       ]),
       tab: "grid",
-      tab2: "1+3+N",
+      tab2: "151",
       dataset: {
         grid: [
           ["网格事部件", "数量"]
@@ -134,16 +132,6 @@ export default {
     });
 
     this.callApi2 = reCallAndNeedCallApi(this, 10 * 60 * 1000, {
-      homeQuarantine: {
-        api: getChartData,
-        params: [4],
-        cb: this.afterCalloApi
-      },
-      "1+3+N": {
-        api: getChartData,
-        params: [5],
-        cb: this.afterCalloApi
-      },
       "151": {
         api: getChartData,
         params: [6],
@@ -152,7 +140,7 @@ export default {
     });
 
     this.callApi1("grid");
-    this.callApi2("1+3+N");
+    this.callApi2("151");
   }
 };
 </script>

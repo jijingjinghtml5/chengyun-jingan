@@ -1,45 +1,49 @@
 <template>
   <div  class="panel">
     <div class="category">多用途单体建筑</div>
-    <div class="name">{{info["名称"]}}</div>
+    <div class="name">{{info["building_name"]}}</div>
     <div class="basic-info">
       <div class="item">
         <span>所属街道: </span>
-        <span style="color:#ffffff;">{{info["街镇"]||""}}</span>
+        <span style="color:#ffffff;">{{info["street"]||""}}</span>
       </div>
       <div class="item">
-        <span>所属小区: </span>
-        <span style="color:#ffffff;">{{info["所属小区"]||""}}</span>
+        <span>所属居民区: </span>
+        <span style="color:#ffffff;">{{info["committee"]||""}}</span>
       </div>
       <div class="item">
-        <span>所属地址: </span>
-        <span style="color:#ffffff;">{{info["地址"]||""}}</span>
+        <span>地址: </span>
+        <span style="color:#ffffff;">{{info["address"]||""}}</span>
       </div>
       <div class="item">
-        <span>面积: </span>
-        <span style="color:#ffffff;">{{info["面积"]||""}}（平米）</span>
+        <span>建筑类型: </span>
+        <span style="color:#ffffff;">{{info["type"]||""}}</span>
       </div>
       <div class="item">
+        <span>所属部门: </span>
+        <span style="color:#ffffff;">{{info["sys_org_code"]||""}}</span>
+      </div>
+      <!-- <div class="item">
         <img style="width:560px;316px;" :src="info['图片地址'] || require('@/assets/images/default.png')" />
-      </div>
+      </div> -->
     </div>
     <div class="split-line"></div>
     <div class="paicha">
-      <div class="item">
+      <!-- <div class="item">
         <span>物业名称: </span>
         <span  style="color:#ffffff;">{{info['物业名称'] }}</span>
-      </div>
+      </div> -->
       <div class="item">
         <span>联系人：</span>
-        <span  style="color:#ffffff;">{{info['联系人']}}</span>
+        <span  style="color:#ffffff;">{{info['name']}}</span>
       </div>
       <div class="item">
         <span>联系电话: </span>
-        <span  style="color:rgb(235, 153, 6);">{{info['联系电话']}}</span>
+        <span  style="color:rgb(235, 153, 6);">{{info['photo']}}</span>
       </div>
       <div class="item">
-        <span>建筑用途: </span>
-        <span  style="color:rgb(235, 153, 6);">{{info['用途']}}</span>
+        <span>建筑用途说明: </span>
+        <span  style="color:rgb(235, 153, 6);">{{info['illustrate']}}</span>
       </div>
     </div>
   </div>

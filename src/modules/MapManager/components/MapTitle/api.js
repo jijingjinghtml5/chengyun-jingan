@@ -4,6 +4,14 @@ import requestrj from '@/http/requestRj'
 import requestJa from '@/http/requestJa'
 import requestApi from "@/http/requestApi.js"
 
+export function getLowCodeData (table) {
+  return requestApi({
+    params: {
+     table
+    }
+  })
+}
+
 export function getPeopleCount () {
   return requestApi({
     params: {

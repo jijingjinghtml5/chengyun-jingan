@@ -25,7 +25,8 @@ import {
   getJinganCode,
   getPeopleCount,
   getPublicDevice,
-  getCodeNum
+  getCodeNum,
+  getLowCodeData
 } from './api'
 import {
   thousandCentimeter,
@@ -116,7 +117,9 @@ export default {
       subwayLayer: null,
       thing0: [],
       thing1: [],
-      thing2: []
+      thing2: [],
+      dantijianzhuList: [],
+      yanjieshopList: []
       // area0: [],
       // area1: []
     }
@@ -294,23 +297,13 @@ export default {
           {
             name: '多用途单体建筑',
             nameKey: 'name',
-            children: [{
-              name: '全部',
-              nameKey: 'name',
-              checked: false,
-              type: 'singleBuilding'
-            }],
+            children: this.dantijianzhuList,
             childKey: 'children'
           },
           {
             name: ' 沿街商铺餐饮户',
             nameKey: 'name',
-            children: [{
-              name: '全部',
-              nameKey: 'name',
-              checked: false,
-              type: 'shop'
-            }],
+            children: this.yanjieshopList,
             childKey: 'children'
           }
         ],
@@ -550,7 +543,7 @@ export default {
       // todo
       if (item.checked) {
         let data = this.shopListData.filter(e => {
-          return item.name === '全部' || e.street_name === item.name
+          return item.name === '全部' || e.street === item.name
         })
         this.shopLayer.setParameters({
           'data': {
@@ -578,7 +571,7 @@ export default {
           return
         }
         let data = this.singleBuildingData.filter(e => {
-          return e.street_name === item.name
+          return e.street === item.name
         })
         this.singleBuildingLayer.setParameters({
           'data': {
@@ -1135,7 +1128,7 @@ export default {
         'isLocate': false,
         'labels': [{
           fields: [
-            '#.名称'
+            '#.building_name'
             // '#.count'
           ],
           color: [
@@ -1186,7 +1179,35 @@ export default {
       })
     },
     createSingleBuildingMenu () {
-      getSingleBuildingData().then(res => {
+      getLowCodeData('multipurpose_single_building').then(res => {
+        const { data = [] } = res || {}
+        let townSet = new Set()
+        data.forEach(e => {
+          let lon = parseFloat(e.lat)
+          let lat = parseFloat(e.lng)
+          let coord = SHcoordinateUtils.WGStoSH([lon, lat])
+          e.x = coord[0]
+          e.y = coord[1]
+          townSet.add(e.street)
+        })
+        this.singleBuildingData = data
+        this.dantijianzhuList.push({
+          name: '全部',
+          nameKey: 'name',
+          checked: false,
+          type: 'singleBuilding'
+        })
+        townSet.forEach(s => {
+          let item = {
+            name: s,
+            nameKey: 'name',
+            type: 'singleBuilding',
+            checked: false
+          }
+          this.dantijianzhuList.push(item)
+        })
+      })
+      /* getSingleBuildingData().then(res => {
         let townSet = new Set()
         res.raw_data.forEach(e => {
           let lon = parseFloat(e.longitude)
@@ -1206,10 +1227,38 @@ export default {
           }
           this.checkItems.area[2].children.push(item)
         })
-      })
+      }) */
     },
     getShopListData () {
-      getShopList().then(res => {
+      getLowCodeData('street_shops').then(res => {
+        const { data = [] } = res || {}
+        let townSet = new Set()
+        data.forEach(e => {
+          let lon = parseFloat(e.lat)
+          let lat = parseFloat(e.lng)
+          let coord = SHcoordinateUtils.WGStoSH([lon, lat])
+          e.x = coord[0]
+          e.y = coord[1]
+          townSet.add(e.street)
+        })
+        this.shopListData = data
+        this.yanjieshopList.push({
+          name: '全部',
+          nameKey: 'name',
+          checked: false,
+          type: 'shop'
+        })
+        townSet.forEach(s => {
+          let item = {
+            name: s,
+            nameKey: 'name',
+            type: 'shop',
+            checked: false
+          }
+          this.yanjieshopList.push(item)
+        })
+      })
+      /* getShopList().then(res => {
         let townSet = new Set()
         res.raw_data.forEach(e => {
           let lon = parseFloat(e.longitude)
@@ -1229,7 +1278,7 @@ export default {
           }
           this.checkItems.area[3].children.push(item)
         })
-      })
+      }) */
     }
   },
   created () {
