@@ -1236,7 +1236,7 @@ export default {
         data.forEach(e => {
           let lon = parseFloat(e.lat)
           let lat = parseFloat(e.lng)
-          let coord = SHcoordinateUtils.WGStoSH([lon, lat])
+          let coord = SHcoordinateUtils.BDtoSH([lon, lat])
           e.x = coord[0]
           e.y = coord[1]
           townSet.add(e.street)

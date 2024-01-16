@@ -30,6 +30,8 @@ export default {
       ]),
       tab: "grid",
       tab2: "151",
+      streetList: ['静安寺街道', '曹家渡街道', '江宁路街道', '石门二路街道', '南京西路街道', '天目西路街道', '北站街道', '宝山路街道', '芷江西路街道',
+        '共和新路街道', '大宁路街道', '彭浦新村街道', '临汾路街道', '彭浦镇'],
       dataset: {
         grid: [
           ["网格事部件", "数量"]
@@ -100,6 +102,32 @@ export default {
         })
       ];
     },
+    afterCalloApiGrid(data, key) {
+      console.log(">>>>", data, key);
+      if (!data) return;
+      let list = [["街镇", "数量"]]
+      this.streetList.forEach(item => {
+        (data.data || []).forEach(m => {
+          if (m.town === item) {
+            list.push([m.town.replace("街道", ""), m.count])
+          }
+        })
+      })
+      this.dataset[key] = list
+    },
+    afterCalloApiHotline(data, key) {
+      console.log(">>>>", data, key);
+      if (!data) return;
+      let list = [["街镇", "数量"]]
+      this.streetList.forEach(item => {
+        (data || []).forEach(m => {
+          if (m['town.areaName'] === item) {
+            list.push([m['town.areaName'], m.count])
+          }
+        })
+      })
+      this.dataset[key] = list
+    },
     afterCalloApi2(data, key) {
       console.log(">>>>2", data, key);
       if (!data) return;
@@ -116,12 +144,12 @@ export default {
       grid: {
         api: getChartData,
         params: [1],
-        cb: this.afterCalloApi
+        cb: this.afterCalloApiGrid
       },
       hotline: {
         api: getChartDataHotline,
         params: [2],
-        cb: this.afterCalloApi2
+        cb: this.afterCalloApiHotline
       },
       "110": {
         api: getChartData,
