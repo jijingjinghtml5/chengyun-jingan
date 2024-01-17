@@ -43,6 +43,8 @@ export default {
   },
   data () {
     return {
+      streetList: ['静安寺街道', '曹家渡街道', '江宁路街道', '石门二路街道', '南京西路街道', '天目西路街道', '北站街道', '宝山路街道', '芷江西路街道',
+      '共和新路街道', '大宁路街道', '彭浦新村街道', '临汾路街道', '彭浦镇'],
       codeList: [],
       formatMethods: {
         'thing': (item) => {
@@ -1179,16 +1181,17 @@ export default {
       })
     },
     createSingleBuildingMenu () {
-      getLowCodeData('multipurpose_single_building').then(res => {
+      getLowCodeData({table: 'multipurpose_single_building'}).then(res => {
         const { data = [] } = res || {}
-        let townSet = new Set()
         data.forEach(e => {
+          if (!e.lat || !e.lng) {
+            return
+          }
           let lon = parseFloat(e.lat)
           let lat = parseFloat(e.lng)
           let coord = SHcoordinateUtils.WGStoSH([lon, lat])
           e.x = coord[0]
           e.y = coord[1]
-          townSet.add(e.street)
         })
         this.singleBuildingData = data
         this.dantijianzhuList.push({
@@ -1197,7 +1200,7 @@ export default {
           checked: false,
           type: 'singleBuilding'
         })
-        townSet.forEach(s => {
+        this.streetList.forEach(s => {
           let item = {
             name: s,
             nameKey: 'name',
@@ -1229,34 +1232,48 @@ export default {
         })
       }) */
     },
-    getShopListData () {
-      getLowCodeData('street_shops').then(res => {
+    async getShopListData () {
+      let num = 0
+      let flag = true
+      this.shopListData = []
+      while (flag) {
+        let res = await getLowCodeData({
+          table: 'street_shops',
+          limit: 1000,
+          offset: num
+        })
         const { data = [] } = res || {}
-        let townSet = new Set()
-        data.forEach(e => {
-          let lon = parseFloat(e.lat)
-          let lat = parseFloat(e.lng)
-          let coord = SHcoordinateUtils.BDtoSH([lon, lat])
-          e.x = coord[0]
-          e.y = coord[1]
-          townSet.add(e.street)
-        })
-        this.shopListData = data
-        this.yanjieshopList.push({
-          name: '全部',
+        if (data.length) {
+          data.forEach(e => {
+            if (!e.lat || !e.lng) {
+              return
+            }
+            let lon = parseFloat(e.lat)
+            let lat = parseFloat(e.lng)
+            let coord = SHcoordinateUtils.WGStoSH([lon, lat])
+            e.x = coord[0]
+            e.y = coord[1]
+          })
+          this.shopListData = this.shopListData.concat(data)
+          num += 1000
+        } else {
+          flag = false
+        }
+      }
+      this.yanjieshopList = [{
+        name: '全部',
+        nameKey: 'name',
+        checked: false,
+        type: 'shop'
+      }]
+      this.streetList.forEach(s => {
+        let item = {
+          name: s,
           nameKey: 'name',
-          checked: false,
-          type: 'shop'
-        })
-        townSet.forEach(s => {
-          let item = {
-            name: s,
-            nameKey: 'name',
-            type: 'shop',
-            checked: false
-          }
-          this.yanjieshopList.push(item)
-        })
+          type: 'shop',
+          checked: false
+        }
+        this.yanjieshopList.push(item)
       })
       /* getShopList().then(res => {
         let townSet = new Set()

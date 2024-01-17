@@ -4,11 +4,9 @@ import requestrj from '@/http/requestRj'
 import requestJa from '@/http/requestJa'
 import requestApi from "@/http/requestApi.js"
 
-export function getLowCodeData (table) {
+export function getLowCodeData (params) {
   return requestApi({
-    params: {
-     table
-    }
+    params
   })
 }
 
