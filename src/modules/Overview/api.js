@@ -22,3 +22,9 @@ export function getWeatherAlarm () {
     }
   })
 }
+
+export function getWeatherAlarmNew () {
+  return request({
+    url: 'http://10.210.232.237/internal-api/gateway/daily_weather/weather_alarm?district=上海市'
+  })
+}

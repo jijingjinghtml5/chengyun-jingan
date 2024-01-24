@@ -18,7 +18,7 @@
   </div>
 </template>
 <script>
-import { getWeatherAlarm } from "./api";
+import { getWeatherAlarm, getWeatherAlarmNew } from "./api";
 import "swiper/dist/css/swiper.css";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 export default {
@@ -91,7 +91,7 @@ export default {
   },
   methods: {
     getData() {
-      getWeatherAlarm().then(res => {
+      /* getWeatherAlarm().then(res => {
         if (res.data) {
           let tmp = [];
           res.data.data.messages.map(item => {
@@ -108,7 +108,19 @@ export default {
           });
           this.images = tmp;
         }
-      });
+      }); */
+      getWeatherAlarmNew().then(res => {
+        let tmp = [];
+        (res || []).forEach(item => {
+          let img = this.getWeatherImage(item.level, item.type);
+          if (img) {
+            tmp.push(
+              require("@/assets/images/weather/" + img + ".png")
+            );
+          }
+        })
+        this.images = tmp;
+      })
     },
     getWeatherImage (level, type) {
       let color = null;
