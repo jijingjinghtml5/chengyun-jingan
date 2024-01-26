@@ -1,5 +1,5 @@
 <template>
-  <div class="overview-item" :class="customClass" :title="showTitle" @click="$emit('click', name)">
+  <div class="overview-item" :class="customClass" :title="showTitle" @click="clickItem">
     <div v-if="icon" class="overview-item__icon">
       <i class="iconfont" :class="icon"></i>
     </div>
@@ -88,6 +88,14 @@ export default {
     },
     showTitle () {
       return this.name === '交通拥堵指数' ? '大于50表示拥堵' : ''
+    }
+  },
+  methods: {
+    clickItem() {
+      if (this.name === '舆情热点数') {
+        this.$bus.$emit('watchYuq', {})
+      }
+      this.$emit('click', name)
     }
   }
 }

@@ -8,6 +8,7 @@
         <!---左侧通用弹窗容器-->
     <popup-container :mapData="popupMapData" :componentName="popupComponentName" :popupBool.sync="popupBool" @closePopup='_closePopup'
     :stylePopup='stylePopup' ></popup-container>
+    <YuqingPopup v-if="showYuqingPopup" @close="showYuqingPopup = false"></YuqingPopup>
 
     <m-dialog
       :dialog-visible.sync="visible"
@@ -33,6 +34,7 @@ import { getCaseTownList, getHotlineData } from './api'
 import MPdf from '@/components/MPDF'
 import MDialog from '@/components/MDialog'
 import openLayerMap from '@/components/openLayer'
+import YuqingPopup from '@/components/popups/page1/YuqingPopup/index'
 
 export default {
   name: 'MapManager',
@@ -49,7 +51,8 @@ export default {
       popupMapData: {},
       popupComponentName: '',
       popupBool: false,
-      showSatelliteBaseMap: false
+      showSatelliteBaseMap: false,
+      showYuqingPopup: false
     }
   },
   components: {
@@ -60,7 +63,8 @@ export default {
     popupContainer,
     MDialog,
     MPdf,
-    openLayerMap
+    openLayerMap,
+    YuqingPopup
   },
   computed: {
   },
@@ -356,6 +360,9 @@ export default {
     this.$bus.$on('click-satellite-basemap', this.clickSatelliteBaseMap)
     // 监听运行动态
     this.$bus.$on('show-street-case-point', this.showStreetCasePoint)
+    this.$bus.$on('watchYuq', () => {
+      this.showYuqingPopup = true
+    })
   }
 }
 </script>

@@ -1,5 +1,11 @@
 import request from '@/http/request'
 
+export function getTitleCount() {
+  return request({
+    url: "http://10.210.232.237/internal-api/gateway/opinion/today-stat"
+  });
+}
+
 export function getCount () {
   return request({
     url: '/erupt-api/yuqing/overview'

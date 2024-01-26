@@ -40,7 +40,7 @@ import OverviewItem from '@/components/OverviewItem/index'
 import WeatherItem from './weather'
 import MTabsBody from '@/components/MTabsBody/MTabsBody'
 import MTabsBodyItem from '@/components/MTabsBody/MTabsBodyItem'
-import { getData, getCount } from './api'
+import { getData, getCount, getTitleCount } from './api'
 export default {
   name: 'OverView',
   components: {
@@ -159,8 +159,9 @@ export default {
     },
     async getData () {
       const [{ tag }, res] = await Promise.all([getCount(), getData()])
+      const resYuq = await getTitleCount()
       this.dataset.yqrds = {
-        value: tag.num
+        value: resYuq.sensitive_date
       }
       if (res.api) {
         this.dataset.jtydzs = {
