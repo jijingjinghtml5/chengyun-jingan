@@ -159,6 +159,11 @@ import IframeContainer from "@/components/IframeContainer";
           window.open(`https://10.212.3.223:9443?token=${window.sessionStorage.getItem('token')}`)
           return
         }
+
+        if(item.url === 'http://101.95.167.134:9090/smel_web/page/login.html?redirect_url=http://101.95.167.134:9090/smel_web/page/main.html') {
+          window.open(`http://101.95.167.134:9090/smel_web/page/login.html?redirect_url=http://101.95.167.134:9090/smel_web/page/main.html&token=${window.sessionStorage.getItem('token')}`)
+          return
+        }
         this.dialogVisible = true;
         this.iframeSrc = item.url.indexOf('?') > -1 ? `${item.url}&token=${window.sessionStorage.getItem('token')}` : `${item.url}?token=${window.sessionStorage.getItem('token')}`;
       },
