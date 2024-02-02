@@ -161,7 +161,7 @@ import IframeContainer from "@/components/IframeContainer";
         }
 
         if(item.url === 'http://101.95.167.134:9090/smel_web/page/login.html?redirect_url=http://101.95.167.134:9090/smel_web/page/main.html') {
-          window.open(`http://101.95.167.134:9090/smel_web/page/login.html?redirect_url=http://101.95.167.134:9090/smel_web/page/main.html&token=${window.sessionStorage.getItem('token')}`)
+          window.open(`http://101.95.167.134:9090/smel_web/page/login.html?redirect_url=http://101.95.167.134:9090/smel_web/page/main.html`)
           return
         }
         this.dialogVisible = true;
