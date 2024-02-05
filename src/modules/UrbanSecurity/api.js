@@ -8,6 +8,16 @@ export function getDeviceRate () {
   })
 }
 
+export function getDeviceRate2 () {
+  return request({
+    url: 'http://10.210.232.237/internal-api/gateway/screen-api/generic-query',
+    params: {
+      table: 'device_information',
+      response_type: 'map'
+    }
+  })
+}
+
 export function getData () {
   return request({
     url: '/v2/data-api/430'

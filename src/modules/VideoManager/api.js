@@ -53,6 +53,21 @@ export function getZyVideo() {
   });
 }
 
+export function getVideoFilterList({ page, scene_ids }) {
+  return request({
+    url: "http://10.210.232.237/internal-api/gateway/ja-eye/ja-eye-device",
+    params: {
+      table: "eye_device",
+      query_name: "is_delete,district_code",
+      query_value: "0,06",
+      query_operation: "eq,eq",
+      query_match_type: "and",
+      offset: (page - 1) * 3000,
+      limit: 3000,
+      scene_ids: scene_ids
+    },
+  });
+}
 // 获取视频的真实地址
 export function getZyVideoRealUrl(params, cancelTokenKey) {
   return request3({

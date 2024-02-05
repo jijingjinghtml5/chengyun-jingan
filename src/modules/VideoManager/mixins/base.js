@@ -1,6 +1,7 @@
 import MapEvents from "@/lib/MapProxy/MapOperateEvent";
-import { getVideoList, getZyVideoList, getVideosByArea } from "../api";
+import { getVideoList, getVideoFilterList, getZyVideoList, getVideosByArea } from "../api";
 import { getUrl, thousandCentimeter } from "@/utils/tools";
+import SHcoordinateUtil from "@/lib/MapProxy/coordUtils/SHcoordinateUtils.js";
 export default {
   inject: ["getGlobalConfig", "createFnForCalcRealPx"],
   data() {
@@ -207,13 +208,35 @@ export default {
     },
     getVideoData() {
       this.loading = true;
-      getVideoList().then(res => {
-        // console.log("视频列表", res);
+      const p1 = getVideoList()
+      const p2 = getVideoFilterList({
+        page: 1,
+        scene_ids: 555
+      })
+      Promise.all([p1, p2]).then(result => {
+        let [res, res2] = result
+        console.log("视频列表", res);
         this.loading = false;
         this.rawVideos = Object.keys(res || {}).reduce((r, key) => {
           r[key] = Object.freeze(res[key]);
           return r;
         }, {});
+        res2 = res2.map(item => {
+          const position = SHcoordinateUtil.BDtoSH([parseFloat(item.lng_bd), parseFloat(item.lat_bd)])
+          return {
+            cate1: "位置",
+            cate2: "道路",
+            code: item.code,
+            district: item.district_code,
+            town: '0601',
+            player: "qv-player",
+            type: "HLS",
+            id: 'gyja_' + item.id,
+            lng: position[0],
+            lat: position[1]
+          }
+        })
+        this.rawVideos['火车站'] = res2 || []
         this.updateSelections();
       }).catch(() => {
         this.loading = false;
@@ -284,14 +307,14 @@ export default {
     })
     },
     updateSelections() {
-      const sections = this.groups.reduce((r, d) => {
+      let sections = this.groups.reduce((r, d) => {
         r.push({
           label: d.label,
           value: d.label
         });
         return r;
       }, [{ label: "全部视频", value: "全部视频" }]);
-      this.selections = sections.map(d => {
+      sections = sections.map(d => {
         let num = (this.rawVideos[d.label] || []).length;
         return {
           value: d.label,
@@ -299,6 +322,10 @@ export default {
           _value: num
         };
       }).sort((a, b) => b._value - a._value);
+      let index = sections.findIndex(item => item.value == '火车站'); //根据 已知id（this.a_id） 获取在数组中的位置(index)；
+      let thobj = sections.splice(index, 1); //从数据组移出当前数据；
+      sections.splice(1, 0, ...thobj); // 把当前数据插入到数组第一位；
+      this.selections = sections
       this.currentMode = this.selections[0].value;
       this.handleSelectForChangeMode();
     },

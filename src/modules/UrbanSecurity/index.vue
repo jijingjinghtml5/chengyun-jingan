@@ -150,7 +150,7 @@ import ChartLine from '@/components/Charts/Line/ChartLineForCompare'
 import MList from '@/components/MList/index'
 import MPdf from '@/components/MPDF'
 
-import { getData, getData2, getListData1, getListData2, getHotlineData, getDeviceRate } from './api'
+import { getData, getData2, getListData1, getListData2, getHotlineData, getDeviceRate, getDeviceRate2 } from './api'
 import { statisticsForKey } from '@/utils/tools'
 
 export default {
@@ -338,15 +338,18 @@ export default {
       this.showYingjiList = null
     },
     getData () {
-      getDeviceRate().then(res => {
-        console.log(res, 'getDeviceRate')
+      getDeviceRate2().then(res => {
+        this.dataset.zngzyj = {
+          value: res.data_value
+        }
       })
       getData().then(res => {
         if (res.api) {
-          let result = Math.round(res.api.device_online_percent * 100) / 100
-          this.dataset.zngzyj = {
-            value: result > 95 ? result : (95 + Math.random() + 1).toFixed(2)
-          }
+          // let result = Math.round(res.api.device_online_percent * 100) / 100
+          // this.dataset.zngzyj = {
+          //   value: result > 95 ? result : (95 + Math.random() + 1).toFixed(2)
+          // }
+          
         }
         // if (res.apiData) {
         //   this.dataset.staff_total = {
