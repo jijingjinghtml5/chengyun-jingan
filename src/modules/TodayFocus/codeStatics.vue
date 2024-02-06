@@ -1,44 +1,30 @@
 <template>
-  <wrap-title
-    txt="静安扫码统计"
-    :level="2"
-    icon="icon-biaoti"
-    class="dashboard"
-  >
+  <wrap-title txt="静安扫码统计" :level="2" icon="icon-biaoti" class="dashboard">
     <div class="times-tab">
-      <p
-        v-for="item in times"
-        :class="{ active: current === item.value }"
-        @click="handleClickTime(item)"
-        :key="item.value"
-      >
+      <p v-for="item in times" :class="{ active: current === item.value }" @click="handleClickTime(item)"
+        :key="item.value">
         {{ item.name }}
       </p>
     </div>
-    <line-chart
-      :showLegend="true"
-      :legendConfig="legendConfig"
-      :chartData="chartData"
-      :colors="colors"
-      :showYLabel="true"
-      :pageLen="24"
-      :isGradient="true"
-      :gradientBySelf="true"
-    >
+    <chart-bary v-if="current === 'year'" :chartData="barData" labelColor="#fff" :colors="colors2" :isGradient="true"></chart-bary>
+    <line-chart v-else :showLegend="true" :legendConfig="legendConfig" :chartData="chartData" :colors="colors" :showYLabel="true"
+      :pageLen="24" :isGradient="true" :gradientBySelf="true">
     </line-chart>
   </wrap-title>
 </template>
 <script>
 import LineChart from "@/components/Charts/Line/ChartLine";
+import ChartBary from "@/components/Charts/BarY/ChartBarYForValuePosition";
 import WrapTitle from "@/components/MTitle/WrapTitle";
 import dayjs from "dayjs";
-import { getCodeStatics } from "./api";
+import { getCodeStatics, getCodeStaticsYear } from "./api";
 
 export default {
   name: "NumStatics",
   components: {
     WrapTitle,
     LineChart,
+    ChartBary
   },
   props: {},
   watch: {},
@@ -49,6 +35,7 @@ export default {
         { name: "日", value: "day" },
         { name: "周", value: "week" },
         { name: "月", value: "month" },
+        { name: "年", value: "year" }
       ],
       legendConfig: {
         icon: "rect",
@@ -58,16 +45,18 @@ export default {
         right: 250,
       },
       chartData: [],
-      colors: ["#1ABC9C", "#679DF4", "#F96F4F", "#BE6CCC", "#D0021B"]
+      barData: [],
+      colors: ["#1ABC9C", "#679DF4", "#F96F4F", "#BE6CCC", "#D0021B"],
+      colors2: Object.freeze(["#4FCFD5", "#2E9BCF"])
     };
   },
-  created() {},
+  created() { },
   methods: {
-    handleClickTime (item) {
+    handleClickTime(item) {
       this.current = item.value
       this.getStatics()
     },
-    async getStatics () {
+    async getStatics() {
       let params = {}
       if (this.current == "day") {
         params["start"] = dayjs()
@@ -94,17 +83,31 @@ export default {
           .unix();
         params["type"] = "day";
       }
-      const res = await getCodeStatics(params);
+      if (this.current !== 'year') {
+        const res = await getCodeStatics(params);
 
-      this.chartData = [
-        ["时间", "业务扫码", "市民扫码"],
-        ...res.map((item) => {
-          return [item.dat, item.yewu, item.shimin];
+        this.chartData = [
+          ["时间", "业务扫码", "市民扫码"],
+          ...res.map((item) => {
+            return [item.dat, item.yewu, item.shimin];
+          })
+        ]
+      } else {
+        console.log(dayjs().valueOf())
+        params['start'] = String(dayjs().subtract(365, 'day').valueOf()).substring(0, 10)
+        params['end'] = String(new Date().getTime()).substring(0, 10)
+        const res = await getCodeStaticsYear(params)
+        let shimin = 0
+        let yewu = 0
+        res.forEach(item => {
+          shimin += Number(item.shimin) || 0
+          yewu += Number(item.yewu) || 0
         })
-      ]
+        this.barData = [['扫码总量', '总数'], ['业务扫码(次)', yewu], ['市民扫码(次)', shimin]]
+      }
     }
   },
-  mounted () {
+  mounted() {
     this.getStatics()
   }
 }
@@ -114,6 +117,7 @@ export default {
   padding: 0.1rem 0;
   height: 3.5rem;
   position: relative;
+
   .times-tab {
     position: absolute;
     display: flex;
@@ -121,12 +125,15 @@ export default {
     top: 0.2rem;
     right: 0.1rem;
     color: #92b9f7;
-    & > p {
+
+    &>p {
       font-size: 0.36rem;
       cursor: pointer;
-      & + p {
+
+      &+p {
         margin-left: 0.2rem;
       }
+
       &.active {
         color: #ffffff;
       }

@@ -143,6 +143,26 @@ export function getStreetCodeNum(params) {
   });
 }
 
+export function getStreetCasePenpu(params) {
+  let start = String(new Date(params.startVal).getTime()).substring(0, 10)
+  let end = String(new Date(params.endVal).getTime()).substring(0, 10)
+  return request({
+    url:
+      "http://10.210.232.238/united-ciimc-api/v1/generic-query",
+    params: {
+      index_type: 'active',
+      token: 'dp3e13b16efff2aeaec9bda8cc70e3dp',
+      table: 'jingan-case',
+      limit: 0,
+      transform: `aggResults."report_time.${params.type}"`,
+      district: '静安区',
+      town: '彭浦新村街道',
+      filter: `report_time=${start}~${end}`,
+      group_by: `report_time.${params.type}(filter.close:args.status=in.,已结案,已完结)`
+    },
+  });
+}
+
 export function getDistrictCase(params) {
   return request({
     url: "http://10.210.232.238/dmp2/united-ciimc-api/v1/generic-query",
@@ -199,6 +219,19 @@ export function getCodeStatics(params) {
               "FROM_UNIXTIME%28history_time%2C%27%25d%27%29%20dat%2C%20COUNT%28%2A%29%20coun%2C%20COUNT%28IF%28type2%3D%27401%27%2C%201%2C%20NULL%29%29%20AS%20shimin%2C%20COUNT%28IF%28type2%3D%27402%27%2C%201%2C%20NULL%29%29%20AS%20yewu"
             ), // `FROM_UNIXTIME(history_time,${params.type == 'hour' ? '%Y-%m-%d %H' : '%Y-%m-%d'}) dat, COUNT(*) coun, COUNT(IF(type2='401', 1, NULL)) AS shimin, COUNT(IF(type2='402', 1, NULL)) AS yewu`,
       group_by: "dat",
+    },
+  });
+}
+
+export function getCodeStaticsYear(params) {
+  return request({
+    url:
+      "http://10.210.232.237/internal-api/gateway/qrcode/jam-scan-stat",
+    params: {
+      response_type: "list",
+      type: 4,
+      date_type: 1,
+      date_range: `${params.start},${params.end}`
     },
   });
 }
