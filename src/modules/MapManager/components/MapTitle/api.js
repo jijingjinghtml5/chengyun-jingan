@@ -145,6 +145,16 @@ export function getEventList (openTs = 'today') {
   })
 }
 
+export function getHuoqingList () {
+  return request({
+    url: 'http://10.210.232.237/internal-api/gateway/jazd-event/police-list',
+    params: {
+      hourType: '24',
+      timeType: 'day'
+    }
+  })
+}
+
 export function getOrgs () {
   return requestJa({
     url: '/erupt-api/life/org'

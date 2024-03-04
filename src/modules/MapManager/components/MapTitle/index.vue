@@ -26,7 +26,8 @@ import {
   getPeopleCount,
   getPublicDevice,
   getCodeNum,
-  getLowCodeData
+  getLowCodeData,
+  getHuoqingList
 } from './api'
 import {
   thousandCentimeter,
@@ -121,7 +122,9 @@ export default {
       thing1: [],
       thing2: [],
       dantijianzhuList: [],
-      yanjieshopList: []
+      yanjieshopList: [],
+      huoqiCaseList: [],
+      huoqingCaseLayer: null
       // area0: [],
       // area1: []
     }
@@ -398,12 +401,31 @@ export default {
             if (data.item.name === '火情案件') type = '火灾事故'
             if (data.item.name === '警情案件') type = '事故灾难'
             if (data.item.name === '灾情案件') type = '道路交通事故'
-            this.$_mapProxy.getMap()._openPopup('EventPopup', {
-              name: data.item.name,
-              list: this.eventListData.filter(item => item.event_type_name === type)
-            })
+            if (type === '火灾事故') {
+              this.huoqingCaseLayer.setParameters({
+                'data': {
+                  'content': this.huoqiCaseList,
+                  'parsegeometry': 'function(item){return {x:item.cjX, y:item.cjY}}'
+                }
+              }).setPopupConfig({
+                component: 'huoqingCaseDetailPopup'
+              }).open()
+                this.$_mapProxy.getMap()._openPopup('HuoqingEventPopup', {
+                name: data.item.name,
+                list: this.huoqiCaseList
+              })
+            } else {
+              this.$_mapProxy.getMap()._openPopup('EventPopup', {
+                name: data.item.name,
+                list: this.eventListData.filter(item => item.event_type_name === type)
+              })
+            }
           } else {
             this.$_mapProxy.getMap()._closePopup()
+            if (data.item.name === '火情案件') {
+              this.huoqingCaseLayer.close()
+              this.$_mapProxy.clearPosition();
+            }
           }
           break
         case 'event':
@@ -1063,6 +1085,35 @@ export default {
           }
         })
     },
+    registerHuoqingCaseLayer () {
+      // 地图撒点图层
+      this.huoqingCaseLayer = this.$_mapProxy.registerLayer('HuoqingCaseLayer', '火情撒点图层')
+        .setParameters({
+          'name': 'HuoqingCaseLayer',
+          'type': 'point',
+          'mode': 'replace',
+          'data': {
+            'content': [],
+            'parsegeometry': 'function(item){return {x:item.lng, y:item.lat}}'
+          },
+          'legendVisible': false,
+          'popupEnabled': false,
+          'isFiltered': true,
+          'isLocate': false,
+          'renderer': {
+            type: 'simple',
+            symbol: {
+              type: 'simple-marker',
+              size: 20,
+              color: [0, 255, 244],
+              outline: {
+                color: '#ffffff',
+                width: '1px'
+              }
+            }
+          }
+        })
+    },
     registerPublicLayer () {
       this.publicDeviceLayer = this.$_mapProxy.registerLayer('publicDeviceLayer', '学校')
         .setParameters({
@@ -1301,6 +1352,7 @@ export default {
   created () {
     this.registerSingleBuildingLayer()
     this.registerPointLayer()
+    this.registerHuoqingCaseLayer()
     this.registerPublicLayer()
     this.registerThingsPerceptionLayer()
     this.registerShopLayer()
@@ -1331,6 +1383,9 @@ export default {
     })
     getEventList().then(res => {
       this.eventListData = res.data.data_list.results
+    })
+    getHuoqingList().then(res => {
+      this.huoqiCaseList = res || []
     })
     getOrgs().then(res => {
       this.organizationData = {

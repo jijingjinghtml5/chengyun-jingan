@@ -33,6 +33,15 @@ export function getDataItems(params) {
     },
   });
 }
+export function getDataItems119() {
+  return request({
+    url: "http://10.210.232.237/internal-api/gateway/jazd-event/police-list",
+    params: {
+      hourType: '24',
+      timeType: 'day'
+    },
+  });
+}
 // export function getListData (filter) {
 //   return request({
 //     url: '/v2/data-api/427',

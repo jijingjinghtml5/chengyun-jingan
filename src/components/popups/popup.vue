@@ -29,6 +29,8 @@ export default {
     ParkLotPopup: () => import('./page1/ParkLotPopup'),
     PubliceTransportPopup: () => import('./page1/PubliceTransportPopup'),
     EventPopup: () => import('./page1/EventPopup'),
+    HuoqingEventPopup: () => import('./page1/HuoqingEventPopup'),
+    huoqingCaseDetailPopup: () => import('./page1/huoqingCaseDetailPopup'),
     PowerPopup: () => import('./page1/PowerPopup'),
     SubwayPopup: () => import('./page1/SubwayPopup'),
     PubliceTransportDetail: () => import('./page1/PublicTransportDetail'),

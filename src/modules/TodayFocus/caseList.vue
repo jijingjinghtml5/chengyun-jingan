@@ -55,6 +55,9 @@ export default {
         let filter = ''
         let timestamp = (new Date()).getTime()
         switch (nv) {
+          case '119':
+            this.tableData = ((this.item && this.item.pointList) || [])
+            break
           case 'yellow':
             filter = `(openTS=-259200&args.chs_userId_36=ex.false&args.chs_userId_47=ex.false&args.chs_userId_24=ex.false&((closeTS=ex.false&allEndTS=lt.${timestamp})|(closeTS=ex.true&script="doc['data.closeTS'].value.getMillis()>doc['data.allEndTS'].value.getMillis()")))`
             break
@@ -176,6 +179,7 @@ export default {
       headers: [],
       tableData: [],
       caseLayer: null,
+      huoqingCaseLayer: null,
       caseAllLayer: null
     }
   },
@@ -191,6 +195,32 @@ export default {
         {
           label: '是否申诉',
           prop: 'chs_timestamp_305'
+        }
+      ]
+    }
+    if (this.item.label === '119') {
+      this.headers = [
+        {
+          label: '案件',
+          prop: 'ajlx'
+        },
+        {
+          label: '立案时间',
+          prop: 'lasj',
+          width: '280px'
+        },
+        {
+          label: '发生位置',
+          prop: 'afdz',
+          align: 'left'
+        },
+        {
+          label: '区县',
+          prop: 'qx'
+        },
+        {
+          label: '处置阶段',
+          prop: 'czzt'
         }
       ]
     }
@@ -243,19 +273,28 @@ export default {
     },
     handleRowClick (row) {
       if (row) {
-        this.caseLayer = this.$_mapProxy.pointLocation(row).setPopupConfig({
-          component: 'case',
-          dataFormat: data => {
-            return this.item.key === '12345热线' ? {
-              caseId_: data.id,
-              channelParams: 'sangao'
-            } : {
-              caseId_: data.id
+        if (row.cjX && row.cjY) {
+          row.lng = row.cjX
+          row.lat = row.cjY
+          this.huoqingCaseLayer = this.$_mapProxy.pointLocation(row).setPopupConfig({
+            component: 'huoqingCaseDetailPopup'
+          })
+        } else {
+          this.caseLayer = this.$_mapProxy.pointLocation(row).setPopupConfig({
+            component: 'case',
+            dataFormat: data => {
+              return this.item.key === '12345热线' ? {
+                caseId_: data.id,
+                channelParams: 'sangao'
+              } : {
+                caseId_: data.id
+              }
             }
-          }
-        })
+          })
+        }
       } else {
         this.caseLayer && this.caseLayer.close()
+        this.huoqingCaseLayer && this.huoqingCaseLayer.close()
       }
     },
     getMapIconImg () {
@@ -368,6 +407,10 @@ export default {
     if (this.caseLayer) {
       this.caseLayer.close()
       this.caseLayer = null
+    }
+    if (this.huoqingCaseLayer) {
+      this.huoqingCaseLayer.close()
+      this.huoqingCaseLayer = null
     }
     if (this.caseAllLayer) {
       this.caseAllLayer.close()

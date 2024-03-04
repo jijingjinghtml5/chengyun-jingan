@@ -29,7 +29,7 @@ import Overview from "./overview.vue";
 import CaseDashboard from "./caseDashboard.vue";
 import caseList from "./caseList.vue";
 
-import { getData, getData2, getDataItems } from "./api";
+import { getData, getData2, getDataItems, getDataItems119 } from "./api";
 export default {
   name: "TodayFocus",
   components: { WrapTitle, MTitle, Overview, CaseDashboard, caseList },
@@ -136,6 +136,10 @@ export default {
           (items || []).map(item => {
             tmp[item.name] = item;
           });
+          getDataItems119().then(res => {
+            this.itemsData['119'].value = (res || []).length
+            this.itemsData['119'].pointList = res || []
+          })
           this.itemsData = tmp;
         })
       })
