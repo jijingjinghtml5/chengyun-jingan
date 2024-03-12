@@ -146,7 +146,7 @@ sub {
 .style5 {
   .overview-item__icon {
     width: 1rem;
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     text-align: center;
     margin-right: 0.1rem;
   }
@@ -154,7 +154,7 @@ sub {
     font-size: 0.36rem;
   }
   .overview-item__value {
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     line-height: 0.96rem;
     font-weight: bold;
     sub {

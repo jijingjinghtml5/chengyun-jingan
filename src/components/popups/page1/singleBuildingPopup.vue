@@ -35,11 +35,11 @@
       </div> -->
       <div class="item">
         <span>联系人：</span>
-        <span  style="color:#ffffff;">{{info['name']}}</span>
+        <span  style="color:#ffffff;">{{formatName(info['name'])}}</span>
       </div>
       <div class="item">
         <span>联系电话: </span>
-        <span  style="color:rgb(235, 153, 6);">{{info['photo']}}</span>
+        <span  style="color:rgb(235, 153, 6);">{{formatPhone(info['photo'])}}</span>
       </div>
       <div class="item">
         <span>建筑用途说明: </span>
@@ -101,7 +101,19 @@ export default {
     }
   },
   methods: {
-    getData() {
+    formatName(name) {
+      let sName = '-'
+      if (name) {
+        sName = name.substring(0, 1) + '*' + name.substring(2)
+      }
+      return sName
+    },
+    formatPhone(phone) {
+      let sphone = '-'
+      if (phone) {
+        sphone = phone.substring(0, 4) + '****' + phone.substring(8)
+      }
+      return sphone
     }
   },
   mounted() {

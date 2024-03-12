@@ -285,7 +285,7 @@ export default {
         },
         {
           label: '119',
-          count: '-',
+          count: '0',
           key: '119',
           rate: '-',
           unit: '件'

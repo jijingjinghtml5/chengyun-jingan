@@ -88,12 +88,12 @@ export default {
               label: '地铁大客流出',
               count: 80,
               color: '#F23470'
-            },
+            }/* ,
             {
               label: '地铁故障',
               count: 2,
               color: '#F96F4F'
-            }
+            } */
           ]
         },
         {
