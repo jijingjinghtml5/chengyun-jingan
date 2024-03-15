@@ -203,9 +203,28 @@ export default {
     },
     openSimpleModelLayer() {
       this.tabModelLayer("建筑白模", true);
+      setTimeout(() => {
+        let position = {
+        "ActionName": "goToPosition",
+        "Parameters": {
+          "positon": {
+            "x": -1389.0041669108134,
+            "y": -1171.9187097654974,
+            "z": 0
+          },
+          "heading": 19,
+          "tilt": 63,
+          "hasImg": false,
+          "zoom": 20,
+          "isRotation360": false
+        }
+      };
+      window.bridge.Invoke(position);
+      }, 5000)
     },
     closeSimpleModelLayer() {
       this.tabModelLayer("建筑白模", false);
+      this.initPosition()
     },
     openSearchPopup() {
       this.$bus.$emit('showSearch', true)

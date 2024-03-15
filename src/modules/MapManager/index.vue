@@ -306,6 +306,7 @@ export default {
           name: 'filterLayer',
           type: 'layer',
           filterMode: 'all',
+          legendVisible: false,
           data: {
             layers: {
               name: '区县边界'

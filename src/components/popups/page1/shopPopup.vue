@@ -15,10 +15,6 @@
         <span>统一信用代码: </span>
         <span style="color:#ffffff;">{{info["code"]||""}}</span>
       </div>
-      <div class="item">
-        <span>所属部门: </span>
-        <span style="color:#ffffff;">{{info["sys_org_code"]||""}}</span>
-      </div>
       <!-- <div class="item">
         <img style="width:560px;316px;" :src="info['图片地址'] || require('@/assets/images/default.png')" />
       </div> -->
