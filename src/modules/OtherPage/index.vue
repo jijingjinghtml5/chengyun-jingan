@@ -38,6 +38,7 @@
 import MDialog from "@/components/MDialog";
 import config from '@/config/index'
 import IframeContainer from "@/components/IframeContainer";
+import requestApi from "@/http/requestApi.js"
   import {
     getUrls
   } from "./api";
@@ -189,6 +190,13 @@ import IframeContainer from "@/components/IframeContainer";
       subIndex = urlStringSub.lastIndexOf("/");
       // 获取项目根路径
       this.rootUrl = urlStringSub.substring(0, subIndex + 1);
+      requestApi({
+        params: {
+          table: 'governance_changjing'
+        }
+      }).then(res => {
+        console.log('governance_changjing', res)
+      })
       getUrls().then(res => {
         if (res.list) {
           res.list.forEach(e => {

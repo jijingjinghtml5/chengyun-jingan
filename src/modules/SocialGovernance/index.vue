@@ -6,35 +6,11 @@
     <m-tabs-body :tab="tab">
       <m-tabs-body-item name="社会治安" @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
-          <m-column width="50%">
+          <m-column width="50%" v-for="(item, index) in shehuizhianList" :key="index">
             <overview-item
-              name="刑事案件发生数（起）"
-              :value="dataset.criminal_case_number"
-              :increase="dataset.criminal_case_number_increase"
-              customClass="style6">
-            </overview-item>
-          </m-column>
-          <m-column width="50%">
-            <overview-item
-              name="治安案件发生数（起）"
-              :value="dataset.public_security_case_number"
-              :increase="dataset.public_security_case_number_increase"
-              customClass="style6">
-            </overview-item>
-          </m-column>
-          <m-column width="50%" >
-            <overview-item
-              name="交通事故发生数（起）"
-              :value="dataset.traffic_accident_number"
-              :increase="dataset.traffic_accident_number_increase"
-              customClass="style6">
-            </overview-item>
-          </m-column>
-          <m-column width="50%" >
-            <overview-item
-              name="火灾发生数（起）"
-              :value="dataset.fire_number"
-              :increase="dataset.fire_number_increase"
+              :name="item.field_name"
+              :value="item.numerical_value"
+              :increase="item.growth_ratio"
               customClass="style6">
             </overview-item>
           </m-column>
@@ -42,51 +18,27 @@
       </m-tabs-body-item>
       <m-tabs-body-item name="社会救助" @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
-          <m-column width="50%">
+          <m-column :width="index >= 2 ? '33.33%' : '50%'" v-for="(item, index) in shehuijiuzhuList" :key="index">
             <overview-item
-              name="居家养老服务（人次）"
-              :value="dataset.home_care_service"
-              :increase="dataset.home_care_service_increase"
-              customClass="style6">
-            </overview-item>
-          </m-column>
-          <m-column width="50%">
-            <overview-item
-              name="社会综合帮扶（人次）"
-              :value="dataset.comprehensive_social_assistance"
-              :increase="dataset.comprehensive_social_assistance_increase"
-              customClass="style6">
-            </overview-item>
-          </m-column>
-          <m-column width="33.33%">
-            <overview-item
-              name="廉租房受理(人次)"
-              :value="dataset.cheap_house_acceptance"
-              :increase="dataset.cheap_house_acceptance_increase"
-              customClass="style6">
-            </overview-item>
-          </m-column>
-          <m-column width="33.33%">
-            <overview-item
-              name="新增就业岗位(个)"
-              :value="dataset.new_jobs"
-              :increase="dataset.new_jobs_increase"
-              customClass="style6">
-            </overview-item>
-          </m-column>
-          <m-column width="33.33%">
-            <overview-item
-              name="法律援助咨询(人)"
-              :value="dataset.legal_aid_consultation"
-              :increase="dataset.legal_aid_consultation_increase"
-              customClass="style6">
+            :name="item.field_name"
+            :value="item.numerical_value"
+            :increase="item.growth_ratio"
+            customClass="style6">
             </overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
       <m-tabs-body-item name="社会管理" @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
-          <m-column v-for="(item, index) in shglItems" :key="`shgl-${index}`" :width="item.width">
+          <m-column :width="index >= 2 ? '33.33%' : '50%'" v-for="(item, index) in shehuiguanliList" :key="index">
+            <overview-item2
+            :name="item.field_name"
+            :value="item.numerical_value"
+            :increase="item.growth_ratio"
+            customClass="style6">
+          </overview-item2>
+          </m-column>
+          <!-- <m-column v-for="(item, index) in shglItems" :key="`shgl-${index}`" :width="item.width">
             <overview-item2
               :name="`${item.key}`"
               :nameUnit="itemsData[item.key] ? itemsData[item.key].unit : ''"
@@ -94,7 +46,7 @@
               :increase="itemsData[item.key]?itemsData[item.key].rate: null"
               customClass="style6">
             </overview-item2>
-          </m-column>
+          </m-column> -->
         </m-row>
       </m-tabs-body-item>
     </m-tabs-body>
@@ -149,6 +101,7 @@ import MTabsBody from '@/components/MTabsBody/MTabsBody'
 import MTabsBodyItem from '@/components/MTabsBody/MTabsBodyItem'
 import ChartLine from '@/components/Charts/Line/ChartLine'
 import { getData, getItemData } from './api'
+import requestApi from "@/http/requestApi.js"
 export default {
   name: 'SocialGovernance',
   components: {
@@ -166,6 +119,9 @@ export default {
   inject: ['createFnForCalcRealPx'],
   data () {
     return {
+      shehuizhianList: [],
+      shehuijiuzhuList: [],
+      shehuiguanliList: [],
       colors: Object.freeze(['#1ABC9C', '#679DF4', '#F96F4F', '#D0021B']),
       legendConfig: Object.freeze({
         top: 0,
@@ -225,7 +181,30 @@ export default {
         this.$refs[ref].startTimer()
       }
     },
-    getData () {
+    async getData () {
+      const resLowCode = await requestApi({
+        params: {
+          table: 'digitization_of_life_new'
+        }
+      })
+      let list1 = (resLowCode && resLowCode.data).filter(item => {
+        return item.module_name === '社会治安'
+      })
+      this.shehuizhianList = list1.sort((a, b) => {
+        return Number(a.sort) - Number(b.sort)
+      })
+      let list2 = (resLowCode && resLowCode.data).filter(item => {
+        return item.module_name === '社会救助'
+      })
+      this.shehuijiuzhuList = list2.sort((a, b) => {
+        return Number(a.sort) - Number(b.sort)
+      })
+      let list3 = (resLowCode && resLowCode.data).filter(item => {
+        return item.module_name === '社会管理'
+      })
+      this.shehuiguanliList = list3.sort((a, b) => {
+        return Number(a.sort) - Number(b.sort)
+      })
       getData().then(res => {
         if (res.statistics_db && res.statistics_db[0]) {
           this.dataset = {

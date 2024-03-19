@@ -152,6 +152,7 @@ import MPdf from '@/components/MPDF'
 
 import { getData, getData2, getListData1, getListData2, getHotlineData, getDeviceRate, getDeviceRate2 } from './api'
 import { statisticsForKey } from '@/utils/tools'
+import requestApi from "@/http/requestApi.js"
 
 export default {
   name: 'OverView',
@@ -224,18 +225,18 @@ export default {
         }
       ],
       tabs: Object.freeze([
-        { label: '指挥体系', value: 'manager' },
+        { label: 'i', value: 'manager' },
         { label: '城市运行', value: 'overview' }
       ]),
       colors: Object.freeze(['#4FCFD5', '#DED7D7']),
       colors2: Object.freeze(['#30BC9B', '#92B9F7']),
-      items: Object.freeze([
+      items: [
         { icon: 'icon-chuzhililiang1', name: '处置力量', nameUnit: '(人)', showIncrease: false, prop: 'staff_total' },
         // { icon: 'icon-zaigangrenshu', name: '在岗人数', nameUnit: '(人)', showIncrease: false, prop: 'staff_online' },
         { icon: 'icon-ganzhi', name: '智能感知预警', showIncrease: false, valueUnit: '%', prop: 'zngzyj' },
         { icon: 'icon-wanggeanjian', name: '网格案件数', nameUnit: '(件)', showIncrease: false, prop: 'case_count' },
         { icon: 'icon-rexian', span: 1.2, name: '12345热线', nameUnit: '(件)', showIncrease: false, prop: 'recyclable_waste' }
-      ]),
+      ],
       options: Object.freeze([
         { label: '本周', value: 'currentWeek' },
         { label: '本月', value: 'currentMonth' }
@@ -337,10 +338,32 @@ export default {
       this.activeItem = null
       this.showYingjiList = null
     },
-    getData () {
+    async getData () {
+      const resLowCode = await requestApi({
+        params: {
+          table: 'governance_gaikuang'
+        }
+      })
+      let lowCodeData = (resLowCode && resLowCode.data) || []
+      let lowCodeObj = {}
+      lowCodeData.forEach(item => {
+        lowCodeObj[item.field_name] = item
+        if (item.field_name.indexOf('（') !== -1) {
+          let newIndex = item.field_name.indexOf('（')
+          lowCodeObj[item.field_name.substring(0, newIndex)] = item
+        }
+      })
+      this.items.forEach(item => {
+        if (lowCodeObj[item.name]) {
+          item.sort = lowCodeObj[item.name].sort
+        }
+      })
+      this.items = this.items.sort((a, b) => {
+        return Number(a.sort) - Number(b.sort)
+      })
       getDeviceRate2().then(res => {
         this.dataset.zngzyj = {
-          value: res.data_value
+          value: lowCodeObj['智能感知预警'] && lowCodeObj['智能感知预警'].is_enable === '是' ? lowCodeObj['智能感知预警'].numerical_value : res.data_value
         }
       })
       getData().then(res => {
@@ -364,26 +387,31 @@ export default {
         // }
         let tmp = {};
         (res.items || []).map(item => {
+          item.value = lowCodeObj[item.name] && lowCodeObj[item.name].is_enable === '是' ? lowCodeObj[item.name].numerical_value : item.value
           tmp[item.name] = item
         })
         this.itemsData = tmp
 
         getHotlineData().then(res => {
           let result = res.data || {}
-          this.itemsData['12345热线'].value = result.today || '-'
+          if (lowCodeObj['12345热线'] && lowCodeObj['12345热线'].is_enable === '是') {
+            this.itemsData['12345热线'].value = lowCodeObj['12345热线'].numerical_value || '-'
+          } else {
+            this.itemsData['12345热线'].value = result.today || '-'
+          }
         })
       })
 
       getData2().then(res => {
         this.dataset.staff_total = {
-          value: res.staff_total
+          value: lowCodeObj['处置力量'] && lowCodeObj['处置力量'].is_enable === '是' ? lowCodeObj['处置力量'].numerical_value : res.staff_total
         }
         this.dataset.case_count = {
-          value: res.case_count
+          value: lowCodeObj['网格案件数'] && lowCodeObj['网格案件数'].is_enable === '是' ? lowCodeObj['网格案件数'].numerical_value :  res.case_count
         }
-        this.dataset.staff_online = {
-          value: res.staff_online
-        }
+        /* this.dataset.staff_online = {
+          value: lowCodeObj['智能感知预警'] && lowCodeObj['智能感知预警'].is_enable === '是' ? lowCodeObj['智能感知预警'].numerical_value :  res.staff_online
+        } */
       })
       Promise.all([getListData1(), getListData2()]).then(res => {
         this.list = statisticsForKey('关联', [...res[0].raw_data, ...res[1].raw_data.map(item => {
