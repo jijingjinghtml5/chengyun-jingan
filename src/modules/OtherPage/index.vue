@@ -164,6 +164,11 @@ import IframeContainer from "@/components/IframeContainer";
           window.open(`http://101.95.167.134:9090/smel_web/page/login.html?redirect_url=http://101.95.167.134:9090/smel_web/page/main.html`)
           return
         }
+
+        if (item.url === 'http://10.212.170.10/'){
+          window.open("http://10.212.170.10/");
+          return;
+        }
         this.dialogVisible = true;
         this.iframeSrc = item.url.indexOf('?') > -1 ? `${item.url}&token=${window.sessionStorage.getItem('token')}` : `${item.url}?token=${window.sessionStorage.getItem('token')}`;
       },
