@@ -1,7 +1,8 @@
 <template>
   <div class="overview-item style1" >
     <div v-if="icon" class="overview-item__icon">
-      <i class="iconfont icon-tianqi"></i>
+      <img v-if="pictureUrl" :src="pictureUrl" style="width: 0.7rem;height: 0.7rem;" alt="" />
+      <i v-else class="iconfont icon-tianqi"></i>
     </div>
     <ul class="overview-item__content">
       <li class="overview-item__name">气象预警</li>
@@ -28,6 +29,10 @@ export default {
     swiperSlide
   },
   props: {
+    pictureUrl: {
+      type: String,
+      default: null
+    },
     icon: {
       type: String,
       default: null

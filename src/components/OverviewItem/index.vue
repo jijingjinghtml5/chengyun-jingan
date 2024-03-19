@@ -1,7 +1,8 @@
 <template>
   <div class="overview-item" :class="customClass" :title="showTitle" @click="clickItem">
     <div v-if="icon" class="overview-item__icon">
-      <i class="iconfont" :class="icon"></i>
+      <img v-if="pictureUrl" :src="pictureUrl" style="width: 0.7rem;height: 0.7rem;" alt="" />
+      <i v-else class="iconfont" :class="icon"></i>
     </div>
     <ul class="overview-item__content">
       <li class="overview-item__name" v-if="name">{{ name }}<sub v-if="nameUnit">{{ nameUnit }}</sub></li>
@@ -22,6 +23,14 @@ export default {
   name: 'OverviewItem',
   components: { Increase, NumberAnimation },
   props: {
+    pictureUrl: {
+      type: String,
+      default: null
+    },
+    growth_ratio: {
+      type: String,
+      default: null
+    },
     icon: {
       type: String,
       default: null
@@ -87,7 +96,11 @@ export default {
       return typeof this.valueColor === 'function' ? this.valueColor(this.value) : this.valueColor
     },
     showTitle () {
-      return this.name === '交通拥堵指数' ? '大于50表示拥堵' : ''
+      if (this.name === '交通拥堵指数') {
+        return '大于50表示拥堵'
+      } else {
+        return this.growth_ratio
+      }
     }
   },
   methods: {

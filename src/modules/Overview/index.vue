@@ -105,7 +105,8 @@ export default {
         qyzcz: { value: '-' },
         sszsr: { value: '-' }
       },
-      itemsData: {}
+      itemsData: {},
+      baseUrl: 'http://10.210.232.237/internal-api/sys/common/static/'
     }
   },
   methods: {
@@ -179,11 +180,15 @@ export default {
       this.todayItems.forEach(item => {
         if (lowCodeObj[item.name]) {
           item.sort = lowCodeObj[item.name].sort
+          item.growth_ratio = lowCodeObj[item.name].growth_ratio
+          item.pictureUrl = this.baseUrl + lowCodeObj[item.name].picture
         }
       })
       this.districtItems.forEach(item => {
         if (lowCodeObj[item.name]) {
           item.sort = lowCodeObj[item.name].sort
+          item.growth_ratio = lowCodeObj[item.name].growth_ratio
+          item.pictureUrl = this.baseUrl + lowCodeObj[item.name].picture
         }
       })
       this.todayItems = this.todayItems.sort((a, b) => {

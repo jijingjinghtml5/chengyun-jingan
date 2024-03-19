@@ -225,7 +225,7 @@ export default {
         }
       ],
       tabs: Object.freeze([
-        { label: 'i', value: 'manager' },
+        { label: '指挥体系', value: 'manager' },
         { label: '城市运行', value: 'overview' }
       ]),
       colors: Object.freeze(['#4FCFD5', '#DED7D7']),
