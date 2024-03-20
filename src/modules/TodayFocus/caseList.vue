@@ -3,6 +3,10 @@
     <div v-if="withDashboard" slot="right" class="title-right">
     <span @click="handleClick" class="clickAble">[案件概览]</span>
   </div>
+  <div v-if="item && item.label && item.label === '119'" slot="right" class="title-right">
+    <span @click="change119Type('day')" class="clickAble" :style="{marginRight: '0.5rem', color: current119Type === 'day' ? '#FFFFFF' : '#D1C9C4'}">日</span>
+    <span @click="change119Type('month')" class="clickAble" :style="{marginRight: '0.5rem', color: current119Type === 'month' ? '#FFFFFF' : '#D1C9C4'}">月</span>
+  </div>
   <m-list style="height: 920px;"
    :loading="loading"
     ref="caseList"
@@ -25,7 +29,7 @@ import MList from '@/components/MList/index.vue'
 import { CaseSteps } from '@/mapping'
 import { getUrl } from '@/utils/tools'
 
-import { getListData, getSspListData, getHotlineData, getDuchaData, getDubanData } from './api'
+import { getListData, getSspListData, getHotlineData, getDuchaData, getDubanData, getDataItems119 } from './api'
 
 export default {
   name: 'TodayFocusList',
@@ -127,6 +131,7 @@ export default {
   },
   data () {
     return {
+      current119Type: 'day',
       loading: false,
       filters: {
         name: {
@@ -227,6 +232,12 @@ export default {
     this.registerLayer()
   },
   methods: {
+    change119Type(type) {
+      this.current119Type = type
+      getDataItems119(type).then(res => {
+        this.tableData = res || []
+      })
+    },
     handleClick () {
       this.$emit('click', 'dashboard', this.item)
     },

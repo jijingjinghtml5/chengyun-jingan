@@ -24,27 +24,27 @@
     <level-title :level="2" icon="icon-biaoti" txt="城市发展"></level-title>
     <div>
       <m-row>
-        <m-column v-for="(item, index) in fzItems" :key="`fz-${index}`" :width="item.width">
+        <m-column v-for="(item, index) in chengshifazhanList" :key="`fz-${index}`" :width="item.width">
           <overview-item2
-            :name="`${item.key}`"
-            :nameUnit="itemsData[item.key] ? itemsData[item.key].unit : ''"
-            :value="itemsData[item.key]?itemsData[item.key].value:'-'"
+            :name="item.field_name"
+            :nameUnit="''"
+            :value="item.numerical_value || '-'"
             :showIncrease="false"
             customClass="style6">
           </overview-item2>
           <div>
             <span>累计: </span>
-            <span>{{itemsData[item.key] ? itemsData[item.key+'-累计'].value :''}}</span>
+            <span>{{ getLeiji(item.field_name) }}</span>
           </div>
         </m-column>
       </m-row>
       <m-row style="margin-top:20px;">
         <m-column width="50%">
           <overview-item2
-            name="固定资产投资"
-            :nameUnit="itemsData['固定资产投资'] ? itemsData['固定资产投资'].unit : ''"
-            :value="itemsData['固定资产投资']?itemsData['固定资产投资'].value:'-'"
-            :increase="itemsData['固定资产投资']?itemsData['固定资产投资'].rate: null"
+            :name="gudinzichantouziObj.field_name"
+            :nameUnit="''"
+            :value="gudinzichantouziObj.numerical_value || '-'"
+            :increase="gudinzichantouziObj.growth_ratio || null"
             customClass="style6">
           </overview-item2>
         </m-column>
@@ -126,7 +126,21 @@ export default {
   },
   computed: {
     chartData () {
-      let tmpArr = this.dataset.items.filter(item => {
+      let list = this.lowcodeList.filter(item => {
+        return item.field_name === '办公' || item.field_name === '商业' || item.field_name === '住宅' || item.field_name === '基建'
+      })
+      list = list.sort((a, b) => {
+        return Number(a.sort) - Number(b.sort)
+      })
+
+      let list2 = list.map(item => {
+        return [item.field_name, parseFloat(item.numerical_value)]
+      })
+      return [
+        ['项目', '数值'],
+        ...list2
+      ]
+      /* let tmpArr = this.dataset.items.filter(item => {
         return item.tags === '固定资产图表'
       }).map(item => {
         return [item.name, item.value]
@@ -135,13 +149,16 @@ export default {
       return [
         ['项目', '数值'],
         ...tmpArr
-      ]
+      ] */
     }
   },
   data () {
     return {
+      lowcodeList: [],
       chengshijiansheList: [],
       chengshifazhanList: [],
+      chengshifazhanAllList: [],
+      gudinzichantouziObj: {},
       options: Object.freeze([
         { label: '今日', value: 'today' },
         { label: '本周', value: 'currentWeek' },
@@ -236,6 +253,22 @@ export default {
     this.$refs.jiaotong.stopTimer()
   },
   methods: {
+    getLeiji(type) {
+      let value = 0
+      if (type.indexOf('动迁及征收') !== -1) {
+        let list = this.chengshifazhanAllList.filter(item => {
+          return item.field_name.indexOf('动迁及征收') !== -1 && item.field_name.indexOf('累计') !== -1
+        })
+        value = list[0] && list[0].numerical_value
+      }
+      if (type.indexOf('AQI') !== -1) {
+        let list = this.chengshifazhanAllList.filter(item => {
+          return item.field_name.indexOf('AQI') !== -1 && item.field_name.indexOf('累计') !== -1
+        })
+        value = list[0] && list[0].numerical_value
+      }
+      return value || ''
+    },
     changeTabs (val) {
       console.log(val)
       if (val === '城市交通') {
@@ -258,16 +291,22 @@ export default {
         }
       })
       let resList = (resLowCode && resLowCode.data) || []
+      this.lowcodeList = (resLowCode && resLowCode.data) || []
       let list1 = resList.filter(item => {return item.module_name === '城市建设'})
       list1 = list1.sort((a, b) => {
         return Number(a.sort) - Number(b.sort)
       })
       this.chengshijiansheList = list1
-      let list2 = resList.filter(item => {return item.module_name === '城市发展'})
+      this.chengshifazhanAllList = resList.filter(item => {return item.module_name === '城市发展'})
+      let list2 = resList.filter(item => {return item.module_name === '城市发展' &&
+      (item.field_name.indexOf('AQI') !== -1 || item.field_name.indexOf('动迁及征收') !== -1) &&
+      item.field_name.indexOf('累计') === -1})
       list2 = list2.sort((a, b) => {
         return Number(a.sort) - Number(b.sort)
       })
-      this.chengshifazhanList = list1
+      this.chengshifazhanList = list2
+      let list3 = resList.filter(item => {return item.field_name.indexOf('固定资产投资') !== -1})
+      this.gudinzichantouziObj = list3[0] || {}
       const [res, trafficRes] = await Promise.all([getData(), getTrafficData()])
       if (res.db && res.db[0]) {
         this.dataset.statistics = res.db[0]
