@@ -169,8 +169,8 @@ export default {
               {
                 "name": name,
                 "visible": status,
-                 "popupEnabled": false
-
+                 "popupEnabled": false,
+                "legendVisible": false
               }
           };
       window.bridge.Invoke(cmd);
