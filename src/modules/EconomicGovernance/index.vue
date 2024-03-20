@@ -2,13 +2,10 @@
   <wrap-title class="gradient-bg" icon="icon-jingji" txt="经济治理">
     <p class="shopText" @click="openNewTab">”五.五购物节”</p>
     <level-title :level="2" icon="icon-biaoti" txt="重点产业和房地产税收收入"></level-title>
-    <overview-item
-      style="margin-top: -0.2rem;"
-      valueUnit="亿元"
-      :value="dataset.statistics.six_industries_tax_revenue"
-      :increase="dataset.statistics.six_industries_tax_revenue_increase"
-      customClass="style7"></overview-item>
-    <chart-pie class="in-flex" :chartData="dataset.ldcysssr_db" :colors="colors" :fontSize="0.24" unit="亿元" labelColor="#D1C9C4">
+    <overview-item style="margin-top: -0.2rem;" valueUnit="亿元" :value="zhongdianTotalValue"
+      :increase="zhongdianTotalRatio" customClass="style7"></overview-item>
+    <chart-pie class="in-flex" :chartData="zhongdianchangyePie" :colors="colors" :fontSize="0.24" unit="亿元"
+      labelColor="#D1C9C4">
       <template v-slot:li="{ item }">
         <span class="legend-label text-ellipsis">{{ item[0] }}</span>
         <span class="legend-percent">{{ item[3] }}%</span>
@@ -17,30 +14,26 @@
     <level-title :level="2" icon="icon-biaoti">
       <m-tabs class="levelt2-select" ref="jingji" v-model="tab" :tabs="tabs"></m-tabs>
     </level-title>
-    <overview-item
-       @mouseenter.native="handleMouse('jingji', 'enter')" @mouseleave.native="handleMouse('jingji', 'leave')"
-      style="margin-top: -0.2rem;"
-      valueBefore="税收收入"
-      valueUnit="亿元"
-      :showIncrease="false"
-      :value="dataset.statistics[tab]"
-      :increase="dataset.statistics[tab + '_increase']"
+    <overview-item @mouseenter.native="handleMouse('jingji', 'enter')"
+      @mouseleave.native="handleMouse('jingji', 'leave')" style="margin-top: -0.2rem;" valueBefore="税收收入" valueUnit="亿元"
+      :showIncrease="false" :value="getShuiShou(tab)['numerical_value']" :increase="getShuiShou(tab)['growth_ratio']"
       customClass="style7">
     </overview-item>
     <m-tabs-body class="in-flex" :tab="tab">
       <m-tabs-body-item name="yzsd" lazy>
-        <chart-pie :chartData="dataset.yzsd_db" :colors="colors" :fontSize="0.24" unit="亿元" labelColor="#D1C9C4">
+        <chart-pie :chartData="yizhousandaiPie" :colors="colors" :fontSize="0.24" unit="亿元" labelColor="#D1C9C4">
           <template v-slot:li="{ item }">
-            <span class="legend-label" :class="{clickAble: item[0] ==='南京西路'}" style="word-break:break-all;white-space:normal;"  @click="handleClickYZSD(item)">{{ item[0] }}</span>
+            <span class="legend-label" :class="{ clickAble: item[0] === '南京西路' }"
+              style="word-break:break-all;white-space:normal;" @click="handleClickYZSD(item)">{{ item[0] }}</span>
             <span class="legend-percent">{{ item[3] }}%</span>
           </template>
         </chart-pie>
       </m-tabs-body-item>
       <m-tabs-body-item name="lyjj" lazy>
-        <chart-bary :chartData="dataset.lyjj_db" labelColor="#fff" :colors="colors2" :isGradient="true"></chart-bary>
+        <chart-bary :chartData="lyjjChartData" labelColor="#fff" :colors="colors2" :isGradient="true"></chart-bary>
       </m-tabs-body-item>
       <m-tabs-body-item name="zbjj" lazy>
-        <chart-pie :chartData="dataset.zbjj_db" :colors="colors" :fontSize="0.24" unit="亿元" labelColor="#D1C9C4">
+        <chart-pie :chartData="gyzczPie" :colors="colors" :fontSize="0.24" unit="亿元" labelColor="#D1C9C4">
           <template v-slot:li="{ item }">
             <span class="legend-label text-ellipsis">{{ item[0] }}</span>
             <span class="legend-percent">{{ item[3] }}%</span>
@@ -48,120 +41,57 @@
         </chart-pie>
       </m-tabs-body-item>
       <m-tabs-body-item name="yqjj" lazy>
-        <chart-bary :chartData="dataset.yqjj_db" labelColor="#fff" :colors="colors2" :isGradient="true"></chart-bary>
+        <chart-bary :chartData="sidagongnengquPie" labelColor="#fff" :colors="colors2" :isGradient="true"></chart-bary>
       </m-tabs-body-item>
     </m-tabs-body>
     <level-title :level="2" icon="icon-biaoti">
       <m-tabs class="levelt2-select" ref="shehui" v-model="tab2" :tabs="tabs2"></m-tabs>
     </level-title>
     <m-tabs-body class="autoHeight" :tab="tab2">
-      <m-tabs-body-item name="社会消费" lazy @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')"
->
+      <m-tabs-body-item name="社会消费" lazy @mouseenter.native="handleMouse('shehui', 'enter')"
+        @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
-          <m-column>
-            <overview-item
-              name="商品销售总额"
-              :value="dataset.statistics.goods_total_sales"
-              :increase="dataset.statistics.goods_total_sales_increase"
-              valueUnit="亿元"
-              customClass="style7">
-            </overview-item>
-          </m-column>
-          <m-column>
-            <overview-item
-              name="主要商业综合体"
-              :value="dataset.statistics.major_commercial_complex"
-              :increase="dataset.statistics.major_commercial_complex_increase"
-              valueUnit="亿元"
-              customClass="style7">
-            </overview-item>
-          </m-column>
-          <m-column>
-            <overview-item
-              name="旅行社接待"
-              :value="dataset.statistics.tourism_reception"
-              :increase="dataset.statistics.tourism_reception_increase"
-              valueUnit="人次"
-              customClass="style7">
+          <m-column v-for="(item, index) in shehuixiaofeiList" :key="index">
+            <overview-item :name="item.field_name" :value="item.numerical_value"
+              :increase="item.growth_ratio" customClass="style7">
             </overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="外商投资" lazy @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
+      <m-tabs-body-item name="外商投资" lazy @mouseenter.native="handleMouse('shehui', 'enter')"
+        @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
-          <m-column>
-            <overview-item
-              name="合同项目"
-              :value="dataset.statistics.contract_items"
-              :increase="dataset.statistics.contract_items_increase"
-              valueUnit="个"
-              customClass="style7">
-            </overview-item>
-          </m-column>
-          <m-column>
-            <overview-item
-              name="合同金额"
-              :value="dataset.statistics.contract_amount"
-              :increase="dataset.statistics.contract_amount_increase"
-              valueUnit="万美元"
-              customClass="style7">
+          <m-column v-for="(item, index) in waishangtouziList" :key="index">
+            <overview-item :name="item.field_name" :value="item.numerical_value"
+              :increase="item.growth_ratio" customClass="style7">
             </overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="招商引资" lazy @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
+      <m-tabs-body-item name="招商引资" lazy @mouseenter.native="handleMouse('shehui', 'enter')"
+        @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
-          <m-column>
-            <overview-item
-              name="新增企业（家）"
-              :value="dataset.statistics.new_enterprises_number"
-              :increase="dataset.statistics.new_enterprises_number_increase"
-              customClass="style7">
-            </overview-item>
-          </m-column>
-          <m-column>
-            <overview-item
-              name="外资企业占比"
-              :value="dataset.statistics.foreign_funded_enterprises_percent"
-              :increase="dataset.statistics.foreign_funded_enterprises_percent_increase"
-              valueUnit="%"
-              customClass="style7">
-            </overview-item>
-          </m-column>
-          <m-column>
-            <overview-item
-              name="千万级投资占比"
-              :value="dataset.statistics.ten_million_investment_percent"
-              :increase="dataset.statistics.ten_million_investment_percent_increase"
-              valueUnit="%"
-              customClass="style7">
+          <m-column v-for="(item, index) in zhaoshangyinziList" :key="index">
+            <overview-item :name="item.field_name" :value="item.numerical_value"
+            :increase="item.growth_ratio" customClass="style7">
             </overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
-      <m-tabs-body-item name="科技创新" lazy @mouseenter.native="handleMouse('shehui', 'enter')" @mouseleave.native="handleMouse('shehui', 'leave')">
+      <m-tabs-body-item name="科技创新" lazy @mouseenter.native="handleMouse('shehui', 'enter')"
+        @mouseleave.native="handleMouse('shehui', 'leave')">
         <m-row>
-          <m-column>
-            <overview-item
-              name="专利授权数（件）"
-              :value="dataset.statistics.patents_granted_number"
-              :increase="dataset.statistics.patents_granted_number_increase"
-              customClass="style7">
-            </overview-item>
-          </m-column>
-          <m-column>
-            <overview-item
-              name="技术合同项目（项）"
-              :value="dataset.statistics.technical_contract_project"
-              :increase="dataset.statistics.technical_contract_project_increase"
-              customClass="style7">
+          <m-column v-for="(item, index) in kejichuangxinList" :key="index">
+            <overview-item :name="item.field_name" :value="item.numerical_value"
+            :increase="item.growth_ratio" customClass="style7">
             </overview-item>
           </m-column>
         </m-row>
       </m-tabs-body-item>
     </m-tabs-body>
     <MDialog :dialogVisible.sync="dialogShow" appendDom=".layout" :extraCss="extraCss">
-      <video v-if="dialogShow" :src=" prefix + '/videos/nx.mp4'" style="width:100%;height: 100%;object-fit:cover;" autoplay loop ></video>
+      <video v-if="dialogShow" :src="prefix + '/videos/nx.mp4'" style="width:100%;height: 100%;object-fit:cover;"
+        autoplay loop></video>
     </MDialog>
   </wrap-title>
 </template>
@@ -180,6 +110,7 @@ import MColumn from "@/components/Layout/MColumn";
 import ChartPie from "./components/ChartPie";
 import ChartBary from "@/components/Charts/BarY/ChartBarYForValuePosition";
 import { getData } from "./api";
+import requestApi from "@/http/requestApi.js"
 export default {
   name: "EconomicGovernance",
   components: {
@@ -203,6 +134,19 @@ export default {
     arr.pop();
     const prefix = arr.join("/");
     return {
+      resData: [],
+      zhongdianchangyeValue: '',
+      zhongdianTotalRatio: '',
+      zhongdianTotalValue: '',
+      zhongdianchangyePie: [["五大产业和房地产业", "五大产业和房地产业"]],
+      yizhousandaiPie: [["一轴三带", "一轴三带"]],
+      lyjjChartData: [["楼宇经济", "楼宇经济"]],
+      gyzczPie: [["总部经济", "总部经济"]],
+      sidagongnengquPie: [["园区经济", "园区经济"]],
+      shehuixiaofeiList: [],
+      waishangtouziList: [],
+      zhaoshangyinziList: [],
+      kejichuangxinList: [],
       extraCss: {
         // top: "1.5rem"
         width: "100%"
@@ -234,28 +178,26 @@ export default {
       ]),
       option: "currentWeek",
       tab: "yzsd",
-      tab2: "社会消费",
-      dataset: {
-        statistics: {},
-        ldcysssr_db: [
-          ["五大产业和房地产业", "五大产业和房地产业"]
-        ],
-        yzsd_db: [
-          ["一轴三带", "一轴三带"]
-        ],
-        lyjj_db: [
-          ["楼宇经济", "楼宇经济"]
-        ],
-        zbjj_db: [
-          ["总部经济", "总部经济"]
-        ],
-        yqjj_db: [
-          ["园区经济", "园区经济"]
-        ]
-      }
+      tab2: "社会消费"
     };
   },
   methods: {
+    getShuiShou(type) {
+      let tab = '一轴三带'
+      if (type === 'lyjj') {
+        tab = '楼宇经济'
+      }
+      if (type === 'zbjj') {
+        tab = '工业总产值'
+      }
+      if (type === 'yqjj') {
+        tab = '四大功能区'
+      }
+      let list = this.resData.filter(item => {
+        return item.module_name === tab && item.field_name === '税收收入'
+      })
+      return (list && list[0]) || {}
+    },
     openNewTab() {
       this.$bus.$emit('showShopFestival')
     },
@@ -267,7 +209,133 @@ export default {
       }
     },
     getData() {
-      getData().then(res => {
+      requestApi({
+        params: {
+          table: 'economic_digitization_new'
+        }
+      }).then(res => {
+        this.resData = (res && res.data) || []
+        let zdlist = []
+        this.resData.forEach(item => {
+          if (item.module_name === '重点产业和房地产税收收入' && item.field_name === '总收入') {
+            this.zhongdianTotalValue = item.numerical_value
+            this.zhongdianTotalRatio = item.growth_ratio
+          }
+        })
+        let list1 = this.resData.filter(item => {return item.module_name === '重点产业和房地产税收收入' && item.field_name !== '总收入'})
+        list1 = list1.sort((a, b) => {
+          return Number(a.sort) - Number(b.sort)
+        })
+        list1.forEach(item => {
+          let value = parseFloat(item.numerical_value.substring(0, item.numerical_value.indexOf('亿')))
+            zdlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / parseFloat(this.zhongdianTotalValue)) * 10000) / 100])
+        })
+        this.zhongdianchangyePie = Object.freeze([
+          ...this.zhongdianchangyePie,
+          ...zdlist
+        ])
+
+        let yzsdlist = []
+        let yzsdTotal = 0
+        this.resData.forEach(item => {
+          if (item.module_name === '一轴三带' && item.field_name === '税收收入') {
+            yzsdTotal = parseFloat(item.numerical_value) || 0
+          }
+        })
+        let list2 = this.resData.filter(item => {return item.module_name === '一轴三带' && item.field_name !== '税收收入'})
+        list2 = list2.sort((a, b) => {
+          return Number(a.sort) - Number(b.sort)
+        })
+        list2.forEach(item => {
+          let value = parseFloat(item.numerical_value.substring(0, item.numerical_value.indexOf('亿')))
+          yzsdlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / yzsdTotal) * 10000) / 100])
+        })
+        this.yizhousandaiPie = Object.freeze([
+          ...this.yizhousandaiPie,
+          ...yzsdlist
+        ])
+
+        let lyjjlist = []
+        let lyjjTotal = 0
+        this.resData.forEach(item => {
+          if (item.module_name === '楼宇经济' && item.field_name === '税收收入') {
+            lyjjTotal = parseFloat(item.numerical_value) || 0
+          }
+        })
+        let list3 = this.resData.filter(item => {return item.module_name === '楼宇经济' && item.field_name !== '税收收入'})
+        list3 = list3.sort((a, b) => {
+          return Number(a.sort) - Number(b.sort)
+        })
+        list3.forEach(item => {
+          let value = parseFloat(item.numerical_value)
+          lyjjlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / lyjjTotal) * 10000) / 100])
+        })
+        this.lyjjChartData = Object.freeze([
+          ...this.lyjjChartData,
+          ...lyjjlist
+        ])
+
+        let gyzczlist = []
+        let gyzczTotal = 0
+        this.resData.forEach(item => {
+          if (item.module_name === '工业总产值' && item.field_name === '税收收入') {
+            gyzczTotal = parseFloat(item.numerical_value) || 0
+          }
+        })
+        let list4 = this.resData.filter(item => {return item.module_name === '工业总产值' && item.field_name !== '税收收入'})
+        list4 = list4.sort((a, b) => {
+          return Number(a.sort) - Number(b.sort)
+        })
+        list4.forEach(item => {
+          let value = parseFloat(item.numerical_value.substring(0, item.numerical_value.indexOf('亿')))
+          gyzczlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / gyzczTotal) * 10000) / 100])
+        })
+        this.gyzczPie = Object.freeze([
+          ...this.gyzczPie,
+          ...gyzczlist
+        ])
+
+        let sdfnqlist = []
+        let sdgnqTotal = 0
+        this.resData.forEach(item => {
+          if ( item.module_name === '四大功能区' && item.field_name === '税收收入') {
+            sdgnqTotal = parseFloat(item.numerical_value) || 0
+          }
+        })
+        let list5 = this.resData.filter(item => {return item.module_name === '四大功能区' && item.field_name !== '税收收入'})
+        list5 = list5.sort((a, b) => {
+          return Number(a.sort) - Number(b.sort)
+        })
+        list5.forEach(item => {
+          let value = parseFloat(item.numerical_value)
+          sdfnqlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / sdgnqTotal) * 10000) / 100])
+        })
+        this.sidagongnengquPie = Object.freeze([
+          ...this.sidagongnengquPie,
+          ...sdfnqlist
+        ])
+
+        this.shehuixiaofeiList = this.resData.filter(item => {
+          return item.module_name === '社会消费'
+        })
+        this.waishangtouziList = this.resData.filter(item => {
+          return item.module_name === '外商投资'
+        })
+        this.zhaoshangyinziList = this.resData.filter(item => {
+          return item.module_name === '招商引资'
+        })
+        this.kejichuangxinList = this.resData.filter(item => {
+          return item.module_name === '科技创新'
+        })
+        /* let num = 0
+        this.resData.forEach(item => {
+          if (item.field_name === '重点产业和房地产税收收入') {
+            num += Number(item.numerical_value.substring(0, numerical_value.indexOf('亿'))) || 0
+          }
+        })
+        this.zhongdianchangyeValue = (num || 0) + '亿元' */
+      })
+      /* getData().then(res => {
         Object.keys(res).forEach(key => {
           let regForDB = /\w+_db$/g;
           if (regForDB.test(key)) {
@@ -284,7 +352,7 @@ export default {
           this.dataset.statistics = res.statistics[0];
         }
         console.log(this.dataset, "-");
-      });
+      }); */
     },
     handleClickYZSD(item) {
       console.log("<<>>>>>>>", item);
@@ -308,44 +376,54 @@ export default {
   color: #4FCFD5;
   cursor: pointer;
 }
-.clickAble{
+
+.clickAble {
   cursor: pointer;
 }
+
 .levelt2-select {
   &.m-tabs {
     color: #4E78A4;
   }
 }
+
 .autoHeight {
   &.m-tabs-body {
     height: auto;
   }
 }
+
 .zsyz {
   line-height: 1.5;
+
   .label {
     font-size: 0.28rem;
     color: $titleLevel2;
   }
+
   .value {
     font-size: 0.52rem;
     color: #4FCFD5;
+
     sub {
       font-size: 0.28rem;
-      color:#4FCFD5;
+      color: #4FCFD5;
       bottom: 0;
     }
   }
+
   .increase-wp {
     height: 0.36rem;
     display: flex;
     align-items: center;
   }
 }
+
 .legend-label {
   width: 0;
   flex: 1;
 }
+
 .legend-percent {
   width: 0.9rem;
   text-align: right;

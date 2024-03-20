@@ -52,35 +52,11 @@
     </m-tabs-body>
     <level-title :level="2" icon="icon-biaoti" txt="民生民意"></level-title>
     <m-row>
-      <m-column width="50%">
+      <m-column v-for="(item, index) in mingshengmingyiList" :key="index" width="50%">
         <overview-item
-          name="信访接待数（件）"
-          :value="dataset.petition_letter_visits"
-          :increase="dataset.petition_letter_visits_increase"
-          customClass="style6">
-        </overview-item>
-      </m-column>
-      <m-column width="50%">
-        <overview-item
-          name="12348法律咨询受理量（人）"
-          :value="dataset.appeal_12345_number"
-          :increase="dataset.appeal_12345_number_increase"
-          customClass="style6">
-        </overview-item>
-      </m-column>
-      <m-column width="50%">
-        <overview-item
-          name="消费者申投诉案件数"
-          :value="dataset.citizen_satisfaction_survey"
-          :increase="dataset.citizen_satisfaction_survey_increase"
-          customClass="style6">
-        </overview-item>
-      </m-column>
-      <m-column width="50%">
-        <overview-item
-          name="质量举报投诉总件数"
-          :value="dataset.problem_solving_rate"
-          :increase="dataset.problem_solving_rate_increase"
+          :name="item.field_name"
+          :value="item.numerical_value"
+          :increase="item.growth_ratio"
           customClass="style6">
         </overview-item>
       </m-column>
@@ -122,6 +98,7 @@ export default {
       shehuizhianList: [],
       shehuijiuzhuList: [],
       shehuiguanliList: [],
+      mingshengmingyiList: [],
       colors: Object.freeze(['#1ABC9C', '#679DF4', '#F96F4F', '#D0021B']),
       legendConfig: Object.freeze({
         top: 0,
@@ -205,7 +182,37 @@ export default {
       this.shehuiguanliList = list3.sort((a, b) => {
         return Number(a.sort) - Number(b.sort)
       })
-      getData().then(res => {
+      let list4 = (resLowCode && resLowCode.data).filter(item => {
+        return item.module_name === '民生民意'
+      })
+      this.mingshengmingyiList = list4.sort((a, b) => {
+        return Number(a.sort) - Number(b.sort)
+      })
+      const resChartData = await requestApi({
+        params: {
+          table: 'governance_cairoujia'
+        }
+      })
+      let list5 = (resChartData && resChartData.data) || []
+      list5 = list5.sort((a, b) => {
+        return Number(a.sort) - Number(b.sort)
+      })
+      let chartObj = {}
+      list5.forEach(item => {
+        if (chartObj[item.field_name]) {
+          chartObj[item.field_name][item.numerical_value] = item.growth_ratio
+        } else {
+          chartObj[item.field_name] = {}
+          chartObj[item.field_name][item.numerical_value] = item.growth_ratio
+        }
+      })
+      let chartList = [['民生保障', '肋条肉', '鸡蛋', '草鱼', '青菜']]
+      for (let key in chartObj) {
+        let obj = chartObj[key]
+        chartList.push([key, obj['肋条肉'], obj['鸡蛋'], obj['草鱼'], obj['青菜']])
+      }
+      this.dataset.chartData = chartList
+      /* getData().then(res => {
         if (res.statistics_db && res.statistics_db[0]) {
           this.dataset = {
             ...this.dataset,
@@ -230,7 +237,7 @@ export default {
           tmp[item.name] = item
         })
         this.itemsData = tmp
-      })
+      }) */
     }
   },
   created () {

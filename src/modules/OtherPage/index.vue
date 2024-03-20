@@ -36,12 +36,11 @@
 </template>
 <script>
 import MDialog from "@/components/MDialog";
-import config from '@/config/index'
 import IframeContainer from "@/components/IframeContainer";
 import requestApi from "@/http/requestApi.js"
-  import {
+  /* import {
     getUrls
-  } from "./api";
+  } from "./api"; */
   import {
     Carousel,
     CarouselItem
@@ -98,7 +97,7 @@ import requestApi from "@/http/requestApi.js"
         return data;
       },
       filterUrls() {
-        return this.currentTab ? this.urls.filter(item => this.isShow(item.id)) : this.urls;
+        return this.currentTab ? this.urls.filter(item => this.isShow(item.module_name)) : this.urls;
       }
     },
     watch: {
@@ -115,19 +114,19 @@ import requestApi from "@/http/requestApi.js"
       },
       isShow(id) {
         if (this.currentTab === "city") {
-          if (id >= 100 && id < 200) {
+          if (id === '市级') {
             return true;
           }
           return false;
         }
         if (this.currentTab === "district") {
-          if (id >= 1 && id < 100) {
+          if (id === '区级') {
             return true;
           }
           return false;
         }
         if (this.currentTab === "town") {
-          if (id >= 200) {
+          if (id === '街镇') {
             return true;
           }
           return false;
@@ -195,9 +194,22 @@ import requestApi from "@/http/requestApi.js"
           table: 'governance_changjing'
         }
       }).then(res => {
-        console.log('governance_changjing', res)
+        let listUrl = (res && res.data) || []
+        listUrl = listUrl.sort((a, b) => {
+          return Number(a.sort) - Number(b.sort)
+        })
+        listUrl.forEach(e => {
+          let item = {
+            img: 'http://10.210.232.237/internal-api/sys/common/static/' + e.picture,
+            name: e.field_name,
+            url: e.link,
+            id: e.id,
+            module_name: e.module_name
+          };
+          this.urls.push(item);
+        })
       })
-      getUrls().then(res => {
+      /* getUrls().then(res => {
         if (res.list) {
           res.list.forEach(e => {
             let item = {
@@ -209,7 +221,7 @@ import requestApi from "@/http/requestApi.js"
             this.urls.push(item);
           });
         }
-      });
+      }); */
     }
   };
 </script>

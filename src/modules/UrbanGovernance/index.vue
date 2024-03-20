@@ -2,7 +2,16 @@
   <wrap-title class="gradient-bg" icon="icon-chengshizhili" txt="城市治理">
     <level-title :level="2" icon="icon-biaoti" txt="城市建设"></level-title>
     <m-row>
-      <m-column v-for="(item, index) in jsItems" :key="`js-${index}`" :width="item.width">
+      <m-column v-for="(item, index) in chengshijiansheList" :key="`js-${index}`" width="33.3%">
+        <overview-item2
+          :name="item.field_name"
+          :nameUnit="''"
+          :value="item.numerical_value || '-'"
+          :increase="item.growth_ratio || null"
+          customClass="style6">
+        </overview-item2>
+      </m-column>
+      <!-- <m-column v-for="(item, index) in jsItems" :key="`js-${index}`" :width="item.width">
         <overview-item2
           :name="`${item.key}`"
           :nameUnit="itemsData[item.key] ? itemsData[item.key].unit : ''"
@@ -10,7 +19,7 @@
           :increase="itemsData[item.key]?itemsData[item.key].rate: null"
           customClass="style6">
         </overview-item2>
-      </m-column>
+      </m-column> -->
     </m-row>
     <level-title :level="2" icon="icon-biaoti" txt="城市发展"></level-title>
     <div>
@@ -96,6 +105,7 @@ import ParkLot from './parkLot.vue'
 import PublicTransport from './publicTransport.vue'
 import Bike from './bike.vue'
 import { getData, getTrafficData } from './api'
+import requestApi from "@/http/requestApi.js"
 
 export default {
   name: 'UrbanGovernance',
@@ -130,6 +140,8 @@ export default {
   },
   data () {
     return {
+      chengshijiansheList: [],
+      chengshifazhanList: [],
       options: Object.freeze([
         { label: '今日', value: 'today' },
         { label: '本周', value: 'currentWeek' },
@@ -240,6 +252,22 @@ export default {
       }
     },
     async getData () {
+      const resLowCode = await requestApi({
+        params: {
+          table: 'governance_digitization_new'
+        }
+      })
+      let resList = (resLowCode && resLowCode.data) || []
+      let list1 = resList.filter(item => {return item.module_name === '城市建设'})
+      list1 = list1.sort((a, b) => {
+        return Number(a.sort) - Number(b.sort)
+      })
+      this.chengshijiansheList = list1
+      let list2 = resList.filter(item => {return item.module_name === '城市发展'})
+      list2 = list2.sort((a, b) => {
+        return Number(a.sort) - Number(b.sort)
+      })
+      this.chengshifazhanList = list1
       const [res, trafficRes] = await Promise.all([getData(), getTrafficData()])
       if (res.db && res.db[0]) {
         this.dataset.statistics = res.db[0]
