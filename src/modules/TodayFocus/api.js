@@ -42,6 +42,11 @@ export function getDataItems119(timeType = 'day') {
     },
   });
 }
+export function getDataItems119Ratio() {
+  return request({
+    url: "http://10.210.232.237/internal-api/gateway/jazd-event/stat-today-yesterday"
+  });
+} 
 // export function getListData (filter) {
 //   return request({
 //     url: '/v2/data-api/427',

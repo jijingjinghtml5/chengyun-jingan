@@ -392,12 +392,23 @@ export default {
       getSspListData().then(res => {
         let result = res.data || {}
         let rate = result.yesterday ? Math.floor(((result.today - result.yesterday) / result.yesterday) * 10000) / 100 : '-'
-        this.sspData = {
-          label: '随手拍',
-          count: result.today || '-',
-          key: '随手拍',
-          rate,
-          unit: '件'
+        if (result.today === 0) {
+          rate = result.yesterday === 0 ? 0 : 100
+          this.sspData = {
+            label: '随手拍',
+            count: 0,
+            key: '随手拍',
+            rate,
+            unit: '件'
+          }
+        } else {
+          this.sspData = {
+            label: '随手拍',
+            count: result.today || '-',
+            key: '随手拍',
+            rate,
+            unit: '件'
+          }
         }
       })
       getHotlineData().then(res => {
@@ -407,7 +418,7 @@ export default {
           label: '12345热线',
           count: result.today || '-',
           key: '12345热线',
-          rate,
+          rate: result.today === result.yesterday ? 0 : rate,
           unit: '件'
         }
       })

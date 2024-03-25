@@ -348,8 +348,8 @@ export default {
       let lowCodeObj = {}
       lowCodeData.forEach(item => {
         lowCodeObj[item.field_name] = item
-        if (item.field_name.indexOf('（') !== -1) {
-          let newIndex = item.field_name.indexOf('（')
+        if (item.field_name.indexOf('(') !== -1 || item.field_name.indexOf('（') !== -1) {
+          let newIndex = item.field_name.indexOf('(') || item.field_name.indexOf('（') !== -1
           lowCodeObj[item.field_name.substring(0, newIndex)] = item
         }
       })

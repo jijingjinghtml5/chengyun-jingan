@@ -172,8 +172,8 @@ export default {
       let lowCodeObj = {}
       this.lowCodeData.forEach(item => {
         lowCodeObj[item.field_name] = item
-        if (item.field_name.indexOf('（') !== -1) {
-          let newIndex = item.field_name.indexOf('（')
+        if (item.field_name.indexOf('(') !== -1 || item.field_name.indexOf('（') !== -1) {
+          let newIndex = item.field_name.indexOf('(') || item.field_name.indexOf('（')
           lowCodeObj[item.field_name.substring(0, newIndex)] = item
         }
       })
@@ -191,6 +191,7 @@ export default {
           item.pictureUrl = this.baseUrl + lowCodeObj[item.name].picture
         }
       })
+      console.log('this.districtItems', this.districtItems)
       this.todayItems = this.todayItems.sort((a, b) => {
         return Number(a.sort) - Number(b.sort)
       })

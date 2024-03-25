@@ -29,7 +29,7 @@ import Overview from "./overview.vue";
 import CaseDashboard from "./caseDashboard.vue";
 import caseList from "./caseList.vue";
 
-import { getData, getData2, getDataItems, getDataItems119 } from "./api";
+import { getData, getData2, getDataItems, getDataItems119, getDataItems119Ratio } from "./api";
 export default {
   name: "TodayFocus",
   components: { WrapTitle, MTitle, Overview, CaseDashboard, caseList },
@@ -119,7 +119,7 @@ export default {
           let rate = item.yesterday ? Math.floor((item.today - item.yesterday) / item.yesterday * 10000) / 100 : "-";
           _d[item.event_source] = {
             count: item.today,
-            rate: rate
+            rate: item.today === item.yesterday ? '0' : rate
           };
         });
         this.stats = _d;
@@ -137,6 +137,10 @@ export default {
             tmp[item.name] = item;
           });
           getDataItems119().then(res => {
+            getDataItems119Ratio().then(res2 => {
+              const { today_count = 0, yesterday_count = 0 } = res2 || {}
+              this.itemsData['119'].rate = Math.floor(((today_count - yesterday_count) / yesterday_count) * 10000) / 100 || '-'
+            })
             this.itemsData['119'].value = (res || []).length
             this.itemsData['119'].pointList = res || []
           })
