@@ -203,6 +203,7 @@ export default {
   color: #fff;
   line-height: 1.5;
   font-size: 0.24rem;
+  cursor: pointer;
 }
 .overview-item__name {
   color: $titleLevel2;
