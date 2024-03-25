@@ -230,8 +230,9 @@ export default {
           let value = parseFloat(item.numerical_value.substring(0, item.numerical_value.indexOf('亿')))
             zdlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / parseFloat(this.zhongdianTotalValue)) * 10000) / 100])
         })
+        const list11 = this.zhongdianchangyePie.slice(0, 1)
         this.zhongdianchangyePie = Object.freeze([
-          ...this.zhongdianchangyePie,
+          ...list11,
           ...zdlist
         ])
 
@@ -250,8 +251,9 @@ export default {
           let value = parseFloat(item.numerical_value.substring(0, item.numerical_value.indexOf('亿')))
           yzsdlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / yzsdTotal) * 10000) / 100])
         })
+        const list22 = this.yizhousandaiPie.slice(0, 1)
         this.yizhousandaiPie = Object.freeze([
-          ...this.yizhousandaiPie,
+          ...list22,
           ...yzsdlist
         ])
 
@@ -270,8 +272,9 @@ export default {
           let value = parseFloat(item.numerical_value)
           lyjjlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / lyjjTotal) * 10000) / 100])
         })
+        const list33 = this.lyjjChartData.slice(0, 1)
         this.lyjjChartData = Object.freeze([
-          ...this.lyjjChartData,
+          ...list33,
           ...lyjjlist
         ])
 
@@ -290,8 +293,9 @@ export default {
           let value = parseFloat(item.numerical_value.substring(0, item.numerical_value.indexOf('亿')))
           gyzczlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / gyzczTotal) * 10000) / 100])
         })
+        const list44 = this.gyzczPie.slice(0, 1)
         this.gyzczPie = Object.freeze([
-          ...this.gyzczPie,
+          ...list44,
           ...gyzczlist
         ])
 
@@ -310,8 +314,9 @@ export default {
           let value = parseFloat(item.numerical_value)
           sdfnqlist.push([item.field_name, value, Number(item.growth_ratio) || '-', Math.round((value / sdgnqTotal) * 10000) / 100])
         })
+        const list55 = this.sidagongnengquPie.slice(0, 1)
         this.sidagongnengquPie = Object.freeze([
-          ...this.sidagongnengquPie,
+          ...list55,
           ...sdfnqlist
         ])
 
