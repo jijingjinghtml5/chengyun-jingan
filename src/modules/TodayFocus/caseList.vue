@@ -7,7 +7,7 @@
     <span @click="change119Type('day')" class="clickAble" :style="{marginRight: '0.5rem', color: current119Type === 'day' ? '#FFFFFF' : '#D1C9C4'}">日</span>
     <span @click="change119Type('month')" class="clickAble" :style="{marginRight: '0.5rem', color: current119Type === 'month' ? '#FFFFFF' : '#D1C9C4'}">月</span>
   </div>
-  <m-list style="height: 920px;"
+  <m-list :style="{height:  (item && item.label && item.label === '119') ? '500px' : '920px'}"
    :loading="loading"
     ref="caseList"
     :headers="headers"
@@ -21,7 +21,9 @@
       </div>
     </template>
   </m-list>
-  <div v-if="item && item.label && item.label === '119'">
+  <div v-if="item && item.label && item.label === '119'" style="height: 500px">
+    <line-chart :showLegend="false" :chartData="chartData119" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
+    </line-chart>
   </div>
 </wrap-title>
 </template>
@@ -138,6 +140,7 @@ export default {
   },
   data () {
     return {
+      colors: ['#1ABC9C', '#679DF4', '#F96F4F', '#BE6CCC', '#D0021B'],
       huoqingListPointLayer: null,
       current119Type: 'day',
       loading: false,
@@ -256,7 +259,11 @@ export default {
         end_ts,
         type
       }).then(res => {
-        console.log('1', res)
+        let list = [['时间', '数量']];
+        (res || []).forEach(item => {
+          list.push([type === 'hour' ? item.hour : item.day, item['COUNT(*)'] || 0])
+        })
+        this.chartData119 = list
       })
     },
     registerHuoqingCaseLayer () {
@@ -306,6 +313,7 @@ export default {
       this.current119Type = type
       getDataItems119(type).then(res => {
         this.tableData = res || []
+        this.get119ChartData()
         this.show119Points(res || [])
       })
     },
