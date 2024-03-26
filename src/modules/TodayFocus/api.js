@@ -47,6 +47,12 @@ export function getDataItems119Ratio() {
     url: "http://10.210.232.237/internal-api/gateway/jazd-event/stat-today-yesterday"
   });
 } 
+export function getDataItems119Chart(params) {
+  return request({
+    url: "http://10.210.232.237/internal-api/gateway/jazd-event/event-trend",
+    params
+  });
+} 
 // export function getListData (filter) {
 //   return request({
 //     url: '/v2/data-api/427',

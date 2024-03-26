@@ -149,6 +149,7 @@ export default {
       })
     },
     handleClick(type, item) {
+      console.log('clickData', item)
       this.current = type;
       this.clickData = item;
     }

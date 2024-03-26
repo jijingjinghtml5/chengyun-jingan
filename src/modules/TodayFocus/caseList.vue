@@ -7,7 +7,7 @@
     <span @click="change119Type('day')" class="clickAble" :style="{marginRight: '0.5rem', color: current119Type === 'day' ? '#FFFFFF' : '#D1C9C4'}">日</span>
     <span @click="change119Type('month')" class="clickAble" :style="{marginRight: '0.5rem', color: current119Type === 'month' ? '#FFFFFF' : '#D1C9C4'}">月</span>
   </div>
-  <m-list style="height: 920px;"
+  <m-list :style="{height:  (item && item.label && item.label === '119') ? '500px' : '920px'}"
    :loading="loading"
     ref="caseList"
     :headers="headers"
@@ -21,6 +21,10 @@
       </div>
     </template>
   </m-list>
+  <div v-if="item && item.label && item.label === '119'" style="height: 500px">
+    <line-chart :showLegend="false" :chartData="chartData119" :colors="colors" :showYLabel="true" :pageLen="24" :isGradient="true" :gradientBySelf="true">
+    </line-chart>
+  </div>
 </wrap-title>
 </template>
 <script>
@@ -28,14 +32,17 @@ import WrapTitle from '@/components/MTitle/WrapTitle'
 import MList from '@/components/MList/index.vue'
 import { CaseSteps } from '@/mapping'
 import { getUrl } from '@/utils/tools'
+import LineChart from '@/components/Charts/Line/ChartLine'
+import dayjs from 'dayjs'
 
-import { getListData, getSspListData, getHotlineData, getDuchaData, getDubanData, getDataItems119 } from './api'
+import { getListData, getSspListData, getHotlineData, getDuchaData, getDubanData, getDataItems119, getDataItems119Chart } from './api'
 
 export default {
   name: 'TodayFocusList',
   components: {
     WrapTitle,
-    MList
+    MList,
+    LineChart
   },
   props: {
     item: {
@@ -61,6 +68,8 @@ export default {
         switch (nv) {
           case '119':
             this.tableData = ((this.item && this.item.pointList) || [])
+            this.get119ChartData()
+            this.show119Points(this.item && this.item.pointList)
             break
           case 'yellow':
             filter = `(openTS=-259200&args.chs_userId_36=ex.false&args.chs_userId_47=ex.false&args.chs_userId_24=ex.false&((closeTS=ex.false&allEndTS=lt.${timestamp})|(closeTS=ex.true&script="doc['data.closeTS'].value.getMillis()>doc['data.allEndTS'].value.getMillis()")))`
@@ -131,6 +140,8 @@ export default {
   },
   data () {
     return {
+      colors: ['#1ABC9C', '#679DF4', '#F96F4F', '#BE6CCC', '#D0021B'],
+      huoqingListPointLayer: null,
       current119Type: 'day',
       loading: false,
       filters: {
@@ -185,7 +196,8 @@ export default {
       tableData: [],
       caseLayer: null,
       huoqingCaseLayer: null,
-      caseAllLayer: null
+      caseAllLayer: null,
+      chartData119: []
     }
   },
   created () {
@@ -230,12 +242,79 @@ export default {
       ]
     }
     this.registerLayer()
+    this.registerHuoqingCaseLayer()
   },
   methods: {
+    get119ChartData() {
+      let start_ts = String(dayjs().startOf('day').valueOf()).substring(0, 10)
+      let end_ts = String(dayjs().endOf('day').valueOf()).substring(0, 10)
+      let type = 'hour'
+      if (this.current119Type === 'month') {
+        start_ts = String(dayjs().startOf('month').valueOf()).substring(0, 10)
+        end_ts = String(dayjs().endOf('month').valueOf()).substring(0, 10)
+        type = 'day'
+      }
+      getDataItems119Chart({
+        start_ts,
+        end_ts,
+        type
+      }).then(res => {
+        let list = [['时间', '数量']];
+        (res || []).forEach(item => {
+          list.push([type === 'hour' ? item.hour : item.day, item['COUNT(*)'] || 0])
+        })
+        this.chartData119 = list
+      })
+    },
+    registerHuoqingCaseLayer () {
+      if (this.huoqingListPointLayer) return
+      // 地图撒点图层
+      this.huoqingListPointLayer = this.$_mapProxy.registerLayer('HuoqingListPointLayer', '火情撒点图层')
+        .setParameters({
+          'name': 'HuoqingListPointLayer',
+          'type': 'point',
+          'mode': 'replace',
+          'data': {
+            'content': [],
+            'parsegeometry': 'function(item){return {x:item.lng, y:item.lat}}'
+          },
+          'legendVisible': false,
+          'popupEnabled': false,
+          'isFiltered': true,
+          'isLocate': false,
+          'renderer': {
+            type: 'simple',
+            symbol: {
+              type: 'simple-marker',
+              size: 20,
+              color: [0, 255, 244],
+              outline: {
+                color: '#ffffff',
+                width: '1px'
+              }
+            }
+          }
+        })
+    },
+    show119Points(list = []) {
+      if (!this.huoqingListPointLayer) {
+        this.registerHuoqingCaseLayer()
+      }
+      this.huoqingListPointLayer.setParameters({
+        'data': {
+          'content': list,
+          'parsegeometry': 'function(item){return {x:item.cjX, y:item.cjY}}'
+        }
+      }).setPopupConfig({
+        component: 'huoqingCaseDetailPopup'
+      }).open()
+    },
     change119Type(type) {
       this.current119Type = type
       getDataItems119(type).then(res => {
         this.tableData = res || []
+        this.get119ChartData()
+        this.show119Points(res || [])
       })
     },
     handleClick () {
@@ -422,6 +501,10 @@ export default {
     if (this.huoqingCaseLayer) {
       this.huoqingCaseLayer.close()
       this.huoqingCaseLayer = null
+    }
+    if (this.huoqingListPointLayer) {
+      this.huoqingListPointLayer.close()
+      this.huoqingListPointLayer = null
     }
     if (this.caseAllLayer) {
       this.caseAllLayer.close()
