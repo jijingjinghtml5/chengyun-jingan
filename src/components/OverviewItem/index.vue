@@ -6,7 +6,7 @@
     </div>
     <ul class="overview-item__content">
       <li class="overview-item__name" v-if="name">{{ name }}<sub v-if="nameUnit">{{ nameUnit }}</sub></li>
-      <li class="overview-item__value" :style="{ color: vc }"><sub v-if="valueBefore">{{ valueBefore }}</sub><NumberAnimation :val ="(value || dataset[valueProp]) | initVal " ></NumberAnimation><sub v-if="valueUnit">{{ valueUnit }}</sub></li>
+      <li class="overview-item__value" :style="{ color: vc }"><sub v-if="valueBefore">{{ valueBefore }}</sub><NumberAnimation :decimals="formatDecimals" :val ="(value || dataset[valueProp]) | initVal " ></NumberAnimation><sub v-if="valueUnit">{{ valueUnit }}</sub></li>
       <increase v-if="showIncrease" tag="li" :value="increase || dataset[increaseProp] | initVal"></increase>
       <li class="overview-item__extra" v-for="item in extraItems || []" :key="item.key" :style="{ color: item.color }">
         {{ item.label }}：{{dataset[item.prop] | initVal | thousandCentimeter}}{{ item.unit }}
@@ -88,6 +88,10 @@ export default {
       default: () => {
         return {}
       }
+    },
+    nameProp: {
+      type: String,
+      default: ''
     }
   },
   inheritAttrs: false,
@@ -101,6 +105,10 @@ export default {
       } else {
         return this.growth_ratio
       }
+    },
+    formatDecimals() {
+      let list = ['syrk', 'syfr', 'gdp', 'qyzcz', 'sszsr']
+      return list.includes(this.nameProp) ? 2 : 0
     }
   },
   methods: {

@@ -1,6 +1,6 @@
 <template>
   <component :is="tag" v-observe-visibility="{callback: visibilityChanged, throttle: 300}">
-    <vue-count-to v-if="canAnimation" ref="count" :startVal="parseInt(startVal)" :endVal="parseInt(val)" :duration="duration" v-bind="$attrs" v-on="$listeners"></vue-count-to>
+    <vue-count-to v-if="canAnimation" ref="count" :decimals="decimals" :startVal="parseFloat(startVal)" :endVal="parseFloat(val)" :duration="duration" v-bind="$attrs" v-on="$listeners"></vue-count-to>
     <template v-else>{{ val }}</template>
   </component>
 </template>
@@ -23,6 +23,10 @@ export default {
       default: () => {
         return '-'
       }
+    },
+    decimals: {
+      type: Number,
+      default: 0
     },
     againInterval: {
       type: Number,

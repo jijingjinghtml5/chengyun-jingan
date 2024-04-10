@@ -19,6 +19,7 @@
           <m-column  v-for="item in districtItems" :key="item.name">
             <overview-item
               v-bind="item"
+              :nameProp="item.prop"
               :nameUnit="itemsData[item.name] ? `(${itemsData[item.name].unit})` : ''"
               :dataset="itemsData[item.name] || dataset[item.prop]"
               :showIncrease="false"
