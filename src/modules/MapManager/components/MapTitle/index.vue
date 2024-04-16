@@ -142,6 +142,7 @@ export default {
         }
       })
       return {
+        colorList: ['105, 240, 174', '132, 255, 255', '253, 204, 132', '234, 128, 252', '255, 138, 128', '100, 100, 100'],
         people: [
           {
             name: '户籍人员',
@@ -441,6 +442,11 @@ export default {
           if (data.item.name === '地铁站点') {
             if (data.item.checked) {
               getSubway().then(res => {
+                this.$bus.$emit('clickLengend', {
+                  type: 'area',
+                  label: data.item.name,
+                  num: res.data.messages && res.data.messages.length
+                })
                 this.subwayLayer.setParameters({
                   'data': {
                     'content': (res.data.messages || []).map(item => {
@@ -456,6 +462,7 @@ export default {
                 }).open()
               })
             } else {
+              this.$bus.$emit('cancelLengend')
               this.removeLayer('SubwayLayer')
             }
           } else {
@@ -569,6 +576,11 @@ export default {
         let data = this.shopListData.filter(e => {
           return item.name === '全部' || e.street === item.name
         })
+        this.$bus.$emit('clickLengend', {
+          type: 'area',
+          label: item.name === '全部' ? '全部街道' : item.name,
+          num: data && data.length
+        })
         this.shopLayer.setParameters({
           'data': {
             'content': data,
@@ -578,12 +590,18 @@ export default {
           component: 'shopPopup'
         }).open()
       } else {
+        this.$bus.$emit('cancelLengend')
         this.shopLayer.close()
       }
     },
     handlerSingleBuilding (item) {
       if (item.checked) {
         if (item.name === '全部') {
+          this.$bus.$emit('clickLengend', {
+            type: 'area',
+            label: '全部街道',
+            num: this.singleBuildingData && this.singleBuildingData.length
+          })
           this.singleBuildingLayer.setParameters({
             'data': {
               'content': this.singleBuildingData,
@@ -597,6 +615,11 @@ export default {
         let data = this.singleBuildingData.filter(e => {
           return e.street === item.name
         })
+        this.$bus.$emit('clickLengend', {
+          type: 'area',
+          label: item.name,
+          num: data && data.length
+        })
         this.singleBuildingLayer.setParameters({
           'data': {
             'content': data,
@@ -606,12 +629,18 @@ export default {
           component: 'singleBuildingPopup'
         }).open()
       } else {
+        this.$bus.$emit('cancelLengend')
         this.singleBuildingLayer.close()
       }
     },
     handlerNeuron (item) {
       if (item.checked) {
         getNeuronData(item.name).then(res => {
+          this.$bus.$emit('clickLengend', {
+            type: 'thing',
+            label: item.name,
+            num: res.data && res.data.length
+          })
           this.thingsPerceptionLayer.setParameters({
             'data': {
               'content': res.data,
@@ -620,6 +649,7 @@ export default {
           }).open()
         })
       } else {
+        this.$bus.$emit('cancelLengend')
         this.thingsPerceptionLayer.close()
       }
     },
@@ -640,6 +670,11 @@ export default {
         if (item.name) {
           let name = item.name
           getPublicDevice(name).then(res => {
+            this.$bus.$emit('clickLengend', {
+              type: 'area',
+              label: item.name,
+              num: res.data.messages && res.data.messages.length
+            })
             this.publicDeviceLayer.setParameters({
               'data': {
                 'content': (res.data.messages || []),
@@ -668,6 +703,7 @@ export default {
           }
         }).open()
       } else {
+        this.$bus.$emit('cancelLengend')
         this.publicDeviceLayer.close()
       }
     },
@@ -682,18 +718,26 @@ export default {
         }
         getPeopleCount().then(res => {
           let peopleTownData = []
+          let num = 0
           res.data.forEach((e, i) => {
             if (e.area !== '静安区') {
               let obj = {}
               obj.count = thousandCentimeter(e[field])
+              num += Number(e[field])
               obj.name = e.area
               obj.typeValue = 4 - Math.ceil((i + 1) / 5)
               peopleTownData.push(obj)
             }
           })
+          this.$bus.$emit('clickLengend', {
+            type: 'people',
+            label: item.name,
+            num
+          })
           this.addTownPeople(peopleTownData)
         })
       } else {
+        this.$bus.$emit('cancelLengend')
         this.removeLayer('townPeopleLayer')
       }
     },
@@ -728,6 +772,7 @@ export default {
           })
         }
       } else {
+        this.$bus.$emit('cancelNewLegendLabel')
         this.removeLayer('townLayer')
         this.removeLayer('townCasePointLayer')
         this.removeLayer('townHotlineCasePointLayer')
@@ -777,12 +822,13 @@ export default {
       if (legendVisible) {
         legendVisibleBool = false
       }
+      this.$bus.$emit('addNewLegendLabel')
       const cmd = {
         ActionName: 'ShowData',
         Parameters: {
           name: layerNameN,
           type: 'layer',
-          legendVisible: legendVisibleBool,
+          legendVisible: false,
           popupEnabled: false,
           isLocate: true,
           data: {

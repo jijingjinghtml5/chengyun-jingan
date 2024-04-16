@@ -21,6 +21,18 @@
         mode="ppt"
       />
     </m-dialog>
+    <div v-show="!showSatelliteBaseMap && showLegend" class="lengend-container">
+      <div class="lengend-container-btn" @click="showLegendLabel ? showLegendLabel = false : showLegendLabel = true">{{ showLegendLabel ? '隐藏' : '显示' }}总数</div>
+      <div v-if="showLegendLabel" style="height:0.4rem;">{{ legendLabel }}总数：{{ legendNum | thousandCentimeter }}</div>
+      <div v-else style="height:0.4rem;width:1rem;"></div>
+    </div>
+    <div v-show="showLegendList" class="lengend-new-container">
+      <div style="width:3.5rem;text-align:center;margin-bottom: 0.2rem;font-size:0.45rem">案件结案率</div>
+      <div class="legend-item" v-for="(item, index) in legendList" :key="index">
+        <div class="color-div" :style="{backgroundColor: `rgb(${item.color})`}"></div>
+        <div>{{ item.label }}</div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -40,6 +52,13 @@ export default {
   name: 'MapManager',
   data () {
     return {
+      showLegendList: false,
+      legendList: [{label: '90%以上', color: '105, 240, 174'}, {label: '80% ~ 90%', color: '132, 255, 255'}, {label: '70% ~ 80%', color: '253, 204, 132'}, 
+      {label: '60% ~ 70%', color: '234, 128, 252'}, {label: '60%以下', color: '255, 138, 128'}, {label: '无结案', color: '100, 100, 100'}],
+      showLegend: false,
+      showLegendLabel: false,
+      legendLabel: '',
+      legendNum: '',
       visible: false,
       pdfUrl: '',
       // 弹窗
@@ -340,6 +359,16 @@ export default {
     },
     clickSatelliteBaseMap() {
       this.showSatelliteBaseMap = !this.showSatelliteBaseMap
+    },
+    clickLengend(data) {
+      let list = ['people', 'area', 'thing']
+      if (list.includes(data.type)) {
+        this.legendLabel = data.label
+        this.legendNum = data.num
+        this.showLegendLabel = true
+        this.showLegend = true
+        this.showLegendList = false
+      }
     }
   },
   created () {
@@ -366,10 +395,62 @@ export default {
     this.$bus.$on('openHuoqingCaseDetailPopup', (data) => {
       this._openPopup('huoqingCaseDetailPopup', data)
     })
+    this.$bus.$on('clickLengend', this.clickLengend)
+    this.$bus.$on('cancelLengend', () => {
+      this.legendLabel = ''
+      this.legendNum = 0
+      this.showLegendLabel = false
+      this.showLegend = false
+    })
+    this.$bus.$on('addNewLegendLabel', () => {
+      this.legendLabel = ''
+      this.legendNum = 0
+      this.showLegendLabel = false
+      this.showLegend = false
+      this.showLegendList = true
+    })
+    this.$bus.$on('cancelNewLegendLabel', () => {
+      this.showLegendList = false
+    })
   }
 }
 </script>
 <style lang="scss" scoped>
+.lengend-new-container {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.3rem;
+  color: #fff;
+  font-size: 0.4rem;
+  width: 3.5rem;
+  .legend-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.2rem;
+  }
+  .color-div {
+    border-radius: 0.3rem;
+    width: 0.6rem;
+    height: 0.6rem;
+  }
+}
+.lengend-container {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.3rem;
+  color: #fff;
+  font-size: 0.4rem;
+  &-btn {
+    padding: 0.1rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #00AAFF;
+    margin-bottom: 0.3rem;
+    cursor: pointer;
+  }
+}
 .MapContainer {
   position: relative;
   // border: 0.02rem solid #4e78a4;
