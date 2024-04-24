@@ -183,7 +183,8 @@ import requestApi from "@/http/requestApi.js"
     created() {
       this.$bus.$on('showShopFestival', () => {
         this.dialogVisible = true;
-        this.iframeSrc = 'http://10.210.232.238/chengyun/custom/jingan-shop-festival/index.html';
+        let url = 'http://10.210.232.238/chengyun/custom/jingan-shop-festival/page1.html?code=DQyRp2OnCjWprnTKolsxdt5pRp1NCCV-';
+        this.iframeSrc = url.indexOf('?') > -1 ? `${url}&token=${window.sessionStorage.getItem('token')}` : `${url}?token=${window.sessionStorage.getItem('token')}`;
       })
       this.$bus.$on('showSearch', (type) => {
         this.showSearch = type
