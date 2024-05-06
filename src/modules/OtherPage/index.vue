@@ -169,6 +169,11 @@ import requestApi from "@/http/requestApi.js"
           window.open("http://10.212.170.10/");
           return;
         }
+        if (item.url.indexOf('http://101.230.195.18:2017/river') !== -1) {
+          let url = item.url.indexOf('?') > -1 ? `${item.url}&token=${window.sessionStorage.getItem('token')}` : `${item.url}?token=${window.sessionStorage.getItem('token')}`;
+          window.open(url);
+          return;
+        }
         this.dialogVisible = true;
         this.iframeSrc = item.url.indexOf('?') > -1 ? `${item.url}&token=${window.sessionStorage.getItem('token')}` : `${item.url}?token=${window.sessionStorage.getItem('token')}`;
       },
