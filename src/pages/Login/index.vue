@@ -50,7 +50,7 @@
   </div>
 </template>
 <script>
-import { login, scanCheck, login_new } from "@/http/api";
+import { login, scanCheck, login_new, getVideoLogin } from "@/http/api";
 import config from '@/config/index'
 import { setCode } from "@/utils/code";
 import { getParams } from "@/utils/";
@@ -140,6 +140,7 @@ export default {
             } else {
               this.afterLogin();
             }
+            getVideoLogin()
           } else {
             Message.error(res.message || "用户名或密码错误");
           }

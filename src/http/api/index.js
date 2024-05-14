@@ -1,6 +1,7 @@
 import request from "@/http/request";
 import request3 from "@/http/request3";
 import videoService from "@/http/requestVideoService";
+import videoQs from "@/http/requestVideoQs";
 import config from '@/config/index'
 
 // 获取配置
@@ -46,6 +47,14 @@ export function login(data) {
     data: data,
     method: "post",
   });
+}
+
+// 获取视频的登录
+export function getVideoLogin () {
+  return videoQs({
+    url: '/api/v1/login?username=panj&password=d3ce6e4672ea6e87462917a1939cf62a', // todo
+    method: 'get'
+  })
 }
 
 export function login_new(data) {

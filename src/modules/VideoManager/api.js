@@ -1,5 +1,6 @@
 import request from "@/http/request";
 import videoService from "@/http/requestVideoService";
+import videoQs from "@/http/requestVideoQs";
 import request3 from "@/http/request3";
 
 // 查询事件周边视频
@@ -24,19 +25,51 @@ export function getVideoRealUrl(data, cancelTokenKey) {
   });
 }
 
+export function getQsVideoRealUrl (params, cancelTokenKey) {
+  return videoQs({
+    url: '/api/v1/stream/start', // todo
+    method: 'get',
+    params: params,
+    // data: Array.isArray(data) ? data : [data],
+    // headers: {
+    //   'Content-Type': 'application/json',
+    //   token: 'a47e2ecc6a4543138389128787b9b978'
+    // },
+    cancelTokenKey: cancelTokenKey || 'getVideoRealUrl'
+  })
+}
+
 // 视频关闭后发送消息
-export function sendAfterCloseVideo(data) {
-  return videoService({
-    url: "/zhcs-vms/api/home/stopstream", // todo
-    method: "post",
-    data: {
-      cameras: Array.isArray(data) ? data : [data],
-    },
-    headers: {
-      "Content-Type": "application/json",
-      token: "a47e2ecc6a4543138389128787b9b978",
-    },
-  });
+// export function sendAfterCloseVideo(data) {
+//   return videoService({
+//     url: "/zhcs-vms/api/home/stopstream", // todo
+//     method: "post",
+//     data: {
+//       cameras: Array.isArray(data) ? data : [data],
+//     },
+//     headers: {
+//       "Content-Type": "application/json",
+//       token: "a47e2ecc6a4543138389128787b9b978",
+//     },
+//   });
+// }
+
+export function sendAfterCloseVideo (data) {
+  return videoQs({
+    url: '/api/v1/stream/stop', // todo
+    method: 'get',
+    params: {
+      serial: '31010601012000000002',
+      code:  data && data[0] && data[0].code
+    }
+    // data: {
+    //   cameras: Array.isArray(data) ? data : [data]
+    // },
+    // headers: {
+    //   'Content-Type': 'application/json',
+    //   token: 'a47e2ecc6a4543138389128787b9b978'
+    // }
+  })
 }
 
 // 获取视频列表
